@@ -1,0 +1,28 @@
+.values{
+//   background-color: #FFE0D1;
+  color: var(--foreground);
+
+  h1,h2,h3,h4,h5,p{
+    color: var(--foreground);
+   
+  }
+
+  h3{
+    font-weight: 700;
+  }
+
+  p{
+    font-size: 14px;
+  }
+
+  &:after{
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+}

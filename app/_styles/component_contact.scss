@@ -1,0 +1,18 @@
+form.contact{
+
+  input,textarea{
+    border-radius: 0 20px 0 20px;
+    border: 1.5px solid var(--foreground);
+    color: var(--foreground);
+
+    &::placeholder{
+                    color: var(--color-dark-gray);
+                      opacity: 0.6;
+    }
+  }
+
+  .btn{
+    margin-top: 0;
+cursor: pointer;
+  }
+}

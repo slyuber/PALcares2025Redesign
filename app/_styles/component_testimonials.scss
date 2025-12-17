@@ -1,0 +1,25 @@
+.testimonials{
+
+  .bg-gradient {
+      height: 200px;
+      background: linear-gradient(180deg, #F8F8F8 44%, rgba(0, 0, 0, 0.0) 100%);
+      z-index: 0;
+      position: absolute;
+    bottom: none;
+      top: 0;
+      width: 100%;
+    }
+
+    .testimonial-author{
+      color: var(--foreground);
+    }
+
+    .testimonial-quotes{
+      top: -25px;
+      position: absolute;
+    }
+
+    .testimonial{
+        border-radius: 0 20px 0 20px !important;
+    }
+}

@@ -1,0 +1,131 @@
+
+footer{
+overflow-x: hidden;
+position: relative;
+color: var(--foreground);
+
+  .footer-logo-container{
+    position: relative;
+    &::after{
+      position: absolute;
+      height: 2px;
+      background: var(--color-foreground);
+      width: 100%;
+      content: "";
+      left: 160px;
+      top: 55%;
+      border-radius: 200px;
+
+
+    }
+  }
+
+                    p {
+                      color: var(--color-foreground);
+                      margin-bottom: 0
+                    }
+
+}
+
+.footer-transition{
+position: relative;
+
+    .bg-gradient {
+        bottom: -50px;
+        z-index: 0;
+        left: 0;
+      }
+}
+
+
+.email-signup {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+
+
+  &__input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-foreground);
+    border-radius: 0 0 0 20px;
+    outline: none;
+    font-size: 0.8rem;
+    transition: border-color 0.3s ease;
+
+      @media (min-width: 640px) {
+        font-size: 1rem;
+      }
+
+    &:focus {
+      border-color: var(--foreground, #000);
+    }
+
+            &::placeholder {
+              color: var(--color-dark-gray);
+              opacity: 0.6;
+            }
+  }
+
+  &__button {
+    padding: 0.75rem 1.25rem;
+    background-color: var(--foreground);
+    color: #fff !important;
+    border: 1px solid var(--color-foreground);
+    border-radius: 0 20px 0 0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+      @media (min-width: 640px) {
+        font-size: 1rem;
+      }
+
+    p{
+      color: white;
+    }
+
+    &:hover {
+      background-color:var(--color-foreground-dark);
+    }
+  }
+}
+
+.social-icons{
+  a{
+    background-color: var(--color-orange);
+    padding: 0.5em;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+text-decoration: none;
+transition: ease all 500ms;
+position: relative;
+    svg path {
+        fill: var(--color-white) !important;
+
+      }
+
+      &:hover{
+        background-color: #e16f36;
+        transform: translateY(-2px)
+      }
+  }
+}
+
+.footer-nav a{
+  &:hover{
+    color: var(--foreground-dark);
+  }
+}
+
+.email-signup__input {
+width: 100%;
+
+  @media (min-width: 640px) {
+width: 300px;
+  }
+}

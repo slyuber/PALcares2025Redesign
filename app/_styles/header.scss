@@ -1,0 +1,91 @@
+
+// Menu Icon animation 
+.menu-icon {
+  width: 30px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.bar {
+  fill: var(--color-foreground);
+  transform-origin: center;
+  transition:
+    transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+    opacity 0.3s ease;
+}
+
+/* Animate to X */
+.menu-icon.active .top {
+  transform: translate(5px, 20px) rotate(45deg) scaleX(1.6);
+}
+
+.menu-icon.active .middle {
+  opacity: 0;
+}
+
+.menu-icon.active .bottom {
+  transform: translate(-19px, 3px) rotate(-45deg) scaleX(1.6);
+}
+
+/* Drawer Styles */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 240px;
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.4s ease;
+  z-index: 99998;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 2rem;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.05);
+
+      @media (min-width: 640px) {
+  width: 320px;
+      }
+}
+
+
+.drawer.open {
+  transform: translateX(0);
+}
+
+.drawer__menu {
+  display: flex;
+  flex-direction: column;
+  // gap: 1.5rem;
+}
+
+.drawer__menu a {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--color-foreground);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-gray), transparent 50%);
+  padding: 1em 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.drawer__menu a:hover {
+  color: color-mix(in srgb, var(--color-foreground), white 50%);
+}
+
+// Hide logo by default
+.nav-logo {
+  display: none;
+}
+
+// Show logo on all pages except home page
+.show-logo {
+  .nav-logo {
+    display: block !important;
+  }
+}

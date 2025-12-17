@@ -1,0 +1,195 @@
+@use "./_styles/footer" as footer;
+@use "./_styles/header" as header;
+@use "./_styles/typography" as typography;
+@use "./_styles/buttons" as buttons;
+@use "./_styles/component_tilecard" as tilecard;
+@use "./_styles/component_textfeature" as textfeature;
+@use "./_styles/component_testimonials" as testimonials;
+@use "./_styles/component_contact" as contact;
+@use "./_styles/component_accordion" as accordion;
+@use "./_styles/component_values" as values;
+@use "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #5C306C;
+    --foreground-dark: #472055;
+
+  /* Brand colors */
+  --color-primary: #4D588C;
+  --color-primary-darker: #1A234B;
+  --color-secondary: #7787D9;
+  --color-accent: #FFF480;
+  --color-purple: #D966FF;
+  --color-magenta: #B439BF;
+  --color-orange: #FF9966;
+  --color-white: #ffffff;
+  --color-black: #000000;
+    --color-gray: #cbcbcb;
+  --color-light-gray: #F8F8F8;
+  --color-dark-gray: #5F6368;
+
+
+  /* ---------- FONT SIZES ---------- */
+    --text-base: 1.125rem;
+  
+    --text-xs: calc(var(--text-base) * 0.75);
+    --text-sm: calc(var(--text-base) * 0.875);
+    --text-lg: calc(var(--text-base) * 1.125);
+    --text-xl: calc(var(--text-base) * 1.25);
+    --text-2xl: calc(var(--text-base) * 1.5);
+    --text-3xl: calc(var(--text-base) * 1.875);
+    --text-4xl: calc(var(--text-base) * 2.25);
+    --text-5xl: calc(var(--text-base) * 3);
+    --text-6xl: calc(var(--text-base) * 3.75);
+    --text-7xl: calc(var(--text-base) * 4.5);
+    --text-8xl: calc(var(--text-base) * 6);
+    --text-9xl: calc(var(--text-base) * 8);
+  
+    /* ---------- LINE HEIGHTS ---------- */
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+  
+    /* ---------- SPACING SCALE (Tailwind 0 - 96) ---------- */
+    --space-0: 0rem;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-7: 1.75rem;
+    --space-8: 2rem;
+    --space-9: 2.25rem;
+    --space-10: 2.5rem;
+    --space-11: 2.75rem;
+    --space-12: 3rem;
+    --space-14: 3.5rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    --space-28: 7rem;
+    --space-32: 8rem;
+    --space-36: 9rem;
+    --space-40: 10rem;
+    --space-44: 11rem;
+    --space-48: 12rem;
+    --space-52: 13rem;
+    --space-56: 14rem;
+    --space-60: 15rem;
+    --space-64: 16rem;
+    --space-72: 18rem;
+    --space-80: 20rem;
+    --space-96: 24rem;
+}
+
+@theme inline {
+  /* Map CSS vars into Tailwind tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-foreground-dark: var(--foreground-dark);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-purple: var(--color-purple);
+  --color-magenta: var(--color-magenta);
+  --color-orange: var(--color-orange);
+  --color-light-gray: var(--color-light-gray);
+  --color-dark-gray: var(--color-dark-gray);
+
+  /* Fonts if you want */
+--font-sans: 'Raleway', sans-serif; 
+//  --font-mono: var(--font-geist-mono);
+}
+
+
+body {
+  background: #F5F2EE;
+  color: var(--color-dark-gray);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+.bg-foreground{
+  background: var(--foreground);
+}
+
+.color-foreground {
+  color: var(--foreground);
+}
+
+.accent-line{
+  position: relative;
+  &:before {
+
+      position: absolute;
+      height: 100%;
+      width: 0;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      content: "";
+      background: var(--color-orange);
+      border-radius: 100px;
+
+@media (min-width: 640px) {
+width: 3px;
+    }
+}
+
+}
+
+
+.bg-gradient{
+  height: 200px;
+background: linear-gradient(0deg, #F8F8F8 44%, rgba(0,0,0,0.0) 100%);
+z-index: 0;
+position: absolute;
+bottom: -100px;
+width: 100%;
+}
+
+.bg-primary-darker{
+  background: var(--color-primary-darker);
+}
+
+.bg{
+    background: var(--color-light-gray);
+}
+
+.height-100vh{
+  height: 100vh;
+}
+
+
+.gradient-bg {
+  background: linear-gradient(0deg, #F8F8F8 44%, #ffffff 100%);
+}
+
+.container{
+  padding: 0 1.5em;
+    @screen sm {
+        padding: 0;
+      }
+}
+
+hr{
+margin: 2em 0 !important;
+  @media (min-width: 640px) {
+    margin: 6em 0 5em 0 !important;
+  }
+
+}
+
+.plax-bg img{
+  object-fit: cover;
+  mix-blend-mode: overlay;
+}

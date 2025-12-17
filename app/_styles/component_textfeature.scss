@@ -1,0 +1,15 @@
+.about{
+  position: relative;
+z-index: 1;
+
+.bg-decoration img{
+
+  transform: scale(2.2) translateX(-15%);
+  opacity: 0.3;
+  left: 100% !important;
+
+    @media (min-width: 640px) {
+left: 0 !important;
+    }
+}
+}
