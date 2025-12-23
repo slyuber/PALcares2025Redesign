@@ -1,9 +1,10 @@
 // app/components/ScrollBackground.tsx
-// OPTIMIZED VERSION - Preserves warm aesthetic with 90% less animation overhead
+// PROVEN PATTERN: Subtle parallax with GPU-accelerated transforms
+// Uses Framer Motion's useTransform (no useState, no re-renders)
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 
 export default function ScrollBackground() {
   const [mounted, setMounted] = useState(false);
@@ -11,16 +12,11 @@ export default function ScrollBackground() {
   
   const { scrollYProgress } = useScroll();
   
-  // Smooth spring for parallax - only 3 layers instead of 5+
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 50,
-    damping: 30,
-  });
-
-  // Simple parallax - just Y movement, no rotation/scale/drift
-  const layer1Y = useTransform(smoothProgress, [0, 1], ["0%", "-20%"]);
-  const layer2Y = useTransform(smoothProgress, [0, 1], ["0%", "-35%"]);
-  const layer3Y = useTransform(smoothProgress, [0, 1], ["0%", "-50%"]);
+  // PROVEN PATTERN: useTransform for scroll-linked values (no springs needed for subtle parallax)
+  // This avoids continuous spring calculations - transforms are computed only when scrollYProgress changes
+  const layer1Y = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
+  const layer2Y = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
+  const layer3Y = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
 
   useEffect(() => {
     setMounted(true);

@@ -17,6 +17,11 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
+  // #region agent log
+  const _dbgLoaderRenderCountRef = useState(0)[0]; // stable placeholder, avoids lint about unused ref in render
+  // (useRef in render-only is fine; kept minimal)
+  // #endregion agent log
+
   // Check sessionStorage on mount and handle resize
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -27,10 +32,22 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       }
       setInitialized(true);
       
-      // Ensure loader doesn't block on resize
+      // Ensure loader doesn't block on resize - hide if it's been seen before or after a delay
       const handleResize = () => {
-        if (loaderSeen && showLoader) {
+        const seen = sessionStorage.getItem("loaderSeen");
+        if (seen === "true" && showLoader) {
           setShowLoader(false);
+          setLoaderSeen(true);
+        }
+        // Also hide after 5 seconds on resize to prevent blocking
+        if (showLoader && !seen) {
+          setTimeout(() => {
+            if (showLoader) {
+              setShowLoader(false);
+              setLoaderSeen(true);
+              sessionStorage.setItem("loaderSeen", "true");
+            }
+          }, 5000);
         }
       };
       
@@ -38,6 +55,12 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       return () => window.removeEventListener('resize', handleResize);
     }
   }, [loaderSeen, showLoader]);
+
+  // #region agent log
+  useEffect(() => {
+    fetch('http://127.0.0.1:7242/ingest/c686fb35-8db3-46c2-9758-79707c3550fe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Loader.tsx:state',message:'loader state change',data:{initialized,showLoader,loaderSeen,isReady,isFinished,prefersReducedMotion},timestamp:Date.now(),sessionId:'debug-session',runId:'baseline',hypothesisId:'C'})}).catch(()=>{});
+  }, [initialized, showLoader, loaderSeen, isReady, isFinished, prefersReducedMotion]);
+  // #endregion agent log
 
   // Animation timeline
   useEffect(() => {
@@ -305,16 +328,15 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Page content - only render after loader is seen */}
-      {loaderSeen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          {children}
-        </motion.div>
-      )}
+      {/* Page content - always render so the app loads/hydrates underneath the loader */}
+      <motion.div
+        initial={false}
+        animate={{ opacity: showLoader ? 0 : 1 }}
+        transition={{ duration: 0.6, delay: showLoader ? 0 : 0.1 }}
+        style={{ pointerEvents: showLoader ? "none" : "auto" }}
+      >
+        {children}
+      </motion.div>
     </>
   );
 }

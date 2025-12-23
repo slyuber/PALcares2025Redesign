@@ -1,8 +1,9 @@
 // app/components/Hero.tsx
+// PROVEN PATTERN: useTransform for scroll-linked animations (no springs needed for simple fade/move)
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 
@@ -10,19 +11,13 @@ export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [isMounted, setIsMounted] = useState(false);
 
-  // MODIFICATION: 2024-12-16 - Logo morph on scroll
-  // Animate hero logo to move toward header position and fade out
   const { scrollY } = useScroll();
   
-  // Logo animations: fade out and move up as you scroll
+  // PROVEN PATTERN: Direct useTransform (no springs) for simple scroll-linked fades
+  // Springs add complexity and constant calculations - not needed for basic parallax
   const logoOpacity = useTransform(scrollY, [0, 200], [1, 0]);
-  const logoY = useTransform(scrollY, [0, 300], [0, -100]);
-  const logoScale = useTransform(scrollY, [0, 300], [1, 0.5]);
-  
-  // Smooth the animations
-  const smoothLogoY = useSpring(logoY, { stiffness: 100, damping: 30 });
-  const smoothLogoScale = useSpring(logoScale, { stiffness: 100, damping: 30 });
-  // END MODIFICATION
+  const logoY = useTransform(scrollY, [0, 300], [0, -80]);
+  const logoScale = useTransform(scrollY, [0, 300], [1, 0.6]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -140,8 +135,8 @@ export default function Hero() {
           transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: "easeOut" }}
           style={prefersReducedMotion ? {} : {
             opacity: logoOpacity,
-            y: smoothLogoY,
-            scale: smoothLogoScale,
+            y: logoY,
+            scale: logoScale,
           }}
         >
           <Image
@@ -198,7 +193,7 @@ export default function Hero() {
             delay: 0.4,
           }}
         >
-          Serving Calgary (Treaty 7) and Edmonton (Treaty 6).
+          Serving Calgary, Edmonton, and Surrounding Areas
         </motion.p>
 
         <motion.div
