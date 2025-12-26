@@ -5,7 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue } from "framer-motion";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_SMOOTH, EASE_OUT_CUBIC } from "../lib/animation-constants";
+import { EASE_OUT_CUBIC, EASE_OUT_EXPO, DURATION_NORMAL, DURATION_FAST } from "../lib/animation-constants";
 import Image from "next/image";
 
 export default function Storytelling() {
@@ -595,11 +595,33 @@ function ContentPanel({
 
   return (
     <Panel active={active}>
-      {/* F-PATTERN LAYOUT - Stable grid that doesn't change on expand (prevents layout shift) */}
-      <div className="grid gap-10 lg:gap-12 items-start w-full lg:grid-cols-12">
+      {/* F-PATTERN LAYOUT - Animated split-to-wide layout transition */}
+      <motion.div
+        className="grid gap-10 lg:gap-12 items-start w-full"
+        animate={{
+          gridTemplateColumns: expanded
+            ? "minmax(0, 3fr) minmax(0, 9fr)" // Expanded: 25% / 75%
+            : "minmax(0, 4fr) minmax(0, 8fr)", // Collapsed: 33% / 67%
+        }}
+        transition={{
+          duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
+          ease: EASE_OUT_EXPO,
+        }}
+        style={{ display: "grid" }}
+      >
         
-        {/* LEFT COLUMN - Visual anchor: Icon, Label, Title (always 4 cols) */}
-        <div className="space-y-5 lg:col-span-4" data-storytelling-leftcol="true">
+        {/* LEFT COLUMN - Visual anchor: Icon, Label, Title */}
+        <motion.div
+          className="space-y-5"
+          layout
+          transition={{
+            layout: {
+              duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
+              ease: EASE_OUT_EXPO,
+            },
+          }}
+          data-storytelling-leftcol="true"
+        >
           {/* Icon + Label row - Enhanced icon container */}
           <div className="flex items-center gap-3 text-[#FF9966]">
             <motion.div
@@ -630,39 +652,73 @@ function ContentPanel({
             {title}
           </h2>
 
-          {/* Quote - animates height instead of being removed from DOM (prevents layout shift) */}
-          {quote && (
-            <motion.blockquote
-              data-storytelling-quote="true"
-              className="pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic hidden lg:block overflow-hidden"
-              initial={false}
-              animate={{
-                opacity: expanded ? 0 : (active ? 1 : 0),
-                height: expanded ? 0 : "auto",
-                marginTop: expanded ? 0 : 32,
-                paddingTop: expanded ? 0 : 24,
-              }}
-              transition={{
-                duration: prefersReducedMotion ? 0 : 0.3,
-                ease: EASE_SMOOTH,
-              }}
-            >
-              <div
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 4,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                } as React.CSSProperties}
-              >
-                &ldquo;{quote}&rdquo;
-              </div>
-            </motion.blockquote>
-          )}
-        </div>
+          {/* Quote ↔ Back Button (same position) */}
+          <div className="hidden lg:block mt-8 pt-6 min-h-[120px]">
+            <AnimatePresence mode="wait" initial={false}>
+              {!expanded ? (
+                quote ? (
+                  <motion.blockquote
+                    key="quote"
+                    data-storytelling-quote="true"
+                    className="pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: active ? 1 : 0, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{
+                      duration: prefersReducedMotion ? 0 : DURATION_FAST,
+                      ease: "easeOut",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 4,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      } as React.CSSProperties}
+                    >
+                      &ldquo;{quote}&rdquo;
+                    </div>
+                  </motion.blockquote>
+                ) : (
+                  <span key="quote-spacer" />
+                )
+              ) : (
+                <motion.button
+                  key="back-button"
+                  type="button"
+                  onClick={() => setExpanded(false)}
+                  className="group inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded pl-5 border-l-2 border-[#FF9966]/30 hover:border-[#FF9966]/60"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{
+                    duration: prefersReducedMotion ? 0 : DURATION_FAST,
+                    ease: "easeOut",
+                  }}
+                  whileHover={{ x: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                  <span>Back to overview</span>
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
 
-        {/* RIGHT COLUMN - Main content (always 8 cols) */}
-        <div className="lg:pl-12 relative lg:col-span-8" data-storytelling-contentcol="true">
+        {/* RIGHT COLUMN - Main content */}
+        <motion.div
+          className="lg:pl-12 relative"
+          layout
+          transition={{
+            layout: {
+              duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
+              ease: EASE_OUT_EXPO,
+            },
+          }}
+          data-storytelling-contentcol="true"
+        >
           {/* Vertical divider - base gray track */}
           <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[2px] bg-[#5C306C]/10 rounded-full" />
           {/* Animated coral fill */}
@@ -738,7 +794,7 @@ function ContentPanel({
                   )}
                 </motion.div>
               ) : (
-                /* EXPANDED STATE: Back button at top + prose content */
+                /* EXPANDED STATE: Reading mode */
                 <motion.div
                   key="expanded"
                   id="expanded-content"
@@ -750,50 +806,52 @@ function ContentPanel({
                     ease: EASE_OUT_CUBIC 
                   }}
                 >
-                  {/* Back button - positioned at top of expanded content for visibility */}
-                  <motion.button
-                    type="button"
-                    onClick={() => setExpanded(false)}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] mb-6 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
-                    whileHover={{ x: -3 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  {/* Editorial-style prose layout - EXPANDED with more vertical space */}
+                  <motion.article
+                    className="prose-container"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.3, delay: 0.1 }}
                   >
-                    <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                    <span>Back to overview</span>
-                  </motion.button>
+                    {/* Lead paragraph - LARGER in expanded state */}
+                    <p className="text-[20px] lg:text-[22px] xl:text-[24px] text-[#5C306C] leading-[1.7] tracking-[-0.015em] mb-8">
+                      {description}
+                    </p>
 
-                  {/* Editorial-style prose layout */}
-                  <article className="prose-container space-y-6">
-                  {/* Lead paragraph - slightly larger, full color, sets the tone */}
-                  <p className="text-[18px] lg:text-[20px] text-[#5C306C] leading-[1.75] tracking-[-0.01em]">
-                    {description}
-                  </p>
-                  
-                  {/* Visual breath - subtle coral accent */}
-                  <div className="my-8 flex items-center gap-4">
-                    <div className="h-[2px] w-12 bg-gradient-to-r from-[#FF9966] to-[#FF9966]/0 rounded-full" />
-                  </div>
-                  
-                  {/* Body content - comfortable reading size */}
-                  {secondaryDescription && (
-                    <p className="text-[16px] lg:text-[17px] text-[#5C306C]/80 leading-[1.85] mb-6">
-                      {secondaryDescription}
-                    </p>
-                  )}
-                  
-                  {details && (
-                    <p className="text-[16px] lg:text-[17px] text-[#5C306C]/80 leading-[1.85]">
-                      {details}
-                    </p>
-                  )}
-                  </article>
+                    {/* Visual breath - wider accent line */}
+                    <div className="my-10 flex items-center gap-4">
+                      <motion.div
+                        className="h-[2px] bg-gradient-to-r from-[#FF9966] to-[#FF9966]/0 rounded-full"
+                        initial={{ width: 48 }}
+                        animate={{ width: 80 }}
+                        transition={{
+                          duration: prefersReducedMotion ? 0 : 0.4,
+                          ease: EASE_OUT_EXPO,
+                        }}
+                      />
+                    </div>
+
+                    {/* Body content - LARGER with more spacing */}
+                    <div className="space-y-8">
+                      {secondaryDescription && (
+                        <p className="text-[17px] lg:text-[18px] xl:text-[19px] text-[#5C306C]/85 leading-[1.9]">
+                          {secondaryDescription}
+                        </p>
+                      )}
+
+                      {details && (
+                        <p className="text-[17px] lg:text-[18px] xl:text-[19px] text-[#5C306C]/85 leading-[1.9]">
+                          {details}
+                        </p>
+                      )}
+                    </div>
+                  </motion.article>
                 </motion.div>
               )}
             </AnimatePresence>
           </motion.div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </Panel>
   );
 }

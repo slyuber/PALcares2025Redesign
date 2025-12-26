@@ -21,6 +21,7 @@
  */
 export const EASE_SMOOTH = [0.04, 0.62, 0.23, 0.98] as const;
 export const EASE_OUT_CUBIC = [0.33, 1, 0.68, 1] as const;
+export const EASE_OUT_EXPO = [0.32, 0.72, 0, 1] as const;
 export const EASE_IN_OUT = [0.42, 0, 0.58, 1] as const;
 
 /**
