@@ -25,11 +25,6 @@ export default function Storytelling() {
   const [activeIndex, setActiveIndex] = useState(0);
   const lastIndexRef = useRef(0);  // Track last index to avoid unnecessary setState calls
   
-  // #region agent log
-  useEffect(() => {
-    fetch('http://127.0.0.1:7243/ingest/7441a0bd-e4da-4256-be0e-b7fd7579ac7c',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Storytelling.tsx:30',message:'activeIndex state changed',data:{activeIndex,timestamp:Date.now()},sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-  }, [activeIndex]);
-  // #endregion
   
   // MotionValue fill progress
   const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
@@ -43,16 +38,10 @@ export default function Storytelling() {
   // Measure header height for dynamic spacing
   useEffect(() => {
     const measureHeader = () => {
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/7441a0bd-e4da-4256-be0e-b7fd7579ac7c',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Storytelling.tsx:43',message:'measureHeader called',data:{currentHeaderHeight:headerHeight,timestamp:Date.now()},sessionId:'debug-session',runId:'post-fix',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
       const header = document.querySelector('header');
       if (header) {
         const headerRect = header.getBoundingClientRect();
         const newHeight = headerRect.height;
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/7441a0bd-e4da-4256-be0e-b7fd7579ac7c',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Storytelling.tsx:47',message:'header height measured',data:{newHeight,oldHeight:headerHeight,willChange:newHeight!==headerHeight,timestamp:Date.now()},sessionId:'debug-session',runId:'post-fix',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
         // Only update if height actually changed to prevent infinite loop
         if (newHeight !== headerHeight) {
           setHeaderHeight(newHeight);
@@ -76,9 +65,6 @@ export default function Storytelling() {
       const newIndex = Math.min(4, Math.floor(latest * 5));
       // Only trigger state update if index actually changed (ref comparison avoids setState overhead)
       if (newIndex !== lastIndexRef.current) {
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/7441a0bd-e4da-4256-be0e-b7fd7579ac7c',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Storytelling.tsx:65',message:'activeIndex update triggered',data:{newIndex,oldIndex:lastIndexRef.current,timestamp:Date.now()},sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
         lastIndexRef.current = newIndex;
         setActiveIndex(newIndex);
       }
@@ -87,11 +73,6 @@ export default function Storytelling() {
 
   // Direct MotionValue transforms for scroll-linked visuals
   const smoothProgress = useTransform(scrollYProgress, (v) => {
-    // #region agent log
-    if (Math.random() < 0.01) { // Sample 1% of calls to avoid log spam
-      fetch('http://127.0.0.1:7243/ingest/7441a0bd-e4da-4256-be0e-b7fd7579ac7c',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Storytelling.tsx:70',message:'useTransform smoothProgress calculation',data:{v,timestamp:Date.now()},sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    }
-    // #endregion
     return v;
   });
   const lineOpacity = useTransform(smoothProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
@@ -453,11 +434,6 @@ export default function Storytelling() {
 }
 
 const Panel = React.memo(({ active, children }: { active: boolean, children: React.ReactNode }) => {
-  // #region agent log
-  useEffect(() => {
-    fetch('http://127.0.0.1:7243/ingest/7441a0bd-e4da-4256-be0e-b7fd7579ac7c',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Storytelling.tsx:429',message:'Panel render',data:{active,timestamp:Date.now()},sessionId:'debug-session',runId:'post-fix',hypothesisId:'D'})}).catch(()=>{});
-  });
-  // #endregion
   return (
     <div
       data-storytelling-active-panel={active ? "true" : "false"}

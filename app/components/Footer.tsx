@@ -13,7 +13,8 @@ export default function Footer() {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      console.log("Newsletter subscription:", email);
+      // TODO: Implement actual newsletter subscription API call
+      // await subscribeToNewsletter(email);
       setIsSubscribed(true);
       setTimeout(() => {
         setIsSubscribed(false);
