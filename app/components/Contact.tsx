@@ -46,7 +46,7 @@ export default function Contact() {
             className="lg:col-span-2 space-y-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             {/* Header */}
@@ -90,11 +90,11 @@ export default function Contact() {
             className="lg:col-span-3"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.15 }}
           >
             {/* Form container - subtle card styling */}
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-[#5C306C]/[0.06] p-8 md:p-10 shadow-[0_8px_32px_rgba(92,48,108,0.04)]">
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-[#5C306C]/[0.06] p-8 md:p-10 shadow-[0_8px_32px_rgba(92,48,108,0.04)] transform-gpu">
               <AnimatePresence mode="wait">
                 {!isSuccess ? (
                   <motion.form 

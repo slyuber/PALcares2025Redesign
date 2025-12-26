@@ -46,7 +46,7 @@ export default function Testimonials() {
           className="text-center mb-16 md:mb-24 space-y-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
         >
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966]">
@@ -65,7 +65,7 @@ export default function Testimonials() {
               className="group relative bg-gradient-to-br from-white to-[#FAFAFA] rounded-3xl p-8 md:p-10 border border-[#5C306C]/5 shadow-[0_4px_20px_rgba(92,48,108,0.06)]"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.3 }}
               transition={{ delay: prefersReducedMotion ? 0 : index * 0.2, duration: 0.6 }}
               whileHover={prefersReducedMotion ? {} : { y: -5, transition: { duration: 0.3 } }}
             >

@@ -43,7 +43,7 @@ export default function NeedWeNoticed() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: false, amount: 0.3 }}
       >
         {/* Section Label */}
         <motion.span

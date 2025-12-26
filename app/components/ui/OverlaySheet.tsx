@@ -113,7 +113,7 @@ export function OverlaySheet({
     >
       <button
         type="button"
-        className="absolute inset-0 bg-[#5C306C]/25 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-[#5C306C]/25 backdrop-blur-[2px] transform-gpu"
         aria-label="Close dialog"
         onClick={() => {
           onCloseReason?.("backdrop");
