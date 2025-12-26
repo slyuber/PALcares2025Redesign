@@ -7,7 +7,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform, MotionValue } from "framer-motion";
 import {
   HeartHandshake,
   ShieldCheck,
@@ -50,6 +50,115 @@ const values = [
 ];
 // END MODIFICATION
 
+// Separate component to allow hooks to be called at top level
+function ValueItem({
+  value,
+  index,
+  scrollYProgress,
+  prefersReducedMotion,
+}: {
+  value: typeof values[number];
+  index: number;
+  scrollYProgress: MotionValue<number>;
+  prefersReducedMotion: boolean | null;
+}) {
+  const Icon = value.icon;
+  // Scroll-linked opacity for each icon - hooks must be at top level
+  const iconOpacity = useTransform(
+    scrollYProgress,
+    [index * 0.2, index * 0.2 + 0.3],
+    [0, 1]
+  );
+  const iconY = useTransform(
+    scrollYProgress,
+    [index * 0.2, index * 0.2 + 0.3],
+    [20, 0]
+  );
+  const iconScale = useTransform(
+    scrollYProgress,
+    [index * 0.2, index * 0.2 + 0.3],
+    [0.95, 1]
+  );
+
+  return (
+    <motion.div
+      className="group"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.3 }}
+      transition={{
+        delay: prefersReducedMotion ? 0 : index * 0.1,
+        duration: prefersReducedMotion ? 0 : 0.6,
+        ease: "easeOut",
+      }}
+      style={prefersReducedMotion ? {} : {
+        opacity: iconOpacity,
+        y: iconY,
+      }}
+    >
+      {/* ENHANCED: Larger icon container (64px) with multi-layer background */}
+      <motion.div
+        className="relative w-16 h-16 rounded-xl mb-6 flex items-center justify-center icon-container-enhanced"
+        style={prefersReducedMotion ? {} : { scale: iconScale }}
+        whileHover={prefersReducedMotion ? {} : {
+          scale: 1.05,
+          rotate: -2,
+        }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        role="img"
+        aria-label={`${value.title} icon`}
+        tabIndex={0}
+      >
+        {/* Multi-layer background: base gradient + pattern overlay */}
+        <div
+          className="absolute inset-0 rounded-xl"
+          style={{
+            background: `linear-gradient(135deg, ${value.color}15 0%, ${value.color}05 100%)`,
+          }}
+        />
+        {/* Subtle pattern overlay */}
+        <div
+          className="absolute inset-0 rounded-xl opacity-30"
+          style={{
+            backgroundImage: `radial-gradient(circle at 30% 30%, ${value.color}08 0%, transparent 50%)`,
+          }}
+        />
+        {/* Border with gradient */}
+        <div
+          className="absolute inset-0 rounded-xl border"
+          style={{
+            borderColor: `${value.color}20`,
+          }}
+        />
+        {/* Glow effect on hover */}
+        <motion.div
+          className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            background: `radial-gradient(circle at center, ${value.color}20 0%, transparent 70%)`,
+            filter: "blur(8px)",
+          }}
+        />
+        {/* Icon */}
+        <Icon
+          className="relative z-10 w-6 h-6 transition-colors duration-300"
+          style={{ color: value.color }}
+          strokeWidth={1.5}
+          aria-hidden="true"
+          aria-label={`${value.title} icon`}
+        />
+      </motion.div>
+
+      <h3 className="text-lg font-semibold text-[#4A2756] mb-3 leading-tight">
+        {value.title}
+      </h3>
+      <p className="text-sm text-[#4A2756]/75 leading-[1.7]">
+        {value.description}
+      </p>
+    </motion.div>
+  );
+}
+
 export default function Values() {
   const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
@@ -89,104 +198,15 @@ export default function Values() {
 
         {/* ENHANCED: 2x2 grid with improved icon containers and animations */}
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 max-w-5xl mx-auto">
-          {values.map((value, index) => {
-            const Icon = value.icon;
-            // Scroll-linked opacity for each icon
-            const iconOpacity = useTransform(
-              scrollYProgress,
-              [index * 0.2, index * 0.2 + 0.3],
-              [0, 1]
-            );
-            const iconY = useTransform(
-              scrollYProgress,
-              [index * 0.2, index * 0.2 + 0.3],
-              [20, 0]
-            );
-            const iconScale = useTransform(
-              scrollYProgress,
-              [index * 0.2, index * 0.2 + 0.3],
-              [0.95, 1]
-            );
-
-            return (
-              <motion.div
-                key={index}
-                className="group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{
-                  delay: prefersReducedMotion ? 0 : index * 0.1,
-                  duration: prefersReducedMotion ? 0 : 0.6,
-                  ease: "easeOut",
-                }}
-                style={prefersReducedMotion ? {} : {
-                  opacity: iconOpacity,
-                  y: iconY,
-                }}
-              >
-                {/* ENHANCED: Larger icon container (64px) with multi-layer background */}
-                <motion.div
-                  className="relative w-16 h-16 rounded-xl mb-6 flex items-center justify-center icon-container-enhanced"
-                  style={prefersReducedMotion ? {} : { scale: iconScale }}
-                  whileHover={prefersReducedMotion ? {} : {
-                    scale: 1.05,
-                    rotate: -2,
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  role="img"
-                  aria-label={`${value.title} icon`}
-                  tabIndex={0}
-                >
-                  {/* Multi-layer background: base gradient + pattern overlay */}
-                  <div
-                    className="absolute inset-0 rounded-xl"
-                    style={{
-                      background: `linear-gradient(135deg, ${value.color}15 0%, ${value.color}05 100%)`,
-                    }}
-                  />
-                  {/* Subtle pattern overlay */}
-                  <div
-                    className="absolute inset-0 rounded-xl opacity-30"
-                    style={{
-                      backgroundImage: `radial-gradient(circle at 30% 30%, ${value.color}08 0%, transparent 50%)`,
-                    }}
-                  />
-                  {/* Border with gradient */}
-                  <div
-                    className="absolute inset-0 rounded-xl border"
-                    style={{
-                      borderColor: `${value.color}20`,
-                    }}
-                  />
-                  {/* Glow effect on hover */}
-                  <motion.div
-                    className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{
-                      background: `radial-gradient(circle at center, ${value.color}20 0%, transparent 70%)`,
-                      filter: "blur(8px)",
-                    }}
-                  />
-                  {/* Icon */}
-                  <Icon
-                    className="relative z-10 w-6 h-6 transition-colors duration-300"
-                    style={{ color: value.color }}
-                    strokeWidth={1.5}
-                    aria-hidden="true"
-                    aria-label={`${value.title} icon`}
-                  />
-                </motion.div>
-
-                <h3 className="text-lg font-semibold text-[#4A2756] mb-3 leading-tight">
-                  {value.title}
-                </h3>
-                <p className="text-sm text-[#4A2756]/75 leading-[1.7]">
-                  {value.description}
-                </p>
-              </motion.div>
-            );
-          })}
+          {values.map((value, index) => (
+            <ValueItem
+              key={index}
+              value={value}
+              index={index}
+              scrollYProgress={scrollYProgress}
+              prefersReducedMotion={prefersReducedMotion}
+            />
+          ))}
         </div>
       </div>
     </section>

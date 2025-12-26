@@ -70,7 +70,7 @@ export default function Storytelling() {
       clearTimeout(timeoutId);
       window.removeEventListener('resize', measureHeader);
     };
-  }, []); // Remove headerHeight from dependencies to prevent loop
+  }, [headerHeight]); // headerHeight included - the check inside measureHeader prevents infinite loops
 
   useEffect(() => {
     return scrollYProgress.on("change", (latest) => {
