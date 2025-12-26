@@ -80,7 +80,8 @@ export default function Storytelling() {
   // Two-state intro reveal
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
   const smoothSubtitleOpacity = subtitleOpacity;
-  const ecosystemColor = useTransform(scrollYProgress, [0.02, 0.08], ["#5C306C", "#FF9966"]);
+  // Fill progress for ecosystem word - 0 to 1 maps to 0% to 100% fill from top
+  const ecosystemFillProgress = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
 
   return (
     <>
@@ -271,7 +272,21 @@ export default function Storytelling() {
                     className="font-light text-[#5C306C] tracking-tight leading-[1.15]"
                     style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
                   >
-                    An <motion.span style={{ color: ecosystemColor }}>ecosystem</motion.span> in three parts
+                    An{" "}
+                    <span className="relative inline-block">
+                      <span className="text-[#5C306C]">ecosystem</span>
+                      <motion.span
+                        className="absolute inset-0 text-[#FF9966]"
+                        style={{
+                          clipPath: useTransform(ecosystemFillProgress, (progress) => 
+                            `inset(${(1 - progress) * 100}% 0% 0% 0%)`
+                          ),
+                        }}
+                      >
+                        ecosystem
+                      </motion.span>
+                    </span>{" "}
+                    in three parts
                   </h2>
                   <motion.p
                     className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base md:text-lg font-normal"
