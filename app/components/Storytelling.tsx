@@ -5,6 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue } from "framer-motion";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
+import { EASE_SMOOTH, EASE_OUT_CUBIC } from "../lib/animation-constants";
 import Image from "next/image";
 
 export default function Storytelling() {
@@ -81,10 +82,10 @@ export default function Storytelling() {
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
   const smoothSubtitleOpacity = subtitleOpacity;
   // Text fill progress: 0% to 100% over scroll range [0.02, 0.08]
-  // This controls the height of the coral overlay that fills from top to bottom
+  // Direct height percentage: 0% (hidden) to 100% (fully visible)
   const ecosystemFillHeight = useTransform(scrollYProgress, [0.02, 0.08], [0, 100]);
-  // Transform fill height to clip-path value (reveals from top)
-  const ecosystemClipPath = useTransform(ecosystemFillHeight, (v) => `inset(0 0 ${100 - v}% 0)`);
+  // Transform fill height to CSS height percentage string
+  const ecosystemOverlayHeight = useTransform(ecosystemFillHeight, (v) => `${v}%`);
 
   return (
     <>
@@ -277,14 +278,12 @@ export default function Storytelling() {
                   >
                     An{" "}
                     <span className="relative inline-block">
-                      {/* Base text - purple (always visible) */}
-                      <span className="text-[#5C306C]">ecosystem</span>
-                      {/* Overlay text - coral, fills from top to bottom */}
+                      {/* Base text - always visible */}
+                      <span className="text-[#5C306C] inline-block">ecosystem</span>
+                      {/* Overlay container - overflow hidden, height controlled */}
                       <motion.span
-                        className="absolute left-0 top-0 text-[#FF9966] whitespace-nowrap"
-                        style={{
-                          clipPath: ecosystemClipPath,
-                        }}
+                        className="absolute left-0 top-0 text-[#FF9966] inline-block overflow-hidden"
+                        style={{ height: ecosystemOverlayHeight }}
                       >
                         ecosystem
                       </motion.span>
@@ -596,19 +595,11 @@ function ContentPanel({
 
   return (
     <Panel active={active}>
-      {/* F-PATTERN LAYOUT - Left anchor narrows when expanded to give prose more room */}
-      <div className={cn(
-        "grid gap-10 lg:gap-12 items-start w-full transition-all duration-500",
-        expanded 
-          ? "lg:grid-cols-[280px_1fr]"  // Fixed narrow left when expanded
-          : "lg:grid-cols-12"            // Standard 12-col grid when collapsed
-      )}>
+      {/* F-PATTERN LAYOUT - Stable grid that doesn't change on expand (prevents layout shift) */}
+      <div className="grid gap-10 lg:gap-12 items-start w-full lg:grid-cols-12">
         
-        {/* LEFT COLUMN - Visual anchor: Icon, Label, Title */}
-        <div className={cn(
-          "space-y-5",
-          !expanded && "lg:col-span-4"
-        )} data-storytelling-leftcol="true">
+        {/* LEFT COLUMN - Visual anchor: Icon, Label, Title (always 4 cols) */}
+        <div className="space-y-5 lg:col-span-4" data-storytelling-leftcol="true">
           {/* Icon + Label row - Enhanced icon container */}
           <div className="flex items-center gap-3 text-[#FF9966]">
             <motion.div
@@ -639,61 +630,39 @@ function ContentPanel({
             {title}
           </h2>
 
-          {/* Back button - only shown when expanded */}
-          <AnimatePresence>
-            {expanded && (
-              <motion.button
-                type="button"
-                onClick={() => setExpanded(false)}
-                className={cn(
-                  "inline-flex items-center gap-2 text-[13px] font-semibold tracking-wide transition-colors",
-                  "text-[#5C306C]/60 hover:text-[#5C306C]",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded",
-                  "mt-4"
-                )}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.2 }}
+          {/* Quote - animates height instead of being removed from DOM (prevents layout shift) */}
+          {quote && (
+            <motion.blockquote
+              data-storytelling-quote="true"
+              className="pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic hidden lg:block overflow-hidden"
+              initial={false}
+              animate={{
+                opacity: expanded ? 0 : (active ? 1 : 0),
+                height: expanded ? 0 : "auto",
+                marginTop: expanded ? 0 : 32,
+                paddingTop: expanded ? 0 : 24,
+              }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.3,
+                ease: EASE_SMOOTH,
+              }}
+            >
+              <div
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 4,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                } as React.CSSProperties}
               >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Back to overview</span>
-              </motion.button>
-            )}
-          </AnimatePresence>
-
-          {/* Quote as visual anchor - only shown when NOT expanded (collapsed state) */}
-          <AnimatePresence>
-            {quote && !expanded && (
-              <motion.blockquote
-                data-storytelling-quote="true"
-                className="mt-8 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic hidden lg:block"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: active ? 1 : 0, x: active ? 0 : -10 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ delay: prefersReducedMotion ? 0 : 0.35, duration: 0.5 }}
-              >
-                {/* Show truncated quote in collapsed state */}
-                <div
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 4,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  } as React.CSSProperties}
-                >
-                  &ldquo;{quote}&rdquo;
-                </div>
-              </motion.blockquote>
-            )}
-          </AnimatePresence>
+                &ldquo;{quote}&rdquo;
+              </div>
+            </motion.blockquote>
+          )}
         </div>
 
-        {/* RIGHT COLUMN - Main content (expands when in expanded state) */}
-        <div className={cn(
-          "lg:pl-12 relative",
-          !expanded && "lg:col-span-8"
-        )} data-storytelling-contentcol="true">
+        {/* RIGHT COLUMN - Main content (always 8 cols) */}
+        <div className="lg:pl-12 relative lg:col-span-8" data-storytelling-contentcol="true">
           {/* Vertical divider - base gray track */}
           <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[2px] bg-[#5C306C]/10 rounded-full" />
           {/* Animated coral fill */}
@@ -703,93 +672,99 @@ function ContentPanel({
             transition={{ duration: 0.15, ease: "easeOut" }}
           />
           
-          {/* COLLAPSED STATE: Description + Read more + Bullets */}
-          <AnimatePresence mode="wait">
-            {!expanded ? (
-              <motion.div
-                key="collapsed"
-                className="space-y-6"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
-                {/* Main description */}
-                <p className="text-base md:text-lg lg:text-[17px] text-[#5C306C]/90 leading-[1.75]">
-                  {description}
-                </p>
-                
-                {/* Read more button */}
-                {(secondaryDescription || details) && (
-                  <button
-                    type="button"
-                    onClick={() => setExpanded(true)}
-                    className={cn(
-                      "inline-flex items-center gap-2 text-[13px] font-semibold tracking-wide transition-all",
-                      "text-[#FF9966] hover:text-[#E07B4C]",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded",
-                      "group"
-                    )}
-                    aria-expanded={expanded}
-                  >
-                    <span className="underline underline-offset-4 decoration-[#FF9966]/40 group-hover:decoration-[#FF9966]">
-                      Read more
-                    </span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                  </button>
-                )}
-                
-                {/* Bullet points */}
-                <ul className="pt-2 grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-3">
-                  {items.map((item: string, i: number) => (
-                    <motion.li
-                      key={i}
-                      className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] group"
-                      initial={{ opacity: 0, x: 15 }}
-                      animate={{ opacity: active ? 1 : 0, x: active ? 0 : 15 }}
-                      transition={{ delay: prefersReducedMotion ? 0 : 0.25 + (i * 0.08) }}
-                    >
-                      <motion.div
-                        className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#FF9966]/20 transition-colors"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      >
-                        <ArrowRight className="w-3 h-3 text-[#FF9966]" />
-                      </motion.div>
-                      <span className="leading-relaxed group-hover:text-[#5C306C] transition-colors">{item}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-                
-                {/* Mobile quote */}
-                {quote && (
-                  <blockquote className="lg:hidden mt-6 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-base leading-relaxed italic">
-                    &ldquo;{quote}&rdquo;
-                  </blockquote>
-                )}
-              </motion.div>
-            ) : (
-              /* EXPANDED STATE: Award-winning single-column prose */
-              <motion.div
-                key="expanded"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
-                {/* 
-                  Editorial-style prose layout inspired by:
-                  - Medium's reading experience
-                  - Stripe's documentation
-                  - Award-winning nonprofit annual reports
+          {/* Content with layout prop for smooth height transitions */}
+          <motion.div layout className="space-y-6">
+            <AnimatePresence mode="wait">
+              {!expanded ? (
+                <motion.div
+                  key="collapsed"
+                  className="space-y-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ 
+                    duration: prefersReducedMotion ? 0 : 0.25, 
+                    ease: EASE_OUT_CUBIC 
+                  }}
+                >
+                  {/* Main description */}
+                  <p className="text-base md:text-lg lg:text-[17px] text-[#5C306C]/90 leading-[1.75]">
+                    {description}
+                  </p>
                   
-                  Key principles:
-                  - Full-width utilization with optimal line length
-                  - Visual rhythm through varied paragraph styling
-                  - Generous vertical breathing room
-                  - Subtle visual hierarchy without being heavy
-                */}
-                <article className="prose-container">
+                  {/* Read more button */}
+                  {(secondaryDescription || details) && (
+                    <button
+                      type="button"
+                      onClick={() => setExpanded(true)}
+                      className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#FF9966] hover:text-[#E07B4C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded group mt-2"
+                      aria-expanded={expanded}
+                      aria-controls="expanded-content"
+                    >
+                      <span className="underline underline-offset-4 decoration-[#FF9966]/40 group-hover:decoration-[#FF9966] transition-colors">
+                        Read more
+                      </span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </button>
+                  )}
+                  
+                  {/* Bullet points */}
+                  <ul className="pt-2 grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-3">
+                    {items.map((item: string, i: number) => (
+                      <motion.li
+                        key={i}
+                        className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] group"
+                        initial={{ opacity: 0, x: 15 }}
+                        animate={{ opacity: active ? 1 : 0, x: active ? 0 : 15 }}
+                        transition={{ delay: prefersReducedMotion ? 0 : 0.25 + (i * 0.08) }}
+                      >
+                        <motion.div
+                          className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#FF9966]/20 transition-colors"
+                          whileHover={{ scale: 1.1 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        >
+                          <ArrowRight className="w-3 h-3 text-[#FF9966]" />
+                        </motion.div>
+                        <span className="leading-relaxed group-hover:text-[#5C306C] transition-colors">{item}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                  
+                  {/* Mobile quote */}
+                  {quote && (
+                    <blockquote className="lg:hidden mt-6 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-base leading-relaxed italic">
+                      &ldquo;{quote}&rdquo;
+                    </blockquote>
+                  )}
+                </motion.div>
+              ) : (
+                /* EXPANDED STATE: Back button at top + prose content */
+                <motion.div
+                  key="expanded"
+                  id="expanded-content"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ 
+                    duration: prefersReducedMotion ? 0 : 0.25, 
+                    ease: EASE_OUT_CUBIC 
+                  }}
+                >
+                  {/* Back button - positioned at top of expanded content for visibility */}
+                  <motion.button
+                    type="button"
+                    onClick={() => setExpanded(false)}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] mb-6 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
+                    whileHover={{ x: -3 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  >
+                    <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                    <span>Back to overview</span>
+                  </motion.button>
+
+                  {/* Editorial-style prose layout */}
+                  <article className="prose-container space-y-6">
                   {/* Lead paragraph - slightly larger, full color, sets the tone */}
                   <p className="text-[18px] lg:text-[20px] text-[#5C306C] leading-[1.75] tracking-[-0.01em]">
                     {description}
@@ -812,10 +787,11 @@ function ContentPanel({
                       {details}
                     </p>
                   )}
-                </article>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  </article>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </div>
     </Panel>
