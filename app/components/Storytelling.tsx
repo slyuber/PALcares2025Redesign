@@ -80,8 +80,11 @@ export default function Storytelling() {
   // Two-state intro reveal
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
   const smoothSubtitleOpacity = subtitleOpacity;
-  // Fill progress for ecosystem word - 0 to 1 maps to 0% to 100% fill from top
-  const ecosystemFillProgress = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
+  // Text fill progress: 0% to 100% over scroll range [0.02, 0.08]
+  // This controls the height of the coral overlay that fills from top to bottom
+  const ecosystemFillHeight = useTransform(scrollYProgress, [0.02, 0.08], [0, 100]);
+  // Transform fill height to clip-path value (reveals from top)
+  const ecosystemClipPath = useTransform(ecosystemFillHeight, (v) => `inset(0 0 ${100 - v}% 0)`);
 
   return (
     <>
@@ -274,13 +277,13 @@ export default function Storytelling() {
                   >
                     An{" "}
                     <span className="relative inline-block">
+                      {/* Base text - purple (always visible) */}
                       <span className="text-[#5C306C]">ecosystem</span>
+                      {/* Overlay text - coral, fills from top to bottom */}
                       <motion.span
-                        className="absolute inset-0 text-[#FF9966]"
+                        className="absolute left-0 top-0 text-[#FF9966] whitespace-nowrap"
                         style={{
-                          clipPath: useTransform(ecosystemFillProgress, (progress) => 
-                            `inset(${(1 - progress) * 100}% 0% 0% 0%)`
-                          ),
+                          clipPath: ecosystemClipPath,
                         }}
                       >
                         ecosystem
