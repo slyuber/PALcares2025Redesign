@@ -5,7 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue } from "framer-motion";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_OUT_CUBIC, EASE_OUT_EXPO, DURATION_NORMAL, DURATION_FAST } from "../lib/animation-constants";
+import { EASE_OUT_EXPO } from "../lib/animation-constants";
 import Image from "next/image";
 
 export default function Storytelling() {
@@ -450,7 +450,7 @@ export default function Storytelling() {
   );
 }
 
-const Panel = React.memo(({ active, children }: { active: boolean, children: React.ReactNode }) => {
+const Panel = React.memo(({ active, children, expanded = false }: { active: boolean, children: React.ReactNode, expanded?: boolean }) => {
   return (
     <div
       data-storytelling-active-panel={active ? "true" : "false"}
@@ -459,13 +459,159 @@ const Panel = React.memo(({ active, children }: { active: boolean, children: Rea
         active ? "opacity-100 translate-y-0 blur-0 pointer-events-auto" : "opacity-0 translate-y-12 blur-sm pointer-events-none"
       )}
     >
-      <div className="w-full max-w-6xl px-6 md:px-10 lg:px-12">
+      <motion.div 
+        className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24"
+        animate={{
+          maxWidth: expanded ? "1400px" : "1152px"
+        }}
+        transition={{ duration: 0.15, ease: EASE_OUT_EXPO }}
+      >
         {children}
-      </div>
+      </motion.div>
     </div>
   );
 });
 Panel.displayName = 'Panel';
+
+// Abstract visual illustrations for each section
+function ContentVisual({ title }: { title: string }) {
+  // PAL Teams: Connected nodes representing partnerships
+  if (title === "PAL Teams") {
+    return (
+      <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-80">
+        {/* Central hub */}
+        <circle cx="100" cy="80" r="24" fill="url(#teams-grad)" fillOpacity="0.15" />
+        <circle cx="100" cy="80" r="24" stroke="#5C306C" strokeWidth="1.5" strokeOpacity="0.3" />
+        <circle cx="100" cy="80" r="8" fill="#5C306C" fillOpacity="0.4" />
+        
+        {/* Connected nodes */}
+        <circle cx="45" cy="50" r="16" fill="url(#teams-grad)" fillOpacity="0.1" />
+        <circle cx="45" cy="50" r="16" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
+        <circle cx="45" cy="50" r="5" fill="#FF9966" fillOpacity="0.6" />
+        
+        <circle cx="155" cy="50" r="16" fill="url(#teams-grad)" fillOpacity="0.1" />
+        <circle cx="155" cy="50" r="16" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
+        <circle cx="155" cy="50" r="5" fill="#FF9966" fillOpacity="0.6" />
+        
+        <circle cx="45" cy="115" r="14" fill="url(#teams-grad)" fillOpacity="0.08" />
+        <circle cx="45" cy="115" r="14" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
+        <circle cx="45" cy="115" r="4" fill="#5C306C" fillOpacity="0.3" />
+        
+        <circle cx="155" cy="115" r="14" fill="url(#teams-grad)" fillOpacity="0.08" />
+        <circle cx="155" cy="115" r="14" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
+        <circle cx="155" cy="115" r="4" fill="#5C306C" fillOpacity="0.3" />
+        
+        {/* Connection lines */}
+        <line x1="60" y1="55" x2="78" y2="70" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
+        <line x1="140" y1="55" x2="122" y2="70" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
+        <line x1="58" y1="108" x2="80" y2="92" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
+        <line x1="142" y1="108" x2="120" y2="92" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
+        
+        {/* Orbital ring */}
+        <ellipse cx="100" cy="80" rx="70" ry="45" stroke="#5C306C" strokeWidth="0.5" strokeOpacity="0.1" strokeDasharray="4 4" />
+        
+        <defs>
+          <linearGradient id="teams-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FF9966" />
+            <stop offset="100%" stopColor="#5C306C" />
+          </linearGradient>
+        </defs>
+      </svg>
+    );
+  }
+  
+  // PAL Research: Branching/sharing pattern representing open source
+  if (title === "PAL Research") {
+    return (
+      <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-80">
+        {/* Central source */}
+        <rect x="85" y="65" width="30" height="30" rx="6" fill="#5C306C" fillOpacity="0.15" stroke="#5C306C" strokeWidth="1.5" strokeOpacity="0.3" />
+        <rect x="93" y="73" width="14" height="14" rx="3" fill="#5C306C" fillOpacity="0.3" />
+        
+        {/* Branching paths */}
+        <path d="M85 80 L45 50" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
+        <path d="M85 80 L45 110" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
+        <path d="M115 80 L155 50" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
+        <path d="M115 80 L155 110" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
+        
+        {/* Branch endpoints - documents/resources */}
+        <rect x="25" y="38" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.12" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.4" />
+        <line x1="30" y1="46" x2="40" y2="46" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.4" />
+        <line x1="30" y1="51" x2="38" y2="51" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.3" />
+        
+        <rect x="25" y="98" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.08" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
+        <line x1="30" y1="106" x2="40" y2="106" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.2" />
+        <line x1="30" y1="111" x2="38" y2="111" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" />
+        
+        <rect x="155" y="38" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.12" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.4" />
+        <line x1="160" y1="46" x2="170" y2="46" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.4" />
+        <line x1="160" y1="51" x2="168" y2="51" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.3" />
+        
+        <rect x="155" y="98" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.08" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
+        <line x1="160" y1="106" x2="170" y2="106" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.2" />
+        <line x1="160" y1="111" x2="168" y2="111" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" />
+        
+        {/* Open license symbol hint */}
+        <circle cx="100" cy="135" r="10" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" />
+        <path d="M95 135 L100 140 L105 135" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.2" fill="none" />
+        
+        <defs>
+          <linearGradient id="research-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FF9966" />
+            <stop offset="100%" stopColor="#5C306C" />
+          </linearGradient>
+        </defs>
+      </svg>
+    );
+  }
+  
+  // PAL Labs: Growth/learning pattern with rising elements
+  if (title === "PAL Labs") {
+    return (
+      <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-80">
+        {/* Ground/foundation line */}
+        <line x1="30" y1="130" x2="170" y2="130" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.15" />
+        
+        {/* Growing stems */}
+        <path d="M60 130 L60 90" stroke="#8FAE8B" strokeWidth="2" strokeOpacity="0.5" strokeLinecap="round" />
+        <path d="M100 130 L100 60" stroke="#8FAE8B" strokeWidth="2.5" strokeOpacity="0.6" strokeLinecap="round" />
+        <path d="M140 130 L140 75" stroke="#8FAE8B" strokeWidth="2" strokeOpacity="0.4" strokeLinecap="round" />
+        
+        {/* Leaves/growth points */}
+        <ellipse cx="52" cy="85" rx="12" ry="8" fill="#8FAE8B" fillOpacity="0.2" transform="rotate(-30 52 85)" />
+        <ellipse cx="68" cy="92" rx="10" ry="6" fill="#8FAE8B" fillOpacity="0.15" transform="rotate(25 68 92)" />
+        
+        <ellipse cx="88" cy="55" rx="14" ry="10" fill="#FF9966" fillOpacity="0.15" transform="rotate(-25 88 55)" />
+        <ellipse cx="112" cy="62" rx="14" ry="10" fill="#FF9966" fillOpacity="0.15" transform="rotate(25 112 62)" />
+        <circle cx="100" cy="45" r="8" fill="#FF9966" fillOpacity="0.25" />
+        
+        <ellipse cx="130" cy="72" rx="11" ry="7" fill="#8FAE8B" fillOpacity="0.15" transform="rotate(-20 130 72)" />
+        <ellipse cx="150" cy="78" rx="10" ry="6" fill="#8FAE8B" fillOpacity="0.12" transform="rotate(30 150 78)" />
+        
+        {/* Small seeds/dots at base */}
+        <circle cx="60" cy="135" r="3" fill="#5C306C" fillOpacity="0.2" />
+        <circle cx="100" cy="135" r="4" fill="#5C306C" fillOpacity="0.25" />
+        <circle cx="140" cy="135" r="3" fill="#5C306C" fillOpacity="0.2" />
+        
+        {/* Subtle upward arrows/direction */}
+        <path d="M100 30 L95 38 M100 30 L105 38" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.3" strokeLinecap="round" />
+        
+        {/* Mentorship connection hint */}
+        <path d="M70 100 Q85 95 95 80" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" strokeDasharray="3 3" fill="none" />
+        <path d="M130 95 Q115 85 105 70" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" strokeDasharray="3 3" fill="none" />
+      </svg>
+    );
+  }
+  
+  // Default: Simple abstract pattern
+  return (
+    <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-60">
+      <circle cx="100" cy="80" r="40" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
+      <circle cx="100" cy="80" r="25" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.3" />
+      <circle cx="100" cy="80" r="10" fill="#5C306C" fillOpacity="0.15" />
+    </svg>
+  );
+}
 
 interface ContentPanelProps {
   active: boolean;
@@ -572,7 +718,7 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
   );
 }
 
-// Desktop version - with inline expansion
+// Desktop version - with inline expansion to full-width reader mode
 function ContentPanel({ 
   active, 
   icon, 
@@ -594,264 +740,236 @@ function ContentPanel({
   }, [active]);
 
   return (
-    <Panel active={active}>
-      {/* F-PATTERN LAYOUT - Animated split-to-wide layout transition */}
-      <motion.div
-        className="grid gap-10 lg:gap-12 items-start w-full"
-        animate={{
-          gridTemplateColumns: expanded
-            ? "minmax(0, 3fr) minmax(0, 9fr)" // Expanded: 25% / 75%
-            : "minmax(0, 4fr) minmax(0, 8fr)", // Collapsed: 33% / 67%
-        }}
-        transition={{
-          duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
-          ease: EASE_OUT_EXPO,
-        }}
-        style={{ display: "grid" }}
-      >
-        
-        {/* LEFT COLUMN - Visual anchor: Icon, Label, Title */}
-        <motion.div
-          className="space-y-5"
-          layout
-          transition={{
-            layout: {
-              duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
-              ease: EASE_OUT_EXPO,
-            },
-          }}
-          data-storytelling-leftcol="true"
-        >
-          {/* Icon + Label row - Enhanced icon container */}
-          <div className="flex items-center gap-3 text-[#FF9966]">
-            <motion.div
-              className="relative w-14 h-14 rounded-xl flex items-center justify-center shrink-0 icon-container-enhanced"
-              whileHover={{ scale: 1.05, rotate: -2 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            >
-              {/* Multi-layer background */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF9966]/15 to-[#FF9966]/5" />
-              <div className="absolute inset-0 rounded-xl border border-[#FF9966]/20" />
-              <motion.div
-                className="absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
-                style={{
-                  background: "radial-gradient(circle at center, rgba(255, 153, 102, 0.2) 0%, transparent 70%)",
-                  filter: "blur(8px)",
-                }}
-              />
-              <div className="relative z-10">{icon}</div>
-            </motion.div>
-            <span className="text-xs font-semibold uppercase tracking-[0.15em]">
-              {label}
-            </span>
-          </div>
-          
-          {/* Title */}
-          <h2 className="text-3xl md:text-4xl lg:text-[2.5rem] font-light text-[#5C306C] leading-[1.15] tracking-tight">
-            {title}
-          </h2>
+    <Panel active={active} expanded={expanded}>
+      <AnimatePresence mode="wait" initial={false}>
+        {!expanded ? (
+          /* ============================================
+             COLLAPSED STATE: Two-column F-pattern layout
+             ============================================ */
+          <motion.div 
+            key="collapsed-layout"
+            className="grid gap-10 lg:gap-12 items-start w-full lg:grid-cols-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+          >
+            {/* LEFT COLUMN - Visual anchor: Icon, Label, Title, Quote */}
+            <div className="space-y-5 lg:col-span-4">
+              {/* Icon + Label */}
+              <div className="flex items-center gap-3 text-[#FF9966]">
+                <motion.div
+                  className="relative w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
+                  whileHover={{ scale: 1.05, rotate: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF9966]/15 to-[#FF9966]/5" />
+                  <div className="absolute inset-0 rounded-xl border border-[#FF9966]/20" />
+                  <div className="relative z-10">{icon}</div>
+                </motion.div>
+                <span className="text-xs font-semibold uppercase tracking-[0.15em]">
+                  {label}
+                </span>
+              </div>
+              
+              {/* Title */}
+              <h2 className="text-3xl md:text-4xl lg:text-[2.5rem] font-light text-[#5C306C] leading-[1.15] tracking-tight">
+                {title}
+              </h2>
 
-          {/* Quote ↔ Back Button (same position) */}
-          <div className="hidden lg:block mt-8 pt-6 min-h-[120px]">
-            <AnimatePresence mode="wait" initial={false}>
-              {!expanded ? (
-                quote ? (
-                  <motion.blockquote
-                    key="quote"
-                    data-storytelling-quote="true"
-                    className="pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: active ? 1 : 0, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{
-                      duration: prefersReducedMotion ? 0 : DURATION_FAST,
-                      ease: "easeOut",
-                    }}
+              {/* Quote */}
+              {quote && (
+                <motion.blockquote
+                  className="hidden lg:block pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic mt-8 pt-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: active ? 1 : 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div
+                    style={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    } as React.CSSProperties}
                   >
-                    <div
-                      style={{
-                        display: "-webkit-box",
-                        WebkitLineClamp: 4,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      } as React.CSSProperties}
+                    &ldquo;{quote}&rdquo;
+                  </div>
+                </motion.blockquote>
+              )}
+            </div>
+
+            {/* RIGHT COLUMN - Main content */}
+            <div className="lg:pl-12 relative lg:col-span-8">
+              {/* Vertical divider */}
+              <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[2px] bg-[#5C306C]/10 rounded-full" />
+              <motion.div 
+                className="hidden lg:block absolute left-0 top-0 w-[2px] bg-[#FF9966] rounded-full origin-top"
+                style={{ height: '100%', scaleY: active ? fillProgress : 0 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+              />
+              
+              <div className="space-y-6">
+                {/* Main description */}
+                <p className="text-base md:text-lg lg:text-[17px] text-[#5C306C]/90 leading-[1.75]">
+                  {description}
+                </p>
+                
+                {/* Read more button */}
+                {(secondaryDescription || details) && (
+                  <button
+                    type="button"
+                    onClick={() => setExpanded(true)}
+                    className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#FF9966] hover:text-[#E07B4C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded group mt-2"
+                    aria-expanded={expanded}
+                    aria-controls="expanded-content"
+                  >
+                    <span className="underline underline-offset-4 decoration-[#FF9966]/40 group-hover:decoration-[#FF9966] transition-colors">
+                      Read more
+                    </span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                )}
+                
+                {/* Bullet points */}
+                <ul className="pt-2 grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-3">
+                  {items.map((item: string, i: number) => (
+                    <motion.li
+                      key={i}
+                      className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] group"
+                      initial={{ opacity: 0, x: 15 }}
+                      animate={{ opacity: active ? 1 : 0, x: active ? 0 : 15 }}
+                      transition={{ delay: prefersReducedMotion ? 0 : 0.2 + (i * 0.06) }}
                     >
-                      &ldquo;{quote}&rdquo;
-                    </div>
-                  </motion.blockquote>
-                ) : (
-                  <span key="quote-spacer" />
-                )
-              ) : (
-                <motion.button
-                  key="back-button"
+                      <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <ArrowRight className="w-3 h-3 text-[#FF9966]" />
+                      </div>
+                      <span className="leading-relaxed">{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+                
+                {/* Mobile quote */}
+                {quote && (
+                  <blockquote className="lg:hidden mt-6 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-base leading-relaxed italic">
+                    &ldquo;{quote}&rdquo;
+                  </blockquote>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        ) : (
+          /* ============================================
+             EXPANDED STATE: Clean two-column layout
+             Title stays LEFT, content takes RIGHT
+             ============================================ */
+          <motion.div
+            key="expanded-layout"
+            id="expanded-content"
+            className="grid gap-8 lg:gap-10 items-start w-full lg:grid-cols-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+          >
+            {/* LEFT COLUMN - Title and navigation */}
+            <div className="lg:col-span-4 space-y-4 lg:space-y-5 lg:pr-4">
+              {/* Back button row - desktop */}
+              <div className="hidden lg:flex items-center gap-2 text-sm">
+                <button
                   type="button"
                   onClick={() => setExpanded(false)}
-                  className="group inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded pl-5 border-l-2 border-[#FF9966]/30 hover:border-[#FF9966]/60"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{
-                    duration: prefersReducedMotion ? 0 : DURATION_FAST,
-                    ease: "easeOut",
-                  }}
-                  whileHover={{ x: -3 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="group inline-flex items-center gap-1.5 font-medium text-[#5C306C]/50 hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
                 >
-                  <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                  <span>Back to overview</span>
-                </motion.button>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
+                  <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
+                  <span>Back</span>
+                </button>
+                <span className="text-[#5C306C]/20 mx-1">|</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FF9966]/80 truncate">
+                  {label}
+                </span>
+              </div>
+              
+              {/* Icon */}
+              <div className="flex items-center text-[#FF9966]">
+                <div className="relative w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center shrink-0">
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF9966]/15 to-[#FF9966]/5" />
+                  <div className="absolute inset-0 rounded-xl border border-[#FF9966]/20" />
+                  <div className="relative z-10">{icon}</div>
+                </div>
+              </div>
+              
+              {/* Title */}
+              <h2 className="text-2xl sm:text-3xl lg:text-[2.25rem] font-light text-[#5C306C] leading-[1.2] tracking-tight pr-2">
+                {title}
+              </h2>
+              
+              {/* Visual element - desktop only, below title */}
+              <div className="hidden lg:block pt-4 mt-4 border-t border-[#5C306C]/8">
+                <motion.div 
+                  className="opacity-50 max-w-[180px]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.5 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
+                >
+                  <ContentVisual title={title} />
+                </motion.div>
+              </div>
+            </div>
 
-        {/* RIGHT COLUMN - Main content */}
-        <motion.div
-          className="lg:pl-12 relative"
-          layout
-          transition={{
-            layout: {
-              duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
-              ease: EASE_OUT_EXPO,
-            },
-          }}
-          data-storytelling-contentcol="true"
-        >
-          {/* Vertical divider - base gray track */}
-          <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[2px] bg-[#5C306C]/10 rounded-full" />
-          {/* Animated coral fill */}
-          <motion.div 
-            className="hidden lg:block absolute left-0 top-0 w-[2px] bg-[#FF9966] rounded-full origin-top"
-            style={{ height: '100%', scaleY: active ? fillProgress : 0 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-          />
-          
-          {/* Content with layout prop for smooth height transitions */}
-          <motion.div layout className="space-y-6">
-            <AnimatePresence mode="wait">
-              {!expanded ? (
-                <motion.div
-                  key="collapsed"
-                  className="space-y-6"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ 
-                    duration: prefersReducedMotion ? 0 : 0.25, 
-                    ease: EASE_OUT_CUBIC 
-                  }}
-                >
-                  {/* Main description */}
-                  <p className="text-base md:text-lg lg:text-[17px] text-[#5C306C]/90 leading-[1.75]">
-                    {description}
+            {/* RIGHT COLUMN - Main content */}
+            <div className="lg:col-span-8 lg:pl-8 xl:pl-10 relative">
+              {/* Vertical divider - desktop */}
+              <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-[#5C306C]/10" />
+              
+              {/* Lead paragraph */}
+              <p className="text-base lg:text-[17px] text-[#5C306C] leading-[1.7] mb-5">
+                {description}
+              </p>
+              
+              {/* Accent line */}
+              <div className="w-10 h-[2px] bg-gradient-to-r from-[#FF9966] to-transparent rounded-full mb-5" />
+              
+              {/* Body content */}
+              <div className="space-y-4 lg:space-y-5 lg:pr-8 xl:pr-12">
+                {secondaryDescription && (
+                  <p className="text-[15px] lg:text-[15.5px] text-[#5C306C]/75 leading-[1.8]">
+                    {secondaryDescription}
                   </p>
-                  
-                  {/* Read more button */}
-                  {(secondaryDescription || details) && (
-                    <button
-                      type="button"
-                      onClick={() => setExpanded(true)}
-                      className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#FF9966] hover:text-[#E07B4C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded group mt-2"
-                      aria-expanded={expanded}
-                      aria-controls="expanded-content"
-                    >
-                      <span className="underline underline-offset-4 decoration-[#FF9966]/40 group-hover:decoration-[#FF9966] transition-colors">
-                        Read more
-                      </span>
-                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  )}
-                  
-                  {/* Bullet points */}
-                  <ul className="pt-2 grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-3">
-                    {items.map((item: string, i: number) => (
-                      <motion.li
-                        key={i}
-                        className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] group"
-                        initial={{ opacity: 0, x: 15 }}
-                        animate={{ opacity: active ? 1 : 0, x: active ? 0 : 15 }}
-                        transition={{ delay: prefersReducedMotion ? 0 : 0.25 + (i * 0.08) }}
-                      >
-                        <motion.div
-                          className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#FF9966]/20 transition-colors"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                        >
-                          <ArrowRight className="w-3 h-3 text-[#FF9966]" />
-                        </motion.div>
-                        <span className="leading-relaxed group-hover:text-[#5C306C] transition-colors">{item}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                  
-                  {/* Mobile quote */}
-                  {quote && (
-                    <blockquote className="lg:hidden mt-6 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-base leading-relaxed italic">
-                      &ldquo;{quote}&rdquo;
-                    </blockquote>
-                  )}
-                </motion.div>
-              ) : (
-                /* EXPANDED STATE: Reading mode */
-                <motion.div
-                  key="expanded"
-                  id="expanded-content"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ 
-                    duration: prefersReducedMotion ? 0 : 0.25, 
-                    ease: EASE_OUT_CUBIC 
-                  }}
-                >
-                  {/* Editorial-style prose layout - EXPANDED with more vertical space */}
-                  <motion.article
-                    className="prose-container"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: prefersReducedMotion ? 0 : 0.3, delay: 0.1 }}
-                  >
-                    {/* Lead paragraph - LARGER in expanded state */}
-                    <p className="text-[20px] lg:text-[22px] xl:text-[24px] text-[#5C306C] leading-[1.7] tracking-[-0.015em] mb-8">
-                      {description}
-                    </p>
-
-                    {/* Visual breath - wider accent line */}
-                    <div className="my-10 flex items-center gap-4">
-                      <motion.div
-                        className="h-[2px] bg-gradient-to-r from-[#FF9966] to-[#FF9966]/0 rounded-full"
-                        initial={{ width: 48 }}
-                        animate={{ width: 80 }}
-                        transition={{
-                          duration: prefersReducedMotion ? 0 : 0.4,
-                          ease: EASE_OUT_EXPO,
-                        }}
-                      />
-                    </div>
-
-                    {/* Body content - LARGER with more spacing */}
-                    <div className="space-y-8">
-                      {secondaryDescription && (
-                        <p className="text-[17px] lg:text-[18px] xl:text-[19px] text-[#5C306C]/85 leading-[1.9]">
-                          {secondaryDescription}
-                        </p>
-                      )}
-
-                      {details && (
-                        <p className="text-[17px] lg:text-[18px] xl:text-[19px] text-[#5C306C]/85 leading-[1.9]">
-                          {details}
-                        </p>
-                      )}
-                    </div>
-                  </motion.article>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                )}
+                
+                {details && (
+                  <p className="text-[15px] lg:text-[15.5px] text-[#5C306C]/75 leading-[1.8]">
+                    {details}
+                  </p>
+                )}
+              </div>
+              
+              {/* End flourish - desktop */}
+              <div className="hidden lg:flex items-center gap-2 mt-8 pt-5 border-t border-[#5C306C]/6">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#FF9966]/30" />
+                <div className="w-1 h-1 rounded-full bg-[#5C306C]/10" />
+              </div>
+            </div>
+            
+            {/* MOBILE: Back button footer */}
+            <div className="lg:hidden col-span-full mt-4 pt-5 border-t border-[#5C306C]/10 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors py-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>Back to overview</span>
+              </button>
+              <div className="scale-[0.4] opacity-30 origin-right">
+                <ContentVisual title={title} />
+              </div>
+            </div>
           </motion.div>
-        </motion.div>
-      </motion.div>
+        )}
+      </AnimatePresence>
     </Panel>
   );
 }
