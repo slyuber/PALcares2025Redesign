@@ -315,7 +315,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                   className="absolute inset-0 z-20 pointer-events-none"
                   initial={{ clipPath: "circle(0% at 50% 50%)" }}
                   animate={{ clipPath: "circle(150% at 50% 50%)" }}
-                  transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
+                  transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] as const }}
                   style={{
                     background:
                       "linear-gradient(to bottom, rgba(249,247,245,0.95), rgba(249,247,245,0.8))",

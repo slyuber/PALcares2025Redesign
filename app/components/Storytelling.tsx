@@ -20,7 +20,6 @@ export default function Storytelling() {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
-    layoutEffect: false,  // Fix for Next.js production builds
   });
 
   const [activeIndex, setActiveIndex] = useState(0);
