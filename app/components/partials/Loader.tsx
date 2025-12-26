@@ -18,7 +18,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   const [isFinished, setIsFinished] = useState(false);
 
   // #region agent log
-  const _dbgLoaderRenderCountRef = useState(0)[0]; // stable placeholder, avoids lint about unused ref in render
+  // const _dbgLoaderRenderCountRef = useState(0)[0]; // stable placeholder, avoids lint about unused ref in render
   // (useRef in render-only is fine; kept minimal)
   // #endregion agent log
 

@@ -1,11 +1,13 @@
 // app/components/Contact.tsx
 // MODIFICATION: 2024-12-16 - Issue 5: Award-winning inspired two-column contact section
 // Design inspiration: Kinsta, Formidable Forms minimal approach, warm nonprofit aesthetics
+// ENHANCEMENT: 2025-01 - Award-winning design: Background patterns, enhanced icon interactions
 "use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Send, CheckCircle } from "lucide-react";
+import BackgroundPatterns from "./partials/BackgroundPatterns";
 
 export default function Contact() {
   const prefersReducedMotion = useReducedMotion();
@@ -27,7 +29,7 @@ export default function Contact() {
       className="py-24 md:py-32 relative overflow-hidden"
       aria-label="Contact us"
     >
-      {/* Subtle organic background */}
+      {/* Enhanced background: Subtle organic + award-winning patterns */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Warm gradient wash */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#FFF9F5] via-transparent to-[#F5F0EB]/50" />
@@ -35,6 +37,8 @@ export default function Contact() {
         <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#FF9966]/[0.04] blur-3xl" />
         {/* Decorative orb - bottom left */}
         <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-[#8FAE8B]/[0.05] blur-3xl" />
+        {/* Award-winning subtle patterns */}
+        <BackgroundPatterns variant="connection" opacity={0.5} />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
@@ -199,7 +203,12 @@ export default function Contact() {
                       >
                         <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                         {!isSubmitting && (
-                          <Send className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                          <motion.div
+                            whileHover={{ x: 2 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                          >
+                            <Send className="w-4 h-4" />
+                          </motion.div>
                         )}
                       </button>
                     </div>
@@ -211,9 +220,32 @@ export default function Contact() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="flex flex-col items-center justify-center py-16 text-center space-y-6"
                   >
-                    <div className="w-16 h-16 rounded-full bg-[#8FAE8B]/15 flex items-center justify-center">
-                      <CheckCircle className="w-8 h-8 text-[#6B9B67]" />
-                    </div>
+                    <motion.div
+                      className="relative w-16 h-16 rounded-full flex items-center justify-center icon-container-enhanced"
+                      initial={{ scale: 0.8 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    >
+                      {/* Multi-layer background */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#8FAE8B]/20 to-[#8FAE8B]/10" />
+                      <div className="absolute inset-0 rounded-full border border-[#8FAE8B]/30" />
+                      <motion.div
+                        className="absolute inset-0 rounded-full"
+                        style={{
+                          background: "radial-gradient(circle at center, rgba(107, 155, 103, 0.2) 0%, transparent 70%)",
+                          filter: "blur(8px)",
+                        }}
+                        animate={{
+                          opacity: [0.5, 0.7, 0.5],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      />
+                      <CheckCircle className="relative z-10 w-8 h-8 text-[#6B9B67]" />
+                    </motion.div>
                     <div>
                       <h3 className="text-2xl font-light text-[#5C306C] mb-2">Message Sent</h3>
                       <p className="text-[#5C306C]/60">We&apos;ll be in touch soon.</p>

@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue } from "framer-motion";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
 import Image from "next/image";
@@ -15,11 +15,6 @@ export default function Storytelling() {
   const mobileContentRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const [headerHeight, setHeaderHeight] = useState(0);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Desktop scroll tracking
   const { scrollYProgress } = useScroll({
@@ -478,6 +473,7 @@ const Panel = React.memo(({ active, children }: { active: boolean, children: Rea
     </div>
   );
 });
+Panel.displayName = 'Panel';
 
 interface ContentPanelProps {
   active: boolean;
@@ -490,7 +486,7 @@ interface ContentPanelProps {
   items: string[];
   quote?: string;
   prefersReducedMotion: boolean | null;
-  fillProgress?: any;
+  fillProgress?: MotionValue<number> | number;
 }
 
 // Mobile version - shows all content inline
@@ -506,11 +502,26 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
 }) {
   return (
     <article className="space-y-6 sm:space-y-8 py-10 sm:py-14 border-b border-[#5C306C]/10 last:border-b-0">
-      {/* Header Section */}
+      {/* Header Section - Enhanced icon container */}
       <header className="flex items-center gap-3 text-[#FF9966]">
-        <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#FF9966]/10 flex items-center justify-center shrink-0">
-          {icon}
-        </div>
+        <motion.div
+          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center shrink-0 icon-container-enhanced"
+          whileHover={{ scale: 1.05, rotate: -2 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        >
+          {/* Multi-layer background */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF9966]/15 to-[#FF9966]/5" />
+          <div className="absolute inset-0 rounded-xl border border-[#FF9966]/20" />
+          <motion.div
+            className="absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
+            style={{
+              background: "radial-gradient(circle at center, rgba(255, 153, 102, 0.2) 0%, transparent 70%)",
+              filter: "blur(8px)",
+            }}
+          />
+          <div className="relative z-10">{icon}</div>
+        </motion.div>
         <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.15em]">
           {label}
         </span>
@@ -547,9 +558,13 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
             key={i}
             className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] sm:text-base min-h-[44px]"
           >
-            <div className="w-6 h-6 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5">
+            <motion.div
+              className="w-6 h-6 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#FF9966]/20 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
               <ArrowRight className="w-3 h-3 text-[#FF9966]" />
-            </div>
+            </motion.div>
             <span className="leading-relaxed">{item}</span>
           </li>
         ))}
@@ -601,11 +616,26 @@ function ContentPanel({
           "space-y-5",
           !expanded && "lg:col-span-4"
         )} data-storytelling-leftcol="true">
-          {/* Icon + Label row */}
+          {/* Icon + Label row - Enhanced icon container */}
           <div className="flex items-center gap-3 text-[#FF9966]">
-            <div className="w-10 h-10 rounded-xl bg-[#FF9966]/10 flex items-center justify-center shrink-0">
-              {icon}
-            </div>
+            <motion.div
+              className="relative w-14 h-14 rounded-xl flex items-center justify-center shrink-0 icon-container-enhanced"
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
+              {/* Multi-layer background */}
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF9966]/15 to-[#FF9966]/5" />
+              <div className="absolute inset-0 rounded-xl border border-[#FF9966]/20" />
+              <motion.div
+                className="absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: "radial-gradient(circle at center, rgba(255, 153, 102, 0.2) 0%, transparent 70%)",
+                  filter: "blur(8px)",
+                }}
+              />
+              <div className="relative z-10">{icon}</div>
+            </motion.div>
             <span className="text-xs font-semibold uppercase tracking-[0.15em]">
               {label}
             </span>
@@ -726,9 +756,13 @@ function ContentPanel({
                       animate={{ opacity: active ? 1 : 0, x: active ? 0 : 15 }}
                       transition={{ delay: prefersReducedMotion ? 0 : 0.25 + (i * 0.08) }}
                     >
-                      <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#FF9966]/20 transition-colors">
+                      <motion.div
+                        className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#FF9966]/20 transition-colors"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      >
                         <ArrowRight className="w-3 h-3 text-[#FF9966]" />
-                      </div>
+                      </motion.div>
                       <span className="leading-relaxed group-hover:text-[#5C306C] transition-colors">{item}</span>
                     </motion.li>
                   ))}

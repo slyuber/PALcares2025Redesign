@@ -1,5 +1,6 @@
 // app/components/DeeperContext.tsx
 // MODIFICATION: 2024-12-16 - Issue 4: Left alignment, proper title/subtitle/body hierarchy, reduced color emphasis
+// ENHANCEMENT: 2025-01 - Award-winning design: Background patterns, enhanced visual depth
 "use client";
 
 import { useRef } from "react";
@@ -10,6 +11,7 @@ import {
   useTransform,
   useReducedMotion,
 } from "framer-motion";
+import BackgroundPatterns from "./partials/BackgroundPatterns";
 
 export default function DeeperContext() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,8 +36,12 @@ export default function DeeperContext() {
       className="relative py-24 md:py-32"
       aria-label="The deeper context - the work behind it"
     >
-      {/* Very subtle warm wash - blends with page background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFF9F5]/20 to-transparent pointer-events-none" />
+      {/* Enhanced background: Warm wash + award-winning patterns */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFF9F5]/20 to-transparent" />
+        {/* Award-winning subtle patterns */}
+        <BackgroundPatterns variant="organic-grid" opacity={0.6} />
+      </div>
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
         {/* Header - Updated hierarchy: label → title → subtitle */}

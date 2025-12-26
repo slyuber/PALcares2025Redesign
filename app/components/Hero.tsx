@@ -1,11 +1,13 @@
 // app/components/Hero.tsx
 // PROVEN PATTERN: useTransform for scroll-linked animations (no springs needed for simple fade/move)
+// ENHANCEMENT: 2025-01 - Award-winning design: Subtle background patterns
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
+import BackgroundPatterns from "./partials/BackgroundPatterns";
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -54,6 +56,11 @@ export default function Hero() {
 
       {/* Secondary Orb - MODIFICATION: 2024-12-16 - Softer edges */}
       <div className="absolute top-[70%] left-[75%] w-[70vmax] h-[70vmax] bg-[radial-gradient(circle,_rgba(92,48,108,0.04)_0%,_rgba(92,48,108,0.01)_40%,_transparent_70%)] blur-xl pointer-events-none z-0" />
+
+      {/* Award-winning subtle patterns - very subtle in hero */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
+        <BackgroundPatterns variant="watercolor" opacity={0.3} />
+      </div>
 
       {/* Organic Lines - Horizontal Flow */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
@@ -206,18 +213,31 @@ export default function Hero() {
             delay: 0.6,
           }}
         >
-          <a
+          <motion.a
             href="#storytelling"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 hover:scale-[1.02] active:scale-[0.98] transition-transform text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
+            whileHover={prefersReducedMotion ? {} : {
+              scale: 1.02,
+              boxShadow: "0 8px 24px rgba(92, 48, 108, 0.35)",
+            }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
             See How We Work
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="#contact"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C] text-[#5C306C] font-medium hover:bg-[#5C306C] hover:text-white transition-colors text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"
+            whileHover={prefersReducedMotion ? {} : {
+              scale: 1.02,
+              backgroundColor: "#5C306C",
+              color: "#ffffff",
+            }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
             Start a Conversation
-          </a>
+          </motion.a>
         </motion.div>
       </div>
 

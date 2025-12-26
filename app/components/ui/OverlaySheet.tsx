@@ -45,7 +45,7 @@ export function OverlaySheet({
   const lockStyles = useMemo(() => {
     const w = getScrollbarWidth();
     return { paddingRight: w > 0 ? `${w}px` : "" };
-  }, [open]);
+  }, []);
 
   useEffect(() => {
     if (!open) return;

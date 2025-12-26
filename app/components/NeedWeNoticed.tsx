@@ -1,7 +1,9 @@
 // app/components/NeedWeNoticed.tsx
+// ENHANCEMENT: 2025-01 - Award-winning design: Background patterns
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import BackgroundPatterns from "./partials/BackgroundPatterns";
 
 export default function NeedWeNoticed() {
   const prefersReducedMotion = useReducedMotion();
@@ -35,8 +37,12 @@ export default function NeedWeNoticed() {
       className="py-24 md:py-32 lg:py-40 relative overflow-hidden"
       aria-label="Where we started - the need we noticed"
     >
-      {/* Subtle background wash */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFF9F5]/20 to-transparent pointer-events-none" />
+      {/* Enhanced background: Subtle wash + award-winning patterns */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFF9F5]/20 to-transparent" />
+        {/* Award-winning subtle patterns */}
+        <BackgroundPatterns variant="organic-grid" opacity={0.4} />
+      </div>
 
       <motion.div
         className="max-w-5xl mx-auto px-6 md:px-12 relative z-10"
