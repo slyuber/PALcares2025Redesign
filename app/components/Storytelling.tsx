@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue, useInView } from "framer-motion";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
 import { EASE_OUT_EXPO } from "../lib/animation-constants";
@@ -21,6 +21,12 @@ export default function Storytelling() {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
+  });
+
+  // Track if Storytelling section is in view for skip button visibility
+  const isStorytellingInView = useInView(containerRef, { 
+    margin: "-20% 0px -20% 0px",
+    once: false // Re-evaluate as user scrolls
   });
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -81,11 +87,12 @@ export default function Storytelling() {
   // Two-state intro reveal
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
   const smoothSubtitleOpacity = subtitleOpacity;
-  // Text fill progress: 0% to 100% over scroll range [0.02, 0.08]
-  // Direct height percentage: 0% (hidden) to 100% (fully visible)
-  const ecosystemFillHeight = useTransform(scrollYProgress, [0.02, 0.08], [0, 100]);
-  // Transform fill height to CSS height percentage string
-  const ecosystemOverlayHeight = useTransform(ecosystemFillHeight, (v) => `${v}%`);
+  // PROVEN PATTERN: Top-to-bottom clipPath wipe - GPU-accelerated, smooth text reveal
+  // Using inset(top right bottom left). To reveal TOP -> BOTTOM, animate the BOTTOM inset from 100% -> 0%.
+  // (Animating TOP inset would reveal from bottom -> top, which is what you were seeing.)
+  // Quick reveal: tight scroll range [0.02, 0.06] for snappy effect
+  const wipeBottom = useTransform(scrollYProgress, [0.02, 0.06], [100, 0]);
+  const ecosystemClipPath = useTransform(wipeBottom, (v) => `inset(0 0 ${v}% 0)`);
 
   return (
     <>
@@ -157,7 +164,7 @@ export default function Storytelling() {
               label="Building Local Capacity"
               title="PAL Labs"
               description="PAL Labs extends technical capacity to organizations through supervised placements—connecting emerging talent with real project needs while building on the relationships and infrastructure Teams has already established."
-              secondaryDescription="Labs operates on the foundation Teams creates. The organizational understanding, the trusted relationships, the technical infrastructure—all become the base for meaningful placements. A student generalizes an existing solution for sector-wide use. A newcomer builds custom tools for unique program needs. Someone transitioning careers creates data infrastructure. Different people, different skills, same structure: learn in our environments under mentorship, apply those skills where they're needed, leave something maintainable behind."
+              secondaryDescription="Labs builds on what Teams creates—the organizational understanding, the relationships, the infrastructure. That foundation makes meaningful placements possible. A student takes a reporting dashboard and generalizes it for broader use. A newcomer builds a simple intake form for a specific workflow. Someone changing careers connects two systems that used to require manual entry. Different people, different skills, same idea: learn under mentorship, apply it where it's needed, leave something maintainable behind."
               details="We gather funding from foundations, government, and larger organizations who understand the sector-wide benefit—pooling resources to run lean cohorts where technical talent learns specialized skills. The technical work is sophisticated—data engineering, cloud architecture, custom development—but connected to frontline reality through existing relationships. That messy data isn't abstract; it represents real people receiving real services."
               items={[
                 "Emerging talent learns specialized skills, then applies them to community needs",
@@ -279,12 +286,15 @@ export default function Storytelling() {
                   >
                     An{" "}
                     <span className="relative inline-block">
-                      {/* Base text - always visible */}
-                      <span className="text-[#5C306C] inline-block">ecosystem</span>
-                      {/* Overlay container - overflow hidden, height controlled */}
+                      {/* Layout placeholder - invisible, reserves space, no color visible */}
+                      <span className="invisible inline-block">ecosystem</span>
+                      {/* PROVEN PATTERN: Top-to-bottom clipPath wipe - no base color visible during reveal */}
                       <motion.span
-                        className="absolute left-0 top-0 text-[#FF9966] inline-block overflow-hidden"
-                        style={{ height: ecosystemOverlayHeight }}
+                        className="absolute left-0 top-0 text-[#FF9966] inline-block"
+                        style={{ 
+                          clipPath: ecosystemClipPath,
+                          willChange: "clip-path" // GPU hint for smooth animation
+                        }}
                       >
                         ecosystem
                       </motion.span>
@@ -345,7 +355,7 @@ export default function Storytelling() {
                 label="Building Local Capacity"
                 title="PAL Labs"
                 description={<>PAL Labs extends technical capacity to organizations through <strong className="font-semibold text-[#5C306C]">supervised placements</strong>—connecting emerging talent with real project needs while building on the relationships and infrastructure Teams has already established.</>}
-                secondaryDescription={<>Labs operates on the <strong className="font-semibold text-[#5C306C]">foundation Teams creates</strong>. The organizational understanding, the trusted relationships, the technical infrastructure—all become the base for meaningful placements. A student generalizes an existing solution for sector-wide use. A newcomer builds custom tools for unique program needs. Someone transitioning careers creates data infrastructure. <strong className="font-semibold text-[#5C306C]">Different people, different skills, same structure</strong>: learn in our environments under mentorship, apply those skills where they&apos;re needed, leave something maintainable behind.</>}
+                secondaryDescription={<>Labs builds on what Teams creates—the organizational understanding, the relationships, the infrastructure. That foundation makes meaningful placements possible. A student takes a reporting dashboard and generalizes it for broader use. A newcomer builds a simple intake form for a specific workflow. Someone changing careers connects two systems that used to require manual entry. Different people, different skills, same idea: learn under mentorship, apply it where it&apos;s needed, leave something maintainable behind.</>}
                 details={<>We gather funding from foundations, government, and larger organizations who understand the sector-wide benefit—<strong className="font-semibold text-[#5C306C]">pooling resources to run lean cohorts</strong> where technical talent learns specialized skills. The technical work is sophisticated—data engineering, cloud architecture, custom development—but <strong className="font-semibold text-[#5C306C]">connected to frontline reality</strong> through existing relationships. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
                 items={[
                   "Emerging talent learns specialized skills, then applies them to community needs",
@@ -369,7 +379,7 @@ export default function Storytelling() {
             {/* Progress Indicator */}
             <div className="hidden xl:flex flex-col items-center justify-center gap-5 pr-6 w-40" data-storytelling-rail="true">
               {(() => {
-                const labels = ["Intro", "Teams", "Research", "Labs", "Summary"] as const;
+                const labels = ["Intro", "Teams", "Research", "Labs", "How It Connects"] as const;
                 const scrollToStep = (i: number) => {
                   const el = containerRef.current;
                   if (!el) return;
@@ -446,22 +456,25 @@ export default function Storytelling() {
             {`Viewing section ${activeIndex + 1} of 5`}
           </div>
 
-          {/* Skip affordance - allows users to exit scrollytelling without scrolling through all panels */}
-          {activeIndex < 4 && (
+          {/* Skip affordance - only visible when Storytelling section is in view */}
+          {isStorytellingInView && activeIndex < 4 && (
             <motion.button
               type="button"
-              className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/40 hover:text-[#5C306C]/70 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/40 hover:text-[#5C306C]/70 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/80 backdrop-blur-sm z-[60] pointer-events-auto"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.5 }}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const el = containerRef.current;
                 if (!el) return;
-                const rect = el.getBoundingClientRect();
-                const top = window.scrollY + rect.top;
-                const scrollRange = Math.max(1, el.offsetHeight - window.innerHeight);
-                // Jump to end of section
-                window.scrollTo({ top: top + scrollRange + 100, behavior: prefersReducedMotion ? "auto" : "smooth" });
+                // Scroll to the end of the storytelling section (past the 500vh container)
+                const sectionEnd = el.offsetTop + el.offsetHeight;
+                window.scrollTo({ 
+                  top: sectionEnd, 
+                  behavior: prefersReducedMotion ? "auto" : "smooth" 
+                });
               }}
               aria-label="Skip to next section"
             >
@@ -1012,7 +1025,7 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
       <div className="w-full max-w-5xl h-full flex flex-col justify-center items-center px-6 py-8">
         {/* Header Section */}
         <motion.div 
-          className="mb-8 md:mb-16 text-center"
+          className="mb-6 md:mb-10 text-center"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: active ? 1 : 0, y: active ? 0 : 10 }}
           transition={{ duration: 0.6 }}
@@ -1081,11 +1094,12 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
         </div>
 
         {/* DESKTOP LAYOUT - Triangle with Particles */}
-        <div className="hidden md:block relative max-w-3xl mx-auto w-full" style={{ height: '400px' }}>
+        {/* Wider horizontal space, less vertical space */}
+        <div className="hidden md:block relative max-w-5xl mx-auto w-full" style={{ height: '320px' }}>
           {/* SVG Background */}
           <svg
             className="absolute inset-0 w-full h-full"
-            viewBox="0 0 600 280"
+            viewBox="0 0 800 240"
             preserveAspectRatio="xMidYMid meet"
             style={{ zIndex: 0 }}
           >
@@ -1094,38 +1108,38 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
               <g>
                 <motion.circle
                   r="3" fill="#FF9966"
-                  initial={{ opacity: 0, cx: 300, cy: 42 }}
-                  animate={{ opacity: [0, 0.55, 0], cx: [300, 120], cy: [42, 210], scale: [0.9, 1.2, 0.9] }}
+                  initial={{ opacity: 0, cx: 400, cy: 40 }}
+                  animate={{ opacity: [0, 0.55, 0], cx: [400, 160], cy: [40, 180], scale: [0.9, 1.2, 0.9] }}
                   transition={{ duration: 4.6, delay: 0.0, repeat: Infinity, ease: "linear" }}
                 />
                 <motion.circle
                   r="2.5" fill="#FF9966"
-                  initial={{ opacity: 0, cx: 120, cy: 210 }}
-                  animate={{ opacity: [0, 0.5, 0], cx: [120, 300], cy: [210, 42], scale: [0.8, 1.15, 0.8] }}
+                  initial={{ opacity: 0, cx: 160, cy: 180 }}
+                  animate={{ opacity: [0, 0.5, 0], cx: [160, 400], cy: [180, 40], scale: [0.8, 1.15, 0.8] }}
                   transition={{ duration: 4.9, delay: 1.2, repeat: Infinity, ease: "linear" }}
                 />
                 <motion.circle
                   r="3" fill="#FF9966"
-                  initial={{ opacity: 0, cx: 300, cy: 42 }}
-                  animate={{ opacity: [0, 0.55, 0], cx: [300, 480], cy: [42, 210], scale: [0.9, 1.2, 0.9] }}
+                  initial={{ opacity: 0, cx: 400, cy: 40 }}
+                  animate={{ opacity: [0, 0.55, 0], cx: [400, 640], cy: [40, 180], scale: [0.9, 1.2, 0.9] }}
                   transition={{ duration: 4.7, delay: 0.6, repeat: Infinity, ease: "linear" }}
                 />
                 <motion.circle
                   r="2.5" fill="#FF9966"
-                  initial={{ opacity: 0, cx: 480, cy: 210 }}
-                  animate={{ opacity: [0, 0.5, 0], cx: [480, 300], cy: [210, 42], scale: [0.8, 1.15, 0.8] }}
+                  initial={{ opacity: 0, cx: 640, cy: 180 }}
+                  animate={{ opacity: [0, 0.5, 0], cx: [640, 400], cy: [180, 40], scale: [0.8, 1.15, 0.8] }}
                   transition={{ duration: 5.0, delay: 1.8, repeat: Infinity, ease: "linear" }}
                 />
                 <motion.circle
                   r="2.75" fill="#FF9966"
-                  initial={{ opacity: 0, cx: 120, cy: 210 }}
-                  animate={{ opacity: [0, 0.5, 0], cx: [120, 480], cy: [210, 210], scale: [0.85, 1.15, 0.85] }}
+                  initial={{ opacity: 0, cx: 160, cy: 180 }}
+                  animate={{ opacity: [0, 0.5, 0], cx: [160, 640], cy: [180, 180], scale: [0.85, 1.15, 0.85] }}
                   transition={{ duration: 4.4, delay: 0.3, repeat: Infinity, ease: "linear" }}
                 />
                 <motion.circle
                   r="2.75" fill="#FF9966"
-                  initial={{ opacity: 0, cx: 480, cy: 210 }}
-                  animate={{ opacity: [0, 0.5, 0], cx: [480, 120], cy: [210, 210], scale: [0.85, 1.15, 0.85] }}
+                  initial={{ opacity: 0, cx: 640, cy: 180 }}
+                  animate={{ opacity: [0, 0.5, 0], cx: [640, 160], cy: [180, 180], scale: [0.85, 1.15, 0.85] }}
                   transition={{ duration: 4.6, delay: 1.5, repeat: Infinity, ease: "linear" }}
                 />
               </g>
@@ -1134,15 +1148,16 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
 
           {/* Nodes positioned absolutely */}
           <div className="relative h-full w-full">
-            {/* Center mark */}
+            {/* Center mark - more faded, behind nodes */}
             <motion.div
-              className="absolute pointer-events-none left-1/2 top-[55%] -translate-x-1/2 -translate-y-1/2"
-              style={{ zIndex: 1 }}
+              className="absolute pointer-events-none left-1/2 top-[62%] -translate-x-1/2 -translate-y-1/2"
+              style={{ zIndex: 0 }}
               initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: active ? 0.25 : 0, scale: active ? 1 : 0.95 }}
+              animate={{ opacity: active ? 0.12 : 0, scale: active ? 1 : 0.95 }}
               transition={{ duration: 1.2, delay: 0.4 }}
             >
-              <div className="relative w-[120px] h-[114px]">
+              {/* ~15% smaller than prior 120x114 */}
+              <div className="relative w-[102px] h-[97px]">
                 <Image
                   src="/svg/PALcares_icon.svg"
                   alt="PAL Cares"
@@ -1172,7 +1187,7 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
 
             {/* Teams - Bottom Left */}
             <motion.div 
-              className="absolute left-[10%] bottom-[8%] z-10"
+              className="absolute left-[8%] bottom-[22%] z-10"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.8 }}
               transition={{ duration: 0.5, delay: prefersReducedMotion ? 0 : 0.4 }}
@@ -1190,7 +1205,7 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
 
             {/* Labs - Bottom Right */}
             <motion.div 
-              className="absolute right-[10%] bottom-[8%] z-10"
+              className="absolute right-[8%] bottom-[22%] z-10"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.8 }}
               transition={{ duration: 0.5, delay: prefersReducedMotion ? 0 : 0.6 }}

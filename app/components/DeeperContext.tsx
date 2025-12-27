@@ -47,7 +47,7 @@ export default function DeeperContext() {
         {/* Header - Updated hierarchy: label → title → subtitle */}
         <div className="text-center mb-16 md:mb-24">
           <motion.span
-            className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-[#5C306C]/60 mb-4"
+            className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
@@ -95,7 +95,7 @@ export default function DeeperContext() {
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             <div className="md:pr-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#5C306C]/50 mb-4">
+              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
                 Meeting You Where You Are
               </span>
               <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">
@@ -126,7 +126,7 @@ export default function DeeperContext() {
           >
             <div className="hidden md:block" />
             <div className="md:pl-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#5C306C]/50 mb-4">
+              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
                 Frontline Expertise
               </span>
               <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">
@@ -152,7 +152,7 @@ export default function DeeperContext() {
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             <div className="md:pr-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#5C306C]/50 mb-4">
+              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
                 Building the Conditions
               </span>
               <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">
@@ -181,7 +181,7 @@ export default function DeeperContext() {
           >
             <div className="hidden md:block" />
             <div className="md:pl-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#5C306C]/50 mb-4">
+              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
                 Small, Purposeful Decisions
               </span>
               <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">

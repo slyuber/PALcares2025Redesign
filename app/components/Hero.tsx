@@ -40,7 +40,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="hero relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden px-6 pt-20"
+      className="hero relative min-h-[100svh] flex flex-col overflow-hidden px-6 pt-20 pb-12 md:pb-16 lg:pb-20"
       aria-label="Hero section - PALcares introduction"
     >
       {/* Soft organic wash - blends seamlessly */}
@@ -115,8 +115,9 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Content Block */}
-      <div className="relative z-10 max-w-4xl w-full text-center space-y-8 md:space-y-10">
+      {/* Content Block - Row 1: Centered content with flex-1 to push scroll indicator down */}
+      <div className="relative z-10 flex-1 flex items-center justify-center">
+        <div className="max-w-4xl w-full text-center space-y-8 md:space-y-10">
         {/* Mobile Logo - Only shows on mobile since desktop uses Header */}
         <motion.div
           className="lg:hidden flex justify-center mb-8"
@@ -240,21 +241,23 @@ export default function Hero() {
             Start a Conversation
           </motion.a>
         </motion.div>
+        </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator - Positioned at bottom right, subtle and elegant */}
       {isMounted && (
         <motion.button
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] focus-visible:ring-offset-4 rounded-lg p-2"
-          animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          type="button"
+          className="absolute bottom-8 right-6 md:bottom-12 md:right-12 flex flex-col items-center gap-1.5 z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded-lg p-2 group"
           onClick={handleScrollDown}
           aria-label="Scroll to learn more"
+          animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#5C306C]/50">
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#5C306C]/40 group-hover:text-[#5C306C]/60 transition-colors">
             Scroll
           </span>
-          <ArrowDown className="w-5 h-5 text-[#5C306C]/40" />
+          <ArrowDown className="w-4 h-4 text-[#5C306C]/40 group-hover:text-[#5C306C]/60 transition-colors" />
         </motion.button>
       )}
     </section>

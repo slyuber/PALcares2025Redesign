@@ -34,7 +34,7 @@ export default function NeedWeNoticed() {
   return (
     <section
       id="where-we-started"
-      className="py-24 md:py-32 lg:py-40 relative overflow-hidden"
+      className="pt-16 pb-24 md:pt-20 md:pb-32 lg:pt-24 lg:pb-40 relative overflow-hidden"
       aria-label="Where we started - the need we noticed"
     >
       {/* Enhanced background: Subtle wash + award-winning patterns */}
