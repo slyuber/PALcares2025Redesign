@@ -50,7 +50,7 @@ export default function DeeperContext() {
             className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-[#5C306C]/60 mb-4"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             Our Approach
@@ -59,7 +59,7 @@ export default function DeeperContext() {
             className="text-3xl md:text-4xl lg:text-5xl font-light text-[#5C306C] tracking-tight mb-4"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.1 }}
           >
             The Deeper Context
@@ -68,7 +68,7 @@ export default function DeeperContext() {
             className="text-base md:text-lg text-[#5C306C]/70 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.2 }}
           >
             What makes genuine partnership possible—and why it matters for the work.
@@ -91,7 +91,7 @@ export default function DeeperContext() {
             className="relative grid md:grid-cols-2 gap-8 md:gap-16"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             <div className="md:pr-16">
@@ -121,7 +121,7 @@ export default function DeeperContext() {
             className="relative grid md:grid-cols-2 gap-8 md:gap-16 md:-mt-16"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             <div className="hidden md:block" />
@@ -148,7 +148,7 @@ export default function DeeperContext() {
             className="relative grid md:grid-cols-2 gap-8 md:gap-16 md:-mt-8"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             <div className="md:pr-16">
@@ -176,7 +176,7 @@ export default function DeeperContext() {
             className="relative grid md:grid-cols-2 gap-8 md:gap-16 md:-mt-8"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
             <div className="hidden md:block" />

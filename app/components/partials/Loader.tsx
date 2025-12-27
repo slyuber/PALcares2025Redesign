@@ -56,11 +56,6 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     }
   }, [loaderSeen, showLoader]);
 
-  // #region agent log
-  useEffect(() => {
-    fetch('http://127.0.0.1:7242/ingest/c686fb35-8db3-46c2-9758-79707c3550fe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Loader.tsx:state',message:'loader state change',data:{initialized,showLoader,loaderSeen,isReady,isFinished,prefersReducedMotion},timestamp:Date.now(),sessionId:'debug-session',runId:'baseline',hypothesisId:'C'})}).catch(()=>{});
-  }, [initialized, showLoader, loaderSeen, isReady, isFinished, prefersReducedMotion]);
-  // #endregion agent log
 
   // Animation timeline
   useEffect(() => {
@@ -118,10 +113,10 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       }, 1200);
     };
 
-    window.addEventListener("click", handleInput);
-    window.addEventListener("wheel", handleInput);
-    window.addEventListener("keydown", handleInput);
-    window.addEventListener("touchstart", handleInput);
+    window.addEventListener("click", handleInput, { passive: true });
+    window.addEventListener("wheel", handleInput, { passive: true });
+    window.addEventListener("keydown", handleInput, { passive: true });
+    window.addEventListener("touchstart", handleInput, { passive: true });
 
     return () => {
       window.removeEventListener("click", handleInput);

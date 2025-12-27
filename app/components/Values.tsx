@@ -85,7 +85,7 @@ function ValueItem({
       className="group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.3 }}
       transition={{
         delay: prefersReducedMotion ? 0 : index * 0.1,
         duration: prefersReducedMotion ? 0 : 0.6,

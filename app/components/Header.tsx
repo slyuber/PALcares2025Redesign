@@ -4,7 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Header() {
@@ -26,14 +26,14 @@ export default function Header() {
     setMounted(true);
   }, []);
 
-  // Track scroll for subtle background
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Track scroll for subtle background - using MotionValue event to avoid per-scroll setState
+  // Only updates state when crossing the 50px threshold, not on every scroll tick
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const shouldBeScrolled = latest > 50;
+    if (shouldBeScrolled !== scrolled) {
+      setScrolled(shouldBeScrolled);
+    }
+  });
 
   // Prevent body scroll when menu is open
   useEffect(() => {

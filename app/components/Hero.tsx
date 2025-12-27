@@ -45,9 +45,10 @@ export default function Hero() {
     >
       {/* Soft organic wash - blends seamlessly */}
       {/* MODIFICATION: 2024-12-16 - Softer, more feathered edges */}
+      {/* PERF: Removed blur-3xl on large area - use larger gradient stops instead for soft edge */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.4)_0%,_transparent_70%)]" />
-        <div className="absolute top-[30%] left-[20%] w-[70vw] h-[50vh] bg-[radial-gradient(ellipse,_rgba(255,252,250,0.3)_0%,_transparent_60%)] blur-3xl" />
+        <div className="absolute top-[30%] left-[20%] w-[70vw] h-[50vh] bg-[radial-gradient(ellipse,_rgba(255,252,250,0.25)_0%,_rgba(255,252,250,0.1)_30%,_transparent_70%)]" />
       </div>
       {/* END MODIFICATION */}
 

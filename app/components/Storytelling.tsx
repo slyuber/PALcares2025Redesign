@@ -242,9 +242,10 @@ export default function Storytelling() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFFDFB]/30 to-transparent" />
 
           {/* Background Orbs */}
+          {/* PERF: Use radial gradients instead of blur-3xl on large areas for better scroll performance */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[20%] left-[20%] w-[40vw] h-[40vw] rounded-full bg-[#FF9966]/5 blur-3xl opacity-40" />
-            <div className="absolute bottom-[20%] right-[20%] w-[35vw] h-[35vw] rounded-full bg-[#5C306C]/5 blur-3xl opacity-35" />
+            <div className="absolute top-[20%] left-[20%] w-[40vw] h-[40vw] rounded-full bg-[radial-gradient(circle,_rgba(255,153,102,0.05)_0%,_rgba(255,153,102,0.02)_40%,_transparent_70%)] opacity-40" />
+            <div className="absolute bottom-[20%] right-[20%] w-[35vw] h-[35vw] rounded-full bg-[radial-gradient(circle,_rgba(92,48,108,0.05)_0%,_rgba(92,48,108,0.02)_40%,_transparent_70%)] opacity-35" />
 
             {/* Background Nature Lines */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none select-none mix-blend-multiply">
@@ -444,6 +445,30 @@ export default function Storytelling() {
           <div className="sr-only" role="status" aria-live="polite">
             {`Viewing section ${activeIndex + 1} of 5`}
           </div>
+
+          {/* Skip affordance - allows users to exit scrollytelling without scrolling through all panels */}
+          {activeIndex < 4 && (
+            <motion.button
+              type="button"
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/40 hover:text-[#5C306C]/70 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 0.5 }}
+              onClick={() => {
+                const el = containerRef.current;
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+                const top = window.scrollY + rect.top;
+                const scrollRange = Math.max(1, el.offsetHeight - window.innerHeight);
+                // Jump to end of section
+                window.scrollTo({ top: top + scrollRange + 100, behavior: prefersReducedMotion ? "auto" : "smooth" });
+              }}
+              aria-label="Skip to next section"
+            >
+              <span>Skip section</span>
+              <ArrowDown className="w-3 h-3" />
+            </motion.button>
+          )}
         </div>
       </section>
     </>
