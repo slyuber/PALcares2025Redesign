@@ -1,11 +1,35 @@
 // app/components/partials/Loader.tsx
+// 
+// COMPLETE REWRITE: 2024-12-27
+// Goal: Exact logo match + proper centering
+//
+// Logo specs (from PALcares_logo.svg):
+//   PAL:   Raleway, 46px, SemiBold (600), #4a5890 (navy)
+//   cares: Raleway, 40px, SemiBold (600), #FF9966 (orange)
+//   Ratio: PAL is 1.15x larger than cares
+//   Both on same baseline, NO space between them
+//
+// Centering approach:
+//   - Full viewport centered with flexbox
+//   - Text container uses text-align: center
+//   - All text elements are inline/inline-block
+//   - Rotating words container is inline-block with fixed width
+//
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
+// Animation words (final one is "cares")
 const words = ["teams", "labs", "research", "cares"];
+
+// EXACT colors from PALcares_logo.svg
+const COLORS = {
+  pal: "#4a5890",        // Navy blue (final state)
+  cares: "#FF9966",      // Orange
+  animating: "#5C306C",  // Purple (during animation)
+};
 
 export default function Loader({ children }: { children: React.ReactNode }) {
   const prefersReducedMotion = useReducedMotion();
@@ -17,12 +41,14 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
-  // #region agent log
-  // const _dbgLoaderRenderCountRef = useState(0)[0]; // stable placeholder, avoids lint about unused ref in render
-  // (useRef in render-only is fine; kept minimal)
-  // #endregion agent log
+  // Calculate responsive font sizes using useMemo
+  // Logo ratio: PAL (46px) / cares (40px) = 1.15
+  const fontSizes = useMemo(() => ({
+    cares: "clamp(2rem, 6vw, 4rem)",      // Base size
+    pal: "clamp(2.3rem, 6.9vw, 4.6rem)",  // 1.15x base
+  }), []);
 
-  // Check sessionStorage on mount and handle resize
+  // Check sessionStorage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       const seen = sessionStorage.getItem("loaderSeen");
@@ -31,15 +57,14 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         setLoaderSeen(true);
       }
       setInitialized(true);
-      
-      // Ensure loader doesn't block on resize - hide if it's been seen before or after a delay
+
+      // Safety timeout to prevent loader blocking
       const handleResize = () => {
         const seen = sessionStorage.getItem("loaderSeen");
         if (seen === "true" && showLoader) {
           setShowLoader(false);
           setLoaderSeen(true);
         }
-        // Also hide after 5 seconds on resize to prevent blocking
         if (showLoader && !seen) {
           setTimeout(() => {
             if (showLoader) {
@@ -50,19 +75,17 @@ export default function Loader({ children }: { children: React.ReactNode }) {
           }, 5000);
         }
       };
-      
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
     }
   }, [loaderSeen, showLoader]);
-
 
   // Animation timeline
   useEffect(() => {
     if (!showLoader || !initialized) return;
 
     if (prefersReducedMotion) {
-      // Skip animation for reduced motion
       setTimeout(() => {
         setShowLoader(false);
         setLoaderSeen(true);
@@ -71,31 +94,15 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const wordTimings = [500, 1200, 1900, 2600]; // When each word drops in
+    const wordTimings = [500, 1200, 1900, 2600];
     const timeouts: NodeJS.Timeout[] = [];
 
-    // Schedule word changes
     wordTimings.forEach((time, index) => {
-      timeouts.push(
-        setTimeout(() => {
-          setCurrentIndex(index);
-        }, time)
-      );
+      timeouts.push(setTimeout(() => setCurrentIndex(index), time));
     });
 
-    // Merge at 3.2s
-    timeouts.push(
-      setTimeout(() => {
-        setIsMerged(true);
-      }, 3200)
-    );
-
-    // Ready for input at 4s
-    timeouts.push(
-      setTimeout(() => {
-        setIsReady(true);
-      }, 4000)
-    );
+    timeouts.push(setTimeout(() => setIsMerged(true), 3200));
+    timeouts.push(setTimeout(() => setIsReady(true), 4000));
 
     return () => timeouts.forEach(clearTimeout);
   }, [showLoader, initialized, prefersReducedMotion]);
@@ -113,20 +120,12 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       }, 1200);
     };
 
-    window.addEventListener("click", handleInput, { passive: true });
-    window.addEventListener("wheel", handleInput, { passive: true });
-    window.addEventListener("keydown", handleInput, { passive: true });
-    window.addEventListener("touchstart", handleInput, { passive: true });
-
-    return () => {
-      window.removeEventListener("click", handleInput);
-      window.removeEventListener("wheel", handleInput);
-      window.removeEventListener("keydown", handleInput);
-      window.removeEventListener("touchstart", handleInput);
-    };
+    const events = ["click", "wheel", "keydown", "touchstart"] as const;
+    events.forEach((e) => window.addEventListener(e, handleInput, { passive: true }));
+    return () => events.forEach((e) => window.removeEventListener(e, handleInput));
   }, [isReady, isFinished]);
 
-  // Don't render anything until we know sessionStorage state
+  // Pre-initialization state
   if (!initialized) {
     return <div className="fixed inset-0 z-[999999] bg-[#F9F7F5]" />;
   }
@@ -136,160 +135,183 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       <AnimatePresence>
         {showLoader && (
           <motion.div
-            className="fixed inset-0 z-[999999] flex flex-col items-center justify-center overflow-hidden"
+            className="fixed inset-0 z-[999999] flex items-center justify-center overflow-hidden"
             initial={{ opacity: 1 }}
             animate={{ opacity: isFinished ? 0 : 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            style={{ 
+            style={{
               pointerEvents: isFinished ? "none" : "auto",
-              display: isFinished && !showLoader ? "none" : "flex"
+              fontFamily: "Raleway, var(--font-raleway), system-ui, sans-serif",
             }}
           >
-            {/* Organic Warm Background */}
+            {/* ═══════════════════════════════════════════
+                BACKGROUND
+            ═══════════════════════════════════════════ */}
             <div className="absolute inset-0 bg-[#F9F7F5]">
-              {/* Subtle warm gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5F1] via-[#F9F7F5] to-[#F0F4EF] opacity-80" />
-
-              {/* Organic amorphous shapes for warmth */}
+              
+              {/* Animated orbs */}
               <motion.div
                 className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-[#FF9966] rounded-full mix-blend-multiply blur-[120px]"
-                animate={
-                  prefersReducedMotion
-                    ? {}
-                    : {
-                        scale: [1, 1.1, 1],
-                        opacity: [0.08, 0.12, 0.08],
-                      }
-                }
+                animate={prefersReducedMotion ? {} : { scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
                 transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                 style={{ opacity: 0.1 }}
               />
               <motion.div
                 className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] bg-[#8FAE8B] rounded-full mix-blend-multiply blur-[120px]"
-                animate={
-                  prefersReducedMotion
-                    ? {}
-                    : {
-                        scale: [1, 1.15, 1],
-                        opacity: [0.08, 0.12, 0.08],
-                      }
-                }
-                transition={{
-                  duration: 10,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
+                animate={prefersReducedMotion ? {} : { scale: [1, 1.15, 1], opacity: [0.08, 0.12, 0.08] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 style={{ opacity: 0.1 }}
               />
               <motion.div
                 className="absolute top-[40%] left-[40%] w-[30%] h-[30%] bg-[#5C306C] rounded-full mix-blend-multiply blur-[100px]"
-                animate={
-                  prefersReducedMotion
-                    ? {}
-                    : {
-                        scale: [1, 1.2, 1],
-                        opacity: [0.04, 0.06, 0.04],
-                      }
-                }
-                transition={{
-                  duration: 12,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }}
+                animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1], opacity: [0.04, 0.06, 0.04] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                 style={{ opacity: 0.05 }}
               />
             </div>
 
-            {/* Main Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center h-full">
-              <div className="flex items-center text-4xl md:text-6xl lg:text-7xl font-light text-[#5C306C] tracking-tight">
-                {/* PAL */}
-                <motion.span
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="font-bold"
+            {/* ═══════════════════════════════════════════
+                LOGO TEXT - CENTERED
+                
+                Structure for centering:
+                [full-width, text-align: center]
+                  └── [inline-block wrapper, items-baseline]
+                        ├── PAL (inline)
+                        ├── – (inline, animates out)
+                        └── [words container] (inline-block, relative, fixed width)
+                              └── word (absolute positioned)
+            ═══════════════════════════════════════════ */}
+            <div className="relative z-10 w-full px-4">
+              <div className="text-center">
+                <span 
+                  className="inline-flex items-baseline"
+                  style={{ letterSpacing: "-0.02em" }}
                 >
-                  PAL
-                </motion.span>
+                  {/* PAL */}
+                  <motion.span
+                    style={{
+                      fontSize: fontSizes.pal,
+                      fontWeight: 600,
+                      display: "inline-block",
+                    }}
+                    initial={{ opacity: 0, x: -20, color: COLORS.animating }}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                      color: isMerged ? COLORS.pal : COLORS.animating,
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      ease: "easeOut",
+                      color: { duration: 0.8, delay: isMerged ? 0.2 : 0 },
+                    }}
+                  >
+                    PAL
+                  </motion.span>
 
-                {/* Dash - fades out during merge */}
-                <motion.span
-                  className="mx-1 md:mx-2 overflow-hidden inline-block"
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: isMerged ? 0 : 1,
-                    width: isMerged ? 0 : "auto",
-                    marginLeft: isMerged ? 0 : undefined,
-                    marginRight: isMerged ? 0 : undefined,
-                  }}
-                  transition={{ duration: 0.4 }}
-                >
-                  –
-                </motion.span>
+                  {/* Dash – animates width to 0 on merge */}
+                  <motion.span
+                    style={{
+                      fontSize: fontSizes.cares,
+                      fontWeight: 300,
+                      color: COLORS.animating,
+                      display: "inline-block",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: isMerged ? 0 : 1,
+                      width: isMerged ? 0 : "auto",
+                      paddingLeft: isMerged ? 0 : "0.15em",
+                      paddingRight: isMerged ? 0 : "0.15em",
+                    }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                    –
+                  </motion.span>
 
-                {/* Rotating Words */}
-                <div className="relative h-[1.2em] w-[180px] md:w-[280px] lg:w-[320px]">
-                  <AnimatePresence mode="popLayout">
-                    {!isMerged && currentIndex >= 0 && (
-                      <motion.span
-                        key={words[currentIndex]}
-                        className="absolute left-0 top-0"
-                        initial={{
-                          y: -50,
-                          opacity: 0,
-                          filter: "blur(10px)",
-                        }}
-                        animate={{
-                          y: 0,
-                          opacity: 1,
-                          filter: "blur(0px)",
-                        }}
-                        exit={{
-                          y: 50,
-                          opacity: 0,
-                          filter: "blur(10px)",
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 120,
-                          damping: 20,
-                          opacity: { duration: 0.2 },
-                          filter: { duration: 0.3 },
-                        }}
-                      >
-                        {words[currentIndex]}
-                      </motion.span>
-                    )}
+                  {/* Words container - inline-block with relative positioning */}
+                  <span
+                    style={{
+                      fontSize: fontSizes.cares,
+                      fontWeight: 600,
+                      display: "inline-block",
+                      position: "relative",
+                      // Fixed width = longest word to prevent layout shift during rotation
+                      // "research" is longest, but we use em units for responsiveness
+                      width: isMerged ? "2.7em" : "4em", // "cares" vs "research"
+                      height: "1.2em",
+                      verticalAlign: "baseline",
+                      textAlign: "left",
+                      transition: "width 0.4s ease-out",
+                    }}
+                  >
+                    <AnimatePresence mode="popLayout">
+                      {/* Rotating words */}
+                      {!isMerged && currentIndex >= 0 && (
+                        <motion.span
+                          key={words[currentIndex]}
+                          style={{
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            color: COLORS.animating,
+                            fontWeight: 600,
+                            whiteSpace: "nowrap",
+                          }}
+                          initial={{ y: -40, opacity: 0, filter: "blur(8px)" }}
+                          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                          exit={{ y: 40, opacity: 0, filter: "blur(8px)" }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 120,
+                            damping: 20,
+                            opacity: { duration: 0.2 },
+                            filter: { duration: 0.3 },
+                          }}
+                        >
+                          {words[currentIndex]}
+                        </motion.span>
+                      )}
 
-                    {/* Final State: "cares" merges and turns orange */}
-                    {isMerged && (
-                      <motion.span
-                        key="merged-cares"
-                        className="absolute left-0 top-0 font-light"
-                        initial={{ x: 20, color: "#5C306C" }}
-                        animate={{ x: 0, color: "#FF9966" }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 60,
-                          damping: 20,
-                          color: { duration: 0.6 },
-                        }}
-                      >
-                        cares
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </div>
+                      {/* Final "cares" - EXACT LOGO MATCH */}
+                      {isMerged && (
+                        <motion.span
+                          key="merged-cares"
+                          style={{
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            fontWeight: 600,
+                            whiteSpace: "nowrap",
+                          }}
+                          initial={{ x: 15, opacity: 0, color: COLORS.animating }}
+                          animate={{ x: 0, opacity: 1, color: COLORS.cares }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 80,
+                            damping: 20,
+                            color: { duration: 0.6 },
+                          }}
+                        >
+                          cares
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </span>
+                </span>
               </div>
             </div>
 
-            {/* Input Prompt - "Enter" with bouncing chevron */}
+            {/* ═══════════════════════════════════════════
+                ENTER PROMPT
+            ═══════════════════════════════════════════ */}
             <motion.div
-              className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-2 text-[#5C306C]/40 text-sm font-medium tracking-widest uppercase"
+              className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-2 text-sm font-medium tracking-widest uppercase"
+              style={{ color: `${COLORS.pal}66` }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: isReady ? 1 : 0, y: isReady ? 0 : 10 }}
               transition={{ duration: 0.8 }}
@@ -303,7 +325,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
               </motion.div>
             </motion.div>
 
-            {/* Transition Out Effect - Ripple/Expand from center */}
+            {/* Transition Out */}
             <AnimatePresence>
               {isFinished && (
                 <motion.div
@@ -312,8 +334,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                   animate={{ clipPath: "circle(150% at 50% 50%)" }}
                   transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] as const }}
                   style={{
-                    background:
-                      "linear-gradient(to bottom, rgba(249,247,245,0.95), rgba(249,247,245,0.8))",
+                    background: "linear-gradient(to bottom, rgba(249,247,245,0.95), rgba(249,247,245,0.8))",
                     backdropFilter: "blur(20px)",
                   }}
                 />
@@ -323,7 +344,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Page content - always render so the app loads/hydrates underneath the loader */}
+      {/* Page content */}
       <motion.div
         initial={false}
         animate={{ opacity: showLoader ? 0 : 1 }}
