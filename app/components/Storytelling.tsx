@@ -87,12 +87,14 @@ export default function Storytelling() {
   // Two-state intro reveal
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
   const smoothSubtitleOpacity = subtitleOpacity;
-  // PROVEN PATTERN: Top-to-bottom clipPath wipe - GPU-accelerated, smooth text reveal
-  // Using inset(top right bottom left). To reveal TOP -> BOTTOM, animate the BOTTOM inset from 100% -> 0%.
-  // (Animating TOP inset would reveal from bottom -> top, which is what you were seeing.)
-  // Quick reveal: tight scroll range [0.02, 0.06] for snappy effect
-  const wipeBottom = useTransform(scrollYProgress, [0.02, 0.06], [100, 0]);
-  const ecosystemClipPath = useTransform(wipeBottom, (v) => `inset(0 0 ${v}% 0)`);
+
+  // Scroll-linked color transition for "ecosystem" text
+  // Starts purple (same as heading), transitions to coral as user scrolls
+  const ecosystemColor = useTransform(
+    scrollYProgress,
+    [0.02, 0.08],
+    ["#5C306C", "#FF9966"]
+  );
 
   return (
     <>
@@ -281,31 +283,23 @@ export default function Storytelling() {
               <Panel active={activeIndex === 0}>
                 <div className="text-center max-w-4xl mx-auto space-y-6">
                   <h2
-                    className="font-light text-[#5C306C] tracking-tight leading-[1.15]"
+                    className="font-light text-[#5C306C] tracking-tight leading-[1.2]"
                     style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
                   >
                     An{" "}
-                    <span className="relative inline-block">
-                      {/* Layout placeholder - invisible, reserves space, no color visible */}
-                      <span className="invisible inline-block">ecosystem</span>
-                      {/* PROVEN PATTERN: Top-to-bottom clipPath wipe - no base color visible during reveal */}
-                      <motion.span
-                        className="absolute left-0 top-0 text-[#FF9966] inline-block"
-                        style={{ 
-                          clipPath: ecosystemClipPath,
-                          willChange: "clip-path" // GPU hint for smooth animation
-                        }}
-                      >
-                        ecosystem
-                      </motion.span>
-                    </span>{" "}
+                    <motion.span
+                      className="inline-block"
+                      style={{ color: ecosystemColor }}
+                    >
+                      ecosystem
+                    </motion.span>{" "}
                     in three parts
                   </h2>
                   <motion.p
-                    className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base md:text-lg font-normal"
+                    className="text-[#5C306C]/70 leading-relaxed max-w-3xl mx-auto text-base md:text-lg font-normal"
                     style={{ opacity: smoothSubtitleOpacity }}
                   >
-                    Not three separate services—<span className="font-semibold">one approach</span> where each part takes advantage of the others.
+                    Not three separate services—<span className="font-semibold">one approach</span> where each part takes advantage of&nbsp;the&nbsp;others.
                   </motion.p>
                 </div>
               </Panel>
@@ -461,10 +455,10 @@ export default function Storytelling() {
           {isStorytellingInView && activeIndex < 4 && (
             <motion.button
               type="button"
-              className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/40 hover:text-[#5C306C]/70 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/80 backdrop-blur-sm z-[60] pointer-events-auto"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.5 }}
+              className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/40 hover:text-[#5C306C]/70 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/95 z-[60] pointer-events-auto"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -491,14 +485,20 @@ export default function Storytelling() {
 
 const Panel = React.memo(({ active, children, expanded = false }: { active: boolean, children: React.ReactNode, expanded?: boolean }) => {
   return (
-    <div
+    <motion.div
       data-storytelling-active-panel={active ? "true" : "false"}
+      initial={false}
+      animate={{
+        opacity: active ? 1 : 0,
+        y: active ? 0 : 24,
+      }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "absolute inset-0 flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        active ? "opacity-100 translate-y-0 blur-0 pointer-events-auto" : "opacity-0 translate-y-12 blur-sm pointer-events-none"
+        "absolute inset-0 flex items-center justify-center",
+        active ? "pointer-events-auto" : "pointer-events-none"
       )}
     >
-      <motion.div 
+      <motion.div
         className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24"
         animate={{
           maxWidth: expanded ? "1400px" : "1152px"
@@ -507,7 +507,7 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
       >
         {children}
       </motion.div>
-    </div>
+    </motion.div>
   );
 });
 Panel.displayName = 'Panel';
@@ -780,7 +780,7 @@ function ContentPanel({
 
   return (
     <Panel active={active} expanded={expanded}>
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="popLayout" initial={false}>
         {!expanded ? (
           /* ============================================
              COLLAPSED STATE: Two-column F-pattern layout
@@ -821,9 +821,9 @@ function ContentPanel({
               {quote && (
                 <motion.blockquote
                   className="hidden lg:block pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic mt-8 pt-6"
-                  initial={{ opacity: 0 }}
+                  initial={false}
                   animate={{ opacity: active ? 1 : 0 }}
-                  transition={{ delay: 0.2 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <div
                     style={{
@@ -877,9 +877,9 @@ function ContentPanel({
                     <motion.li
                       key={i}
                       className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] group"
-                      initial={{ opacity: 0, x: 15 }}
-                      animate={{ opacity: active ? 1 : 0, x: active ? 0 : 15 }}
-                      transition={{ delay: prefersReducedMotion ? 0 : 0.2 + (i * 0.06) }}
+                      initial={false}
+                      animate={{ opacity: active ? 1 : 0, x: active ? 0 : 8 }}
+                      transition={{ duration: 0.3 }}
                     >
                       <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5">
                         <ArrowRight className="w-3 h-3 text-[#FF9966]" />
@@ -1025,11 +1025,11 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
     <Panel active={active}>
       <div className="w-full max-w-5xl h-full flex flex-col justify-center items-center px-6 py-8">
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           className="mb-6 md:mb-10 text-center"
-          initial={{ opacity: 0, y: 10 }}
+          initial={false}
           animate={{ opacity: active ? 1 : 0, y: active ? 0 : 10 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.4 }}
         >
           <h2 className="text-[#FF9966] mb-4 text-2xl md:text-3xl font-medium tracking-tight">
             {title}
@@ -1044,9 +1044,9 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
           <div className="flex flex-col items-center space-y-6">
             {/* Research */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 20 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              initial={false}
+              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 12 }}
+              transition={{ duration: 0.4 }}
               className="flex flex-col items-center text-center"
             >
               <BookOpen className="w-14 h-14 text-[#7388e0] mb-3" strokeWidth={1.3} />
@@ -1062,9 +1062,9 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
 
             {/* Teams */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 20 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              initial={false}
+              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 12 }}
+              transition={{ duration: 0.4 }}
               className="flex flex-col items-center text-center"
             >
               <Users className="w-14 h-14 text-[#ea5dff] mb-3" strokeWidth={1.3} />
@@ -1080,9 +1080,9 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
 
             {/* Labs */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 20 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              initial={false}
+              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 12 }}
+              transition={{ duration: 0.4 }}
               className="flex flex-col items-center text-center"
             >
               <FlaskConical className="w-14 h-14 text-[#FF9966] mb-3" strokeWidth={1.3} />
@@ -1169,11 +1169,11 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
             </motion.div>
 
             {/* Research - Top */}
-            <motion.div 
+            <motion.div
               className="absolute left-1/2 top-0 -translate-x-1/2 z-10"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.8 }}
-              transition={{ duration: 0.5, delay: prefersReducedMotion ? 0 : 0.2 }}
+              initial={false}
+              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.95 }}
+              transition={{ duration: 0.4 }}
             >
               <div className="flex flex-col items-center group">
                 <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
@@ -1187,11 +1187,11 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
             </motion.div>
 
             {/* Teams - Bottom Left */}
-            <motion.div 
+            <motion.div
               className="absolute left-[8%] bottom-[22%] z-10"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.8 }}
-              transition={{ duration: 0.5, delay: prefersReducedMotion ? 0 : 0.4 }}
+              initial={false}
+              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.95 }}
+              transition={{ duration: 0.4 }}
             >
               <div className="flex flex-col items-center group">
                 <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
@@ -1205,11 +1205,11 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
             </motion.div>
 
             {/* Labs - Bottom Right */}
-            <motion.div 
+            <motion.div
               className="absolute right-[8%] bottom-[22%] z-10"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.8 }}
-              transition={{ duration: 0.5, delay: prefersReducedMotion ? 0 : 0.6 }}
+              initial={false}
+              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.95 }}
+              transition={{ duration: 0.4 }}
             >
               <div className="flex flex-col items-center group">
                 <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>

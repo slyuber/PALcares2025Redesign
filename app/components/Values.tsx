@@ -65,15 +65,33 @@ export default function Values() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16 md:mb-24 space-y-4">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C]">
+        {/* Header - staggered reveal */}
+        <motion.div
+          className="text-center mb-16 md:mb-24 space-y-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+        >
+          <motion.span
+            className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.4 }}
+          >
             What Guides Us
-          </span>
-          <h2 className="text-3xl md:text-4xl font-normal text-[#4A2756] tracking-tight">
+          </motion.span>
+          <motion.h2
+            className="text-3xl md:text-4xl font-normal text-[#4A2756] tracking-tight"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
+          >
             What We Believe
-          </h2>
-        </div>
+          </motion.h2>
+        </motion.div>
 
         {/* 2x2 Grid */}
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
@@ -81,19 +99,23 @@ export default function Values() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={prefersReducedMotion ? {} : { y: -4 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            className="cursor-default"
           >
-            <div
+            <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[0].color}12` }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
+              transition={{ duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
             >
               <HeartHandshake
                 className="w-6 h-6"
                 style={{ color: values[0].color }}
                 strokeWidth={1.5}
               />
-            </div>
+            </motion.div>
             <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
               {values[0].title}
             </h3>
@@ -106,19 +128,23 @@ export default function Values() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={prefersReducedMotion ? {} : { y: -4 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : 0.1 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            className="cursor-default"
           >
-            <div
+            <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[1].color}12` }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
+              transition={{ duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
             >
               <ShieldCheck
                 className="w-6 h-6"
                 style={{ color: values[1].color }}
                 strokeWidth={1.5}
               />
-            </div>
+            </motion.div>
             <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
               {values[1].title}
             </h3>
@@ -131,19 +157,23 @@ export default function Values() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={prefersReducedMotion ? {} : { y: -4 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : 0.2 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            className="cursor-default"
           >
-            <div
+            <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[2].color}12` }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
+              transition={{ duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
             >
               <Database
                 className="w-6 h-6"
                 style={{ color: values[2].color }}
                 strokeWidth={1.5}
               />
-            </div>
+            </motion.div>
             <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
               {values[2].title}
             </h3>
@@ -156,19 +186,23 @@ export default function Values() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={prefersReducedMotion ? {} : { y: -4 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : 0.3 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            className="cursor-default"
           >
-            <div
+            <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[3].color}12` }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
+              transition={{ duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
             >
               <Sprout
                 className="w-6 h-6"
                 style={{ color: values[3].color }}
                 strokeWidth={1.5}
               />
-            </div>
+            </motion.div>
             <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
               {values[3].title}
             </h3>

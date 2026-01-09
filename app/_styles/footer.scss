@@ -117,8 +117,26 @@ position: relative;
 }
 
 .footer-nav a{
-  &:hover{
-    color: var(--foreground-dark);
+  position: relative;
+  transition: color 200ms ease-out;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-orange);
+    transition: width 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &:hover {
+    color: var(--color-orange);
+
+    &::after {
+      width: 100%;
+    }
   }
 }
 

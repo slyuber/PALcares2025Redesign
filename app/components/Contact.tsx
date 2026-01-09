@@ -53,20 +53,38 @@ export default function Contact() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
           >
-            {/* Header */}
+            {/* Header - staggered reveal */}
             <div className="space-y-4">
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#FF9966]">
+              <motion.span
+                className="text-xs font-semibold uppercase tracking-[0.25em] text-[#FF9966] block"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.4 }}
+              >
                 Let&apos;s Connect
-              </span>
-              <h2 className="text-3xl md:text-4xl font-light text-[#5C306C] leading-[1.2] tracking-tight">
+              </motion.span>
+              <motion.h2
+                className="text-3xl md:text-4xl font-light text-[#5C306C] leading-[1.2] tracking-tight"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
+              >
                 We engage with organizations in different ways
-              </h2>
+              </motion.h2>
             </div>
 
             {/* Description */}
-            <p className="text-base text-[#5C306C]/70 leading-relaxed">
+            <motion.p
+              className="text-base text-[#5C306C]/70 leading-relaxed"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.2 }}
+            >
               Educational workshops on data, infrastructure, or ethical technology. Placements and PAL-Labs information. Connections between organizations facing similar challenges. Embedded teams, shared resources or tools that might help. Technical support for a specific problem. Or just a conversation about what you&apos;re building.
-            </p>
+            </motion.p>
 
             {/* Divider line */}
             <div className="w-16 h-px bg-gradient-to-r from-[#FF9966]/50 to-transparent" />
@@ -118,12 +136,12 @@ export default function Contact() {
                         >
                           First Name
                         </label>
-                        <input 
-                          type="text" 
-                          id="firstName" 
+                        <input
+                          type="text"
+                          id="firstName"
                           name="firstName"
-                          required 
-                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:ring-0 outline-none transition-colors placeholder:text-[#5C306C]/25" 
+                          required
+                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:shadow-[0_2px_0_0_#FF9966] focus:ring-0 outline-none transition-all duration-200 placeholder:text-[#5C306C]/25"
                         />
                       </div>
                       <div className="space-y-2">
@@ -133,12 +151,12 @@ export default function Contact() {
                         >
                           Last Name
                         </label>
-                        <input 
-                          type="text" 
-                          id="lastName" 
+                        <input
+                          type="text"
+                          id="lastName"
                           name="lastName"
-                          required 
-                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:ring-0 outline-none transition-colors placeholder:text-[#5C306C]/25" 
+                          required
+                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:shadow-[0_2px_0_0_#FF9966] focus:ring-0 outline-none transition-all duration-200 placeholder:text-[#5C306C]/25"
                         />
                       </div>
                     </div>
@@ -152,12 +170,12 @@ export default function Contact() {
                         >
                           Email
                         </label>
-                        <input 
-                          type="email" 
-                          id="email" 
+                        <input
+                          type="email"
+                          id="email"
                           name="email"
-                          required 
-                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:ring-0 outline-none transition-colors placeholder:text-[#5C306C]/25" 
+                          required
+                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:shadow-[0_2px_0_0_#FF9966] focus:ring-0 outline-none transition-all duration-200 placeholder:text-[#5C306C]/25"
                         />
                       </div>
                       <div className="space-y-2">
@@ -167,11 +185,11 @@ export default function Contact() {
                         >
                           Organization <span className="font-normal normal-case tracking-normal text-[#5C306C]/35">(optional)</span>
                         </label>
-                        <input 
-                          type="text" 
-                          id="org" 
+                        <input
+                          type="text"
+                          id="org"
                           name="org"
-                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:ring-0 outline-none transition-colors placeholder:text-[#5C306C]/25" 
+                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:shadow-[0_2px_0_0_#FF9966] focus:ring-0 outline-none transition-all duration-200 placeholder:text-[#5C306C]/25"
                         />
                       </div>
                     </div>
@@ -184,13 +202,13 @@ export default function Contact() {
                       >
                         How can we help?
                       </label>
-                      <textarea 
-                        id="message" 
+                      <textarea
+                        id="message"
                         name="message"
-                        required 
-                        rows={4} 
+                        required
+                        rows={4}
                         placeholder="Tell us about your organization and what you're looking for..."
-                        className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:ring-0 outline-none transition-colors resize-none placeholder:text-[#5C306C]/30"
+                        className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] focus:border-[#FF9966] focus:shadow-[0_2px_0_0_#FF9966] focus:ring-0 outline-none transition-all duration-200 resize-none placeholder:text-[#5C306C]/30"
                       />
                     </div>
 

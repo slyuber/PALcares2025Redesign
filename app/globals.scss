@@ -2,11 +2,8 @@
 @use "./_styles/header" as header;
 @use "./_styles/typography" as typography;
 @use "./_styles/buttons" as buttons;
-@use "./_styles/component_tilecard" as tilecard;
-@use "./_styles/component_textfeature" as textfeature;
 @use "./_styles/component_testimonials" as testimonials;
 @use "./_styles/component_contact" as contact;
-@use "./_styles/component_accordion" as accordion;
 @use "./_styles/component_values" as values;
 @use "tailwindcss";
 
@@ -299,10 +296,40 @@ margin: 2em 0 !important;
   inset: 0;
   pointer-events: none;
   opacity: 0.03;
-  background: 
+  background:
     radial-gradient(ellipse at 20% 30%, rgba(255, 153, 102, 0.4) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 70%, rgba(143, 174, 139, 0.3) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(92, 48, 108, 0.2) 0%, transparent 60%);
   mix-blend-mode: multiply;
   filter: blur(40px);
+}
+
+/* ====== SVG SWAY ANIMATIONS ====== */
+/* Pure CSS animations for background SVG paths - keeps JS thread free */
+
+@keyframes sway-slow {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+}
+
+@keyframes sway-slow-reverse {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-20px); }
+}
+
+@keyframes sway-medium {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(15px); }
+}
+
+.animate-sway-slow {
+  animation: sway-slow 20s ease-in-out infinite;
+}
+
+.animate-sway-slow-reverse {
+  animation: sway-slow-reverse 25s ease-in-out infinite;
+}
+
+.animate-sway-medium {
+  animation: sway-medium 22s ease-in-out infinite;
 }

@@ -63,57 +63,33 @@ export default function Hero() {
         <BackgroundPatterns variant="watercolor" opacity={0.3} />
       </div>
 
-      {/* Organic Lines - Horizontal Flow */}
+      {/* Organic Lines - Horizontal Flow (CSS animation for better perf) */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
         <svg
           className="w-[110%] h-full -ml-[5%]"
           viewBox="0 0 1584 900"
           preserveAspectRatio="none"
         >
-          <motion.path
+          <path
             d="M-50,400 Q360,350 720,400 T1584,400"
             fill="none"
             stroke="rgba(92, 48, 108, 0.06)"
             strokeWidth="2"
-            style={{ willChange: 'transform' }}
-            initial={{ x: 0 }}
-            animate={prefersReducedMotion ? {} : { x: 20 }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
+            className={prefersReducedMotion ? "" : "animate-sway-slow"}
           />
-          <motion.path
+          <path
             d="M-50,500 Q360,550 720,500 T1584,500"
             fill="none"
             stroke="rgba(92, 48, 108, 0.06)"
             strokeWidth="1.5"
-            style={{ willChange: 'transform' }}
-            initial={{ x: 0 }}
-            animate={prefersReducedMotion ? {} : { x: -20 }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
+            className={prefersReducedMotion ? "" : "animate-sway-slow-reverse"}
           />
-          <motion.path
+          <path
             d="M-50,600 Q360,550 720,600 T1584,600"
             fill="none"
             stroke="rgba(92, 48, 108, 0.06)"
             strokeWidth="1"
-            style={{ willChange: 'transform' }}
-            initial={{ x: 0 }}
-            animate={prefersReducedMotion ? {} : { x: 15 }}
-            transition={{
-              duration: 22,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
+            className={prefersReducedMotion ? "" : "animate-sway-medium"}
           />
         </svg>
       </div>
@@ -165,84 +141,64 @@ export default function Hero() {
         </motion.div>
         {/* END MODIFICATION */}
 
-        <motion.h1
-          className="font-light leading-[1.15] tracking-tight text-[#5C306C]"
-          style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: prefersReducedMotion ? 0 : 0.8,
-            ease: "easeOut",
-          }}
-        >
-          Technology that <span className="font-medium">strengthens the relationships</span> <br className="hidden md:block" />
-          your work depends on
-        </motion.h1>
-
-        <motion.p
-          className="font-light leading-relaxed text-[#5C306C]/85 max-w-2xl mx-auto"
-          style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)" }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: prefersReducedMotion ? 0 : 0.8,
-            ease: "easeOut",
-            delay: 0.2,
-          }}
-        >
-          We&apos;re not here to transform the sector—we&apos;re here to support
-          the organizations already doing transformative work.{" "}
-          <span className="font-semibold">Genuine partnerships, not transactions.</span>
-        </motion.p>
-
-        <motion.p
-          className="text-sm md:text-base font-light text-[#5C306C]/70"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: prefersReducedMotion ? 0 : 0.8,
-            ease: "easeOut",
-            delay: 0.4,
-          }}
-        >
-          Serving Calgary, Edmonton, and Surrounding Areas
-        </motion.p>
-
+        {/* Hero text content - single animation, no stagger for smooth feel */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-          initial={{ opacity: 0, y: 10 }}
+          className="space-y-8 md:space-y-10"
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: prefersReducedMotion ? 0 : 0.8,
+            duration: prefersReducedMotion ? 0 : 0.5,
             ease: "easeOut",
-            delay: 0.6,
           }}
         >
-          <motion.a
-            href="#storytelling"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
-            whileHover={prefersReducedMotion ? {} : {
-              scale: 1.02,
-              boxShadow: "0 8px 24px rgba(92, 48, 108, 0.35)",
-            }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          <h1
+            className="font-light leading-[1.15] tracking-tight text-[#5C306C]"
+            style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
           >
-            See How We Work
-          </motion.a>
-          <motion.a
-            href="#contact"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"
-            whileHover={prefersReducedMotion ? {} : {
-              scale: 1.02,
-              backgroundColor: "#5C306C",
-              color: "#ffffff",
-            }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            Technology that <span className="font-medium">strengthens the relationships</span> <br className="hidden md:block" />
+            your work depends on
+          </h1>
+
+          <p
+            className="font-light leading-relaxed text-[#5C306C]/85 max-w-2xl mx-auto"
+            style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)" }}
           >
-            Start a Conversation
-          </motion.a>
+            We&apos;re not here to transform the sector—we&apos;re here to support
+            the organizations already doing transformative work.{" "}
+            <span className="font-semibold">Genuine partnerships, not transactions.</span>
+          </p>
+
+          <p className="text-sm md:text-base font-light text-[#5C306C]/70">
+            Serving Calgary, Edmonton, and Surrounding Areas
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <motion.a
+              href="#storytelling"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
+              whileHover={prefersReducedMotion ? {} : {
+                scale: 1.02,
+                boxShadow: "0 8px 24px rgba(92, 48, 108, 0.35)",
+              }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
+              See How We Work
+            </motion.a>
+            <motion.a
+              href="#contact"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"
+              whileHover={prefersReducedMotion ? {} : {
+                scale: 1.02,
+                backgroundColor: "#5C306C",
+                color: "#ffffff",
+              }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
+              Start a Conversation
+            </motion.a>
+          </div>
         </motion.div>
         </div>
       </div>

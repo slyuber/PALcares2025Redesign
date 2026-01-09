@@ -47,20 +47,32 @@ export default function Testimonials() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Header */}
-        <motion.div 
+        {/* Header - staggered reveal */}
+        <motion.div
           className="text-center mb-16 md:mb-24 space-y-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966]">
+          <motion.span
+            className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966] block"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.4 }}
+          >
             Partner Voices
-          </span>
-          <h2 className="text-3xl md:text-5xl font-light text-[#5C306C]">
+          </motion.span>
+          <motion.h2
+            className="text-3xl md:text-5xl font-light text-[#5C306C]"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
+          >
             Organizations We Work With
-          </h2>
+          </motion.h2>
         </motion.div>
 
         {/* Testimonials Grid */}
@@ -73,7 +85,7 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: prefersReducedMotion ? 0 : index * 0.2, duration: 0.6 }}
-              whileHover={prefersReducedMotion ? {} : { y: -5, transition: { duration: 0.3 } }}
+              whileHover={prefersReducedMotion ? {} : { y: -5, transition: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] } }}
             >
               {/* Quote Icon Badge - Enhanced */}
               <motion.div
@@ -87,7 +99,7 @@ export default function Testimonials() {
                 <Quote className="w-5 h-5 text-white stroke-[2.5]" />
               </motion.div>
 
-              <blockquote className="mt-6 mb-8 text-[#5C306C]/85 text-[15px] leading-relaxed font-light">
+              <blockquote className="mt-6 mb-8 px-2 text-[#5C306C]/85 text-[15px] leading-relaxed font-light">
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
 

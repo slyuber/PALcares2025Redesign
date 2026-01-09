@@ -4,7 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 
@@ -25,24 +25,25 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   
-  // MODIFICATION: 2024-12-16 - Logo visibility based on scroll
-  // Hide header logo while hero logo is visible, fade in as you scroll past hero
+  // Logo visibility based on scroll - instant threshold for clean transition
   const { scrollY } = useScroll();
-  // Hero section is ~100vh, start showing header logo at ~200px scroll
-  const logoOpacity = useTransform(scrollY, [100, 300], [0, 1]);
-  const logoScale = useTransform(scrollY, [100, 300], [0.8, 1]);
-  // END MODIFICATION
+  const [showHeaderLogo, setShowHeaderLogo] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Track scroll for subtle background - using MotionValue event to avoid per-scroll setState
-  // Only updates state when crossing the 50px threshold, not on every scroll tick
+  // Track scroll for subtle background AND logo visibility
+  // Using threshold check avoids the "double logo" cross-fade issue
   useMotionValueEvent(scrollY, "change", (latest) => {
     const shouldBeScrolled = latest > 50;
     if (shouldBeScrolled !== scrolled) {
       setScrolled(shouldBeScrolled);
+    }
+    // Logo appears at scroll threshold - instant, not gradual
+    const shouldShowLogo = latest > 200;
+    if (shouldShowLogo !== showHeaderLogo) {
+      setShowHeaderLogo(shouldShowLogo);
     }
   });
 
@@ -183,14 +184,15 @@ export default function Header() {
       <nav className={`px-6 lg:px-8 py-4 flex items-center justify-between transition-all duration-500 ${
         scrolled ? "bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5]/80 backdrop-blur-sm" : "bg-transparent"
       }`}>
-        {/* Logo - using PALcares_logo_light.svg */}
-        {/* MODIFICATION: 2024-12-16 - Logo fades in as you scroll past hero */}
+        {/* Logo - instant appear at scroll threshold for clean transition */}
         <Link href="/" className="flex-shrink-0">
           <motion.div
-            style={{ 
-              opacity: pathname === "/" ? logoOpacity : 1,
-              scale: pathname === "/" ? logoScale : 1
+            initial={false}
+            animate={{
+              opacity: pathname === "/" ? (showHeaderLogo ? 1 : 0) : 1,
+              scale: pathname === "/" ? (showHeaderLogo ? 1 : 0.95) : 1
             }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
           >
             <Image
               src="/svg/PALcares_logo_light.svg"
@@ -202,7 +204,6 @@ export default function Header() {
             />
           </motion.div>
         </Link>
-        {/* END MODIFICATION */}
 
         {/* Desktop Navigation - hidden on mobile */}
         <div className="hidden lg:flex items-center gap-6">
@@ -222,7 +223,7 @@ export default function Header() {
                 type="button"
                 onClick={() => item.hasSubmenu ? toggleSubmenu(item.id) : handleNavClick(item.id)}
                 onMouseEnter={() => item.hasSubmenu && setOpenSubmenu(item.id)}
-                className="text-sm font-medium text-[#4A2756]/70 hover:text-[#4A2756] transition-colors duration-200 flex items-center gap-1"
+                className="nav-link-underline text-sm font-medium text-[#4A2756]/70 hover:text-[#4A2756] transition-colors duration-200 flex items-center gap-1"
                 aria-haspopup={item.hasSubmenu ? "true" : undefined}
                 aria-expanded={item.hasSubmenu ? openSubmenu === item.id : undefined}
               >
@@ -317,13 +318,13 @@ export default function Header() {
               onClick={() => setMenuOpen(false)}
             />
 
-            {/* Full-screen menu overlay */}
+            {/* Full-screen menu overlay - smooth tween instead of bouncy spring */}
             <motion.div
               className="fixed inset-0 bg-[#FAF8F5] z-[99998] lg:hidden flex flex-col"
               initial={{ opacity: 0, y: "100%" }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[#5C306C]/10">

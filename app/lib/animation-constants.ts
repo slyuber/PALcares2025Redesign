@@ -25,6 +25,18 @@ export const EASE_OUT_EXPO = [0.32, 0.72, 0, 1] as const;
 export const EASE_IN_OUT = [0.42, 0, 0.58, 1] as const;
 
 /**
+ * Micro-Animation Easing Curves (2025 Best Practices)
+ * Based on Awwwards/Motion.dev recommendations
+ *
+ * EASE_ENERGETIC: Slight overshoot, playful - CTAs, brand moments
+ * EASE_SNAPPY: Quick response - button taps, instant feedback
+ * EASE_ORGANIC: Natural, gentle - parallax, floating elements
+ */
+export const EASE_ENERGETIC = [0.34, 1.56, 0.64, 1] as const;
+export const EASE_SNAPPY = [0.4, 0, 0.2, 1] as const;
+export const EASE_ORGANIC = [0.25, 0.46, 0.45, 0.94] as const;
+
+/**
  * Duration Values (in seconds)
  * 
  * Based on research:

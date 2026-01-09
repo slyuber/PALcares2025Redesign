@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
 
+// Bundle analyzer for analyzing bundle sizes
+// Run with: ANALYZE=true npm run build (or set ANALYZE=true on Windows)
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
 const nextConfig: NextConfig = {
   // ✅ Enables static HTML export (replaces `next export`)
   output: "export",
@@ -13,4 +19,4 @@ const nextConfig: NextConfig = {
   // basePath: "/palcares-app",
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

@@ -89,3 +89,26 @@
     display: block !important;
   }
 }
+
+// ============================================
+// Nav Link Underline Hover Effect
+// Award-winning micro-interaction pattern
+// ============================================
+.nav-link-underline {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-orange);
+    transition: width 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
