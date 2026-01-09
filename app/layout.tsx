@@ -1,11 +1,11 @@
-// PRODUCTION: Uncomment the next 2 lines and remove the fallback style below
-// import { Raleway } from "next/font/google";
-// const raleway = Raleway({
-//   subsets: ["latin"],
-//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-//   variable: "--font-sans",
-//   display: "swap",
-// });
+import { Raleway } from "next/font/google";
+
+const raleway = Raleway({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-raleway",
+  display: "block", // "block" prevents FOUT during loader animation
+});
 
 import "./globals.scss";
 import Loader from "./components/partials/Loader";
@@ -54,13 +54,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      {/* PRODUCTION: Use className={`${raleway.variable} antialiased`} instead */}
-      <body 
-        className="antialiased"
-        style={{ 
-          fontFamily: 'Raleway, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' 
-        }}
-      >
+      <body className={`${raleway.variable} antialiased`}>
         <Loader>
           <Header />
           <section className="main">{children}</section>

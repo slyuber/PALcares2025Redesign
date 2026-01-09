@@ -333,3 +333,40 @@ margin: 2em 0 !important;
 .animate-sway-medium {
   animation: sway-medium 22s ease-in-out infinite;
 }
+
+/* ====== LOADER ANIMATION UTILITIES ====== */
+/* GPU acceleration hints for smoother animations */
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-filter {
+  will-change: filter;
+}
+
+/* Smooth text rendering during animation */
+.text-render-smooth {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent layout shift during font swap */
+.font-stable {
+  font-synthesis: none;
+  text-size-adjust: 100%;
+}
+
+/* Animation play-state utilities */
+.animation-paused {
+  animation-play-state: paused !important;
+}
+
+.animation-running {
+  animation-play-state: running;
+}

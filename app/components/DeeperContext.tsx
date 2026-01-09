@@ -24,12 +24,10 @@ function AnimatedBeat({
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
+      initial={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{
-        duration: prefersReducedMotion ? 0 : 0.5,
-        ease: "easeOut",
-        delay: prefersReducedMotion ? 0 : delay,
+        duration: 0,
       }}
     >
       {children}
@@ -54,7 +52,7 @@ export default function DeeperContext() {
     <section
       ref={containerRef}
       id="context"
-      className="relative py-24 md:py-32"
+      className="relative py-20 md:py-24 lg:py-32"
       aria-label="The deeper context - the work behind it"
     >
       {/* Background */}
@@ -66,22 +64,16 @@ export default function DeeperContext() {
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-12 md:mb-16">
-          <motion.h2
+          <h2
             className="text-3xl md:text-4xl lg:text-5xl font-light text-[#E07B4C] tracking-tight mb-4"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
           >
             Our Approach
-          </motion.h2>
-          <motion.p
+          </h2>
+          <p
             className="text-base md:text-lg text-[#5C306C]/80 font-light max-w-xl mx-auto"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: 0.1 }}
           >
             What makes genuine partnership possible—and why it matters for the work.
-          </motion.p>
+          </p>
         </div>
 
         {/* Overlapping Staggered Layout */}
@@ -96,7 +88,7 @@ export default function DeeperContext() {
           </div>
 
           {/* Beat 1: Meeting You Where You Are - LEFT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10">
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0">
             <div className="md:pr-10">
               <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
                 Meeting You Where You Are
@@ -110,7 +102,7 @@ export default function DeeperContext() {
           </AnimatedBeat>
 
           {/* Beat 2: Expertise That Shapes Development - RIGHT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10 md:-mt-24" delay={0.1}>
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
             <div className="md:pl-10">
               <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
@@ -127,7 +119,7 @@ export default function DeeperContext() {
           </AnimatedBeat>
 
           {/* Beat 3: What Time Makes Possible - LEFT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10 md:-mt-20" delay={0.1}>
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-20" delay={0.1}>
             <div className="md:pr-10">
               <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
                 What Time Makes Possible
@@ -147,7 +139,7 @@ export default function DeeperContext() {
           </AnimatedBeat>
 
           {/* Beat 4: When Plans Change - RIGHT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10 md:-mt-24" delay={0.1}>
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
             <div className="md:pl-10">
               <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">

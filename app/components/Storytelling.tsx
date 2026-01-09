@@ -113,7 +113,7 @@ export default function Storytelling() {
         >
           <div 
             ref={mobileContentRef} 
-            className="relative z-10 w-full max-w-[1200px] mx-auto px-4 sm:px-6 space-y-16 sm:space-y-20 pb-16"
+            className="relative z-10 w-full max-w-5xl mx-auto px-6 md:px-12 space-y-16 sm:space-y-20 pb-16"
           >
             {/* Panel 0: Intro */}
             <header className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-6">
@@ -176,9 +176,9 @@ export default function Storytelling() {
               quote="A Waterloo engineering student completed his co-op term locally through PALcares. Working in our environment first under mentorship, then with real data—cleaning years of messy information to answer a specific operational question under a deadline. The organization gets critical capacity they couldn't otherwise afford. The student sees technical expertise applied in the social service sector in his own community."
             />
 
-            {/* Panel 4: Ecosystem Summary - MOBILE */}
+            {/* Panel 4: Ecosystem Summary - MOBILE with triangle + particles */}
             <footer className="w-full max-w-3xl mx-auto pt-8 border-t border-[#5C306C]/10">
-              <div className="text-center space-y-4 sm:space-y-6 mb-8">
+              <div className="text-center space-y-4 sm:space-y-6 mb-6">
                 <h2 className="text-2xl sm:text-3xl font-light text-[#6b4d7e] leading-tight tracking-tight">
                   How It Connects
                 </h2>
@@ -187,43 +187,111 @@ export default function Storytelling() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center space-y-5">
-                <div className="flex flex-col items-center text-center">
-                  <BookOpen className="w-12 h-12 sm:w-14 sm:h-14 text-[#7388e0] mb-2" strokeWidth={1.3} />
-                  <h3 className="text-[#7388e0] mb-1 text-base sm:text-lg font-medium">Research</h3>
-                  <p className="text-[#9b8a9e] text-xs sm:text-sm max-w-[180px] leading-relaxed">
-                    Generalizes & shares under open license
-                  </p>
-                </div>
-
-                <motion.div 
-                  animate={{ y: [0, 4, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              {/* Mobile Ecosystem Visual - Triangle layout with animated particles */}
+              <div className="relative w-full" style={{ height: '280px' }}>
+                {/* SVG for animated particles */}
+                <svg
+                  className="absolute inset-0 w-full h-full"
+                  viewBox="0 0 300 220"
+                  preserveAspectRatio="xMidYMid meet"
                 >
-                  <ArrowDown className="w-5 h-5 text-[#f18f6f] opacity-30" strokeWidth={2} />
-                </motion.div>
+                  {/* Animated particles traveling between nodes */}
+                  {/* Research to Teams */}
+                  <motion.circle
+                    r="3" fill="#FF9966"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.6, 0],
+                      cx: [150, 60],
+                      cy: [35, 175],
+                    }}
+                    transition={{ duration: 3.5, delay: 0, repeat: Infinity, ease: "linear" }}
+                  />
+                  {/* Teams to Research */}
+                  <motion.circle
+                    r="2.5" fill="#FF9966"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.5, 0],
+                      cx: [60, 150],
+                      cy: [175, 35],
+                    }}
+                    transition={{ duration: 3.8, delay: 1.5, repeat: Infinity, ease: "linear" }}
+                  />
+                  {/* Research to Labs */}
+                  <motion.circle
+                    r="3" fill="#FF9966"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.6, 0],
+                      cx: [150, 240],
+                      cy: [35, 175],
+                    }}
+                    transition={{ duration: 3.2, delay: 0.8, repeat: Infinity, ease: "linear" }}
+                  />
+                  {/* Labs to Research */}
+                  <motion.circle
+                    r="2.5" fill="#FF9966"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.5, 0],
+                      cx: [240, 150],
+                      cy: [175, 35],
+                    }}
+                    transition={{ duration: 4, delay: 2, repeat: Infinity, ease: "linear" }}
+                  />
+                  {/* Teams to Labs */}
+                  <motion.circle
+                    r="2.5" fill="#FF9966"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.5, 0],
+                      cx: [60, 240],
+                      cy: [175, 175],
+                    }}
+                    transition={{ duration: 3.5, delay: 0.5, repeat: Infinity, ease: "linear" }}
+                  />
+                  {/* Labs to Teams */}
+                  <motion.circle
+                    r="2.5" fill="#FF9966"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.5, 0],
+                      cx: [240, 60],
+                      cy: [175, 175],
+                    }}
+                    transition={{ duration: 3.8, delay: 2.5, repeat: Infinity, ease: "linear" }}
+                  />
+                </svg>
 
-                <div className="flex flex-col items-center text-center">
-                  <Users className="w-12 h-12 sm:w-14 sm:h-14 text-[#ea5dff] mb-2" strokeWidth={1.3} />
-                  <h3 className="text-[#ea5dff] mb-1 text-base sm:text-lg font-medium">Teams</h3>
-                  <p className="text-[#9b8a9e] text-xs sm:text-sm max-w-[180px] leading-relaxed">
-                    Foundational work, relationships & infrastructure
-                  </p>
-                </div>
+                {/* Triangle nodes positioned absolutely */}
+                <div className="relative h-full w-full">
+                  {/* Research - Top Center */}
+                  <div className="absolute left-1/2 top-0 -translate-x-1/2 flex flex-col items-center text-center z-10">
+                    <BookOpen className="w-9 h-9 sm:w-10 sm:h-10 text-[#7388e0] mb-1.5" strokeWidth={1.3} />
+                    <h3 className="text-[#7388e0] text-sm sm:text-base font-medium">Research</h3>
+                    <p className="text-[#9b8a9e] text-[10px] sm:text-xs max-w-[100px] leading-snug">
+                      Generalizes & shares
+                    </p>
+                  </div>
 
-                <motion.div 
-                  animate={{ y: [0, 4, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                >
-                  <ArrowDown className="w-5 h-5 text-[#f18f6f] opacity-30" strokeWidth={2} />
-                </motion.div>
+                  {/* Teams - Bottom Left */}
+                  <div className="absolute left-[8%] bottom-0 flex flex-col items-center text-center z-10">
+                    <Users className="w-9 h-9 sm:w-10 sm:h-10 text-[#ea5dff] mb-1.5" strokeWidth={1.3} />
+                    <h3 className="text-[#ea5dff] text-sm sm:text-base font-medium">Teams</h3>
+                    <p className="text-[#9b8a9e] text-[10px] sm:text-xs max-w-[100px] leading-snug">
+                      Foundational work
+                    </p>
+                  </div>
 
-                <div className="flex flex-col items-center text-center">
-                  <FlaskConical className="w-12 h-12 sm:w-14 sm:h-14 text-[#FF9966] mb-2" strokeWidth={1.3} />
-                  <h3 className="text-[#FF9966] mb-1 text-base sm:text-lg font-medium">Labs</h3>
-                  <p className="text-[#9b8a9e] text-xs sm:text-sm max-w-[180px] leading-relaxed">
-                    Extends capacity, builds on foundation
-                  </p>
+                  {/* Labs - Bottom Right */}
+                  <div className="absolute right-[8%] bottom-0 flex flex-col items-center text-center z-10">
+                    <FlaskConical className="w-9 h-9 sm:w-10 sm:h-10 text-[#FF9966] mb-1.5" strokeWidth={1.3} />
+                    <h3 className="text-[#FF9966] text-sm sm:text-base font-medium">Labs</h3>
+                    <p className="text-[#9b8a9e] text-[10px] sm:text-xs max-w-[100px] leading-snug">
+                      Extends capacity
+                    </p>
+                  </div>
                 </div>
               </div>
             </footer>
@@ -677,6 +745,8 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
   items: string[];
   quote?: string;
 }) {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <article className="space-y-6 sm:space-y-8 py-10 sm:py-14 border-b border-[#5C306C]/10 last:border-b-0">
       {/* Header Section - Enhanced icon container */}
@@ -703,11 +773,18 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
           {label}
         </span>
       </header>
-      
+
       {/* Title */}
       <h2 className="text-[1.75rem] sm:text-3xl font-light text-[#5C306C] leading-[1.2] tracking-tight">
         {title}
       </h2>
+
+      {/* Visual - smaller for mobile, centered */}
+      <div className="flex justify-center py-4">
+        <div className="w-40 h-32 sm:w-48 sm:h-40 opacity-70">
+          <ContentVisual title={title} />
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="space-y-4">
@@ -715,20 +792,59 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
           {description}
         </p>
 
-        {secondaryDescription && (
-          <p className="text-[15px] sm:text-base text-[#5C306C]/75 leading-[1.7]">
-            {secondaryDescription}
-          </p>
-        )}
+        {/* Expandable secondary content - Read More / Read Less */}
+        {(secondaryDescription || details) && (
+          <AnimatePresence mode="wait">
+            {!expanded ? (
+              <motion.button
+                key="read-more"
+                type="button"
+                onClick={() => setExpanded(true)}
+                className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#FF9966] hover:text-[#e88855] transition-colors mt-2 min-h-[44px]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <span className="underline underline-offset-4 decoration-[#FF9966]/40">Read more</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </motion.button>
+            ) : (
+              <motion.div
+                key="expanded-content"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                className="space-y-4 overflow-hidden"
+              >
+                {secondaryDescription && (
+                  <p className="text-[15px] sm:text-base text-[#5C306C]/75 leading-[1.7]">
+                    {secondaryDescription}
+                  </p>
+                )}
 
-        {details && (
-          <p className="text-[15px] sm:text-base text-[#5C306C]/75 leading-[1.7]">
-            {details}
-          </p>
+                {details && (
+                  <p className="text-[15px] sm:text-base text-[#5C306C]/75 leading-[1.7]">
+                    {details}
+                  </p>
+                )}
+
+                {/* Read Less Button */}
+                <button
+                  type="button"
+                  onClick={() => setExpanded(false)}
+                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#5C306C]/60 hover:text-[#5C306C] transition-colors mt-2 min-h-[44px]"
+                >
+                  <ArrowRight className="w-4 h-4 rotate-[-90deg]" />
+                  <span className="underline underline-offset-4 decoration-[#5C306C]/30">Read less</span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         )}
       </div>
-      
-      {/* Key Points List */}
+
+      {/* Key Points List - Always visible */}
       <ul className="space-y-4 pt-2">
         {items.map((item: string, i: number) => (
           <li
@@ -736,9 +852,7 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
             className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] sm:text-base min-h-[44px]"
           >
             <motion.div
-              className="w-6 h-6 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#FF9966]/20 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              className="w-6 h-6 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5"
             >
               <ArrowRight className="w-3 h-3 text-[#FF9966]" />
             </motion.div>
@@ -746,8 +860,8 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
           </li>
         ))}
       </ul>
-      
-      {/* Quote */}
+
+      {/* Quote - Always visible */}
       {quote && (
         <blockquote className="mt-6 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-[15px] sm:text-base leading-relaxed italic">
           &ldquo;{quote}&rdquo;
