@@ -82,12 +82,18 @@ export default function NeedWeNoticed() {
 
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-[1.8]">
               We believe{" "}
-              <span className="text-[#5C306C] font-medium">
-                the people doing the work should shape the tools
+              <span className="text-[#5C306C] font-semibold">
+                the people closest to the work should shape the tools they use
               </span>
-              . What gets built should stay with the organizations and
-              communities that helped create it. Technical expertise and
-              frontline wisdom need equal weight in development decisions.
+              .{" "}
+              <span className="text-[#5C306C] font-semibold">
+                What gets built should stay with the organizations and communities that helped create it
+              </span>
+              .{" "}
+              <span className="text-[#5C306C] font-semibold">
+                Technical expertise and frontline wisdom need equal weight
+              </span>{" "}
+              in development decisions.
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-[1.8]">
@@ -110,13 +116,12 @@ export default function NeedWeNoticed() {
               <p className="text-base md:text-lg text-[#5C306C]/70 leading-[1.8] mb-6">
                 We&apos;re building an ecosystem where embedded technical teams
                 learn organizational reality before writing code, where emerging
-                talent and newcomers strengthen local capacity, where a proven
-                solution can become a resource for the sector.
+                talent and newcomers strengthen local capacity, where proven
+                solutions become resources for the sector.
               </p>
 
-              <p className="text-[#5C306C] font-medium text-base md:text-lg leading-[1.7]">
-                It&apos;s deliberate work, rooted in the understanding that
-                sustainable technology emerges from genuine partnership.
+              <p className="text-[#5C306C] font-semibold text-base md:text-lg leading-[1.7]">
+                Sustainable technology emerges from genuine partnership.
               </p>
             </div>
           </motion.div>

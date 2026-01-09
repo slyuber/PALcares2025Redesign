@@ -75,6 +75,7 @@ export default function Hero() {
             fill="none"
             stroke="rgba(92, 48, 108, 0.06)"
             strokeWidth="2"
+            style={{ willChange: 'transform' }}
             initial={{ x: 0 }}
             animate={prefersReducedMotion ? {} : { x: 20 }}
             transition={{
@@ -89,6 +90,7 @@ export default function Hero() {
             fill="none"
             stroke="rgba(92, 48, 108, 0.06)"
             strokeWidth="1.5"
+            style={{ willChange: 'transform' }}
             initial={{ x: 0 }}
             animate={prefersReducedMotion ? {} : { x: -20 }}
             transition={{
@@ -103,6 +105,7 @@ export default function Hero() {
             fill="none"
             stroke="rgba(92, 48, 108, 0.06)"
             strokeWidth="1"
+            style={{ willChange: 'transform' }}
             initial={{ x: 0 }}
             animate={prefersReducedMotion ? {} : { x: 15 }}
             transition={{
@@ -153,7 +156,7 @@ export default function Hero() {
             alt="PALcares"
             width={280}
             height={76}
-            className="w-full max-w-[280px] h-auto"
+            className="w-full max-w-[280px] h-auto object-contain"
             priority
             style={{
               filter: "drop-shadow(0 2px 8px rgba(92, 48, 108, 0.08))",
@@ -164,7 +167,7 @@ export default function Hero() {
 
         <motion.h1
           className="font-light leading-[1.15] tracking-tight text-[#5C306C]"
-          style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)" }}
+          style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -172,13 +175,13 @@ export default function Hero() {
             ease: "easeOut",
           }}
         >
-          Technology that strengthens the <br className="hidden md:block" />
-          relationships your work depends on
+          Technology that <span className="font-medium">strengthens the relationships</span> <br className="hidden md:block" />
+          your work depends on
         </motion.h1>
 
         <motion.p
           className="font-light leading-relaxed text-[#5C306C]/85 max-w-2xl mx-auto"
-          style={{ fontSize: "clamp(1rem, 1.8vw, 1.15rem)" }}
+          style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -188,8 +191,8 @@ export default function Hero() {
           }}
         >
           We&apos;re not here to transform the sector—we&apos;re here to support
-          the organizations already doing transformative work. Genuine
-          partnerships, not transactions.
+          the organizations already doing transformative work.{" "}
+          <span className="font-semibold">Genuine partnerships, not transactions.</span>
         </motion.p>
 
         <motion.p

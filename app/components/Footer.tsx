@@ -59,13 +59,13 @@ export default function Footer() {
               Building sustainable data infrastructure for Alberta&apos;s social services.
             </p>
             <p className="text-xs text-[#5C306C]/55 leading-relaxed max-w-xs">
-              <strong>Serving:</strong> Calgary, Edmonton, and surrounding Alberta communities.
+              <strong>Serving:</strong> Calgary, Edmonton, and surrounding communities.
             </p>
             <p className="text-xs text-[#5C306C]/55 leading-relaxed max-w-xs">
               <strong>Creating:</strong> Open tools, shared resources, sector-wide capacity.
             </p>
-            <p className="text-xs text-[#5C306C]/55 leading-relaxed max-w-xs">
-              <strong>Focus:</strong> Crisis services, community housing, mental health, and social support organizations.
+            <p className="text-sm text-[#5C306C]/70 font-medium leading-relaxed max-w-xs mt-2">
+              Genuine partnerships, not transactions.
             </p>
           </div>
 

@@ -1,33 +1,54 @@
 // app/components/DeeperContext.tsx
-// MODIFICATION: 2024-12-16 - Issue 4: Left alignment, proper title/subtitle/body hierarchy, reduced color emphasis
-// ENHANCEMENT: 2025-01 - Award-winning design: Background patterns, enhanced visual depth
+// KISS: useInView for stable once-only animations, no re-triggers
 "use client";
 
 import { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, useInView } from "framer-motion";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
+
+// Reusable animated section - useInView is stable and won't re-trigger
+function AnimatedBeat({
+  children,
+  className,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : 0.5,
+        ease: "easeOut",
+        delay: prefersReducedMotion ? 0 : delay,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function DeeperContext() {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, amount: 0.3 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 40,
-    damping: 20,
-  });
-
-  const lineHeight = useTransform(smoothProgress, [0, 0.7], ["0%", "100%"]);
+  const lineHeight = useTransform(scrollYProgress, [0, 0.7], ["0%", "100%"]);
 
   return (
     <section
@@ -36,40 +57,28 @@ export default function DeeperContext() {
       className="relative py-24 md:py-32"
       aria-label="The deeper context - the work behind it"
     >
-      {/* Enhanced background: Warm wash + award-winning patterns */}
+      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFF9F5]/20 to-transparent" />
-        {/* Award-winning subtle patterns */}
         <BackgroundPatterns variant="organic-grid" opacity={0.6} />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
-        {/* Header - Updated hierarchy: label → title → subtitle */}
-        <div className="text-center mb-16 md:mb-24">
-          <motion.span
-            className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4"
+        {/* Header */}
+        <div ref={headerRef} className="text-center mb-12 md:mb-16">
+          <motion.h2
+            className="text-3xl md:text-4xl lg:text-5xl font-light text-[#E07B4C] tracking-tight mb-4"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
           >
             Our Approach
-          </motion.span>
-          <motion.h2
-            className="text-3xl md:text-4xl lg:text-5xl font-light text-[#5C306C] tracking-tight mb-4"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.1 }}
-          >
-            The Deeper Context
           </motion.h2>
           <motion.p
-            className="text-base md:text-lg text-[#5C306C]/70 max-w-2xl mx-auto"
+            className="text-base md:text-lg text-[#5C306C]/80 font-light max-w-xl mx-auto"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.2 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: 0.1 }}
           >
             What makes genuine partnership possible—and why it matters for the work.
           </motion.p>
@@ -77,7 +86,7 @@ export default function DeeperContext() {
 
         {/* Overlapping Staggered Layout */}
         <div className="relative">
-          {/* Vertical connecting line - centered on desktop */}
+          {/* Vertical connecting line */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2">
             <div className="absolute inset-0 bg-[#5C306C]/5" />
             <motion.div
@@ -86,121 +95,78 @@ export default function DeeperContext() {
             />
           </div>
 
-          {/* Beat 1: Where We Start - LEFT (removed md:text-right) */}
-          <motion.div
-            className="relative grid md:grid-cols-2 gap-8 md:gap-16"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
-          >
-            <div className="md:pr-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
+          {/* Beat 1: Meeting You Where You Are - LEFT */}
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10">
+            <div className="md:pr-10">
+              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
                 Meeting You Where You Are
-              </span>
-              <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">
-                We inherit whatever you have.{" "}
-                <span className="font-semibold">
-                  The Excel sheets holding everything together
-                </span>
-                . The expensive system no one uses. The database someone&apos;s nephew built in 2012.
-              </p>
-              <p className="text-sm md:text-base text-[#5C306C]/70 leading-[1.8]">
-                We don&apos;t judge. These &ldquo;solutions&rdquo; tell us important truths about what your team needs.{" "}
-                <span className="font-medium">That Excel sheet that works? There&apos;s a reason five organizations independently created something similar.</span>
+              </h3>
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+                We <strong className="font-semibold text-[#5C306C]">inherit whatever you have</strong>. That Excel sheet from 2008 holds years of <strong className="font-semibold text-[#5C306C]">institutional knowledge</strong>. Those workarounds everyone relies on reveal where systems fall short. We learn from what&apos;s already working and what isn&apos;t—not from assumptions about what you should need. When five organizations independently build similar solutions, <span className="font-medium">that pattern tells us something the sector has been trying to say</span>.
               </p>
             </div>
             <div className="hidden md:block" />
-            
-            {/* Node */}
-            <div className="hidden md:block absolute left-1/2 top-8 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8FAE8B] ring-4 ring-[#8FAE8B]/20" />
-          </motion.div>
+            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8FAE8B] ring-4 ring-[#8FAE8B]/20" />
+          </AnimatedBeat>
 
-          {/* Beat 2: Why This Matters - RIGHT */}
-          <motion.div
-            className="relative grid md:grid-cols-2 gap-8 md:gap-16 md:-mt-16"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
-          >
+          {/* Beat 2: Expertise That Shapes Development - RIGHT */}
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
-            <div className="md:pl-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
-                Frontline Expertise
-              </span>
-              <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">
-                The person answering crisis calls at 2 AM knows things about the work that{" "}
-                <span className="font-semibold">take doing the job to understand</span>.
-                They know which fields in the intake form don&apos;t make sense. They know what data never gets captured. They know the workarounds everyone uses.
+            <div className="md:pl-10">
+              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
+                Expertise That Shapes Development
+              </h3>
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+                The people using these tools every day—connected to communities, to the work, to the systems this technology needs to fit—hold knowledge that doesn&apos;t show up in a requirements document. Without it shaping development, technology doesn&apos;t fit. It doesn&apos;t improve things in ways that last.
               </p>
-              <p className="text-sm md:text-base text-[#5C306C]/70 leading-[1.8] border-l-2 border-[#5C306C]/20 pl-4">
-                That expertise is where the data comes from. We think it should guide how technology gets built.
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+                So we build infrastructure where <strong className="font-semibold text-[#5C306C]">frontline insight holds real weight</strong>. Where <strong className="font-semibold text-[#5C306C]">feedback connects directly to what gets built next</strong>. Where there&apos;s enough safety to try something, learn from it, and adjust.
               </p>
             </div>
-            
-            {/* Node */}
-            <div className="hidden md:block absolute left-1/2 top-8 -translate-x-1/2 w-3 h-3 rounded-full bg-[#FF9966] ring-4 ring-[#FF9966]/20" />
-          </motion.div>
+            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#FF9966] ring-4 ring-[#FF9966]/20" />
+          </AnimatedBeat>
 
-          {/* Beat 3: What It Takes - LEFT (removed md:text-right) */}
-          <motion.div
-            className="relative grid md:grid-cols-2 gap-8 md:gap-16 md:-mt-8"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
-          >
-            <div className="md:pr-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
-                Building the Conditions
-              </span>
-              <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">
-                Getting there isn&apos;t automatic. It takes time to{" "}
-                <span className="font-semibold">build relationships where people feel comfortable raising problems</span>.
-                It takes processes for gathering feedback. It takes infrastructure that makes iteration affordable rather than a new project every time.
+          {/* Beat 3: What Time Makes Possible - LEFT */}
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10 md:-mt-20" delay={0.1}>
+            <div className="md:pr-10">
+              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
+                What Time Makes Possible
+              </h3>
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+                Short project timelines reward deliverables over understanding, handoffs over relationships. We&apos;ve structured ourselves differently—nonprofit, embedded teams, multi-year commitment—which creates room for a different kind of work.
               </p>
-              <p className="text-sm md:text-base text-[#5C306C]/70 leading-[1.8]">
-                Current system frameworks can make this difficult.{" "}
-                <span className="font-medium">Short timelines, rigid contracts, misaligned incentives.</span>
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+                Room for understanding before prescribing solutions. Room for relationships that outlast individual projects. Room for the kind of iteration that becomes affordable once trust is established—where <strong className="font-semibold text-[#5C306C]">a report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>.
+              </p>
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+                Most nonprofits have graveyards of abandoned systems. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> Knowledge transfers through the work itself, not just documentation handed over at the end.
               </p>
             </div>
             <div className="hidden md:block" />
-            
-            {/* Node */}
-            <div className="hidden md:block absolute left-1/2 top-8 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8FAE8B] ring-4 ring-[#8FAE8B]/20" />
-          </motion.div>
+            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8FAE8B] ring-4 ring-[#8FAE8B]/20" />
+          </AnimatedBeat>
 
-          {/* Beat 4: What We've Tried - RIGHT */}
-          <motion.div
-            className="relative grid md:grid-cols-2 gap-8 md:gap-16 md:-mt-8"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
-          >
+          {/* Beat 4: When Plans Change - RIGHT */}
+          <AnimatedBeat className="relative grid md:grid-cols-2 gap-4 md:gap-10 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
-            <div className="md:pl-16">
-              <span className="inline-block text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966] mb-4">
-                Small, Purposeful Decisions
-              </span>
-              <p className="text-base md:text-lg text-[#5C306C] leading-[1.8] mb-4">
-                We&apos;re not claiming to have solved any of that. But we&apos;ve tried to make choices—
-                <span className="font-semibold">how we structure partnerships, how we write contracts, our nonprofit status</span>—
-                that give us room to try.
+            <div className="md:pl-10">
+              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
+                When Plans Change
+              </h3>
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+                In typical consulting, unexpected roadblocks threaten the whole engagement. You discover you need different personnel, or data that has to be gathered first, or requirements that shifted—and suddenly you&apos;re over budget or starting the RFP process again.
               </p>
-              <p className="text-sm md:text-base text-[#5C306C]/70 leading-[1.8]">
-                Our job is{" "}
-                <span className="font-medium">incremental improvement</span>—making tomorrow slightly better than today without disrupting the critical work you&apos;re already doing.
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+                Our structure absorbs that differently. <strong className="font-semibold text-[#5C306C]">Roadblocks become problems to solve together</strong>, not threats to the project. Team composition adjusts to actual needs, not what was promised six months ago. The relationship continues even when the specifics shift.
+              </p>
+              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+                This isn&apos;t looseness—it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work actually unfolds</strong>.
               </p>
             </div>
-            
-            {/* Node */}
-            <div className="hidden md:block absolute left-1/2 top-8 -translate-x-1/2 w-3 h-3 rounded-full bg-[#5C306C] ring-4 ring-[#5C306C]/20" />
-          </motion.div>
+            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#5C306C] ring-4 ring-[#5C306C]/20" />
+          </AnimatedBeat>
         </div>
       </div>
     </section>
   );
 }
-// END MODIFICATION

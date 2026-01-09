@@ -56,16 +56,16 @@ export default function Contact() {
             {/* Header */}
             <div className="space-y-4">
               <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#FF9966]">
-                Start a Conversation
+                Let&apos;s Connect
               </span>
               <h2 className="text-3xl md:text-4xl font-light text-[#5C306C] leading-[1.2] tracking-tight">
-                Let&apos;s talk about what you need
+                We engage with organizations in different ways
               </h2>
             </div>
-            
+
             {/* Description */}
             <p className="text-base text-[#5C306C]/70 leading-relaxed">
-              We&apos;re building partnerships with organizations in Calgary and Edmonton—crisis services, community housing, mental health support, and social service providers.
+              Educational workshops on data, infrastructure, or ethical technology. Placements and PAL-Labs information. Connections between organizations facing similar challenges. Embedded teams, shared resources or tools that might help. Technical support for a specific problem. Or just a conversation about what you&apos;re building.
             </p>
 
             {/* Divider line */}
@@ -114,7 +114,7 @@ export default function Contact() {
                       <div className="space-y-2">
                         <label 
                           htmlFor="firstName" 
-                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/50 block"
+                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/70 block"
                         >
                           First Name
                         </label>
@@ -129,7 +129,7 @@ export default function Contact() {
                       <div className="space-y-2">
                         <label 
                           htmlFor="lastName" 
-                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/50 block"
+                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/70 block"
                         >
                           Last Name
                         </label>
@@ -148,7 +148,7 @@ export default function Contact() {
                       <div className="space-y-2">
                         <label 
                           htmlFor="email" 
-                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/50 block"
+                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/70 block"
                         >
                           Email
                         </label>
@@ -163,7 +163,7 @@ export default function Contact() {
                       <div className="space-y-2">
                         <label 
                           htmlFor="org" 
-                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/50 block"
+                          className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/70 block"
                         >
                           Organization <span className="font-normal normal-case tracking-normal text-[#5C306C]/35">(optional)</span>
                         </label>
@@ -180,7 +180,7 @@ export default function Contact() {
                     <div className="space-y-2">
                       <label 
                         htmlFor="message" 
-                        className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/50 block"
+                        className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/70 block"
                       >
                         How can we help?
                       </label>
