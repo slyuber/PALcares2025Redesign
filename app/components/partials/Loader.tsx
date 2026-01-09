@@ -77,7 +77,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         userAgent.includes('puppeteer') ||
         userAgent.includes('playwright') ||
         // Check for Chrome DevTools protocol (used by most testing tools)
-        !!(window as typeof window & { __REACT_DEVTOOLS_GLOBAL_HOOK__?: unknown }).chrome?.csi;
+        !!(window as typeof window & { chrome?: { csi?: unknown } }).chrome?.csi;
 
       const seen = sessionStorage.getItem("loaderSeen");
       if (seen === "true" || isAutomatedTest) {
