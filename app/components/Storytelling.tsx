@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue, useInView, useMotionValueEvent } from "framer-motion";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
 import { EASE_OUT_EXPO } from "../lib/animation-constants";
@@ -67,26 +67,22 @@ export default function Storytelling() {
     };
   }, [headerHeight]); // headerHeight included - the check inside measureHeader prevents infinite loops
 
-  useEffect(() => {
-    return scrollYProgress.on("change", (latest) => {
-      const newIndex = Math.min(4, Math.floor(latest * 5));
-      // Only trigger state update if index actually changed (ref comparison avoids setState overhead)
-      if (newIndex !== lastIndexRef.current) {
-        lastIndexRef.current = newIndex;
-        setActiveIndex(newIndex);
-      }
-    });
-  }, [scrollYProgress]);
+  // PERF: useMotionValueEvent is optimized internally vs manual .on() subscription
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const newIndex = Math.min(4, Math.floor(latest * 5));
+    // Only trigger state update if index actually changed (ref comparison avoids setState overhead)
+    if (newIndex !== lastIndexRef.current) {
+      lastIndexRef.current = newIndex;
+      setActiveIndex(newIndex);
+    }
+  });
 
   // Direct MotionValue transforms for scroll-linked visuals
-  const smoothProgress = useTransform(scrollYProgress, (v) => {
-    return v;
-  });
-  const lineOpacity = useTransform(smoothProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
+  // PERF: Removed no-op smoothProgress transform - use scrollYProgress directly
+  const lineOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
 
   // Two-state intro reveal
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
-  const smoothSubtitleOpacity = subtitleOpacity;
 
   // Scroll-linked color transition for "ecosystem" text
   // Starts purple (same as heading), transitions to coral as user scrolls
@@ -334,7 +330,7 @@ export default function Storytelling() {
                   strokeWidth="1"
                   fill="none"
                   vectorEffect="non-scaling-stroke"
-                  style={{ pathLength: prefersReducedMotion ? 1 : smoothProgress, opacity: lineOpacity }}
+                  style={{ pathLength: prefersReducedMotion ? 1 : scrollYProgress, opacity: lineOpacity }}
                 />
               </svg>
             </div>
@@ -365,7 +361,7 @@ export default function Storytelling() {
                   </h2>
                   <motion.p
                     className="text-[#5C306C]/70 leading-relaxed max-w-3xl mx-auto text-base md:text-lg font-normal"
-                    style={{ opacity: smoothSubtitleOpacity }}
+                    style={{ opacity: subtitleOpacity }}
                   >
                     Not three separate services—<span className="font-semibold">one approach</span> where each part takes advantage of&nbsp;the&nbsp;others.
                   </motion.p>
@@ -551,31 +547,30 @@ export default function Storytelling() {
   );
 }
 
+// PERF: Use CSS transitions for inactive panels instead of Framer Motion animate
+// This eliminates RAF subscriptions for panels that aren't visible
 const Panel = React.memo(({ active, children, expanded = false }: { active: boolean, children: React.ReactNode, expanded?: boolean }) => {
   return (
-    <motion.div
+    <div
       data-storytelling-active-panel={active ? "true" : "false"}
-      initial={false}
-      animate={{
-        opacity: active ? 1 : 0,
-        y: active ? 0 : 24,
-      }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "absolute inset-0 flex items-center justify-center",
-        active ? "pointer-events-auto" : "pointer-events-none"
+        "absolute inset-0 flex items-center justify-center transition-all duration-400 ease-out",
+        active
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 translate-y-6 pointer-events-none"
       )}
+      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
     >
-      <motion.div
-        className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24"
-        animate={{
-          maxWidth: expanded ? "1400px" : "1152px"
+      <div
+        className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24 transition-all duration-150"
+        style={{
+          maxWidth: expanded ? "1400px" : "1152px",
+          transitionTimingFunction: `cubic-bezier(${EASE_OUT_EXPO.join(",")})`
         }}
-        transition={{ duration: 0.15, ease: EASE_OUT_EXPO }}
       >
         {children}
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 });
 Panel.displayName = 'Panel';
@@ -872,18 +867,19 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
 }
 
 // Desktop version - with inline expansion to full-width reader mode
-function ContentPanel({ 
-  active, 
-  icon, 
-  label, 
-  title, 
-  description, 
-  secondaryDescription, 
-  details, 
-  items, 
-  quote, 
-  prefersReducedMotion, 
-  fillProgress = 0 
+// PERF: Memoized to prevent re-renders when other panels update
+const ContentPanel = React.memo(function ContentPanel({
+  active,
+  icon,
+  label,
+  title,
+  description,
+  secondaryDescription,
+  details,
+  items,
+  quote,
+  prefersReducedMotion,
+  fillProgress = 0
 }: ContentPanelProps) {
   const [expanded, setExpanded] = useState(false);
 
@@ -931,13 +927,13 @@ function ContentPanel({
                 {title}
               </h2>
 
-              {/* Quote */}
+              {/* Quote - PERF: Use CSS transition instead of Framer Motion */}
               {quote && (
-                <motion.blockquote
-                  className="hidden lg:block pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic mt-8 pt-6"
-                  initial={false}
-                  animate={{ opacity: active ? 1 : 0 }}
-                  transition={{ duration: 0.3 }}
+                <blockquote
+                  className={cn(
+                    "hidden lg:block pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic mt-8 pt-6 transition-opacity duration-300",
+                    active ? "opacity-100" : "opacity-0"
+                  )}
                 >
                   <div
                     style={{
@@ -949,7 +945,7 @@ function ContentPanel({
                   >
                     &ldquo;{quote}&rdquo;
                   </div>
-                </motion.blockquote>
+                </blockquote>
               )}
             </div>
 
@@ -985,21 +981,21 @@ function ContentPanel({
                   </button>
                 )}
                 
-                {/* Bullet points */}
+                {/* Bullet points - PERF: Use CSS transition instead of Framer Motion */}
                 <ul className="pt-2 grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-3">
                   {items.map((item: string, i: number) => (
-                    <motion.li
+                    <li
                       key={i}
-                      className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] group"
-                      initial={false}
-                      animate={{ opacity: active ? 1 : 0, x: active ? 0 : 8 }}
-                      transition={{ duration: 0.3 }}
+                      className={cn(
+                        "flex items-start gap-3 text-[#5C306C]/90 text-[15px] group transition-all duration-300",
+                        active ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
+                      )}
                     >
                       <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5">
                         <ArrowRight className="w-3 h-3 text-[#FF9966]" />
                       </div>
                       <span className="leading-relaxed">{item}</span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
                 
@@ -1125,7 +1121,8 @@ function ContentPanel({
       </AnimatePresence>
     </Panel>
   );
-}
+});
+ContentPanel.displayName = 'ContentPanel';
 
 interface EcosystemPanelProps {
   active: boolean;
@@ -1134,16 +1131,17 @@ interface EcosystemPanelProps {
   prefersReducedMotion: boolean | null;
 }
 
-function EcosystemPanel({ active, title, description, prefersReducedMotion }: EcosystemPanelProps) {
+// PERF: Memoized to prevent re-renders + CSS transitions instead of Framer Motion
+const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, description, prefersReducedMotion }: EcosystemPanelProps) {
   return (
     <Panel active={active}>
       <div className="w-full max-w-5xl h-full flex flex-col justify-center items-center px-6 py-8">
-        {/* Header Section */}
-        <motion.div
-          className="mb-6 md:mb-10 text-center"
-          initial={false}
-          animate={{ opacity: active ? 1 : 0, y: active ? 0 : 10 }}
-          transition={{ duration: 0.4 }}
+        {/* Header Section - PERF: CSS transition */}
+        <div
+          className={cn(
+            "mb-6 md:mb-10 text-center transition-all duration-400",
+            active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2.5"
+          )}
         >
           <h2 className="text-[#FF9966] mb-4 text-2xl md:text-3xl font-medium tracking-tight">
             {title}
@@ -1151,60 +1149,62 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
           <p className="text-[#5C306C]/75 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
             {description}
           </p>
-        </motion.div>
+        </div>
 
         {/* MOBILE LAYOUT - Vertical Stack */}
         <div className="block md:hidden w-full">
           <div className="flex flex-col items-center space-y-6">
-            {/* Research */}
-            <motion.div
-              initial={false}
-              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 12 }}
-              transition={{ duration: 0.4 }}
-              className="flex flex-col items-center text-center"
+            {/* Research - PERF: CSS transition */}
+            <div
+              className={cn(
+                "flex flex-col items-center text-center transition-all duration-400",
+                active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+              )}
             >
               <BookOpen className="w-14 h-14 text-[#7388e0] mb-3" strokeWidth={1.3} />
               <h3 className="text-[#7388e0] mb-2 text-lg font-medium">Research</h3>
               <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
                 Generalizes & shares under open license
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div animate={{ y: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
+            {/* PERF: CSS animation instead of Framer Motion infinite */}
+            <div className={prefersReducedMotion ? "" : "animate-bounce-slow"}>
               <ArrowDown className="w-5 h-5 text-[#f18f6f] opacity-30" strokeWidth={2} />
-            </motion.div>
+            </div>
 
-            {/* Teams */}
-            <motion.div
-              initial={false}
-              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 12 }}
-              transition={{ duration: 0.4 }}
-              className="flex flex-col items-center text-center"
+            {/* Teams - PERF: CSS transition */}
+            <div
+              className={cn(
+                "flex flex-col items-center text-center transition-all duration-400",
+                active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+              )}
             >
               <Users className="w-14 h-14 text-[#ea5dff] mb-3" strokeWidth={1.3} />
               <h3 className="text-[#ea5dff] mb-2 text-lg font-medium">Teams</h3>
               <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
                 Foundational work, relationships & infrastructure
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div animate={{ y: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
+            {/* PERF: CSS animation instead of Framer Motion infinite */}
+            <div className={prefersReducedMotion ? "" : "animate-bounce-slow"} style={{ animationDelay: "0.5s" }}>
               <ArrowDown className="w-5 h-5 text-[#f18f6f] opacity-30" strokeWidth={2} />
-            </motion.div>
+            </div>
 
-            {/* Labs */}
-            <motion.div
-              initial={false}
-              animate={{ opacity: active ? 1 : 0, y: active ? 0 : 12 }}
-              transition={{ duration: 0.4 }}
-              className="flex flex-col items-center text-center"
+            {/* Labs - PERF: CSS transition */}
+            <div
+              className={cn(
+                "flex flex-col items-center text-center transition-all duration-400",
+                active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+              )}
             >
               <FlaskConical className="w-14 h-14 text-[#FF9966] mb-3" strokeWidth={1.3} />
               <h3 className="text-[#FF9966] mb-2 text-lg font-medium">Labs</h3>
               <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
                 Extends capacity, builds on foundation
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
 
@@ -1261,15 +1261,15 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
             )}
           </svg>
 
-          {/* Nodes positioned absolutely */}
+          {/* Nodes positioned absolutely - PERF: CSS transitions */}
           <div className="relative h-full w-full">
             {/* Center mark - more faded, behind nodes */}
-            <motion.div
-              className="absolute pointer-events-none left-1/2 top-[62%] -translate-x-1/2 -translate-y-1/2"
+            <div
+              className={cn(
+                "absolute pointer-events-none left-1/2 top-[62%] -translate-x-1/2 -translate-y-1/2 transition-all duration-700 delay-100",
+                active ? "opacity-[0.12] scale-100" : "opacity-0 scale-95"
+              )}
               style={{ zIndex: 0 }}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: active ? 0.12 : 0, scale: active ? 1 : 0.95 }}
-              transition={{ duration: 1.2, delay: 0.4 }}
             >
               {/* ~15% smaller than prior 120x114 */}
               <div className="relative w-[102px] h-[97px]">
@@ -1280,14 +1280,14 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
                   className="object-contain"
                 />
               </div>
-            </motion.div>
+            </div>
 
-            {/* Research - Top */}
-            <motion.div
-              className="absolute left-1/2 top-0 -translate-x-1/2 z-10"
-              initial={false}
-              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.95 }}
-              transition={{ duration: 0.4 }}
+            {/* Research - Top - PERF: CSS transition, keep whileHover for interaction */}
+            <div
+              className={cn(
+                "absolute left-1/2 top-0 -translate-x-1/2 z-10 transition-all duration-400",
+                active ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              )}
             >
               <div className="flex flex-col items-center group">
                 <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
@@ -1298,14 +1298,14 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
                   Generalizes & shares under open license
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Teams - Bottom Left */}
-            <motion.div
-              className="absolute left-[8%] bottom-[22%] z-10"
-              initial={false}
-              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.95 }}
-              transition={{ duration: 0.4 }}
+            {/* Teams - Bottom Left - PERF: CSS transition */}
+            <div
+              className={cn(
+                "absolute left-[8%] bottom-[22%] z-10 transition-all duration-400",
+                active ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              )}
             >
               <div className="flex flex-col items-center group">
                 <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
@@ -1316,14 +1316,14 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
                   Foundational work, relationships & infrastructure
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Labs - Bottom Right */}
-            <motion.div
-              className="absolute right-[8%] bottom-[22%] z-10"
-              initial={false}
-              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.95 }}
-              transition={{ duration: 0.4 }}
+            {/* Labs - Bottom Right - PERF: CSS transition */}
+            <div
+              className={cn(
+                "absolute right-[8%] bottom-[22%] z-10 transition-all duration-400",
+                active ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              )}
             >
               <div className="flex flex-col items-center group">
                 <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
@@ -1334,10 +1334,11 @@ function EcosystemPanel({ active, title, description, prefersReducedMotion }: Ec
                   Extends capacity, builds on foundation
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
     </Panel>
   );
-}
+});
+EcosystemPanel.displayName = 'EcosystemPanel';

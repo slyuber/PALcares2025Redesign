@@ -334,6 +334,16 @@ margin: 2em 0 !important;
   animation: sway-medium 22s ease-in-out infinite;
 }
 
+/* PERF: CSS animation for bouncing arrows - replaces Framer Motion infinite animations */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
 /* ====== LOADER ANIMATION UTILITIES ====== */
 /* GPU acceleration hints for smoother animations */
 

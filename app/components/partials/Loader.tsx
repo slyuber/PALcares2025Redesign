@@ -51,6 +51,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   const skipLoaderEnv = process.env.NEXT_PUBLIC_SKIP_LOADER === 'true';
 
   const [initialized, setInitialized] = useState(skipLoaderEnv);
+  const [fontsReady, setFontsReady] = useState(false); // Wait for fonts before animating
   const [showLoader, setShowLoader] = useState(!skipLoaderEnv);
   const [loaderSeen, setLoaderSeen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0); // Start at 0, not -1
@@ -85,6 +86,13 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       }
       setInitialized(true);
 
+      // Wait for fonts to load before starting animation
+      // This prevents jank from font loading during animation
+      document.fonts.ready.then(() => {
+        // Small delay to ensure paint is complete
+        setTimeout(() => setFontsReady(true), 100);
+      });
+
       const handleResize = () => {
         const seen = sessionStorage.getItem("loaderSeen");
         if (seen === "true" && showLoader) {
@@ -99,7 +107,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   }, [loaderSeen, showLoader]);
 
   useEffect(() => {
-    if (!showLoader || !initialized) return;
+    if (!showLoader || !initialized || !fontsReady) return;
 
     if (prefersReducedMotion) {
       setTimeout(() => {
@@ -110,8 +118,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Word timings - start immediately with first word
-    const wordTimings = [700, 1400, 2100, 2800]; // When each subsequent word appears
+    // Word timings - start after fonts are ready
+    const wordTimings = [600, 1200, 1800, 2400]; // Slightly faster since we waited for fonts
     const timeouts: NodeJS.Timeout[] = [];
 
     wordTimings.forEach((time, index) => {
@@ -121,8 +129,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     });
 
     // Merge after last word has been shown for a moment
-    timeouts.push(setTimeout(() => setIsMerged(true), 3400));
-    timeouts.push(setTimeout(() => setIsReady(true), 4200));
+    timeouts.push(setTimeout(() => setIsMerged(true), 3000));
+    timeouts.push(setTimeout(() => setIsReady(true), 3600));
 
     // Safety timeout
     timeouts.push(setTimeout(() => {
@@ -134,7 +142,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     }, 8000));
 
     return () => timeouts.forEach(clearTimeout);
-  }, [showLoader, initialized, prefersReducedMotion]);
+  }, [showLoader, initialized, fontsReady, prefersReducedMotion]);
 
   useEffect(() => {
     if (!isReady || isFinished) return;
@@ -200,27 +208,40 @@ export default function Loader({ children }: { children: React.ReactNode }) {
 
             {/* ═══════════════════════════════════════════════════════════════
                 LOGO TEXT
-                
+
                 Key insight from research:
                 - Use inline-flex with align-items: baseline for text alignment
                 - Let words take their natural width (no fixed containers)
                 - AnimatePresence mode="wait" ensures only one word at a time
                 - The whole block naturally centers in its parent
+                - Show static icon while fonts load to prevent jank
             ═══════════════════════════════════════════════════════════════ */}
             <div className="relative z-10">
-              {/* 
-                Using a simple inline-flex container
-                align-items: baseline ensures PAL and the word align on text baseline
-                gap provides consistent spacing
-              */}
+              {/* Static icon shown while fonts load */}
+              <AnimatePresence mode="wait">
+                {!fontsReady ? (
+                  <motion.div
+                    key="loading-icon"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+                  >
+                    <PALcaresIcon size="clamp(4rem, 12vw, 8rem)" />
+                  </motion.div>
+                ) : (
               <motion.div
+                key="logo-text"
                 style={{
                   display: "inline-flex",
                   alignItems: "baseline",
                   justifyContent: "center",
                 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
                 layout
-                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               >
                 {/* ICON - appears after merge */}
                 <AnimatePresence>
@@ -333,6 +354,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                   )}
                 </AnimatePresence>
               </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* ENTER PROMPT */}
