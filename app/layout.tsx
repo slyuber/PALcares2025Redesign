@@ -11,6 +11,7 @@ import "./globals.scss";
 import Loader from "./components/partials/Loader";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import LenisProvider from "./components/providers/LenisProvider";
 
 export const metadata = {
   title: "PALcares | Technology Partnerships for Alberta's Social Services",
@@ -53,13 +54,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body className={`${raleway.variable} antialiased`}>
-        <Loader>
-          <Header />
-          <section className="main">{children}</section>
-          <Footer />
-        </Loader>
+        <LenisProvider>
+          <Loader>
+            <Header />
+            <section className="main">{children}</section>
+            <Footer />
+          </Loader>
+        </LenisProvider>
       </body>
     </html>
   );
