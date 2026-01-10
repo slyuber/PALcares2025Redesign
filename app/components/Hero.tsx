@@ -155,7 +155,20 @@ export default function Hero() {
             className="font-light leading-[1.15] tracking-tight text-[#5C306C]"
             style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
           >
-            Technology that <span className="font-medium">strengthens the relationships</span> <br className="hidden md:block" />
+            Technology that{" "}
+            <motion.span
+              className="font-medium inline-block"
+              initial={{ opacity: 0.7, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                delay: prefersReducedMotion ? 0 : 0.3,
+                duration: prefersReducedMotion ? 0 : 0.6,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+            >
+              strengthens the relationships
+            </motion.span>{" "}
+            <br className="hidden md:block" />
             your work depends on
           </h1>
 

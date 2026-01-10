@@ -92,6 +92,14 @@ export default function Storytelling() {
     ["#5C306C", "#FF9966"]
   );
 
+  // Letter-spacing animation for "ecosystem" - letters converge together
+  // Metaphor: the ecosystem "comes together" as user engages
+  const ecosystemLetterSpacing = useTransform(
+    scrollYProgress,
+    [0.02, 0.08],
+    ["0.08em", "0em"]
+  );
+
   return (
     <>
       {/* Mobile Layout */}
@@ -353,7 +361,10 @@ export default function Storytelling() {
                     An{" "}
                     <motion.span
                       className="inline-block"
-                      style={{ color: ecosystemColor }}
+                      style={{
+                        color: ecosystemColor,
+                        letterSpacing: ecosystemLetterSpacing,
+                      }}
                     >
                       ecosystem
                     </motion.span>{" "}
