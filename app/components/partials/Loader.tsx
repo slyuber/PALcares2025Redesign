@@ -76,7 +76,9 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         userAgent.includes('lighthouse') ||
         userAgent.includes('headless') ||
         userAgent.includes('puppeteer') ||
-        userAgent.includes('playwright');
+        userAgent.includes('playwright') ||
+        // Playwright Chrome includes "HeadlessChrome" in UA
+        userAgent.includes('headlesschrome');
 
       const seen = sessionStorage.getItem("loaderSeen");
       if (seen === "true" || isAutomatedTest) {

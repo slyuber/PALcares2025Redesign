@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, useInView } from "framer-motion";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 
-// Reusable animated section - useInView is stable and won't re-trigger
+// Reusable animated section - useInView triggers with refined premium animation
 function AnimatedBeat({
   children,
   className,
@@ -17,17 +17,24 @@ function AnimatedBeat({
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  // Trigger when element is 15% visible for smoother entry
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 1, y: 0 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20, filter: "blur(4px)" }}
+      animate={isInView
+        ? { opacity: 1, y: 0, filter: "blur(0px)" }
+        : { opacity: 0, y: 20, filter: "blur(4px)" }
+      }
       transition={{
-        duration: 0,
+        duration: prefersReducedMotion ? 0 : 0.55,
+        delay: prefersReducedMotion ? 0 : delay,
+        ease: [0.16, 1, 0.3, 1], // EASE_PREMIUM
+        filter: { duration: prefersReducedMotion ? 0 : 0.4 }, // Faster blur clear
       }}
     >
       {children}
@@ -37,16 +44,17 @@ function AnimatedBeat({
 
 export default function DeeperContext() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = useReducedMotion();
   const headerRef = useRef<HTMLDivElement>(null);
-  const headerInView = useInView(headerRef, { once: true, amount: 0.3 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    // Offset: start measuring when section top hits viewport center
+    // Complete when section end approaches viewport top
+    offset: ["start center", "end 0.2"],
   });
 
-  const lineHeight = useTransform(scrollYProgress, [0, 0.7], ["0%", "100%"]);
+  // Line starts empty (0%) and fills to 100% as user scrolls through section
+  const lineHeight = useTransform(scrollYProgress, [0, 0.85], ["0%", "100%"]);
 
   return (
     <section
@@ -70,7 +78,7 @@ export default function DeeperContext() {
             Our Approach
           </h2>
           <p
-            className="text-base md:text-lg text-[#5C306C]/80 font-light max-w-xl mx-auto"
+            className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-light max-w-2xl mx-auto lg:whitespace-nowrap"
           >
             What makes genuine partnership possible—and why it matters for the work.
           </p>

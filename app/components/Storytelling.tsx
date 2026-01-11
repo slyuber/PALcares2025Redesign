@@ -81,23 +81,34 @@ export default function Storytelling() {
   // PERF: Removed no-op smoothProgress transform - use scrollYProgress directly
   const lineOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
 
-  // Two-state intro reveal
-  const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
+  // Two-state intro reveal - completes by 0.06 for early clarity
+  const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.06], [0, 1]);
 
   // Scroll-linked color transition for "ecosystem" text
   // Starts purple (same as heading), transitions to coral as user scrolls
+  // Completes by 0.07 to sync with settle
   const ecosystemColor = useTransform(
     scrollYProgress,
-    [0.02, 0.08],
+    [0.02, 0.07],
     ["#5C306C", "#FF9966"]
   );
 
   // Letter-spacing animation for "ecosystem" - letters converge together
   // Metaphor: the ecosystem "comes together" as user engages
+  // Completes by 0.07 to sync with settle
   const ecosystemLetterSpacing = useTransform(
     scrollYProgress,
-    [0.02, 0.08],
+    [0.02, 0.07],
     ["0.08em", "0em"]
+  );
+
+  // Scale animation for "ecosystem" - subtle overshoot then settle
+  // Creates a satisfying "landing" moment when the transition completes
+  // Extended range for more pronounced settle effect
+  const ecosystemScale = useTransform(
+    scrollYProgress,
+    [0.02, 0.05, 0.07, 0.10],
+    [1, 1.02, 1.005, 1]
   );
 
   return (
@@ -353,7 +364,7 @@ export default function Storytelling() {
             >
               {/* Panel 0: Intro */}
               <Panel active={activeIndex === 0}>
-                <div className="text-center max-w-4xl mx-auto space-y-6">
+                <div className="text-center max-w-4xl mx-auto space-y-6 relative">
                   <h2
                     className="font-light text-[#5C306C] tracking-tight leading-[1.2]"
                     style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
@@ -364,6 +375,7 @@ export default function Storytelling() {
                       style={{
                         color: ecosystemColor,
                         letterSpacing: ecosystemLetterSpacing,
+                        scale: ecosystemScale,
                       }}
                     >
                       ecosystem
@@ -376,6 +388,28 @@ export default function Storytelling() {
                   >
                     Not three separate services—<span className="font-semibold">one approach</span> where each part takes advantage of&nbsp;the&nbsp;others.
                   </motion.p>
+
+                  {/* Scroll cue - fades out as user starts scrolling */}
+                  <motion.div
+                    className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: activeIndex === 0 ? 0.6 : 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <span className="text-[10px] text-[#5C306C]/40 tracking-[0.2em] uppercase mb-2">
+                      Scroll
+                    </span>
+                    {!prefersReducedMotion && (
+                      <motion.div
+                        className="w-px h-5 bg-[#5C306C]/25"
+                        animate={{ scaleY: [1, 0.5, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                    )}
+                    {prefersReducedMotion && (
+                      <div className="w-px h-5 bg-[#5C306C]/25" />
+                    )}
+                  </motion.div>
                 </div>
               </Panel>
 
@@ -440,7 +474,7 @@ export default function Storytelling() {
               <EcosystemPanel
                 active={activeIndex === 4}
                 title="How It Connects"
-                description="Each part sustains the others. Teams does the foundational work—building relationships, infrastructure, and tools. Research generalizes solutions that have been tested through real use and releases them under open license. Labs builds on existing infrastructure to extend capacity."
+                description={<><strong className="text-[#5C306C] font-semibold">Each part sustains the others.</strong> Teams does the foundational work—building <strong className="text-[#5C306C] font-medium">relationships, infrastructure, and tools</strong>. Research generalizes solutions that have been <strong className="text-[#5C306C] font-medium">tested through real use</strong> and releases them under open license. Labs builds on existing infrastructure to <strong className="text-[#5C306C] font-medium">extend capacity</strong>.</>}
                 prefersReducedMotion={prefersReducedMotion}
               />
             </div>
@@ -1138,7 +1172,7 @@ ContentPanel.displayName = 'ContentPanel';
 interface EcosystemPanelProps {
   active: boolean;
   title: string;
-  description: string;
+  description: React.ReactNode;
   prefersReducedMotion: boolean | null;
 }
 
@@ -1154,10 +1188,10 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2.5"
           )}
         >
-          <h2 className="text-[#FF9966] mb-4 text-2xl md:text-3xl font-medium tracking-tight">
+          <h2 className="text-[#FF9966] mb-4 text-2xl md:text-3xl font-semibold tracking-tight">
             {title}
           </h2>
-          <p className="text-[#5C306C]/75 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+          <p className="text-[#5C306C]/85 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
             {description}
           </p>
         </div>
@@ -1293,56 +1327,68 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
               </div>
             </div>
 
-            {/* Research - Top - PERF: CSS transition, keep whileHover for interaction */}
+            {/* Research - Top - timed pulse when particles arrive */}
             <div
               className={cn(
-                "absolute left-1/2 top-0 -translate-x-1/2 z-10 transition-all duration-400",
-                active ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                "absolute left-1/2 top-0 -translate-x-1/2 z-10 transition-all duration-500 ease-out",
+                active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
+              style={{ transitionDelay: active ? "100ms" : "0ms" }}
             >
-              <div className="flex flex-col items-center group">
-                <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
-                  <BookOpen className="w-12 h-12 text-[#7388e0] mb-3" strokeWidth={1.3} />
-                </motion.div>
-                <h3 className="text-[#7388e0] mb-1.5 text-lg font-medium">Research</h3>
-                <p className="text-[#9b8a9e] text-center text-sm max-w-[160px] leading-snug">
-                  Generalizes & shares under open license
+              <div className="flex flex-col items-center">
+                <div className={cn(
+                  "relative p-3",
+                  active && !prefersReducedMotion && "animate-node-pulse-research"
+                )}>
+                  <BookOpen className="w-10 h-10 text-[#7388e0]" strokeWidth={1.4} />
+                </div>
+                <h3 className="text-[#7388e0] mt-3 mb-1 text-base font-semibold tracking-tight">Research</h3>
+                <p className="text-[#5C306C]/65 text-center text-sm max-w-[160px] leading-relaxed">
+                  Generalizes & shares under <span className="text-[#7388e0] font-medium">open license</span>
                 </p>
               </div>
             </div>
 
-            {/* Teams - Bottom Left - PERF: CSS transition */}
+            {/* Teams - Bottom Left - timed pulse when particles arrive */}
             <div
               className={cn(
-                "absolute left-[8%] bottom-[22%] z-10 transition-all duration-400",
-                active ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                "absolute left-[8%] bottom-[22%] z-10 transition-all duration-500 ease-out",
+                active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
+              style={{ transitionDelay: active ? "200ms" : "0ms" }}
             >
-              <div className="flex flex-col items-center group">
-                <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
-                  <Users className="w-12 h-12 text-[#ea5dff] mb-3" strokeWidth={1.3} />
-                </motion.div>
-                <h3 className="text-[#ea5dff] mb-1.5 text-lg font-medium">Teams</h3>
-                <p className="text-[#9b8a9e] text-center text-sm max-w-[160px] leading-snug">
-                  Foundational work, relationships & infrastructure
+              <div className="flex flex-col items-center">
+                <div className={cn(
+                  "relative p-3",
+                  active && !prefersReducedMotion && "animate-node-pulse-teams"
+                )}>
+                  <Users className="w-10 h-10 text-[#ea5dff]" strokeWidth={1.4} />
+                </div>
+                <h3 className="text-[#ea5dff] mt-3 mb-1 text-base font-semibold tracking-tight">Teams</h3>
+                <p className="text-[#5C306C]/65 text-center text-sm max-w-[160px] leading-relaxed">
+                  <span className="text-[#ea5dff] font-medium">Foundational</span> work & infrastructure
                 </p>
               </div>
             </div>
 
-            {/* Labs - Bottom Right - PERF: CSS transition */}
+            {/* Labs - Bottom Right - timed pulse when particles arrive */}
             <div
               className={cn(
-                "absolute right-[8%] bottom-[22%] z-10 transition-all duration-400",
-                active ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                "absolute right-[8%] bottom-[22%] z-10 transition-all duration-500 ease-out",
+                active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
+              style={{ transitionDelay: active ? "300ms" : "0ms" }}
             >
-              <div className="flex flex-col items-center group">
-                <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 400 }}>
-                  <FlaskConical className="w-12 h-12 text-[#FF9966] mb-3" strokeWidth={1.3} />
-                </motion.div>
-                <h3 className="text-[#FF9966] mb-1.5 text-lg font-medium">Labs</h3>
-                <p className="text-[#9b8a9e] text-center text-sm max-w-[160px] leading-snug">
-                  Extends capacity, builds on foundation
+              <div className="flex flex-col items-center">
+                <div className={cn(
+                  "relative p-3",
+                  active && !prefersReducedMotion && "animate-node-pulse-labs"
+                )}>
+                  <FlaskConical className="w-10 h-10 text-[#FF9966]" strokeWidth={1.4} />
+                </div>
+                <h3 className="text-[#FF9966] mt-3 mb-1 text-base font-semibold tracking-tight">Labs</h3>
+                <p className="text-[#5C306C]/65 text-center text-sm max-w-[160px] leading-relaxed">
+                  <span className="text-[#FF9966] font-medium">Extends capacity</span> locally
                 </p>
               </div>
             </div>

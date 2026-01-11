@@ -344,6 +344,50 @@ margin: 2em 0 !important;
   animation: bounce-slow 2s ease-in-out infinite;
 }
 
+/* Node pulse animations - synced to particle arrivals in EcosystemPanel */
+/* Particles travel ~4.5s between nodes, with staggered delays */
+
+@keyframes node-pulse-research {
+  0%, 35%, 45%, 80%, 90%, 100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  40%, 85% {
+    filter: drop-shadow(0 0 10px rgba(115, 136, 224, 0.5));
+  }
+}
+
+@keyframes node-pulse-teams {
+  0%, 40%, 50%, 85%, 95%, 100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  45%, 90% {
+    filter: drop-shadow(0 0 10px rgba(234, 93, 255, 0.5));
+  }
+}
+
+@keyframes node-pulse-labs {
+  0%, 38%, 48%, 82%, 92%, 100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  43%, 87% {
+    filter: drop-shadow(0 0 10px rgba(255, 153, 102, 0.5));
+  }
+}
+
+.animate-node-pulse-research {
+  animation: node-pulse-research 10s ease-in-out infinite;
+}
+
+.animate-node-pulse-teams {
+  animation: node-pulse-teams 10s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.animate-node-pulse-labs {
+  animation: node-pulse-labs 10s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
 /* ====== LOADER ANIMATION UTILITIES ====== */
 /* GPU acceleration hints for smoother animations */
 

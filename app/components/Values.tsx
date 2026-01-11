@@ -97,11 +97,11 @@ export default function Values() {
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
           {/* Trust as Infrastructure */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0, ease: [0.16, 1, 0.3, 1] }}
             className="cursor-default"
           >
             <motion.div
@@ -126,11 +126,11 @@ export default function Values() {
 
           {/* Community Ownership */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="cursor-default"
           >
             <motion.div
@@ -155,11 +155,11 @@ export default function Values() {
 
           {/* Data Sovereignty */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.16, ease: [0.16, 1, 0.3, 1] }}
             className="cursor-default"
           >
             <motion.div
@@ -184,11 +184,11 @@ export default function Values() {
 
           {/* Building Capacity, Not Dependency */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.24, ease: [0.16, 1, 0.3, 1] }}
             className="cursor-default"
           >
             <motion.div

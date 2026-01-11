@@ -8,18 +8,21 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
+import { useLenis } from "lenis/react";
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [isMounted, setIsMounted] = useState(false);
+  const lenis = useLenis();
 
   const { scrollY } = useScroll();
   
   // PROVEN PATTERN: Direct useTransform (no springs) for simple scroll-linked fades
   // Springs add complexity and constant calculations - not needed for basic parallax
-  const logoOpacity = useTransform(scrollY, [0, 200], [1, 0]);
-  const logoY = useTransform(scrollY, [0, 300], [0, -80]);
-  const logoScale = useTransform(scrollY, [0, 300], [1, 0.6]);
+  // Adjusted for polished crossfade with header logo (overlapping fade)
+  const logoOpacity = useTransform(scrollY, [100, 250], [1, 0]);
+  const logoY = useTransform(scrollY, [0, 250], [0, -60]);
+  const logoScale = useTransform(scrollY, [0, 250], [1, 0.7]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -28,14 +31,16 @@ export default function Hero() {
   const handleScrollDown = useCallback(() => {
     const target = document.getElementById("storytelling");
     if (target) {
-      target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+      // Use Lenis for smooth, consistent scrolling
+      lenis?.scrollTo(target, {
+        duration: prefersReducedMotion ? 0 : 1.2,
+      });
     } else {
-      window.scrollTo({
-        top: window.innerHeight,
-        behavior: prefersReducedMotion ? "auto" : "smooth",
+      lenis?.scrollTo(window.innerHeight, {
+        duration: prefersReducedMotion ? 0 : 1.2,
       });
     }
-  }, [prefersReducedMotion]);
+  }, [lenis, prefersReducedMotion]);
 
   return (
     <section
@@ -116,11 +121,12 @@ export default function Hero() {
 
         {/* Desktop Logo - Large centered, morphs on scroll */}
         {/* MODIFICATION: 2024-12-16 - Logo animates toward header on scroll */}
+        {/* MODIFICATION: 2025-01 - Slight left offset to balance visual weight (logo icon vs text) */}
         <motion.div
           className="hidden lg:flex justify-center mb-12"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: "easeOut" }}
+          initial={{ opacity: 0, scale: 0.95, x: -6 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={prefersReducedMotion ? {} : {
             opacity: logoOpacity,
             y: logoY,
@@ -141,49 +147,81 @@ export default function Hero() {
         </motion.div>
         {/* END MODIFICATION */}
 
-        {/* Hero text content - single animation, no stagger for smooth feel */}
-        <motion.div
-          className="space-y-8 md:space-y-10"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: prefersReducedMotion ? 0 : 0.5,
-            ease: "easeOut",
-          }}
-        >
+        {/* Hero text content - staggered line reveal */}
+        <div className="space-y-8 md:space-y-10">
           <h1
             className="font-light leading-[1.15] tracking-tight text-[#5C306C]"
             style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
           >
-            Technology that{" "}
+            {/* Line 1: "Technology that" - enters first */}
+            <motion.span
+              className="inline-block"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: prefersReducedMotion ? 0 : 0.2,
+                duration: prefersReducedMotion ? 0 : 0.5,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              Technology that
+            </motion.span>{" "}
+            {/* Line 2: "strengthens the relationships" - emphasis, enters second */}
             <motion.span
               className="font-medium inline-block"
-              initial={{ opacity: 0.7, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{
-                delay: prefersReducedMotion ? 0 : 0.3,
+                delay: prefersReducedMotion ? 0 : 0.35,
                 duration: prefersReducedMotion ? 0 : 0.6,
-                ease: [0.25, 0.46, 0.45, 0.94],
+                ease: [0.16, 1, 0.3, 1],
               }}
             >
               strengthens the relationships
             </motion.span>{" "}
             <br className="hidden md:block" />
-            your work depends on
+            {/* Line 3: "your work depends on" - enters last */}
+            <motion.span
+              className="inline-block"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: prefersReducedMotion ? 0 : 0.5,
+                duration: prefersReducedMotion ? 0 : 0.5,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              your work depends on
+            </motion.span>
           </h1>
 
-          <p
-            className="font-light leading-relaxed text-[#5C306C]/85 max-w-2xl mx-auto"
+          <motion.p
+            className="font-normal leading-relaxed text-[#5C306C]/90 max-w-2xl mx-auto"
             style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)" }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: prefersReducedMotion ? 0 : 0.6,
+              duration: prefersReducedMotion ? 0 : 0.5,
+              ease: [0.33, 1, 0.68, 1],
+            }}
           >
             We&apos;re not here to transform the sector—we&apos;re here to support
             the organizations already doing transformative work.{" "}
-            <span className="font-semibold">Genuine partnerships, not transactions.</span>
-          </p>
+            <span className="font-semibold text-[#5C306C]">Genuine partnerships, not transactions.</span>
+          </motion.p>
 
-          <p className="text-sm md:text-base font-light text-[#5C306C]/70">
-            Serving Calgary, Edmonton, and Surrounding Areas
-          </p>
+          <motion.p
+            className="text-sm md:text-base text-[#5C306C]/80"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              delay: prefersReducedMotion ? 0 : 0.75,
+              duration: prefersReducedMotion ? 0 : 0.4,
+            }}
+          >
+            <span className="font-semibold">Supporting social service providers</span> in Calgary, Edmonton, and surrounding areas
+          </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <motion.a
@@ -212,7 +250,7 @@ export default function Hero() {
               Start a Conversation
             </motion.a>
           </div>
-        </motion.div>
+        </div>
         </div>
       </div>
 

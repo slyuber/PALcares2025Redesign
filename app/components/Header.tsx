@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
+import { useLenis } from "lenis/react";
 
 interface NavItem {
   id: string;
@@ -24,6 +25,7 @@ export default function Header() {
   const dropdownRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const router = useRouter();
   const pathname = usePathname();
+  const lenis = useLenis();
   
   // Logo visibility based on scroll - instant threshold for clean transition
   const { scrollY } = useScroll();
@@ -40,44 +42,45 @@ export default function Header() {
     if (shouldBeScrolled !== scrolled) {
       setScrolled(shouldBeScrolled);
     }
-    // Logo appears at scroll threshold - instant, not gradual
-    const shouldShowLogo = latest > 200;
+    // Logo appears earlier for polished crossfade overlap with hero logo
+    const shouldShowLogo = latest > 150;
     if (shouldShowLogo !== showHeaderLogo) {
       setShowHeaderLogo(shouldShowLogo);
     }
   });
 
-  // Prevent body scroll when menu is open
+  // Prevent scroll when menu is open - use Lenis stop/start for proper integration
   useEffect(() => {
     if (menuOpen) {
-      document.body.style.overflow = "hidden";
+      lenis?.stop();
     } else {
-      document.body.style.overflow = "";
+      lenis?.start();
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
+  }, [menuOpen, lenis]);
 
   const handleMenuToggle = () => setMenuOpen((prev) => !prev);
 
   const handleNavClick = (id: string, scrollOffset?: number) => {
+    const wasMenuOpen = menuOpen;
     setMenuOpen(false);
     setOpenSubmenu(null);
-    const offset = 100;
+
     const element = document.getElementById(id);
     if (element) {
-      const elementPosition =
-        element.getBoundingClientRect().top + window.scrollY - offset;
-      
-      // If scrollOffset is provided (for submenu items), calculate position within section
-      if (scrollOffset !== undefined && id === "storytelling") {
-        const sectionHeight = element.offsetHeight;
-        const targetPosition = elementPosition + (scrollOffset * sectionHeight);
-        window.scrollTo({ top: targetPosition, behavior: "smooth" });
-      } else {
-        window.scrollTo({ top: elementPosition, behavior: "smooth" });
-      }
+      // Calculate offset for submenu items (scroll within storytelling section)
+      const additionalOffset = scrollOffset !== undefined && id === "storytelling"
+        ? scrollOffset * element.offsetHeight
+        : 0;
+
+      // If menu was open, Lenis is stopped - delay scroll to allow lenis.start() to run
+      const scrollDelay = wasMenuOpen ? 100 : 0;
+      setTimeout(() => {
+        // Use Lenis for smooth, consistent scrolling
+        lenis?.scrollTo(element, {
+          offset: additionalOffset - 100, // -100 for header clearance
+          duration: 1.2,
+        });
+      }, scrollDelay);
     } else if (pathname !== "/") {
       router.push(`/#${id}`);
     }
@@ -184,15 +187,15 @@ export default function Header() {
       <nav className={`px-6 lg:px-8 py-4 flex items-center justify-between transition-all duration-500 ${
         scrolled ? "bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5]/80 backdrop-blur-sm" : "bg-transparent"
       }`}>
-        {/* Logo - instant appear at scroll threshold for clean transition */}
+        {/* Logo - polished crossfade with hero logo */}
         <Link href="/" className="flex-shrink-0">
           <motion.div
             initial={false}
             animate={{
               opacity: pathname === "/" ? (showHeaderLogo ? 1 : 0) : 1,
-              scale: pathname === "/" ? (showHeaderLogo ? 1 : 0.95) : 1
+              scale: pathname === "/" ? (showHeaderLogo ? 1 : 0.9) : 1
             }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
             <Image
               src="/svg/PALcares_logo_light.svg"
@@ -205,12 +208,12 @@ export default function Header() {
           </motion.div>
         </Link>
 
-        {/* Desktop Navigation - hidden on mobile */}
-        <div className="hidden lg:flex items-center gap-6">
+        {/* Desktop Navigation - Award-winning minimal design */}
+        <div className="hidden lg:flex items-center gap-1">
           {navItems.map((item) => (
-            <div 
-              key={item.id} 
-              className="relative" 
+            <div
+              key={item.id}
+              className="relative"
               ref={(el) => {
                 if (el && item.hasSubmenu) {
                   dropdownRefs.current.set(item.id, el);
@@ -219,47 +222,60 @@ export default function Header() {
                 }
               }}
             >
-              <button
+              <motion.button
                 type="button"
                 onClick={() => item.hasSubmenu ? toggleSubmenu(item.id) : handleNavClick(item.id)}
                 onMouseEnter={() => item.hasSubmenu && setOpenSubmenu(item.id)}
-                className="nav-link-underline text-sm font-medium text-[#4A2756]/70 hover:text-[#4A2756] transition-colors duration-200 flex items-center gap-1"
+                className="relative px-4 py-2.5 text-[13px] font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors duration-300 flex items-center gap-1.5 rounded-full group"
+                whileHover={{ backgroundColor: "rgba(92, 48, 108, 0.04)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15 }}
                 aria-haspopup={item.hasSubmenu ? "true" : undefined}
                 aria-expanded={item.hasSubmenu ? openSubmenu === item.id : undefined}
               >
-                {item.label}
+                <span className="relative">
+                  {item.label}
+                  {/* Organic underline that grows from center */}
+                  <span className="absolute -bottom-0.5 left-0 right-0 h-[1.5px] bg-[#FF9966] origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out rounded-full" />
+                </span>
                 {item.hasSubmenu && (
-                  <ChevronDown 
-                    className={`w-3 h-3 transition-transform duration-200 ${
-                      openSubmenu === item.id ? "rotate-180" : ""
-                    }`}
-                  />
+                  <motion.span
+                    animate={{ rotate: openSubmenu === item.id ? 180 : 0 }}
+                    transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                  >
+                    <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity" />
+                  </motion.span>
                 )}
-              </button>
-              
-              {/* Dropdown Submenu - Improved styling */}
+              </motion.button>
+
+              {/* Dropdown - soft, tactile feel */}
               {item.hasSubmenu && (
                 <AnimatePresence>
                   {openSubmenu === item.id && (
                     <motion.div
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56 bg-white shadow-xl shadow-[#5C306C]/15 border border-[#5C306C]/10 rounded-xl py-2 z-50"
-                      initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white/95 backdrop-blur-md shadow-lg shadow-[#5C306C]/8 border border-[#5C306C]/5 rounded-2xl py-2 z-50 overflow-hidden"
+                      initial={{ opacity: 0, y: -4, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                       onMouseLeave={() => setOpenSubmenu(null)}
                       role="menu"
                     >
-                      {item.submenu?.map((subItem) => (
-                        <button
+                      {item.submenu?.map((subItem, i) => (
+                        <motion.button
                           key={subItem.label}
                           type="button"
                           onClick={() => handleNavClick(subItem.id, subItem.scrollOffset)}
-                          className="w-full text-left px-5 py-3 text-sm font-medium text-[#5C306C] hover:bg-[#5C306C]/5 hover:text-[#5C306C] transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                          className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.03] transition-all duration-200 flex items-center gap-3 group/item"
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.05, duration: 0.2 }}
+                          whileHover={{ x: 2 }}
                           role="menuitem"
                         >
+                          <span className="w-1 h-1 rounded-full bg-[#FF9966]/40 group-hover/item:bg-[#FF9966] group-hover/item:scale-125 transition-all duration-200" />
                           {subItem.label}
-                        </button>
+                        </motion.button>
                       ))}
                     </motion.div>
                   )}
@@ -267,13 +283,18 @@ export default function Header() {
               )}
             </div>
           ))}
-          <button
+
+          {/* CTA - tactile, warm feel */}
+          <motion.button
             type="button"
             onClick={() => handleNavClick("contact")}
-            className="px-5 py-2.5 text-sm font-medium text-white bg-[#4A2756] hover:bg-[#3A1F46] rounded-full transition-colors duration-200"
+            className="ml-3 px-5 py-2.5 text-[13px] font-medium text-white bg-gradient-to-b from-[#5C306C] to-[#4A2756] rounded-full shadow-sm shadow-[#5C306C]/20 hover:shadow-md hover:shadow-[#5C306C]/25 transition-shadow duration-300"
+            whileHover={{ y: -1, scale: 1.02 }}
+            whileTap={{ scale: 0.97, y: 0 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
           >
             Get in Touch
-          </button>
+          </motion.button>
         </div>
 
         {/* Mobile Hamburger - hidden on desktop */}
@@ -314,17 +335,18 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
               onClick={() => setMenuOpen(false)}
             />
 
-            {/* Full-screen menu overlay - smooth tween instead of bouncy spring */}
+            {/* Full-screen menu overlay - fast, snappy animation */}
             <motion.div
               className="fixed inset-0 bg-[#FAF8F5] z-[99998] lg:hidden flex flex-col"
+              data-mobile-menu
               initial={{ opacity: 0, y: "100%" }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: "100%" }}
-              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+              transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[#5C306C]/10">

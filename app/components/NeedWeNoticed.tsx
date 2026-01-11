@@ -82,17 +82,17 @@ export default function NeedWeNoticed() {
 
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-[1.8]">
               We believe{" "}
-              <span className="text-[#5C306C] font-semibold">
+              <strong className="text-[#5C306C] font-semibold">
                 the people closest to the work should shape the tools they use
-              </span>
+              </strong>
               .{" "}
-              <span className="text-[#5C306C] font-semibold">
+              <strong className="text-[#5C306C] font-semibold">
                 What gets built should stay with the organizations and communities that helped create it
-              </span>
+              </strong>
               .{" "}
-              <span className="text-[#5C306C] font-semibold">
+              <strong className="text-[#5C306C] font-semibold">
                 Technical expertise and frontline wisdom need equal weight
-              </span>{" "}
+              </strong>{" "}
               in development decisions.
             </p>
 
