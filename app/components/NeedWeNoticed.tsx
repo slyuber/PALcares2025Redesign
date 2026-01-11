@@ -53,7 +53,7 @@ export default function NeedWeNoticed() {
       >
         {/* Section Label */}
         <motion.span
-          className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#FF9966] block mb-6"
+          className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966] block mb-6"
           variants={itemVariants}
         >
           Where We Started
