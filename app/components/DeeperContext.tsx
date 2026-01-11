@@ -98,7 +98,7 @@ export default function DeeperContext() {
           {/* Beat 1: Meeting You Where You Are - LEFT */}
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0">
             <div className="md:pr-10">
-              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
                 Meeting You Where You Are
               </h3>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
@@ -113,7 +113,7 @@ export default function DeeperContext() {
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
             <div className="md:pl-10">
-              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
                 Expertise That Shapes Development
               </h3>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
@@ -129,7 +129,7 @@ export default function DeeperContext() {
           {/* Beat 3: What Time Makes Possible - LEFT */}
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-20" delay={0.1}>
             <div className="md:pr-10">
-              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
                 What Time Makes Possible
               </h3>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
@@ -150,7 +150,7 @@ export default function DeeperContext() {
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
             <div className="md:pl-10">
-              <h3 className="text-lg md:text-xl font-semibold text-[#5C306C] mb-2">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
                 When Plans Change
               </h3>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
