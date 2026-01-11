@@ -131,17 +131,7 @@ export default function Storytelling() {
             className="relative z-10 w-full max-w-5xl mx-auto px-6 md:px-12 space-y-16 sm:space-y-20 pb-16"
           >
             {/* Panel 0: Intro */}
-            <header className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-6">
-              <h1
-                className="font-light text-[#5C306C] tracking-tight leading-[1.15]"
-                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-              >
-                An <span className="text-[#FF9966]">ecosystem</span> in three parts
-              </h1>
-              <p className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-normal px-2">
-                Not three separate services—<span className="font-semibold">one approach</span> where each part takes advantage of the others.
-              </p>
-            </header>
+            <MobileIntroHeader />
 
             {/* Panel 1: Teams - MOBILE */}
             <ContentPanelMobile
@@ -589,6 +579,66 @@ export default function Storytelling() {
         </div>
       </section>
     </>
+  );
+}
+
+// Mobile intro header with ecosystem animation effect
+function MobileIntroHeader() {
+  const headerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(headerRef, {
+    once: true,
+    margin: "-10% 0px -10% 0px"
+  });
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <header
+      ref={headerRef}
+      className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-6"
+    >
+      <h1
+        className="font-light text-[#5C306C] tracking-tight leading-[1.15]"
+        style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+      >
+        An{" "}
+        <motion.span
+          className="inline-block"
+          initial={{
+            color: "#5C306C",
+            letterSpacing: "0.08em",
+            scale: 1
+          }}
+          animate={isInView ? {
+            color: "#FF9966",
+            letterSpacing: "0em",
+            scale: [1, 1.02, 1.005, 1]
+          } : {}}
+          transition={{
+            duration: prefersReducedMotion ? 0 : 0.6,
+            ease: [0.16, 1, 0.3, 1],
+            scale: {
+              duration: prefersReducedMotion ? 0 : 0.8,
+              times: [0, 0.4, 0.7, 1]
+            }
+          }}
+        >
+          ecosystem
+        </motion.span>{" "}
+        in three parts
+      </h1>
+      <motion.p
+        className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-normal px-2"
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{
+          duration: prefersReducedMotion ? 0 : 0.5,
+          delay: 0.2,
+          ease: [0.16, 1, 0.3, 1]
+        }}
+      >
+        Not three separate services—<span className="font-semibold">one approach</span> where each part takes advantage of the others.
+      </motion.p>
+    </header>
   );
 }
 
