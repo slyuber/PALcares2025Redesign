@@ -67,7 +67,7 @@ export default function Header() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setMenuOpen(false);
+        handleCloseMenu('escape');
       }
     };
 
@@ -75,45 +75,67 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [menuOpen]);
 
-  // Focus management: focus close button on open, return to hamburger on close
+  // Track close source for focus management
+  const closeSourceRef = useRef<'x-button' | 'escape' | 'nav-item' | null>(null);
+
+  // Focus management: focus close button on open, return to hamburger only on X/Escape
   useEffect(() => {
     if (menuOpen) {
       // Delay to allow animation to start
       setTimeout(() => closeButtonRef.current?.focus(), 50);
     } else {
-      // Return focus to hamburger when closing (only if we were in menu)
-      hamburgerRef.current?.focus();
+      // Only return focus to hamburger if closed via X button or Escape
+      if (closeSourceRef.current === 'x-button' || closeSourceRef.current === 'escape') {
+        hamburgerRef.current?.focus();
+      }
+      closeSourceRef.current = null;
     }
   }, [menuOpen]);
 
-  // Debounced menu toggle to prevent double-tap issues (300ms cooldown)
+  // Debounced menu toggle to prevent double-tap issues (150ms cooldown - snappier)
   const handleMenuToggle = () => {
     const now = Date.now();
-    if (now - lastToggleRef.current < 300) return; // Debounce
+    if (now - lastToggleRef.current < 150) return; // Reduced debounce
     lastToggleRef.current = now;
     setMenuOpen((prev) => !prev);
+  };
+
+  // Close menu with proper state cleanup
+  const handleCloseMenu = (source: 'x-button' | 'escape' | 'nav-item') => {
+    closeSourceRef.current = source;
+    setMenuOpen(false);
+    setOpenSubmenu(null);
+    setExpandedItems(new Set()); // Reset submenu expansion state
   };
 
   const handleNavClick = (id: string, scrollOffset?: number) => {
     const wasMenuOpen = menuOpen;
 
-    // Tap feedback delay: keep menu visible briefly so user sees their tap registered
-    const closeDelay = wasMenuOpen ? 120 : 0;
+    // Close immediately - no artificial delay
+    if (wasMenuOpen) {
+      handleCloseMenu('nav-item');
+    }
 
-    setTimeout(() => {
-      setMenuOpen(false);
-      setOpenSubmenu(null);
-    }, closeDelay);
+    // Find target element - handle mobile storytelling section
+    let element = document.getElementById(id);
 
-    const element = document.getElementById(id);
+    // If targeting storytelling and desktop version is hidden, use mobile version
+    if (id === "storytelling" && element && element.offsetHeight === 0) {
+      const mobileTarget = document.getElementById("storytelling-mobile");
+      if (mobileTarget && mobileTarget.offsetHeight > 0) {
+        element = mobileTarget;
+        scrollOffset = undefined; // Mobile layout is linear, no panel offsets
+      }
+    }
+
     if (element) {
       // Calculate offset for submenu items (scroll within storytelling section)
       const additionalOffset = scrollOffset !== undefined && id === "storytelling"
         ? scrollOffset * element.offsetHeight
         : 0;
 
-      // If menu was open, delay scroll to allow menu close + lenis.start() to run
-      const scrollDelay = wasMenuOpen ? closeDelay + 100 : 0;
+      // Brief delay to allow Lenis to restart after menu close
+      const scrollDelay = wasMenuOpen ? 50 : 0;
       setTimeout(() => {
         // Use Lenis for smooth scrolling, with native fallback for slow devices
         if (lenis) {
@@ -127,7 +149,7 @@ export default function Header() {
         }
       }, scrollDelay);
     } else if (pathname !== "/") {
-      setTimeout(() => router.push(`/#${id}`), closeDelay);
+      router.push(`/#${id}`);
     }
   };
 
@@ -348,7 +370,7 @@ export default function Header() {
           className="lg:hidden p-2 -mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4A2756] rounded"
           onClick={handleMenuToggle}
           aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label="Open menu"
         >
           <svg
             className={`menu-icon header__trigger js-header__trigger ${
@@ -384,7 +406,7 @@ export default function Header() {
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[#5C306C]/10">
-                <Link href="/" onClick={() => setMenuOpen(false)}>
+                <Link href="/" onClick={() => handleCloseMenu('nav-item')}>
                   <Image
                     src="/svg/PALcares_logo_light.svg"
                     alt="PALcares logo"
@@ -396,19 +418,23 @@ export default function Header() {
                 <button
                   ref={closeButtonRef}
                   type="button"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => handleCloseMenu('x-button')}
                   className="p-2 -mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded"
                   aria-label="Close menu"
                 >
+                  {/* Clear X icon for unambiguous close affordance */}
                   <svg
-                    className="menu-icon active"
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 42 30"
-                    style={{ width: "24px", height: "auto" }}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-6 h-6 text-[#5C306C]"
                   >
-                    <path className="bar top" d="M3,6A3,3,0,0,1,3,0H18a3,3,0,0,1,0,6Z" />
-                    <path className="bar middle" d="M3,18a3,3,0,0,1,0-6H39a3,3,0,0,1,0,6Z" />
-                    <path className="bar bottom" d="M24,30a3,3,0,0,1,0-6H39a3,3,0,0,1,0,6Z" />
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
                 </button>
               </div>
@@ -419,58 +445,55 @@ export default function Header() {
                   {drawerItems.map((item, index) => {
                     const hasSubmenu = "hasSubmenu" in item && item.hasSubmenu;
                     const isExpanded = expandedItems.has(item.id);
-                    
+                    const itemKey = `drawer-${item.id}-${index}`;
+
                     return (
-                      <div key={item.id}>
-                        <motion.button
+                      <div key={itemKey}>
+                        {/* Nav item button - clean implementation without conflicting animations */}
+                        <button
                           type="button"
-                          onClick={() => hasSubmenu ? toggleDrawerSubmenu(item.id) : handleNavClick(item.id)}
-                          className="w-full text-left px-4 py-4 text-lg font-medium text-[#5C306C] hover:bg-[#5C306C]/5 rounded-lg transition-colors duration-200 flex items-center justify-between min-h-[56px]"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (hasSubmenu) {
+                              toggleDrawerSubmenu(item.id);
+                            } else {
+                              handleNavClick(item.id);
+                            }
+                          }}
+                          className="w-full text-left px-4 py-4 text-lg font-medium text-[#5C306C] hover:bg-[#5C306C]/5 active:bg-[#5C306C]/10 rounded-lg transition-colors duration-150 flex items-center justify-between min-h-[56px]"
                           aria-expanded={hasSubmenu ? isExpanded : undefined}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.05, duration: 0.3 }}
+                          aria-controls={hasSubmenu ? `submenu-${item.id}` : undefined}
                         >
                           <span>{item.label}</span>
                           {hasSubmenu && (
-                            <motion.div
-                              animate={{ rotate: isExpanded ? 180 : 0 }}
-                              transition={{ duration: 0.2 }}
+                            <span
+                              className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
                             >
                               <ChevronDown className="w-5 h-5 text-[#5C306C]/60" />
-                            </motion.div>
+                            </span>
                           )}
-                        </motion.button>
-                        
-                        {/* Expandable Submenu */}
-                        {hasSubmenu && "submenu" in item && item.submenu && (
-                          <AnimatePresence>
-                            {isExpanded && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.25, ease: "easeInOut" }}
-                                className="overflow-hidden"
+                        </button>
+
+                        {/* Expandable Submenu - only render when expanded */}
+                        {hasSubmenu && "submenu" in item && item.submenu && isExpanded && (
+                          <div
+                            id={`submenu-${item.id}`}
+                            className="overflow-hidden pl-4 pr-4 pt-2 pb-2 space-y-1"
+                          >
+                            {item.submenu.map((subItem, subIndex) => (
+                              <button
+                                key={`${itemKey}-sub-${subIndex}`}
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleNavClick(subItem.id, subItem.scrollOffset);
+                                }}
+                                className="w-full text-left px-4 py-3 text-base text-[#5C306C]/80 hover:bg-[#5C306C]/5 active:bg-[#5C306C]/10 rounded-lg transition-colors duration-150 min-h-[48px]"
                               >
-                                <div className="pl-4 pr-4 pt-2 pb-2 space-y-1">
-                                  {item.submenu.map((subItem) => (
-                                    <motion.button
-                                      key={subItem.label}
-                                      type="button"
-                                      onClick={() => handleNavClick(subItem.id, subItem.scrollOffset)}
-                                      className="w-full text-left px-4 py-3 text-base text-[#5C306C]/80 hover:bg-[#5C306C]/5 rounded-lg transition-colors duration-200 min-h-[48px]"
-                                      initial={{ opacity: 0, x: -10 }}
-                                      animate={{ opacity: 1, x: 0 }}
-                                      transition={{ duration: 0.2 }}
-                                    >
-                                      {subItem.label}
-                                    </motion.button>
-                                  ))}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
+                                {subItem.label}
+                              </button>
+                            ))}
+                          </div>
                         )}
                       </div>
                     );
@@ -484,13 +507,14 @@ export default function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: drawerItems.length * 0.05 + 0.1, duration: 0.3 }}
                 >
-                  <button
+                  <motion.button
                     type="button"
                     onClick={() => handleNavClick("contact")}
-                    className="w-full px-6 py-4 text-base font-medium text-white bg-[#5C306C] hover:bg-[#4A2756] rounded-lg transition-colors duration-200"
+                    className="w-full px-6 py-4 text-base font-medium text-white bg-[#5C306C] hover:bg-[#4A2756] active:bg-[#3D1F45] rounded-lg transition-colors duration-200"
+                    whileTap={{ scale: 0.98 }}
                   >
                     Get in Touch
-                  </button>
+                  </motion.button>
                 </motion.div>
               </nav>
             </motion.div>

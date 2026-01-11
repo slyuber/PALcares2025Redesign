@@ -98,9 +98,9 @@ export default function DeeperContext() {
           {/* Beat 1: Meeting You Where You Are - LEFT */}
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0">
             <div className="md:pr-10">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 Meeting You Where You Are
-              </h3>
+              </span>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
                 We <strong className="font-semibold text-[#5C306C]">inherit whatever you have</strong>. That Excel sheet from 2008 holds years of <strong className="font-semibold text-[#5C306C]">institutional knowledge</strong>. Those workarounds everyone relies on reveal where systems fall short. We learn from what&apos;s already working and what isn&apos;t—not from assumptions about what you should need. When five organizations independently build similar solutions, <span className="font-medium">that pattern tells us something the sector has been trying to say</span>.
               </p>
@@ -113,9 +113,9 @@ export default function DeeperContext() {
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
             <div className="md:pl-10">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 Expertise That Shapes Development
-              </h3>
+              </span>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
                 The people using these tools every day—connected to communities, to the work, to the systems this technology needs to fit—hold knowledge that doesn&apos;t show up in a requirements document. Without it shaping development, technology doesn&apos;t fit. It doesn&apos;t improve things in ways that last.
               </p>
@@ -129,9 +129,9 @@ export default function DeeperContext() {
           {/* Beat 3: What Time Makes Possible - LEFT */}
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-20" delay={0.1}>
             <div className="md:pr-10">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 What Time Makes Possible
-              </h3>
+              </span>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
                 Short project timelines reward deliverables over understanding, handoffs over relationships. We&apos;ve structured ourselves differently—nonprofit, embedded teams, multi-year commitment—which creates room for a different kind of work.
               </p>
@@ -150,9 +150,9 @@ export default function DeeperContext() {
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
             <div className="md:pl-10">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] mb-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 When Plans Change
-              </h3>
+              </span>
               <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
                 In typical consulting, unexpected roadblocks threaten the whole engagement. You discover you need different personnel, or data that has to be gathered first, or requirements that shifted—and suddenly you&apos;re over budget or starting the RFP process again.
               </p>

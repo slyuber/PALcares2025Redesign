@@ -424,3 +424,74 @@ margin: 2em 0 !important;
 .animation-running {
   animation-play-state: running;
 }
+
+/* ====== MOBILE-FRIENDLY MICRO ANIMATIONS ====== */
+/* GPU-only properties for smooth 60fps on mobile */
+
+@keyframes gentle-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.95; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-gentle-pulse {
+  animation: gentle-pulse 3s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-subtle-float {
+  animation: subtle-float 4s ease-in-out infinite;
+}
+
+/* Staggered animation delays for lists */
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+
+/* ====== REDUCED MOTION SUPPORT ====== */
+/* Respect user preferences for reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sway-slow,
+  .animate-sway-slow-reverse,
+  .animate-sway-medium,
+  .animate-bounce-slow,
+  .animate-node-pulse-research,
+  .animate-node-pulse-teams,
+  .animate-node-pulse-labs,
+  .animate-gentle-pulse,
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-subtle-float {
+    animation: none !important;
+  }
+
+  /* Instant transitions instead of animations */
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
