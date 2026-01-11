@@ -23,6 +23,9 @@ export default function Header() {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const dropdownRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const lastToggleRef = useRef<number>(0);
   const router = useRouter();
   const pathname = usePathname();
   const lenis = useLenis();
@@ -58,12 +61,49 @@ export default function Header() {
     }
   }, [menuOpen, lenis]);
 
-  const handleMenuToggle = () => setMenuOpen((prev) => !prev);
+  // Escape key closes mobile menu
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
+
+  // Focus management: focus close button on open, return to hamburger on close
+  useEffect(() => {
+    if (menuOpen) {
+      // Delay to allow animation to start
+      setTimeout(() => closeButtonRef.current?.focus(), 50);
+    } else {
+      // Return focus to hamburger when closing (only if we were in menu)
+      hamburgerRef.current?.focus();
+    }
+  }, [menuOpen]);
+
+  // Debounced menu toggle to prevent double-tap issues (300ms cooldown)
+  const handleMenuToggle = () => {
+    const now = Date.now();
+    if (now - lastToggleRef.current < 300) return; // Debounce
+    lastToggleRef.current = now;
+    setMenuOpen((prev) => !prev);
+  };
 
   const handleNavClick = (id: string, scrollOffset?: number) => {
     const wasMenuOpen = menuOpen;
-    setMenuOpen(false);
-    setOpenSubmenu(null);
+
+    // Tap feedback delay: keep menu visible briefly so user sees their tap registered
+    const closeDelay = wasMenuOpen ? 120 : 0;
+
+    setTimeout(() => {
+      setMenuOpen(false);
+      setOpenSubmenu(null);
+    }, closeDelay);
 
     const element = document.getElementById(id);
     if (element) {
@@ -72,8 +112,8 @@ export default function Header() {
         ? scrollOffset * element.offsetHeight
         : 0;
 
-      // If menu was open, Lenis is stopped - delay scroll to allow lenis.start() to run
-      const scrollDelay = wasMenuOpen ? 100 : 0;
+      // If menu was open, delay scroll to allow menu close + lenis.start() to run
+      const scrollDelay = wasMenuOpen ? closeDelay + 100 : 0;
       setTimeout(() => {
         // Use Lenis for smooth scrolling, with native fallback for slow devices
         if (lenis) {
@@ -87,7 +127,7 @@ export default function Header() {
         }
       }, scrollDelay);
     } else if (pathname !== "/") {
-      router.push(`/#${id}`);
+      setTimeout(() => router.push(`/#${id}`), closeDelay);
     }
   };
 
@@ -304,6 +344,7 @@ export default function Header() {
 
         {/* Mobile Hamburger - hidden on desktop */}
         <button
+          ref={hamburgerRef}
           className="lg:hidden p-2 -mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4A2756] rounded"
           onClick={handleMenuToggle}
           aria-expanded={menuOpen}
@@ -330,28 +371,16 @@ export default function Header() {
         </button>
       </nav>
 
-      {/* Mobile Menu - Full Screen Overlay (Award-Winning Pattern) */}
+      {/* Mobile Menu - Full Screen Takeover (no backdrop close - intentional UX choice) */}
       <AnimatePresence>
         {menuOpen && (
-          <>
-            {/* Backdrop overlay - darker for better focus */}
-            <motion.div
-              className="fixed inset-0 bg-[#5C306C]/40 backdrop-blur-sm z-[99997] lg:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              onClick={() => setMenuOpen(false)}
-            />
-
-            {/* Full-screen menu overlay - fast, snappy animation */}
-            <motion.div
-              className="fixed inset-0 bg-[#FAF8F5] z-[99998] lg:hidden flex flex-col"
-              data-mobile-menu
-              initial={{ opacity: 0, y: "100%" }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: "100%" }}
-              transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
+          <motion.div
+            className="fixed inset-0 bg-[#FAF8F5] z-[99998] lg:hidden flex flex-col"
+            data-mobile-menu
+            initial={{ opacity: 0, y: "100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[#5C306C]/10">
@@ -365,6 +394,7 @@ export default function Header() {
                   />
                 </Link>
                 <button
+                  ref={closeButtonRef}
                   type="button"
                   onClick={() => setMenuOpen(false)}
                   className="p-2 -mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded"
@@ -464,7 +494,6 @@ export default function Header() {
                 </motion.div>
               </nav>
             </motion.div>
-          </>
         )}
       </AnimatePresence>
     </header>
