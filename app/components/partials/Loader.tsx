@@ -396,15 +396,11 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Page content */}
-      <motion.div
-        initial={false}
-        animate={{ opacity: showLoader ? 0 : 1 }}
-        transition={{ duration: 0.5, delay: showLoader ? 0 : 0.1 }}
-        style={{ pointerEvents: showLoader ? "none" : "auto" }}
-      >
+      {/* Page content - no opacity animation to avoid double-fade with component whileInView animations */}
+      {/* The loader overlay already covers content, so we just disable pointer events */}
+      <div style={{ pointerEvents: showLoader ? "none" : "auto" }}>
         {children}
-      </motion.div>
+      </div>
     </>
   );
 }
