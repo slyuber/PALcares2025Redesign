@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -9,14 +9,53 @@ export default defineConfig({
   reporter: [['html'], ['list']],
   timeout: 60000,
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:4000',
     trace: 'on-first-retry',
-    // Default viewport - tests override with test.use()
-    viewport: { width: 1920, height: 1080 },
+    video: 'on-first-retry',
   },
+  projects: [
+    {
+      name: 'Desktop Chrome',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1920, height: 1080 },
+      },
+    },
+    {
+      name: 'Mobile Safari',
+      use: {
+        ...devices['iPhone 12'],
+      },
+    },
+    {
+      name: 'Mobile Android',
+      use: {
+        ...devices['Pixel 5'],
+      },
+    },
+    {
+      name: 'Android Low-End',
+      use: {
+        ...devices['Moto G4'],
+        // Simulates budget Android device
+        launchOptions: {
+          args: [
+            '--disable-gpu',
+            '--disable-dev-shm-usage',
+          ],
+        },
+      },
+    },
+    {
+      name: 'Tablet',
+      use: {
+        ...devices['iPad (gen 7)'],
+      },
+    },
+  ],
   webServer: {
-    command: 'npm run dev',
-    port: 3000,
+    command: 'npm run dev -- --port 4000',
+    port: 4000,
     reuseExistingServer: true,
     timeout: 120000,
   },

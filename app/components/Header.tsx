@@ -75,11 +75,16 @@ export default function Header() {
       // If menu was open, Lenis is stopped - delay scroll to allow lenis.start() to run
       const scrollDelay = wasMenuOpen ? 100 : 0;
       setTimeout(() => {
-        // Use Lenis for smooth, consistent scrolling
-        lenis?.scrollTo(element, {
-          offset: additionalOffset - 100, // -100 for header clearance
-          duration: 1.2,
-        });
+        // Use Lenis for smooth scrolling, with native fallback for slow devices
+        if (lenis) {
+          lenis.scrollTo(element, {
+            offset: additionalOffset - 100, // -100 for header clearance
+            duration: 1.2,
+          });
+        } else {
+          // Fallback: native smooth scroll if Lenis not ready
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }, scrollDelay);
     } else if (pathname !== "/") {
       router.push(`/#${id}`);

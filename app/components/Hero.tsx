@@ -9,6 +9,7 @@ import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { useLenis } from "lenis/react";
+import { hero } from "../lib/site-content";
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -29,16 +30,31 @@ export default function Hero() {
   }, []);
 
   const handleScrollDown = useCallback(() => {
-    const target = document.getElementById("storytelling");
-    if (target) {
-      // Use Lenis for smooth, consistent scrolling
-      lenis?.scrollTo(target, {
-        duration: prefersReducedMotion ? 0 : 1.2,
-      });
+    // Mobile uses storytelling-mobile, desktop uses storytelling
+    // Check both and use whichever has non-zero height (is visible)
+    const desktopTarget = document.getElementById("storytelling");
+    const mobileTarget = document.getElementById("storytelling-mobile");
+    const target = (mobileTarget && mobileTarget.offsetHeight > 0) ? mobileTarget : desktopTarget;
+
+    if (target && target.offsetHeight > 0) {
+      // Use Lenis for smooth scrolling, with native fallback for slow devices
+      if (lenis) {
+        lenis.scrollTo(target, {
+          duration: prefersReducedMotion ? 0 : 1.2,
+        });
+      } else {
+        // Fallback: native smooth scroll if Lenis not ready
+        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+      }
     } else {
-      lenis?.scrollTo(window.innerHeight, {
-        duration: prefersReducedMotion ? 0 : 1.2,
-      });
+      // Fallback: scroll to viewport height
+      if (lenis) {
+        lenis.scrollTo(window.innerHeight, {
+          duration: prefersReducedMotion ? 0 : 1.2,
+        });
+      } else {
+        window.scrollTo({ top: window.innerHeight, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      }
     }
   }, [lenis, prefersReducedMotion]);
 
@@ -153,7 +169,7 @@ export default function Hero() {
             className="font-light leading-[1.15] tracking-tight text-[#5C306C]"
             style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
           >
-            {/* Line 1: "Technology that" - enters first */}
+            {/* Line 1 - enters first */}
             <motion.span
               className="inline-block"
               initial={{ opacity: 0, y: 12 }}
@@ -164,9 +180,9 @@ export default function Hero() {
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              Technology that
+              {hero.tagline.line1}
             </motion.span>{" "}
-            {/* Line 2: "strengthens the relationships" - emphasis, enters second */}
+            {/* Line 2 - emphasis, enters second */}
             <motion.span
               className="font-medium inline-block"
               initial={{ opacity: 0, y: 16 }}
@@ -177,10 +193,10 @@ export default function Hero() {
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              strengthens the relationships
+              {hero.tagline.emphasis}
             </motion.span>{" "}
             <br className="hidden md:block" />
-            {/* Line 3: "your work depends on" - enters last */}
+            {/* Line 3 - enters last */}
             <motion.span
               className="inline-block"
               initial={{ opacity: 0, y: 12 }}
@@ -191,7 +207,7 @@ export default function Hero() {
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              your work depends on
+              {hero.tagline.line2}
             </motion.span>
           </h1>
 
@@ -206,9 +222,8 @@ export default function Hero() {
               ease: [0.33, 1, 0.68, 1],
             }}
           >
-            We&apos;re not here to transform the sector—we&apos;re here to support
-            the organizations already doing transformative work.{" "}
-            <span className="font-semibold text-[#5C306C]">Genuine partnerships, not transactions.</span>
+            {hero.description}{" "}
+            <span className="font-semibold text-[#5C306C]">{hero.descriptionBold}</span>
           </motion.p>
 
           <motion.p
@@ -220,7 +235,7 @@ export default function Hero() {
               duration: prefersReducedMotion ? 0 : 0.4,
             }}
           >
-            <span className="font-semibold">Supporting social service providers</span> in Calgary, Edmonton, and surrounding areas
+            {hero.location}
           </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -234,7 +249,7 @@ export default function Hero() {
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
-              See How We Work
+              {hero.buttonPrimary}
             </motion.a>
             <motion.a
               href="#contact"
@@ -247,7 +262,7 @@ export default function Hero() {
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
-              Start a Conversation
+              {hero.buttonSecondary}
             </motion.a>
           </div>
         </div>
