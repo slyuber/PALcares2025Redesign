@@ -17,18 +17,18 @@ interface Testimonial {
 // Placeholder for real testimonials - remove fake testimonials
 const testimonials: Testimonial[] = [
   {
-    quote: "[Awaiting real quote from partner]",
-    author: "Name",
-    role: "Role",
-    org: "Reach",
-    initials: "PL"
-  },
-  {
-    quote: "[Awaiting real quote from partner]",
+    quote: "[Placeholder for CDT]",
     author: "Name",
     role: "Role",
     org: "24-7 Crisis Diversion Team",
-    initials: "PL"
+    initials: ""
+  },
+  {
+    quote: "[Placeholder for Garvit co-op]",
+    author: "Name",
+    role: "Role",
+    org: "Waterloo",
+    initials: ""
   }
 ];
 
