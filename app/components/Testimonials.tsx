@@ -2,9 +2,11 @@
 // ENHANCEMENT: 2025-01 - Award-winning design: Background patterns, enhanced icon interactions
 "use client";
 
+import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Quote } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
+import { EASE_ENERGETIC, SPRING_SNAPPY, useSafeInView } from "../lib/animation-constants";
 
 interface Testimonial {
   quote: string;
@@ -34,11 +36,15 @@ const testimonials: Testimonial[] = [
 
 export default function Testimonials() {
   const prefersReducedMotion = useReducedMotion();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useSafeInView(headerRef, { once: true, amount: 0.15, margin: "50px 0px" });
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const cardsInView = useSafeInView(cardsRef, { once: true, amount: 0.1, margin: "50px 0px" });
 
   return (
     <section 
       id="testimonials"
-      className="py-20 md:py-32 relative overflow-hidden"
+      className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
       aria-label="Partner testimonials"
     >
       {/* Enhanced background: Award-winning patterns */}
@@ -49,26 +55,24 @@ export default function Testimonials() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header - staggered reveal */}
         <motion.div
+          ref={headerRef}
           className="text-center mb-16 md:mb-24 space-y-4"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
+          animate={headerInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
         >
           <motion.span
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966] block"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.4 }}
+            className="text-xs font-semibold uppercase tracking-[0.2em] block"
+            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
+            animate={headerInView ? { opacity: 1, y: 0, color: "#FF9966" } : { opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
           >
             Partner Voices
           </motion.span>
           <motion.h2
             className="text-3xl md:text-5xl font-light text-[#5C306C]"
             initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
           >
             Organizations We Work With
@@ -76,30 +80,29 @@ export default function Testimonials() {
         </motion.div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 gap-10 md:gap-12">
+        <div ref={cardsRef} className="grid md:grid-cols-2 gap-10 md:gap-12">
           {testimonials.map((testimonial, index) => (
-            <motion.div 
+            <motion.div
               key={index}
               className="group relative bg-gradient-to-br from-white to-[#FAFAFA] rounded-3xl p-8 md:p-10 border border-[#5C306C]/5 shadow-[0_4px_20px_rgba(92,48,108,0.06)]"
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
+              animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: prefersReducedMotion ? 0 : index * 0.2, duration: 0.6 }}
-              whileHover={prefersReducedMotion ? {} : { y: -5, transition: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] } }}
+              whileHover={prefersReducedMotion ? {} : { y: -5, transition: { duration: 0.3, ease: EASE_ENERGETIC } }}
             >
               {/* Quote Icon Badge - Enhanced */}
               <motion.div
                 className="absolute -top-5 left-8 w-12 h-12 rounded-xl bg-gradient-to-br from-[#FF9966] to-[#FF8552] shadow-lg shadow-[#FF9966]/30 flex items-center justify-center icon-container-enhanced"
                 whileHover={prefersReducedMotion ? {} : { scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                transition={SPRING_SNAPPY}
                 role="img"
                 aria-label="Quote icon"
               >
                 <Quote className="w-5 h-5 text-white stroke-[2.5]" />
               </motion.div>
 
-              <blockquote className="mt-6 mb-8 px-2 text-[#5C306C]/85 text-[15px] leading-relaxed font-light">
+              <blockquote className="mt-6 mb-8 px-2 text-[#5C306C]/85 text-base leading-relaxed font-light">
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
 

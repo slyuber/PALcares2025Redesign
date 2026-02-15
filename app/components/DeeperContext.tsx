@@ -5,6 +5,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, useInView } from "framer-motion";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
+import { EASE_PREMIUM } from "../lib/animation-constants";
 
 // Reusable animated section - useInView triggers with refined premium animation
 function AnimatedBeat({
@@ -18,7 +19,7 @@ function AnimatedBeat({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   // Trigger when element is 15% visible for smoother entry
-  const isInView = useInView(ref, { once: true, amount: 0.15 });
+  const isInView = useInView(ref, { once: true, amount: 0.15, margin: "50px 0px" });
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -33,7 +34,7 @@ function AnimatedBeat({
       transition={{
         duration: prefersReducedMotion ? 0 : 0.55,
         delay: prefersReducedMotion ? 0 : delay,
-        ease: [0.16, 1, 0.3, 1], // EASE_PREMIUM
+        ease: EASE_PREMIUM,
         filter: { duration: prefersReducedMotion ? 0 : 0.4 }, // Faster blur clear
       }}
     >
@@ -60,7 +61,7 @@ export default function DeeperContext() {
     <section
       ref={containerRef}
       id="context"
-      className="relative py-20 md:py-24 lg:py-32"
+      className="relative py-16 md:py-24 lg:py-32"
       aria-label="The deeper context - the work behind it"
     >
       {/* Background */}
@@ -69,7 +70,7 @@ export default function DeeperContext() {
         <BackgroundPatterns variant="organic-grid" opacity={0.6} />
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-12 md:mb-16">
           <h2
@@ -101,7 +102,7 @@ export default function DeeperContext() {
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 Meeting You Where You Are
               </span>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 We <strong className="font-semibold text-[#5C306C]">inherit whatever you have</strong>. That Excel sheet from 2008 holds years of <strong className="font-semibold text-[#5C306C]">institutional knowledge</strong>. Those workarounds everyone relies on reveal where systems fall short. We learn from what&apos;s already working and what isn&apos;t—not from assumptions about what you should need. When five organizations independently build similar solutions, <span className="font-medium">that pattern tells us something the sector has been trying to say</span>.
               </p>
             </div>
@@ -116,10 +117,10 @@ export default function DeeperContext() {
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 Expertise That Shapes Development
               </span>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 The people using these tools every day—connected to communities, to the work, to the systems this technology needs to fit—hold knowledge that doesn&apos;t show up in a requirements document. Without it shaping development, technology doesn&apos;t fit. It doesn&apos;t improve things in ways that last.
               </p>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 So we build infrastructure where <strong className="font-semibold text-[#5C306C]">frontline insight holds real weight</strong>. Where <strong className="font-semibold text-[#5C306C]">feedback connects directly to what gets built next</strong>. Where there&apos;s enough safety to try something, learn from it, and adjust.
               </p>
             </div>
@@ -132,13 +133,13 @@ export default function DeeperContext() {
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 What Time Makes Possible
               </span>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 Short project timelines reward deliverables over understanding, handoffs over relationships. We&apos;ve structured ourselves differently—nonprofit, embedded teams, multi-year commitment—which creates room for a different kind of work.
               </p>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 Room for understanding before prescribing solutions. Room for relationships that outlast individual projects. Room for the kind of iteration that becomes affordable once trust is established—where <strong className="font-semibold text-[#5C306C]">a report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>.
               </p>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 Most nonprofits have graveyards of abandoned systems. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> Knowledge transfers through the work itself, not just documentation handed over at the end.
               </p>
             </div>
@@ -153,13 +154,13 @@ export default function DeeperContext() {
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
                 When Plans Change
               </span>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 In typical consulting, unexpected roadblocks threaten the whole engagement. You discover you need different personnel, or data that has to be gathered first, or requirements that shifted—and suddenly you&apos;re over budget or starting the RFP process again.
               </p>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7] mb-2">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 Our structure absorbs that differently. <strong className="font-semibold text-[#5C306C]">Roadblocks become problems to solve together</strong>, not threats to the project. Team composition adjusts to actual needs, not what was promised six months ago. The relationship continues even when the specifics shift.
               </p>
-              <p className="text-[15px] md:text-base text-[#5C306C]/85 leading-[1.7]">
+              <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 This isn&apos;t looseness—it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work actually unfolds</strong>.
               </p>
             </div>

@@ -2,11 +2,15 @@
 // ENHANCEMENT: 2025-01 - Award-winning design: Background patterns
 "use client";
 
+import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
+import { EASE_ORGANIC, useSafeInView } from "../lib/animation-constants";
 
 export default function NeedWeNoticed() {
   const prefersReducedMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "50px 0px" });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -26,7 +30,7 @@ export default function NeedWeNoticed() {
       y: 0,
       transition: {
         duration: prefersReducedMotion ? 0 : 0.7,
-        ease: [0.25, 0.4, 0.25, 1] as const,
+        ease: EASE_ORGANIC,
       },
     },
   };
@@ -34,7 +38,7 @@ export default function NeedWeNoticed() {
   return (
     <section
       id="where-we-started"
-      className="pt-16 pb-24 md:pt-20 md:pb-32 lg:pt-24 lg:pb-40 relative overflow-hidden"
+      className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
       aria-label="Where we started - the need we noticed"
     >
       {/* Enhanced background: Subtle wash + award-winning patterns */}
@@ -45,11 +49,11 @@ export default function NeedWeNoticed() {
       </div>
 
       <motion.div
-        className="max-w-5xl mx-auto px-6 md:px-12 relative z-10"
+        ref={ref}
+        className="max-w-6xl mx-auto px-6 md:px-12 relative z-10"
         variants={containerVariants}
         initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        animate={isInView ? "visible" : "hidden"}
       >
         {/* Section Label */}
         <motion.span
@@ -61,7 +65,7 @@ export default function NeedWeNoticed() {
 
         {/* Headline */}
         <motion.h2
-          className="text-3xl md:text-4xl lg:text-[2.75rem] font-light text-[#5C306C] mb-12 tracking-tight leading-[1.2]"
+          className="text-3xl md:text-4xl lg:text-5xl font-light text-[#5C306C] mb-12 tracking-tight leading-tight"
           variants={itemVariants}
         >
           We noticed a need in our communities.
@@ -74,13 +78,13 @@ export default function NeedWeNoticed() {
             className="lg:col-span-7 space-y-6"
             variants={itemVariants}
           >
-            <p className="text-base md:text-lg text-[#5C306C]/80 leading-[1.8]">
+            <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
               Across North America, organizations are questioning why technology
               that should serve communities often ends up extracting from them.
               We&apos;re part of this broader conversation—but our focus is specific.
             </p>
 
-            <p className="text-base md:text-lg text-[#5C306C]/80 leading-[1.8]">
+            <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
               We believe{" "}
               <strong className="text-[#5C306C] font-semibold">
                 the people closest to the work should shape the tools they use
@@ -96,7 +100,7 @@ export default function NeedWeNoticed() {
               in development decisions.
             </p>
 
-            <p className="text-base md:text-lg text-[#5C306C]/80 leading-[1.8]">
+            <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
               Creating the conditions for this kind of partnership takes
               deliberate choices. Small, purposeful decisions—
               <span className="text-[#5C306C] font-medium">
@@ -113,14 +117,14 @@ export default function NeedWeNoticed() {
             variants={itemVariants}
           >
             <div className="lg:pl-8 lg:border-l border-[#5C306C]/10">
-              <p className="text-base md:text-lg text-[#5C306C]/70 leading-[1.8] mb-6">
+              <p className="text-base md:text-lg text-[#5C306C]/70 leading-relaxed mb-6">
                 We&apos;re building an ecosystem where embedded technical teams
                 learn organizational reality before writing code, where emerging
                 talent and newcomers strengthen local capacity, where proven
                 solutions become resources for the sector.
               </p>
 
-              <p className="text-[#5C306C] font-semibold text-base md:text-lg leading-[1.7]">
+              <p className="text-[#5C306C] font-semibold text-base md:text-lg leading-relaxed">
                 Sustainable technology emerges from genuine partnership.
               </p>
             </div>

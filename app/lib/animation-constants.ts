@@ -1,3 +1,6 @@
+import { useState, useEffect, type RefObject } from "react";
+import { useInView } from "framer-motion";
+
 // ============================================
 // PALcares Animation Constants
 // app/lib/animation-constants.ts
@@ -43,6 +46,7 @@ export const EASE_TEXT_REVEAL = [0.33, 1, 0.68, 1] as const; // Elegant text dec
  */
 export const EASE_ENERGETIC = [0.34, 1.56, 0.64, 1] as const;
 export const EASE_SNAPPY = [0.4, 0, 0.2, 1] as const;
+export const EASE_DRAMATIC = [0.76, 0, 0.24, 1] as const; // Dramatic acceleration for wipes/exits
 export const EASE_ORGANIC = [0.25, 0.46, 0.45, 0.94] as const;
 
 /**
@@ -314,3 +318,53 @@ export const getDeviceOptimizedEase = (
 export const getDeviceOptimizedY = (isMobile: boolean): number => {
   return isMobile ? 10 : 16;
 };
+
+/**
+ * Safe InView Hook
+ *
+ * Wraps Framer Motion's useInView with a mount-time getBoundingClientRect() check.
+ * Prevents the race condition where IntersectionObserver callbacks are delayed or
+ * missed due to Lenis scroll init, layout calculations, or browser callback batching,
+ * leaving elements stuck at opacity: 0.
+ *
+ * If the element is already in the viewport when it mounts, forces isInView = true
+ * immediately via requestAnimationFrame without waiting for IntersectionObserver.
+ */
+export function useSafeInView(
+  ref: RefObject<HTMLElement | null>,
+  options?: { once?: boolean; amount?: number; margin?: string }
+): boolean {
+  const observerInView = useInView(ref, options as Parameters<typeof useInView>[1]);
+  const [forcedVisible, setForcedVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    requestAnimationFrame(() => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const amount = options?.amount ?? 0;
+
+      // Parse margin (handles "Npx Npx" or "Npx" shorthand)
+      let mt = 0, mb = 0;
+      if (options?.margin) {
+        const parts = options.margin.split(/\s+/).map(s => parseFloat(s));
+        mt = parts[0] || 0;
+        mb = parts.length >= 3 ? parts[2] : parts[0] || 0;
+      }
+
+      // Visible portion within margin-expanded viewport
+      const visTop = Math.max(-mt, rect.top);
+      const visBot = Math.min(vh + mb, rect.bottom);
+      const visH = Math.max(0, visBot - visTop);
+
+      if (rect.height > 0 && visH / rect.height >= amount) {
+        setForcedVisible(true);
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return forcedVisible || observerInView;
+}
