@@ -59,3 +59,8 @@ logs
 *.tmp
 *.temp
 .cache/
+
+# Project tooling
+.claude/
+CLAUDE.md
+SITE_CONTENT.md
