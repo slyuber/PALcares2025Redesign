@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { EASE_OUT_CUBIC } from "../../lib/animation-constants";
 
 interface VerticalRuleProps {
   color?: string;
@@ -17,31 +18,25 @@ export default function VerticalRule({
   animated = false,
   opacity = "1",
 }: VerticalRuleProps) {
-  const sharedStyles = {
-    position: "relative" as const,
-    left: "50%",
-    top: 0,
-    transform: "translateX(-50%)",
+  const prefersReducedMotion = useReducedMotion();
+  const dynamicStyles = {
     width: thickness,
     height,
     backgroundColor: color,
     opacity,
-    borderRadius: "200px",
   };
 
   if (animated) {
     return (
       <motion.div
+        className="relative left-1/2 top-0 -translate-x-1/2 rounded-full origin-top"
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        style={{
-          ...sharedStyles,
-          transformOrigin: "top",
-        }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: EASE_OUT_CUBIC }}
+        style={dynamicStyles}
       />
     );
   }
 
-  return <div style={sharedStyles} />;
+  return <div className="relative left-1/2 top-0 -translate-x-1/2 rounded-full" style={dynamicStyles} />;
 }

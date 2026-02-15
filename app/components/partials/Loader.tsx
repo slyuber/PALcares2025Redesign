@@ -18,6 +18,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { EASE_IN_OUT, EASE_SNAPPY, EASE_DRAMATIC } from "../../lib/animation-constants";
 
 const words = ["teams", "labs", "research", "cares"];
 
@@ -178,33 +179,30 @@ export default function Loader({ children }: { children: React.ReactNode }) {
             initial={{ opacity: 1 }}
             animate={{ opacity: isFinished ? 0 : 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            style={{
-              pointerEvents: isFinished ? "none" : "auto",
-              fontFamily: "Raleway, var(--font-raleway), system-ui, sans-serif",
-            }}
+            transition={{ duration: prefersReducedMotion ? 0.2 : 1, ease: EASE_IN_OUT }}
+            style={{ pointerEvents: isFinished ? "none" : "auto" }}
           >
             {/* BACKGROUND */}
             <div className="absolute inset-0 bg-[#F9F7F5]">
               <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5F1] via-[#F9F7F5] to-[#F0F4EF] opacity-80" />
               
               <motion.div
-                className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-[#FF9966] rounded-full mix-blend-multiply blur-[120px]"
+                className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full mix-blend-multiply"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                style={{ opacity: 0.1 }}
+                transition={{ duration: 8, repeat: Infinity, ease: EASE_IN_OUT }}
+                style={{ opacity: 0.1, background: "radial-gradient(circle, rgba(255,153,102,0.4) 0%, rgba(255,153,102,0.1) 40%, transparent 70%)" }}
               />
               <motion.div
-                className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] bg-[#8FAE8B] rounded-full mix-blend-multiply blur-[120px]"
+                className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full mix-blend-multiply"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.15, 1], opacity: [0.08, 0.12, 0.08] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                style={{ opacity: 0.1 }}
+                transition={{ duration: 10, repeat: Infinity, ease: EASE_IN_OUT, delay: 1 }}
+                style={{ opacity: 0.1, background: "radial-gradient(circle, rgba(143,174,139,0.4) 0%, rgba(143,174,139,0.1) 40%, transparent 70%)" }}
               />
               <motion.div
-                className="absolute top-[40%] left-[40%] w-[30%] h-[30%] bg-[#5C306C] rounded-full mix-blend-multiply blur-[100px]"
+                className="absolute top-[40%] left-[40%] w-[30%] h-[30%] rounded-full mix-blend-multiply"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1], opacity: [0.04, 0.06, 0.04] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                style={{ opacity: 0.05 }}
+                transition={{ duration: 12, repeat: Infinity, ease: EASE_IN_OUT, delay: 2 }}
+                style={{ opacity: 0.05, background: "radial-gradient(circle, rgba(92,48,108,0.3) 0%, rgba(92,48,108,0.08) 40%, transparent 70%)" }}
               />
             </div>
 
@@ -228,18 +226,14 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.3 }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+                    className="flex items-center justify-center"
                   >
                     <PALcaresIcon size="clamp(4rem, 12vw, 8rem)" />
                   </motion.div>
                 ) : (
               <motion.div
                 key="logo-text"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "baseline",
-                  justifyContent: "center",
-                }}
+                className="inline-flex items-baseline justify-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
@@ -252,13 +246,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                       initial={{ opacity: 0, scale: 0.8, width: 0, marginRight: 0 }}
                       animate={{ opacity: 1, scale: 1, width: "auto", marginRight: "0.3em" }}
                       exit={{ opacity: 0, scale: 0.8, width: 0, marginRight: 0 }}
-                      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        alignSelf: "center", // Center icon vertically with text block
-                        overflow: "hidden",
-                      }}
+                      transition={{ duration: 0.4, ease: EASE_SNAPPY }}
+                      className="flex items-center self-center overflow-hidden"
                     >
                       <PALcaresIcon size={iconSize} />
                     </motion.div>
@@ -267,12 +256,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
 
                 {/* PAL */}
                 <motion.span
-                  style={{
-                    fontSize: palFontSize,
-                    fontWeight: 600,
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1,
-                  }}
+                  className="font-semibold tracking-tight leading-none"
+                  style={{ fontSize: palFontSize }}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{
                     opacity: 1,
@@ -289,12 +274,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
 
                 {/* DASH - collapses on merge */}
                 <motion.span
-                  style={{
-                    fontSize: baseFontSize,
-                    fontWeight: 300,
-                    color: COLORS.animating,
-                    lineHeight: 1,
-                  }}
+                  className="font-light leading-none"
+                  style={{ fontSize: baseFontSize, color: COLORS.animating }}
                   initial={{ opacity: 0 }}
                   animate={{
                     opacity: isMerged ? 0 : 1,
@@ -318,19 +299,14 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                   {!isMerged ? (
                     <motion.span
                       key={words[currentIndex]}
-                      style={{
-                        fontSize: baseFontSize,
-                        fontWeight: 600,
-                        color: COLORS.animating,
-                        lineHeight: 1,
-                        display: "inline-block",
-                      }}
+                      className="font-semibold leading-none inline-block"
+                      style={{ fontSize: baseFontSize, color: COLORS.animating }}
                       initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                       exit={{ opacity: 0, y: -20, filter: "blur(4px)" }}
                       transition={{
                         duration: 0.3,
-                        ease: [0.4, 0, 0.2, 1],
+                        ease: EASE_SNAPPY,
                       }}
                     >
                       {words[currentIndex]}
@@ -338,12 +314,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                   ) : (
                     <motion.span
                       key="final-cares"
-                      style={{
-                        fontSize: baseFontSize,
-                        fontWeight: 600,
-                        lineHeight: 1,
-                        display: "inline-block",
-                      }}
+                      className="font-semibold leading-none inline-block"
+                      style={{ fontSize: baseFontSize }}
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0, color: COLORS.cares }}
                       transition={{
@@ -371,7 +343,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
               <span>Enter</span>
               <motion.div
                 animate={prefersReducedMotion ? {} : { y: [0, 4, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 2, repeat: Infinity, ease: EASE_IN_OUT }}
               >
                 <ChevronDown className="w-4 h-4" />
               </motion.div>
@@ -384,7 +356,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                   className="absolute inset-0 z-20 pointer-events-none"
                   initial={{ clipPath: "circle(0% at 50% 50%)" }}
                   animate={{ clipPath: "circle(150% at 50% 50%)" }}
-                  transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] as const }}
+                  transition={{ duration: 1.2, ease: EASE_DRAMATIC }}
                   style={{
                     background: "linear-gradient(to bottom, rgba(249,247,245,0.95), rgba(249,247,245,0.8))",
                     backdropFilter: "blur(20px)",

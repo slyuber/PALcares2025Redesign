@@ -7,7 +7,6 @@ import Image from "next/image";
 interface ParallaxBackgroundProps {
   src: string;
   alt: string;
-  speed?: number;
   opacity?: number;
   objectPosition?: string;
 }

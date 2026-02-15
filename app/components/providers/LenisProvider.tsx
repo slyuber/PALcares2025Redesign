@@ -28,8 +28,8 @@ export default function LenisProvider({ children }: LenisProviderProps) {
       root
       options={{
         // lerp: higher = tighter/snappier, lower = smoother/driftier
-        // 0.1 is default, 0.105 gives slightly more grounded feel with subtle inertia
-        lerp: 0.105,
+        // 0.1 is default, 0.15 gives responsive feel with minimal lag
+        lerp: 0.15,
         smoothWheel: true,
         syncTouch: false, // Native touch on mobile/tablet - much better UX
       }}

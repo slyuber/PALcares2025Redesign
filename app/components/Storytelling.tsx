@@ -5,7 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue, useInView, useMotionValueEvent } from "framer-motion";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_OUT_EXPO } from "../lib/animation-constants";
+import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE } from "../lib/animation-constants";
 import Image from "next/image";
 
 export default function Storytelling() {
@@ -128,7 +128,7 @@ export default function Storytelling() {
         >
           <div 
             ref={mobileContentRef} 
-            className="relative z-10 w-full max-w-5xl mx-auto px-6 md:px-12 space-y-16 sm:space-y-20 pb-16"
+            className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 space-y-16 sm:space-y-20 pb-16"
           >
             {/* Panel 0: Intro */}
             <MobileIntroHeader />
@@ -201,6 +201,7 @@ export default function Storytelling() {
                   preserveAspectRatio="xMidYMid meet"
                 >
                   {/* Animated particles traveling between nodes */}
+                  {!prefersReducedMotion && (<>
                   {/* Research to Teams */}
                   <motion.circle
                     r="3" fill="#FF9966"
@@ -267,6 +268,7 @@ export default function Storytelling() {
                     }}
                     transition={{ duration: 3.8, delay: 2.5, repeat: Infinity, ease: "linear" }}
                   />
+                  </>)}
                 </svg>
 
                 {/* Triangle nodes positioned absolutely */}
@@ -275,7 +277,7 @@ export default function Storytelling() {
                   <div className="absolute left-1/2 top-0 -translate-x-1/2 flex flex-col items-center text-center z-10">
                     <BookOpen className="w-9 h-9 sm:w-10 sm:h-10 text-[#7388e0] mb-1.5" strokeWidth={1.3} />
                     <h3 className="text-[#7388e0] text-sm sm:text-base font-medium">Research</h3>
-                    <p className="text-[#9b8a9e] text-[10px] sm:text-xs max-w-[100px] leading-snug">
+                    <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
                       Generalizes & shares
                     </p>
                   </div>
@@ -284,7 +286,7 @@ export default function Storytelling() {
                   <div className="absolute left-[8%] bottom-0 flex flex-col items-center text-center z-10">
                     <Users className="w-9 h-9 sm:w-10 sm:h-10 text-[#ea5dff] mb-1.5" strokeWidth={1.3} />
                     <h3 className="text-[#ea5dff] text-sm sm:text-base font-medium">Teams</h3>
-                    <p className="text-[#9b8a9e] text-[10px] sm:text-xs max-w-[100px] leading-snug">
+                    <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
                       Foundational work
                     </p>
                   </div>
@@ -293,7 +295,7 @@ export default function Storytelling() {
                   <div className="absolute right-[8%] bottom-0 flex flex-col items-center text-center z-10">
                     <FlaskConical className="w-9 h-9 sm:w-10 sm:h-10 text-[#FF9966] mb-1.5" strokeWidth={1.3} />
                     <h3 className="text-[#FF9966] text-sm sm:text-base font-medium">Labs</h3>
-                    <p className="text-[#9b8a9e] text-[10px] sm:text-xs max-w-[100px] leading-snug">
+                    <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
                       Extends capacity
                     </p>
                   </div>
@@ -350,13 +352,13 @@ export default function Storytelling() {
             {/* Content Container */}
             <div 
               ref={contentRef} 
-              className="w-full max-w-[1280px] mx-auto px-8 md:px-12 lg:px-16 py-8 md:py-12 flex flex-col justify-center min-h-full"
+              className="w-full max-w-7xl mx-auto px-8 md:px-12 lg:px-16 py-8 md:py-12 flex flex-col justify-center min-h-full"
             >
               {/* Panel 0: Intro */}
               <Panel active={activeIndex === 0}>
                 <div className="text-center max-w-4xl mx-auto space-y-6 relative">
                   <h2
-                    className="font-light text-[#5C306C] tracking-tight leading-[1.2]"
+                    className="font-light text-[#5C306C] tracking-tight leading-tight"
                     style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
                   >
                     An{" "}
@@ -384,16 +386,16 @@ export default function Storytelling() {
                     className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: activeIndex === 0 ? 0.6 : 0 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, ease: EASE_PREMIUM }}
                   >
-                    <span className="text-[10px] text-[#5C306C]/40 tracking-[0.2em] uppercase mb-2">
+                    <span className="text-xs text-[#5C306C]/60 tracking-[0.2em] uppercase mb-2">
                       Scroll
                     </span>
                     {!prefersReducedMotion && (
                       <motion.div
                         className="w-px h-5 bg-[#5C306C]/25"
                         animate={{ scaleY: [1, 0.5, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        transition={{ duration: 2, repeat: Infinity, ease: EASE_IN_OUT }}
                       />
                     )}
                     {prefersReducedMotion && (
@@ -409,7 +411,7 @@ export default function Storytelling() {
                 icon={<Users className="w-6 h-6 text-[#FF9966]" />}
                 label="Embedded Partnerships"
                 title="PAL Teams"
-                description={<>PAL Teams embeds technical staff directly within organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>—building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
+                description={<>PAL <span className="font-semibold text-[#FF9966]">Teams</span> embeds technical staff directly within organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>—building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
                 secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">capacity building through daily work</strong>. Each tool we build addresses immediate needs while strengthening the connection between staff and their technical systems. We create the infrastructure—<strong className="font-semibold text-[#5C306C]">feedback loops, testing processes, communication channels</strong>—that makes this kind of iteration possible.</>}
                 details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround actually works</strong>.</>}
                 items={[
@@ -428,8 +430,8 @@ export default function Storytelling() {
                 icon={<BookOpen className="w-6 h-6 text-[#FF9966]" />}
                 label="Turning Individual Investments into Sector Resources"
                 title="PAL Research"
-                description={<>PAL Research generalizes solutions built through PAL Teams partnerships and releases them under <strong className="font-semibold text-[#5C306C]">open license</strong>—so what works for one organization can benefit others across the sector.</>}
-                secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">knowledge transfer through proven solutions</strong>. Every tool we generalize has survived daily use, been shaped by frontline feedback, solved real operational problems. We work through the relationships and channels that PAL Teams have already built—<strong className="font-semibold text-[#5C306C]">carefully extracting the patterns</strong>, stripping out anything specific to one organization while keeping what makes the solution work.</>}
+                description={<>PAL <span className="font-semibold text-[#FF9966]">Research</span> generalizes solutions built through PAL <span className="font-semibold text-[#FF9966]">Teams</span> partnerships and releases them under <strong className="font-semibold text-[#5C306C]">open license</strong>—so what works for one organization can benefit others across the sector.</>}
+                secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">knowledge transfer through proven solutions</strong>. Every tool we generalize has survived daily use, been shaped by frontline feedback, solved real operational problems. We work through the relationships and channels that PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already built—<strong className="font-semibold text-[#5C306C]">carefully extracting the patterns</strong>, stripping out anything specific to one organization while keeping what makes the solution work.</>}
                 details={<>What makes this possible is the <strong className="font-semibold text-[#5C306C]">trust and infrastructure built through embedded partnerships</strong>. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they <strong className="font-semibold text-[#5C306C]">emerged from actual use</strong>, not theoretical design.</>}
                 items={[
                   "Solutions proven through daily use before being generalized—not theoretical designs",
@@ -447,7 +449,7 @@ export default function Storytelling() {
                 icon={<Sprout className="w-6 h-6 text-[#FF9966]" />}
                 label="Building Local Capacity"
                 title="PAL Labs"
-                description={<>PAL Labs extends technical capacity to organizations through <strong className="font-semibold text-[#5C306C]">supervised placements</strong>—connecting emerging talent with real project needs while building on the relationships and infrastructure that PAL Teams have already established.</>}
+                description={<>PAL <span className="font-semibold text-[#FF9966]">Labs</span> extends technical capacity to organizations through <strong className="font-semibold text-[#5C306C]">supervised placements</strong>—connecting emerging talent with real project needs while building on the relationships and infrastructure that PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already established.</>}
                 secondaryDescription={<>Labs builds on what Teams creates. The organizational understanding, the trusted relationships, the technical infrastructure—all become the foundation for <strong className="font-semibold text-[#5C306C]">meaningful placements</strong>. A student generalizes an existing solution for sector-wide use. A newcomer builds custom tools for unique program needs. Someone transitioning careers creates data infrastructure. Different people, different skills, same structure: learn in our environments under mentorship, apply those skills where they&apos;re needed, leave something maintainable behind.</>}
                 details={<>We gather funding from foundations, government, and larger organizations who understand the sector-wide benefit—<strong className="font-semibold text-[#5C306C]">pooling resources to run lean cohorts</strong> where technical talent learns specialized skills. The technical work is sophisticated—data engineering, cloud architecture, custom development—but <strong className="font-semibold text-[#5C306C]">connected to frontline reality</strong> through existing relationships. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
                 items={[
@@ -488,16 +490,16 @@ export default function Storytelling() {
                   <motion.button
                     key={i}
                     type="button"
-                    className="relative flex items-center justify-end w-full group"
+                    className="relative flex items-center justify-end w-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] rounded"
                     onClick={() => scrollToStep(i)}
                     aria-label={`Jump to ${labels[i]}`}
                     whileHover={{ scale: 1.05 }}
                     whileFocus={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    transition={SPRING_SNAPPY}
                   >
                     <span
                       className={cn(
-                        "text-[11px] font-semibold uppercase tracking-wider mr-4 whitespace-nowrap transition-all duration-200",
+                        "text-xs font-semibold uppercase tracking-wider mr-4 whitespace-nowrap transition-all duration-200",
                         i === activeIndex
                           ? "text-[#5C306C] opacity-100 translate-x-0"
                           : "text-[#5C306C]/60 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
@@ -517,13 +519,9 @@ export default function Storytelling() {
                         height: i === activeIndex ? 36 : 6,
                         width: 6,
                       }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 25,
-                      }}
+                      transition={SPRING_GENTLE}
                     >
-                      {i === activeIndex && (
+                      {i === activeIndex && !prefersReducedMotion && (
                         <motion.div
                           className="absolute inset-0 rounded-full bg-[#FF9966] blur-md"
                           style={{ willChange: 'transform, opacity' }}
@@ -534,9 +532,12 @@ export default function Storytelling() {
                           transition={{
                             duration: 2,
                             repeat: Infinity,
-                            ease: "easeInOut",
+                            ease: EASE_IN_OUT,
                           }}
                         />
+                      )}
+                      {i === activeIndex && prefersReducedMotion && (
+                        <div className="absolute inset-0 rounded-full bg-[#FF9966]/40 blur-md" />
                       )}
                     </motion.div>
                   </motion.button>
@@ -554,7 +555,7 @@ export default function Storytelling() {
           {isStorytellingInView && activeIndex < 4 && (
             <motion.button
               type="button"
-              className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/40 hover:text-[#5C306C]/70 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/95 z-[60] pointer-events-auto"
+              className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/60 hover:text-[#5C306C]/80 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/95 z-[60] pointer-events-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966]"
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
@@ -597,7 +598,7 @@ function MobileIntroHeader() {
       className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-6"
     >
       <h1
-        className="font-light text-[#5C306C] tracking-tight leading-[1.15]"
+        className="font-light text-[#5C306C] tracking-tight leading-tight"
         style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
       >
         An{" "}
@@ -615,7 +616,7 @@ function MobileIntroHeader() {
           } : {}}
           transition={{
             duration: prefersReducedMotion ? 0 : 0.6,
-            ease: [0.16, 1, 0.3, 1],
+            ease: EASE_PREMIUM,
             scale: {
               duration: prefersReducedMotion ? 0 : 0.8,
               times: [0, 0.4, 0.7, 1]
@@ -633,7 +634,7 @@ function MobileIntroHeader() {
         transition={{
           duration: prefersReducedMotion ? 0 : 0.5,
           delay: 0.2,
-          ease: [0.16, 1, 0.3, 1]
+          ease: EASE_PREMIUM
         }}
       >
         Not three separate services—<span className="font-semibold">one approach</span> where each part takes advantage of the others.
@@ -670,146 +671,6 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
 });
 Panel.displayName = 'Panel';
 
-// Abstract visual illustrations for each section
-function ContentVisual({ title }: { title: string }) {
-  // PAL Teams: Connected nodes representing partnerships
-  if (title === "PAL Teams") {
-    return (
-      <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-80">
-        {/* Central hub */}
-        <circle cx="100" cy="80" r="24" fill="url(#teams-grad)" fillOpacity="0.15" />
-        <circle cx="100" cy="80" r="24" stroke="#5C306C" strokeWidth="1.5" strokeOpacity="0.3" />
-        <circle cx="100" cy="80" r="8" fill="#5C306C" fillOpacity="0.4" />
-        
-        {/* Connected nodes */}
-        <circle cx="45" cy="50" r="16" fill="url(#teams-grad)" fillOpacity="0.1" />
-        <circle cx="45" cy="50" r="16" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
-        <circle cx="45" cy="50" r="5" fill="#FF9966" fillOpacity="0.6" />
-        
-        <circle cx="155" cy="50" r="16" fill="url(#teams-grad)" fillOpacity="0.1" />
-        <circle cx="155" cy="50" r="16" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
-        <circle cx="155" cy="50" r="5" fill="#FF9966" fillOpacity="0.6" />
-        
-        <circle cx="45" cy="115" r="14" fill="url(#teams-grad)" fillOpacity="0.08" />
-        <circle cx="45" cy="115" r="14" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
-        <circle cx="45" cy="115" r="4" fill="#5C306C" fillOpacity="0.3" />
-        
-        <circle cx="155" cy="115" r="14" fill="url(#teams-grad)" fillOpacity="0.08" />
-        <circle cx="155" cy="115" r="14" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
-        <circle cx="155" cy="115" r="4" fill="#5C306C" fillOpacity="0.3" />
-        
-        {/* Connection lines */}
-        <line x1="60" y1="55" x2="78" y2="70" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
-        <line x1="140" y1="55" x2="122" y2="70" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
-        <line x1="58" y1="108" x2="80" y2="92" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
-        <line x1="142" y1="108" x2="120" y2="92" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
-        
-        {/* Orbital ring */}
-        <ellipse cx="100" cy="80" rx="70" ry="45" stroke="#5C306C" strokeWidth="0.5" strokeOpacity="0.1" strokeDasharray="4 4" />
-        
-        <defs>
-          <linearGradient id="teams-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FF9966" />
-            <stop offset="100%" stopColor="#5C306C" />
-          </linearGradient>
-        </defs>
-      </svg>
-    );
-  }
-  
-  // PAL Research: Branching/sharing pattern representing open source
-  if (title === "PAL Research") {
-    return (
-      <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-80">
-        {/* Central source */}
-        <rect x="85" y="65" width="30" height="30" rx="6" fill="#5C306C" fillOpacity="0.15" stroke="#5C306C" strokeWidth="1.5" strokeOpacity="0.3" />
-        <rect x="93" y="73" width="14" height="14" rx="3" fill="#5C306C" fillOpacity="0.3" />
-        
-        {/* Branching paths */}
-        <path d="M85 80 L45 50" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
-        <path d="M85 80 L45 110" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
-        <path d="M115 80 L155 50" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.4" />
-        <path d="M115 80 L155 110" stroke="#FF9966" strokeWidth="1.5" strokeOpacity="0.3" />
-        
-        {/* Branch endpoints - documents/resources */}
-        <rect x="25" y="38" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.12" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.4" />
-        <line x1="30" y1="46" x2="40" y2="46" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.4" />
-        <line x1="30" y1="51" x2="38" y2="51" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.3" />
-        
-        <rect x="25" y="98" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.08" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
-        <line x1="30" y1="106" x2="40" y2="106" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.2" />
-        <line x1="30" y1="111" x2="38" y2="111" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" />
-        
-        <rect x="155" y="38" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.12" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.4" />
-        <line x1="160" y1="46" x2="170" y2="46" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.4" />
-        <line x1="160" y1="51" x2="168" y2="51" stroke="#FF9966" strokeWidth="0.75" strokeOpacity="0.3" />
-        
-        <rect x="155" y="98" width="20" height="24" rx="3" fill="url(#research-grad)" fillOpacity="0.08" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
-        <line x1="160" y1="106" x2="170" y2="106" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.2" />
-        <line x1="160" y1="111" x2="168" y2="111" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" />
-        
-        {/* Open license symbol hint */}
-        <circle cx="100" cy="135" r="10" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" />
-        <path d="M95 135 L100 140 L105 135" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.2" fill="none" />
-        
-        <defs>
-          <linearGradient id="research-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FF9966" />
-            <stop offset="100%" stopColor="#5C306C" />
-          </linearGradient>
-        </defs>
-      </svg>
-    );
-  }
-  
-  // PAL Labs: Growth/learning pattern with rising elements
-  if (title === "PAL Labs") {
-    return (
-      <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-80">
-        {/* Ground/foundation line */}
-        <line x1="30" y1="130" x2="170" y2="130" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.15" />
-        
-        {/* Growing stems */}
-        <path d="M60 130 L60 90" stroke="#8FAE8B" strokeWidth="2" strokeOpacity="0.5" strokeLinecap="round" />
-        <path d="M100 130 L100 60" stroke="#8FAE8B" strokeWidth="2.5" strokeOpacity="0.6" strokeLinecap="round" />
-        <path d="M140 130 L140 75" stroke="#8FAE8B" strokeWidth="2" strokeOpacity="0.4" strokeLinecap="round" />
-        
-        {/* Leaves/growth points */}
-        <ellipse cx="52" cy="85" rx="12" ry="8" fill="#8FAE8B" fillOpacity="0.2" transform="rotate(-30 52 85)" />
-        <ellipse cx="68" cy="92" rx="10" ry="6" fill="#8FAE8B" fillOpacity="0.15" transform="rotate(25 68 92)" />
-        
-        <ellipse cx="88" cy="55" rx="14" ry="10" fill="#FF9966" fillOpacity="0.15" transform="rotate(-25 88 55)" />
-        <ellipse cx="112" cy="62" rx="14" ry="10" fill="#FF9966" fillOpacity="0.15" transform="rotate(25 112 62)" />
-        <circle cx="100" cy="45" r="8" fill="#FF9966" fillOpacity="0.25" />
-        
-        <ellipse cx="130" cy="72" rx="11" ry="7" fill="#8FAE8B" fillOpacity="0.15" transform="rotate(-20 130 72)" />
-        <ellipse cx="150" cy="78" rx="10" ry="6" fill="#8FAE8B" fillOpacity="0.12" transform="rotate(30 150 78)" />
-        
-        {/* Small seeds/dots at base */}
-        <circle cx="60" cy="135" r="3" fill="#5C306C" fillOpacity="0.2" />
-        <circle cx="100" cy="135" r="4" fill="#5C306C" fillOpacity="0.25" />
-        <circle cx="140" cy="135" r="3" fill="#5C306C" fillOpacity="0.2" />
-        
-        {/* Subtle upward arrows/direction */}
-        <path d="M100 30 L95 38 M100 30 L105 38" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.3" strokeLinecap="round" />
-        
-        {/* Mentorship connection hint */}
-        <path d="M70 100 Q85 95 95 80" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" strokeDasharray="3 3" fill="none" />
-        <path d="M130 95 Q115 85 105 70" stroke="#5C306C" strokeWidth="0.75" strokeOpacity="0.15" strokeDasharray="3 3" fill="none" />
-      </svg>
-    );
-  }
-  
-  // Default: Simple abstract pattern
-  return (
-    <svg width="200" height="160" viewBox="0 0 200 160" fill="none" className="opacity-60">
-      <circle cx="100" cy="80" r="40" stroke="#5C306C" strokeWidth="1" strokeOpacity="0.2" />
-      <circle cx="100" cy="80" r="25" stroke="#FF9966" strokeWidth="1" strokeOpacity="0.3" />
-      <circle cx="100" cy="80" r="10" fill="#5C306C" fillOpacity="0.15" />
-    </svg>
-  );
-}
-
 interface ContentPanelProps {
   active: boolean;
   icon: React.ReactNode;
@@ -822,6 +683,18 @@ interface ContentPanelProps {
   quote?: string;
   prefersReducedMotion: boolean | null;
   fillProgress?: MotionValue<number> | number;
+}
+
+// Style sub-brand names: "PAL Teams" → PAL + coral "Teams"
+function stylePalNames(text: string): React.ReactNode {
+  const parts = text.split(/(PAL Teams|PAL Research|PAL Labs)/g);
+  if (parts.length === 1) return text;
+  return parts.map((part, i) => {
+    if (part === 'PAL Teams') return <span key={i}>PAL <span className="font-semibold text-[#FF9966]">Teams</span></span>;
+    if (part === 'PAL Research') return <span key={i}>PAL <span className="font-semibold text-[#FF9966]">Research</span></span>;
+    if (part === 'PAL Labs') return <span key={i}>PAL <span className="font-semibold text-[#FF9966]">Labs</span></span>;
+    return part;
+  });
 }
 
 // Mobile version - shows all content inline
@@ -845,7 +718,7 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
           className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center shrink-0 icon-container-enhanced"
           whileHover={{ scale: 1.05, rotate: -2 }}
           whileTap={{ scale: 0.98 }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          transition={SPRING_SNAPPY}
         >
           {/* Multi-layer background */}
           <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF9966]/15 to-[#FF9966]/5" />
@@ -865,32 +738,25 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
       </header>
 
       {/* Title */}
-      <h2 className="text-[1.75rem] sm:text-3xl font-light text-[#5C306C] leading-[1.2] tracking-tight">
-        {title}
+      <h2 className="text-3xl sm:text-3xl font-light text-[#5C306C] leading-tight tracking-tight">
+        {title.startsWith('PAL ') ? <>PAL <span className="font-semibold text-[#FF9966]">{title.slice(4)}</span></> : title}
       </h2>
-
-      {/* Visual - smaller for mobile, centered */}
-      <div className="flex justify-center py-4">
-        <div className="w-40 h-32 sm:w-48 sm:h-40 opacity-70">
-          <ContentVisual title={title} />
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="space-y-4">
-        <p className="text-base sm:text-lg text-[#5C306C]/90 leading-[1.7]">
-          {description}
+        <p className="text-base sm:text-lg text-[#5C306C]/90 leading-relaxed">
+          {stylePalNames(description)}
         </p>
 
         {/* Expandable secondary content - Read More / Read Less */}
-        {(secondaryDescription || details) && (
+        {(secondaryDescription || details || quote) && (
           <AnimatePresence mode="wait">
             {!expanded ? (
               <motion.button
                 key="read-more"
                 type="button"
                 onClick={() => setExpanded(true)}
-                className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#FF9966] hover:text-[#e88855] transition-colors mt-2 min-h-[44px]"
+                className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#FF9966] hover:text-[#e88855] transition-colors mt-2 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -904,26 +770,33 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                transition={{ duration: 0.3, ease: EASE_SNAPPY }}
                 className="space-y-4 overflow-hidden"
               >
                 {secondaryDescription && (
-                  <p className="text-[15px] sm:text-base text-[#5C306C]/75 leading-[1.7]">
-                    {secondaryDescription}
+                  <p className="text-base text-[#5C306C]/75 leading-relaxed">
+                    {stylePalNames(secondaryDescription)}
                   </p>
                 )}
 
                 {details && (
-                  <p className="text-[15px] sm:text-base text-[#5C306C]/75 leading-[1.7]">
-                    {details}
+                  <p className="text-base text-[#5C306C]/75 leading-relaxed">
+                    {stylePalNames(details)}
                   </p>
+                )}
+
+                {/* Quote - visible only when expanded */}
+                {quote && (
+                  <blockquote className="mt-2 pt-4 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-base leading-relaxed italic">
+                    &ldquo;{quote}&rdquo;
+                  </blockquote>
                 )}
 
                 {/* Read Less Button */}
                 <button
                   type="button"
                   onClick={() => setExpanded(false)}
-                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#5C306C]/60 hover:text-[#5C306C] transition-colors mt-2 min-h-[44px]"
+                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#5C306C]/60 hover:text-[#5C306C] transition-colors mt-2 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded"
                 >
                   <ArrowRight className="w-4 h-4 rotate-[-90deg]" />
                   <span className="underline underline-offset-4 decoration-[#5C306C]/30">Read less</span>
@@ -939,7 +812,7 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
         {items.map((item: string, i: number) => (
           <li
             key={i}
-            className="flex items-start gap-3 text-[#5C306C]/90 text-[15px] sm:text-base min-h-[44px]"
+            className="flex items-start gap-3 text-[#5C306C]/90 text-base min-h-[44px]"
           >
             <motion.div
               className="w-6 h-6 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5"
@@ -951,12 +824,6 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
         ))}
       </ul>
 
-      {/* Quote - Always visible */}
-      {quote && (
-        <blockquote className="mt-6 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-[15px] sm:text-base leading-relaxed italic">
-          &ldquo;{quote}&rdquo;
-        </blockquote>
-      )}
     </article>
   );
 }
@@ -1006,7 +873,7 @@ const ContentPanel = React.memo(function ContentPanel({
                   className="relative w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
                   whileHover={{ scale: 1.05, rotate: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  transition={SPRING_SNAPPY}
                 >
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF9966]/15 to-[#FF9966]/5" />
                   <div className="absolute inset-0 rounded-xl border border-[#FF9966]/20" />
@@ -1018,30 +885,10 @@ const ContentPanel = React.memo(function ContentPanel({
               </div>
               
               {/* Title */}
-              <h2 className="text-3xl md:text-4xl lg:text-[2.5rem] font-light text-[#5C306C] leading-[1.15] tracking-tight">
-                {title}
+              <h2 className="text-3xl md:text-4xl lg:text-4xl font-light text-[#5C306C] leading-tight tracking-tight">
+                {title.startsWith('PAL ') ? <>PAL <span className="font-semibold text-[#FF9966]">{title.slice(4)}</span></> : title}
               </h2>
 
-              {/* Quote - PERF: Use CSS transition instead of Framer Motion */}
-              {quote && (
-                <blockquote
-                  className={cn(
-                    "hidden lg:block pl-5 border-l-2 border-[#FF9966]/50 text-[15px] text-[#5C306C]/75 leading-relaxed italic mt-8 pt-6 transition-opacity duration-300",
-                    active ? "opacity-100" : "opacity-0"
-                  )}
-                >
-                  <div
-                    style={{
-                      display: "-webkit-box",
-                      WebkitLineClamp: 4,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    } as React.CSSProperties}
-                  >
-                    &ldquo;{quote}&rdquo;
-                  </div>
-                </blockquote>
-              )}
             </div>
 
             {/* RIGHT COLUMN - Main content */}
@@ -1051,12 +898,12 @@ const ContentPanel = React.memo(function ContentPanel({
               <motion.div 
                 className="hidden lg:block absolute left-0 top-0 w-[2px] bg-[#FF9966] rounded-full origin-top"
                 style={{ height: '100%', scaleY: active ? fillProgress : 0 }}
-                transition={{ duration: 0.15, ease: "easeOut" }}
+                transition={{ duration: 0.15, ease: EASE_OUT_EXPO }}
               />
               
               <div className="space-y-6">
                 {/* Main description */}
-                <p className="text-base md:text-lg lg:text-[17px] text-[#5C306C]/90 leading-[1.75]">
+                <p className="text-base md:text-lg lg:text-lg text-[#5C306C]/90 leading-relaxed">
                   {description}
                 </p>
                 
@@ -1082,7 +929,7 @@ const ContentPanel = React.memo(function ContentPanel({
                     <li
                       key={i}
                       className={cn(
-                        "flex items-start gap-3 text-[#5C306C]/90 text-[15px] group transition-all duration-300",
+                        "flex items-start gap-3 text-[#5C306C]/90 text-base group transition-all duration-300",
                         active ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
                       )}
                     >
@@ -1130,7 +977,7 @@ const ContentPanel = React.memo(function ContentPanel({
                   <span>Back</span>
                 </button>
                 <span className="text-[#5C306C]/20 mx-1">|</span>
-                <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FF9966]/80 truncate">
+                <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966]/80 truncate">
                   {label}
                 </span>
               </div>
@@ -1145,21 +992,16 @@ const ContentPanel = React.memo(function ContentPanel({
               </div>
               
               {/* Title */}
-              <h2 className="text-2xl sm:text-3xl lg:text-[2.25rem] font-light text-[#5C306C] leading-[1.2] tracking-tight pr-2">
-                {title}
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-[#5C306C] leading-tight tracking-tight pr-2">
+                {title.startsWith('PAL ') ? <>PAL <span className="font-semibold text-[#FF9966]">{title.slice(4)}</span></> : title}
               </h2>
               
-              {/* Visual element - desktop only, below title */}
-              <div className="hidden lg:block pt-4 mt-4 border-t border-[#5C306C]/8">
-                <motion.div 
-                  className="opacity-50 max-w-[180px]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.5 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
-                >
-                  <ContentVisual title={title} />
-                </motion.div>
-              </div>
+              {/* Full quote - desktop only, below title */}
+              {quote && (
+                <blockquote className="hidden lg:block mt-6 pt-6 pl-5 border-l-2 border-[#FF9966]/50 text-[#5C306C]/75 text-base leading-relaxed italic">
+                  &ldquo;{quote}&rdquo;
+                </blockquote>
+              )}
             </div>
 
             {/* RIGHT COLUMN - Main content */}
@@ -1168,7 +1010,7 @@ const ContentPanel = React.memo(function ContentPanel({
               <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-[#5C306C]/10" />
               
               {/* Lead paragraph */}
-              <p className="text-base lg:text-[17px] text-[#5C306C] leading-[1.7] mb-5">
+              <p className="text-base lg:text-lg text-[#5C306C] leading-relaxed mb-5">
                 {description}
               </p>
               
@@ -1178,13 +1020,13 @@ const ContentPanel = React.memo(function ContentPanel({
               {/* Body content */}
               <div className="space-y-4 lg:space-y-5 lg:pr-8 xl:pr-12">
                 {secondaryDescription && (
-                  <p className="text-[15px] lg:text-[15.5px] text-[#5C306C]/75 leading-[1.8]">
+                  <p className="text-base text-[#5C306C]/75 leading-relaxed">
                     {secondaryDescription}
                   </p>
                 )}
                 
                 {details && (
-                  <p className="text-[15px] lg:text-[15.5px] text-[#5C306C]/75 leading-[1.8]">
+                  <p className="text-base text-[#5C306C]/75 leading-relaxed">
                     {details}
                   </p>
                 )}
@@ -1202,14 +1044,11 @@ const ContentPanel = React.memo(function ContentPanel({
               <button
                 type="button"
                 onClick={() => setExpanded(false)}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors py-2"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Back to overview</span>
               </button>
-              <div className="scale-[0.4] opacity-30 origin-right">
-                <ContentVisual title={title} />
-              </div>
             </div>
           </motion.div>
         )}
@@ -1230,7 +1069,7 @@ interface EcosystemPanelProps {
 const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, description, prefersReducedMotion }: EcosystemPanelProps) {
   return (
     <Panel active={active}>
-      <div className="w-full max-w-5xl h-full flex flex-col justify-center items-center px-6 py-8">
+      <div className="w-full max-w-6xl h-full flex flex-col justify-center items-center px-6 py-8">
         {/* Header Section - PERF: CSS transition */}
         <div
           className={cn(
@@ -1392,8 +1231,8 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
                 )}>
                   <BookOpen className="w-10 h-10 text-[#7388e0]" strokeWidth={1.4} />
                 </div>
-                <h3 className="text-[#7388e0] mt-3 mb-1 text-base font-semibold tracking-tight">Research</h3>
-                <p className="text-[#5C306C]/65 text-center text-sm max-w-[160px] leading-relaxed">
+                <h3 className="text-[#7388e0] mt-3 mb-1 text-base font-bold tracking-tight">Research</h3>
+                <p className="text-[#5C306C]/80 text-center text-sm max-w-[160px] leading-relaxed">
                   Generalizes & shares under <span className="text-[#7388e0] font-medium">open license</span>
                 </p>
               </div>
@@ -1414,8 +1253,8 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
                 )}>
                   <Users className="w-10 h-10 text-[#ea5dff]" strokeWidth={1.4} />
                 </div>
-                <h3 className="text-[#ea5dff] mt-3 mb-1 text-base font-semibold tracking-tight">Teams</h3>
-                <p className="text-[#5C306C]/65 text-center text-sm max-w-[160px] leading-relaxed">
+                <h3 className="text-[#ea5dff] mt-3 mb-1 text-base font-bold tracking-tight">Teams</h3>
+                <p className="text-[#5C306C]/80 text-center text-sm max-w-[160px] leading-relaxed">
                   <span className="text-[#ea5dff] font-medium">Foundational</span> work & infrastructure
                 </p>
               </div>
@@ -1436,8 +1275,8 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
                 )}>
                   <FlaskConical className="w-10 h-10 text-[#FF9966]" strokeWidth={1.4} />
                 </div>
-                <h3 className="text-[#FF9966] mt-3 mb-1 text-base font-semibold tracking-tight">Labs</h3>
-                <p className="text-[#5C306C]/65 text-center text-sm max-w-[160px] leading-relaxed">
+                <h3 className="text-[#FF9966] mt-3 mb-1 text-base font-bold tracking-tight">Labs</h3>
+                <p className="text-[#5C306C]/80 text-center text-sm max-w-[160px] leading-relaxed">
                   <span className="text-[#FF9966] font-medium">Extends capacity</span> locally
                 </p>
               </div>

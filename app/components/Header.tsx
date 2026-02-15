@@ -4,10 +4,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { useLenis } from "lenis/react";
+import { EASE_PREMIUM, EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY } from "../lib/animation-constants";
 
 interface NavItem {
   id: string;
@@ -26,12 +27,13 @@ export default function Header() {
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const lastToggleRef = useRef<number>(0);
+  const prefersReducedMotion = useReducedMotion();
   const router = useRouter();
   const pathname = usePathname();
   const lenis = useLenis();
   
   // Logo visibility based on scroll - instant threshold for clean transition
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
   const [showHeaderLogo, setShowHeaderLogo] = useState(false);
 
   useEffect(() => {
@@ -255,14 +257,14 @@ export default function Header() {
         scrolled ? "bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5]/80 backdrop-blur-sm" : "bg-transparent"
       }`}>
         {/* Logo - polished crossfade with hero logo */}
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded">
           <motion.div
             initial={false}
             animate={{
               opacity: pathname === "/" ? (showHeaderLogo ? 1 : 0) : 1,
               scale: pathname === "/" ? (showHeaderLogo ? 1 : 0.9) : 1
             }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.4, ease: EASE_PREMIUM }}
           >
             <Image
               src="/svg/PALcares_logo_light.svg"
@@ -293,7 +295,7 @@ export default function Header() {
                 type="button"
                 onClick={() => item.hasSubmenu ? toggleSubmenu(item.id) : handleNavClick(item.id)}
                 onMouseEnter={() => item.hasSubmenu && setOpenSubmenu(item.id)}
-                className="relative px-4 py-2.5 text-[13px] font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors duration-300 flex items-center gap-1.5 rounded-full group"
+                className="relative px-4 py-2.5 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors duration-300 flex items-center gap-1.5 rounded-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C]"
                 whileHover={{ backgroundColor: "rgba(92, 48, 108, 0.04)" }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.15 }}
@@ -308,7 +310,7 @@ export default function Header() {
                 {item.hasSubmenu && (
                   <motion.span
                     animate={{ rotate: openSubmenu === item.id ? 180 : 0 }}
-                    transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                    transition={{ duration: 0.25, ease: EASE_SNAPPY }}
                   >
                     <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity" />
                   </motion.span>
@@ -320,11 +322,11 @@ export default function Header() {
                 <AnimatePresence>
                   {openSubmenu === item.id && (
                     <motion.div
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white/95 backdrop-blur-md shadow-lg shadow-[#5C306C]/8 border border-[#5C306C]/5 rounded-2xl py-2 z-50 overflow-hidden"
-                      initial={{ opacity: 0, y: -4, scale: 0.98 }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-44 bg-white/95 backdrop-blur-md shadow-lg shadow-[#5C306C]/8 border border-[#5C306C]/5 rounded-xl py-1.5 z-50 overflow-hidden"
+                      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -4, scale: prefersReducedMotion ? 1 : 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -4, scale: 0.98 }}
-                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                      exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4, scale: prefersReducedMotion ? 1 : 0.98 }}
+                      transition={{ duration: prefersReducedMotion ? 0.1 : 0.2, ease: EASE_SNAPPY }}
                       onMouseLeave={() => setOpenSubmenu(null)}
                       role="menu"
                     >
@@ -333,14 +335,14 @@ export default function Header() {
                           key={subItem.label}
                           type="button"
                           onClick={() => handleNavClick(subItem.id, subItem.scrollOffset)}
-                          className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.03] transition-all duration-200 flex items-center gap-3 group/item"
+                          className="w-full text-left px-4 py-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.05] transition-all duration-200 flex items-center gap-2.5 group/item focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.05, duration: 0.2 }}
                           whileHover={{ x: 2 }}
                           role="menuitem"
                         >
-                          <span className="w-1 h-1 rounded-full bg-[#FF9966]/40 group-hover/item:bg-[#FF9966] group-hover/item:scale-125 transition-all duration-200" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9966]/50 group-hover/item:bg-[#FF9966] group-hover/item:scale-125 transition-all duration-200" />
                           {subItem.label}
                         </motion.button>
                       ))}
@@ -355,10 +357,10 @@ export default function Header() {
           <motion.button
             type="button"
             onClick={() => handleNavClick("contact")}
-            className="ml-3 px-5 py-2.5 text-[13px] font-medium text-white bg-gradient-to-b from-[#5C306C] to-[#4A2756] rounded-full shadow-sm shadow-[#5C306C]/20 hover:shadow-md hover:shadow-[#5C306C]/25 transition-shadow duration-300"
+            className="ml-3 px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-b from-[#5C306C] to-[#4A2756] rounded-full shadow-sm shadow-[#5C306C]/20 hover:shadow-md hover:shadow-[#5C306C]/25 transition-shadow duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
             whileHover={{ y: -1, scale: 1.02 }}
             whileTap={{ scale: 0.97, y: 0 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            transition={SPRING_SNAPPY}
           >
             Get in Touch
           </motion.button>
@@ -391,6 +393,16 @@ export default function Header() {
             />
           </svg>
         </button>
+        {/* Scroll progress bar */}
+        {scrolled && (
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#FF9966] to-[#5C306C] origin-left"
+            style={{ scaleX: scrollYProgress }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
       </nav>
 
       {/* Mobile Menu - Full Screen Takeover (no backdrop close - intentional UX choice) */}
@@ -399,14 +411,41 @@ export default function Header() {
           <motion.div
             className="fixed inset-0 bg-[#FAF8F5] z-[99998] lg:hidden flex flex-col"
             data-mobile-menu
-            initial={{ opacity: 0, y: "100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "100%" }}
-            transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: "100%" }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: "100%" }}
+            transition={{ duration: prefersReducedMotion ? 0.15 : 0.25, ease: EASE_OUT_EXPO }}
+            onKeyDown={(e) => {
+              if (e.key !== "Tab") return;
+              const container = e.currentTarget;
+              const focusable = Array.from(
+                container.querySelectorAll<HTMLElement>(
+                  'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])'
+                )
+              ).filter((el) => !el.hasAttribute("disabled") && !el.getAttribute("aria-hidden"));
+              if (focusable.length === 0) return;
+              const first = focusable[0];
+              const last = focusable[focusable.length - 1];
+              const active = document.activeElement as HTMLElement | null;
+              if (e.shiftKey) {
+                if (active === first || !container.contains(active)) {
+                  e.preventDefault();
+                  last.focus();
+                }
+              } else {
+                if (active === last) {
+                  e.preventDefault();
+                  first.focus();
+                }
+              }
+            }}
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[#5C306C]/10">
-                <Link href="/" onClick={() => handleCloseMenu('nav-item')}>
+                <Link href="/" onClick={() => handleCloseMenu('nav-item')} className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded">
                   <Image
                     src="/svg/PALcares_logo_light.svg"
                     alt="PALcares logo"
@@ -460,7 +499,7 @@ export default function Header() {
                               handleNavClick(item.id);
                             }
                           }}
-                          className="w-full text-left px-4 py-4 text-lg font-medium text-[#5C306C] hover:bg-[#5C306C]/5 active:bg-[#5C306C]/10 rounded-lg transition-colors duration-150 flex items-center justify-between min-h-[56px]"
+                          className="w-full text-left px-4 py-4 text-lg font-medium text-[#5C306C] hover:bg-[#5C306C]/5 active:bg-[#5C306C]/10 rounded-lg transition-colors duration-150 flex items-center justify-between min-h-[56px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
                           aria-expanded={hasSubmenu ? isExpanded : undefined}
                           aria-controls={hasSubmenu ? `submenu-${item.id}` : undefined}
                         >
@@ -488,7 +527,7 @@ export default function Header() {
                                   e.stopPropagation();
                                   handleNavClick(subItem.id, subItem.scrollOffset);
                                 }}
-                                className="w-full text-left px-4 py-3 text-base text-[#5C306C]/80 hover:bg-[#5C306C]/5 active:bg-[#5C306C]/10 rounded-lg transition-colors duration-150 min-h-[48px]"
+                                className="w-full text-left px-4 py-3 text-base text-[#5C306C]/80 hover:bg-[#5C306C]/5 active:bg-[#5C306C]/10 rounded-lg transition-colors duration-150 min-h-[48px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
                               >
                                 {subItem.label}
                               </button>
@@ -503,14 +542,14 @@ export default function Header() {
                 {/* CTA Button at bottom */}
                 <motion.div
                   className="mt-8 pt-6 border-t border-[#5C306C]/10"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: drawerItems.length * 0.05 + 0.1, duration: 0.3 }}
+                  transition={{ delay: prefersReducedMotion ? 0 : drawerItems.length * 0.05 + 0.1, duration: prefersReducedMotion ? 0 : 0.3 }}
                 >
                   <motion.button
                     type="button"
                     onClick={() => handleNavClick("contact")}
-                    className="w-full px-6 py-4 text-base font-medium text-white bg-[#5C306C] hover:bg-[#4A2756] active:bg-[#3D1F45] rounded-lg transition-colors duration-200"
+                    className="w-full px-6 py-4 text-base font-medium text-white bg-[#5C306C] hover:bg-[#4A2756] active:bg-[#3D1F45] rounded-lg transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
                     whileTap={{ scale: 0.98 }}
                   >
                     Get in Touch

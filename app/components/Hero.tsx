@@ -10,6 +10,7 @@ import { ArrowDown } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { useLenis } from "lenis/react";
 import { hero } from "../lib/site-content";
+import { EASE_PREMIUM, EASE_OUT_CUBIC, EASE_IN_OUT, SPRING_SNAPPY } from "../lib/animation-constants";
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -142,7 +143,7 @@ export default function Hero() {
           className="hidden lg:flex justify-center mb-12"
           initial={{ opacity: 0, scale: 0.95, x: -6 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: EASE_PREMIUM }}
           style={prefersReducedMotion ? {} : {
             opacity: logoOpacity,
             y: logoY,
@@ -166,7 +167,7 @@ export default function Hero() {
         {/* Hero text content - staggered line reveal */}
         <div className="space-y-8 md:space-y-10">
           <h1
-            className="font-light leading-[1.15] tracking-tight text-[#5C306C]"
+            className="font-light leading-tight tracking-tight text-[#5C306C]"
             style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
           >
             {/* Line 1 - enters first */}
@@ -177,7 +178,7 @@ export default function Hero() {
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.2,
                 duration: prefersReducedMotion ? 0 : 0.5,
-                ease: [0.16, 1, 0.3, 1],
+                ease: EASE_PREMIUM,
               }}
             >
               {hero.tagline.line1}
@@ -190,7 +191,7 @@ export default function Hero() {
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.35,
                 duration: prefersReducedMotion ? 0 : 0.6,
-                ease: [0.16, 1, 0.3, 1],
+                ease: EASE_PREMIUM,
               }}
             >
               {hero.tagline.emphasis}
@@ -204,7 +205,7 @@ export default function Hero() {
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.5,
                 duration: prefersReducedMotion ? 0 : 0.5,
-                ease: [0.16, 1, 0.3, 1],
+                ease: EASE_PREMIUM,
               }}
             >
               {hero.tagline.line2}
@@ -219,7 +220,7 @@ export default function Hero() {
             transition={{
               delay: prefersReducedMotion ? 0 : 0.6,
               duration: prefersReducedMotion ? 0 : 0.5,
-              ease: [0.33, 1, 0.68, 1],
+              ease: EASE_OUT_CUBIC,
             }}
           >
             {hero.description}{" "}
@@ -247,7 +248,7 @@ export default function Hero() {
                 boxShadow: "0 8px 24px rgba(92, 48, 108, 0.35)",
               }}
               whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              transition={SPRING_SNAPPY}
             >
               {hero.buttonPrimary}
             </motion.a>
@@ -260,7 +261,7 @@ export default function Hero() {
                 color: "#ffffff",
               }}
               whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              transition={SPRING_SNAPPY}
             >
               {hero.buttonSecondary}
             </motion.a>
@@ -277,12 +278,12 @@ export default function Hero() {
           onClick={handleScrollDown}
           aria-label="Scroll to learn more"
           animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: EASE_IN_OUT }}
         >
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#5C306C]/40 group-hover:text-[#5C306C]/60 transition-colors">
+          <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors">
             Scroll
           </span>
-          <ArrowDown className="w-4 h-4 text-[#5C306C]/40 group-hover:text-[#5C306C]/60 transition-colors" />
+          <ArrowDown className="w-4 h-4 text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors" />
         </motion.button>
       )}
     </section>
