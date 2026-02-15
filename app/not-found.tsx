@@ -16,9 +16,8 @@ export default function NotFound() {
         <div className="p-0 lg:p-30">
           {/* Replace Image with ParallaxBackground */}
           <ParallaxBackground
-            src="/image/pal-hero-bg-enhanced.png"
+            src="/image/pal-hero-bg-enhanced.webp"
             alt="Hero background"
-            speed={-100}
             opacity={0.2}
             objectPosition="50% 30%"
           />

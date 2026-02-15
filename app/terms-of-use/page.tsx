@@ -22,9 +22,8 @@ export default function Terms() {
     <>
       <section id="terms" className="terms bg-white relative py-20 pb-20 lg:py-30">
         <ParallaxBackground
-          src="/image/pal-hero-bg-enhanced.png"
+          src="/image/pal-hero-bg-enhanced.webp"
           alt="Terms background"
-          speed={-100}
           opacity={0.2}
           objectPosition="10% 80%"
         />
@@ -68,11 +67,11 @@ export default function Terms() {
                 <p>We may update these Terms of Use from time to time. Changes will be posted on this page with the updated effective date. Your continued use of the Site constitutes acceptance of the revised Terms.</p>
 
                 <h3>9. Governing Law</h3>
-                <p>These Terms are governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.</p>
+                <p>These Terms are governed by and construed in accordance with the laws of the Province of Alberta, Canada, without regard to its conflict of law provisions.</p>
 
                 <h3>10. Contact Us</h3>
                 <p>If you have any questions or concerns regarding these Terms of Use, please contact us at:</p>
-                <a className="link" href="mailto:partnerships@palcares.org">partnerships@palcares.org</a>
+                <a className="link" href="mailto:support@palcares.ca">support@palcares.ca</a>
               </section>
             </div>
           </div>

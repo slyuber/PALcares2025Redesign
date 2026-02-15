@@ -200,7 +200,7 @@ export const contact = {
 
   description: "Educational workshops on data, infrastructure, or ethical technology. Placements and PAL-Labs information. Connections between organizations facing similar challenges. Embedded teams, shared resources or tools that might help. Technical support for a specific problem. Or just a conversation about what you're building.",
 
-  email: "partnerships@palcares.org",
+  email: "support@palcares.ca",
   locationLine1: "Treaty 6 & Treaty 7 Territories",
   locationLine2: "Calgary & Edmonton, Alberta",
 };

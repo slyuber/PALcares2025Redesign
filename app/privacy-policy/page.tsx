@@ -27,9 +27,8 @@ export default function PrivacyPolicy ()
 
  <section id="contact" className="contact bg-white relative py-20 pb-20 lg:py-30">
         <ParallaxBackground
-          src="/image/pal-hero-bg-enhanced.png"
+          src="/image/pal-hero-bg-enhanced.webp"
           alt="Contact background"
-          speed={-100}
           opacity={0.2}
           objectPosition="10% 80%"
         />
@@ -98,7 +97,7 @@ export default function PrivacyPolicy ()
 
   <h3>10. Contact Us</h3>
   <p>If you have questions or concerns about this Privacy Policy, please contact us at:</p>
-  <a className="link" href="mailto:partnerships@palcares.org">partnerships@palcares.org</a>
+  <a className="link" href="mailto:support@palcares.ca">support@palcares.ca</a>
 </section>
 
                 </div>
