@@ -43,7 +43,7 @@ export default function Footer() {
           ref={gridRef}
           className="grid md:grid-cols-[1.2fr_1fr_1fr] gap-12 md:gap-10 mb-14"
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 16 }}
-          animate={gridInView ? { opacity: 1, y: 0 } : { opacity: 0, y: prefersReducedMotion ? 0 : 16 }}
+          animate={gridInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: EASE_OUT_CUBIC }}
         >
 

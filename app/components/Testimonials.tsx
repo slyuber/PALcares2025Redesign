@@ -58,13 +58,13 @@ export default function Testimonials() {
           ref={headerRef}
           className="text-center mb-16 md:mb-24 space-y-4"
           initial={{ opacity: 0 }}
-          animate={headerInView ? { opacity: 1 } : { opacity: 0 }}
+          animate={headerInView ? { opacity: 1 } : undefined}
           transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
         >
           <motion.span
             className="text-xs font-semibold uppercase tracking-[0.2em] block"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
-            animate={headerInView ? { opacity: 1, y: 0, color: "#FF9966" } : { opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
+            animate={headerInView ? { opacity: 1, y: 0, color: "#FF9966" } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
           >
             Partner Voices
@@ -72,7 +72,7 @@ export default function Testimonials() {
           <motion.h2
             className="text-3xl md:text-5xl font-light text-[#5C306C]"
             initial={{ opacity: 0, y: 15 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
           >
             Organizations We Work With
@@ -86,7 +86,7 @@ export default function Testimonials() {
               key={index}
               className="group relative bg-gradient-to-br from-white to-[#FAFAFA] rounded-3xl p-8 md:p-10 border border-[#5C306C]/5 shadow-[0_4px_20px_rgba(92,48,108,0.06)]"
               initial={{ opacity: 0, y: 30 }}
-              animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              animate={cardsInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: prefersReducedMotion ? 0 : index * 0.2, duration: 0.6 }}
               whileHover={prefersReducedMotion ? {} : { y: -5, transition: { duration: 0.3, ease: EASE_ENERGETIC } }}
             >

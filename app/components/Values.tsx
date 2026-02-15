@@ -75,13 +75,13 @@ export default function Values() {
           ref={headerRef}
           className="text-center mb-16 md:mb-24 space-y-4"
           initial={{ opacity: 0 }}
-          animate={headerInView ? { opacity: 1 } : { opacity: 0 }}
+          animate={headerInView ? { opacity: 1 } : undefined}
           transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
         >
           <motion.span
             className="text-xs font-semibold uppercase tracking-[0.2em] block"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
-            animate={headerInView ? { opacity: 1, y: 0, color: "#E07B4C" } : { opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
+            animate={headerInView ? { opacity: 1, y: 0, color: "#E07B4C" } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
           >
             What Guides Us
@@ -89,7 +89,7 @@ export default function Values() {
           <motion.h2
             className="text-3xl md:text-4xl font-normal text-[#4A2756] tracking-tight"
             initial={{ opacity: 0, y: 15 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
           >
             What We Believe

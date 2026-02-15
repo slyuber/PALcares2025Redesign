@@ -53,7 +53,7 @@ export default function NeedWeNoticed() {
         className="max-w-6xl mx-auto px-6 md:px-12 relative z-10"
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+        animate={isInView ? "visible" : undefined}
       >
         {/* Section Label */}
         <motion.span
