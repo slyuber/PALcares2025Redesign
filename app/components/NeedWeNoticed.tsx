@@ -10,7 +10,7 @@ import { EASE_ORGANIC, useSafeInView } from "../lib/animation-constants";
 export default function NeedWeNoticed() {
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "50px 0px" });
+  const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "100px 0px" });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -133,8 +133,8 @@ export default function NeedWeNoticed() {
       </motion.div>
 
       {/* Subtle background decoration - more restrained */}
-      <div className="absolute top-1/2 left-0 w-48 h-48 bg-[#8FAE8B]/4 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-      <div className="absolute bottom-1/4 right-0 w-40 h-40 bg-[#5C306C]/4 rounded-full blur-3xl translate-x-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-[30vw] h-[30vw] bg-[radial-gradient(circle,_rgba(143,174,139,0.04)_0%,_rgba(143,174,139,0.015)_40%,_transparent_70%)] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+      <div className="absolute bottom-1/4 right-0 w-[25vw] h-[25vw] bg-[radial-gradient(circle,_rgba(92,48,108,0.04)_0%,_rgba(92,48,108,0.015)_40%,_transparent_70%)] translate-x-1/2 pointer-events-none" />
     </section>
   );
 }

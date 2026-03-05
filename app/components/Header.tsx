@@ -4,11 +4,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { useLenis } from "lenis/react";
-import { EASE_PREMIUM, EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY } from "../lib/animation-constants";
+import { EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY } from "../lib/animation-constants";
 
 interface NavItem {
   id: string;
@@ -32,25 +32,21 @@ export default function Header() {
   const pathname = usePathname();
   const lenis = useLenis();
   
-  // Logo visibility based on scroll - instant threshold for clean transition
+  // Logo visibility: scroll-linked crossfade with hero logo
   const { scrollY, scrollYProgress } = useScroll();
-  const [showHeaderLogo, setShowHeaderLogo] = useState(false);
+  // Smooth fade-in that overlaps with hero logo fade-out ([100, 250])
+  const headerLogoOpacity = useTransform(scrollY, [100, 250], [0, 1]);
+  const headerLogoScale = useTransform(scrollY, [100, 250], [0.9, 1]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Track scroll for subtle background AND logo visibility
-  // Using threshold check avoids the "double logo" cross-fade issue
+  // Track scroll for header background
   useMotionValueEvent(scrollY, "change", (latest) => {
     const shouldBeScrolled = latest > 50;
     if (shouldBeScrolled !== scrolled) {
       setScrolled(shouldBeScrolled);
-    }
-    // Logo appears earlier for polished crossfade overlap with hero logo
-    const shouldShowLogo = latest > 150;
-    if (shouldShowLogo !== showHeaderLogo) {
-      setShowHeaderLogo(shouldShowLogo);
     }
   });
 
@@ -169,6 +165,7 @@ export default function Header() {
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
+    return undefined;
   }, [openSubmenu]);
 
   // Keyboard navigation for dropdown
@@ -185,6 +182,7 @@ export default function Header() {
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
     }
+    return undefined;
   }, [openSubmenu]);
 
   const toggleSubmenu = (itemId: string) => {
@@ -253,18 +251,16 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* MODIFICATION: 2024-12-16 - Issue 6: Header merges with background without bar effect, but blocks content */}
-      <nav className={`px-6 lg:px-8 py-4 flex items-center justify-between transition-all duration-500 ${
+      <nav className={`px-6 lg:px-8 py-4 flex items-center justify-between transition-[background-color,backdrop-filter] duration-500 ${
         scrolled ? "bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5]/80 backdrop-blur-sm" : "bg-transparent"
       }`}>
-        {/* Logo - polished crossfade with hero logo */}
+        {/* Logo - scroll-linked crossfade with hero logo */}
         <Link href="/" className="flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded">
           <motion.div
-            initial={false}
-            animate={{
-              opacity: pathname === "/" ? (showHeaderLogo ? 1 : 0) : 1,
-              scale: pathname === "/" ? (showHeaderLogo ? 1 : 0.9) : 1
-            }}
-            transition={{ duration: 0.4, ease: EASE_PREMIUM }}
+            style={pathname === "/" && !prefersReducedMotion ? {
+              opacity: headerLogoOpacity,
+              scale: headerLogoScale,
+            } : { opacity: 1, scale: 1 }}
           >
             <Image
               src="/svg/PALcares_logo_light.svg"
@@ -335,14 +331,14 @@ export default function Header() {
                           key={subItem.label}
                           type="button"
                           onClick={() => handleNavClick(subItem.id, subItem.scrollOffset)}
-                          className="w-full text-left px-4 py-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.05] transition-all duration-200 flex items-center gap-2.5 group/item focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
+                          className="w-full text-left px-4 py-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.05] transition-colors duration-200 flex items-center gap-2.5 group/item focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.05, duration: 0.2 }}
                           whileHover={{ x: 2 }}
                           role="menuitem"
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9966]/50 group-hover/item:bg-[#FF9966] group-hover/item:scale-125 transition-all duration-200" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9966]/50 group-hover/item:bg-[#FF9966] group-hover/item:scale-125 transition-[background-color,transform] duration-200" />
                           {subItem.label}
                         </motion.button>
                       ))}
@@ -393,23 +389,18 @@ export default function Header() {
             />
           </svg>
         </button>
-        {/* Scroll progress bar */}
-        {scrolled && (
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#FF9966] to-[#5C306C] origin-left"
-            style={{ scaleX: scrollYProgress }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-        )}
+        {/* Scroll progress bar - always mounted, opacity toggle avoids mount/unmount flicker */}
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#FF9966] to-[#5C306C] origin-left"
+          style={{ scaleX: scrollYProgress, opacity: scrolled ? 1 : 0 }}
+        />
       </nav>
 
       {/* Mobile Menu - Full Screen Takeover (no backdrop close - intentional UX choice) */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed inset-0 bg-[#FAF8F5] z-[99998] lg:hidden flex flex-col"
+            className="fixed inset-0 bg-[#FAF8F5] z-[80] lg:hidden flex flex-col"
             data-mobile-menu
             role="dialog"
             aria-modal="true"

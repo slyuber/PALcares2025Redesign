@@ -37,9 +37,9 @@ const testimonials: Testimonial[] = [
 export default function Testimonials() {
   const prefersReducedMotion = useReducedMotion();
   const headerRef = useRef<HTMLDivElement>(null);
-  const headerInView = useSafeInView(headerRef, { once: true, amount: 0.15, margin: "50px 0px" });
+  const headerInView = useSafeInView(headerRef, { once: true, amount: 0.15, margin: "100px 0px" });
   const cardsRef = useRef<HTMLDivElement>(null);
-  const cardsInView = useSafeInView(cardsRef, { once: true, amount: 0.1, margin: "50px 0px" });
+  const cardsInView = useSafeInView(cardsRef, { once: true, amount: 0.1, margin: "100px 0px" });
 
   return (
     <section 
@@ -83,7 +83,7 @@ export default function Testimonials() {
         <div ref={cardsRef} className="grid md:grid-cols-2 gap-10 md:gap-12">
           {testimonials.map((testimonial, index) => (
             <motion.div
-              key={index}
+              key={testimonial.org}
               className="group relative bg-gradient-to-br from-white to-[#FAFAFA] rounded-3xl p-8 md:p-10 border border-[#5C306C]/5 shadow-[0_4px_20px_rgba(92,48,108,0.06)]"
               initial={{ opacity: 0, y: 30 }}
               animate={cardsInView ? { opacity: 1, y: 0 } : undefined}

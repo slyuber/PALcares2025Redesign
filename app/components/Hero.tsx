@@ -74,11 +74,11 @@ export default function Hero() {
       </div>
       {/* END MODIFICATION */}
 
-      {/* Primary Orb - MODIFICATION: 2024-12-16 - Softer edges */}
-      <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[110vmax] h-[110vmax] bg-[radial-gradient(circle,_rgba(255,153,102,0.08)_0%,_rgba(255,153,102,0.03)_40%,_transparent_70%)] blur-xl pointer-events-none z-0" />
+      {/* Primary Orb - pre-softened gradient, no runtime blur */}
+      <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[110vmax] h-[110vmax] bg-[radial-gradient(circle,_rgba(255,153,102,0.06)_0%,_rgba(255,153,102,0.03)_30%,_rgba(255,153,102,0.01)_50%,_transparent_70%)] pointer-events-none z-0" />
 
-      {/* Secondary Orb - MODIFICATION: 2024-12-16 - Softer edges */}
-      <div className="absolute top-[70%] left-[75%] w-[70vmax] h-[70vmax] bg-[radial-gradient(circle,_rgba(92,48,108,0.04)_0%,_rgba(92,48,108,0.01)_40%,_transparent_70%)] blur-xl pointer-events-none z-0" />
+      {/* Secondary Orb - pre-softened gradient, no runtime blur */}
+      <div className="absolute top-[70%] left-[75%] w-[70vmax] h-[70vmax] bg-[radial-gradient(circle,_rgba(92,48,108,0.03)_0%,_rgba(92,48,108,0.01)_30%,_rgba(92,48,108,0.005)_50%,_transparent_70%)] pointer-events-none z-0" />
 
       {/* Award-winning subtle patterns - very subtle in hero */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
@@ -141,8 +141,8 @@ export default function Hero() {
         {/* MODIFICATION: 2025-01 - Slight left offset to balance visual weight (logo icon vs text) */}
         <motion.div
           className="hidden lg:flex justify-center mb-12"
-          initial={{ opacity: 0, scale: 0.95, x: -6 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
+          initial={{ x: -6 }}
+          animate={{ x: 0 }}
           transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: EASE_PREMIUM }}
           style={prefersReducedMotion ? {} : {
             opacity: logoOpacity,
@@ -254,7 +254,7 @@ export default function Hero() {
             </motion.a>
             <motion.a
               href="#contact"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C]/80 bg-[#5C306C]/[0.06] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"
               whileHover={prefersReducedMotion ? {} : {
                 scale: 1.02,
                 backgroundColor: "#5C306C",

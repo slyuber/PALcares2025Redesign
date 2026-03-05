@@ -255,8 +255,7 @@ test.describe('Mobile Nav Button Diagnostics', () => {
 
   test('check Lenis scroll container state', async ({ page }) => {
     const lenisState = await page.evaluate(() => {
-      // @ts-expect-error - Lenis may be on window
-      const lenis = (window as { lenis?: unknown }).lenis;
+      const lenis = (window as unknown as { lenis?: Record<string, unknown> }).lenis;
       if (!lenis) return { exists: false };
 
       return {
@@ -266,8 +265,8 @@ test.describe('Mobile Nav Button Diagnostics', () => {
         velocity: lenis.velocity,
         scroll: lenis.scroll,
         targetScroll: lenis.targetScroll,
-        wrapperElement: lenis.wrapper?.tagName,
-        contentElement: lenis.content?.tagName,
+        wrapperElement: (lenis.wrapper as HTMLElement | undefined)?.tagName,
+        contentElement: (lenis.content as HTMLElement | undefined)?.tagName,
       };
     });
 

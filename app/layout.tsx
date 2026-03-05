@@ -2,9 +2,9 @@ import { Raleway } from "next/font/google";
 
 const raleway = Raleway({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-raleway",
-  display: "block", // "block" prevents FOUT during loader animation
+  display: "swap", // "swap" shows fallback font immediately, then swaps when Raleway loads
 });
 
 import "./globals.scss";

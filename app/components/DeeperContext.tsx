@@ -19,23 +19,22 @@ function AnimatedBeat({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   // Trigger when element is 15% visible for smoother entry
-  const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "50px 0px" });
+  const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "100px 0px" });
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <motion.div
       ref={ref}
       className={className}
-      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20, filter: "blur(4px)" }}
+      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       animate={isInView
-        ? { opacity: 1, y: 0, filter: "blur(0px)" }
+        ? { opacity: 1, y: 0 }
         : undefined
       }
       transition={{
         duration: prefersReducedMotion ? 0 : 0.55,
         delay: prefersReducedMotion ? 0 : delay,
         ease: EASE_PREMIUM,
-        filter: { duration: prefersReducedMotion ? 0 : 0.4 }, // Faster blur clear
       }}
     >
       {children}

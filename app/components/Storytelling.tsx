@@ -3,6 +3,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue, useInView, useMotionValueEvent } from "framer-motion";
+import { useSafeInView } from "../lib/animation-constants";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
 import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE } from "../lib/animation-constants";
@@ -24,9 +25,15 @@ export default function Storytelling() {
   });
 
   // Track if Storytelling section is in view for skip button visibility
-  const isStorytellingInView = useInView(containerRef, { 
+  const isStorytellingInView = useInView(containerRef, {
     margin: "-20% 0px -20% 0px",
     once: false // Re-evaluate as user scrolls
+  });
+
+  // Track if mobile section is in view — gates infinite particle animations
+  const isMobileInView = useInView(mobileStickyRef, {
+    margin: "100px 0px",
+    once: false,
   });
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -200,8 +207,8 @@ export default function Storytelling() {
                   viewBox="0 0 300 220"
                   preserveAspectRatio="xMidYMid meet"
                 >
-                  {/* Animated particles traveling between nodes */}
-                  {!prefersReducedMotion && (<>
+                  {/* Animated particles traveling between nodes — gated on visibility */}
+                  {isMobileInView && !prefersReducedMotion && (<>
                   {/* Research to Teams */}
                   <motion.circle
                     r="3" fill="#FF9966"
@@ -332,7 +339,7 @@ export default function Storytelling() {
             <div className="absolute bottom-[20%] right-[20%] w-[35vw] h-[35vw] rounded-full bg-[radial-gradient(circle,_rgba(92,48,108,0.05)_0%,_rgba(92,48,108,0.02)_40%,_transparent_70%)] opacity-35" />
 
             {/* Background Nature Lines */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none mix-blend-multiply">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
               <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                 <motion.path
                   d="M100,1000 C150,800 50,600 100,400 C150,200 100,0 100,-200"
@@ -499,7 +506,7 @@ export default function Storytelling() {
                   >
                     <span
                       className={cn(
-                        "text-xs font-semibold uppercase tracking-wider mr-4 whitespace-nowrap transition-all duration-200",
+                        "text-xs font-semibold uppercase tracking-wider mr-4 whitespace-nowrap transition-[opacity,color,transform] duration-200",
                         i === activeIndex
                           ? "text-[#5C306C] opacity-100 translate-x-0"
                           : "text-[#5C306C]/60 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
@@ -586,7 +593,7 @@ export default function Storytelling() {
 // Mobile intro header with ecosystem animation effect
 function MobileIntroHeader() {
   const headerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(headerRef, {
+  const isInView = useSafeInView(headerRef, {
     once: true,
     margin: "-10% 0px -10% 0px"
   });
@@ -597,7 +604,7 @@ function MobileIntroHeader() {
       ref={headerRef}
       className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-6"
     >
-      <h1
+      <h2
         className="font-light text-[#5C306C] tracking-tight leading-tight"
         style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
       >
@@ -613,7 +620,7 @@ function MobileIntroHeader() {
             color: "#FF9966",
             letterSpacing: "0em",
             scale: [1, 1.02, 1.005, 1]
-          } : {}}
+          } : undefined}
           transition={{
             duration: prefersReducedMotion ? 0 : 0.6,
             ease: EASE_PREMIUM,
@@ -626,11 +633,11 @@ function MobileIntroHeader() {
           ecosystem
         </motion.span>{" "}
         in three parts
-      </h1>
+      </h2>
       <motion.p
         className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-normal px-2"
         initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
+        animate={isInView ? { opacity: 1 } : undefined}
         transition={{
           duration: prefersReducedMotion ? 0 : 0.5,
           delay: 0.2,
@@ -650,7 +657,7 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
     <div
       data-storytelling-active-panel={active ? "true" : "false"}
       className={cn(
-        "absolute inset-0 flex items-center justify-center transition-all duration-400 ease-out",
+        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-400 ease-out",
         active
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 translate-y-6 pointer-events-none"
@@ -658,7 +665,7 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
       style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
     >
       <div
-        className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24 transition-all duration-150"
+        className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24 transition-[max-width] duration-150"
         style={{
           maxWidth: expanded ? "1400px" : "1152px",
           transitionTimingFunction: `cubic-bezier(${EASE_OUT_EXPO.join(",")})`
@@ -809,9 +816,9 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
 
       {/* Key Points List - Always visible */}
       <ul className="space-y-4 pt-2">
-        {items.map((item: string, i: number) => (
+        {items.map((item: string) => (
           <li
-            key={i}
+            key={item}
             className="flex items-start gap-3 text-[#5C306C]/90 text-base min-h-[44px]"
           >
             <motion.div
@@ -925,11 +932,11 @@ const ContentPanel = React.memo(function ContentPanel({
                 
                 {/* Bullet points - PERF: Use CSS transition instead of Framer Motion */}
                 <ul className="pt-2 grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-3">
-                  {items.map((item: string, i: number) => (
+                  {items.map((item: string) => (
                     <li
-                      key={i}
+                      key={item}
                       className={cn(
-                        "flex items-start gap-3 text-[#5C306C]/90 text-base group transition-all duration-300",
+                        "flex items-start gap-3 text-[#5C306C]/90 text-base group transition-[opacity,transform] duration-300",
                         active ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
                       )}
                     >
@@ -1073,7 +1080,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
         {/* Header Section - PERF: CSS transition */}
         <div
           className={cn(
-            "mb-6 md:mb-10 text-center transition-all duration-400",
+            "mb-6 md:mb-10 text-center transition-[opacity,transform] duration-400",
             active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2.5"
           )}
         >
@@ -1091,7 +1098,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             {/* Research - PERF: CSS transition */}
             <div
               className={cn(
-                "flex flex-col items-center text-center transition-all duration-400",
+                "flex flex-col items-center text-center transition-[opacity,transform] duration-400",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
@@ -1110,7 +1117,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             {/* Teams - PERF: CSS transition */}
             <div
               className={cn(
-                "flex flex-col items-center text-center transition-all duration-400",
+                "flex flex-col items-center text-center transition-[opacity,transform] duration-400",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
@@ -1129,7 +1136,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             {/* Labs - PERF: CSS transition */}
             <div
               className={cn(
-                "flex flex-col items-center text-center transition-all duration-400",
+                "flex flex-col items-center text-center transition-[opacity,transform] duration-400",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
@@ -1200,7 +1207,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             {/* Center mark - more faded, behind nodes */}
             <div
               className={cn(
-                "absolute pointer-events-none left-1/2 top-[62%] -translate-x-1/2 -translate-y-1/2 transition-all duration-700 delay-100",
+                "absolute pointer-events-none left-1/2 top-[62%] -translate-x-1/2 -translate-y-1/2 transition-[opacity,transform] duration-700 delay-100",
                 active ? "opacity-[0.12] scale-100" : "opacity-0 scale-95"
               )}
               style={{ zIndex: 0 }}
@@ -1219,7 +1226,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             {/* Research - Top - timed pulse when particles arrive */}
             <div
               className={cn(
-                "absolute left-1/2 top-0 -translate-x-1/2 z-10 transition-all duration-500 ease-out",
+                "absolute left-1/2 top-0 -translate-x-1/2 z-10 transition-[opacity,transform] duration-500 ease-out",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
               style={{ transitionDelay: active ? "100ms" : "0ms" }}
@@ -1241,7 +1248,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             {/* Teams - Bottom Left - timed pulse when particles arrive */}
             <div
               className={cn(
-                "absolute left-[8%] bottom-[22%] z-10 transition-all duration-500 ease-out",
+                "absolute left-[8%] bottom-[22%] z-10 transition-[opacity,transform] duration-500 ease-out",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
               style={{ transitionDelay: active ? "200ms" : "0ms" }}
@@ -1263,7 +1270,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             {/* Labs - Bottom Right - timed pulse when particles arrive */}
             <div
               className={cn(
-                "absolute right-[8%] bottom-[22%] z-10 transition-all duration-500 ease-out",
+                "absolute right-[8%] bottom-[22%] z-10 transition-[opacity,transform] duration-500 ease-out",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
               style={{ transitionDelay: active ? "300ms" : "0ms" }}

@@ -12,7 +12,7 @@ export default function Footer() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const gridRef = useRef<HTMLDivElement>(null);
-  const gridInView = useSafeInView(gridRef, { once: true, amount: 0.1, margin: "50px 0px" });
+  const gridInView = useSafeInView(gridRef, { once: true, amount: 0.1, margin: "100px 0px" });
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,7 +106,7 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
                   required
-                  className="flex-1 min-w-0 bg-white border border-[#5C306C]/10 rounded-full px-4 py-2.5 text-sm text-[#5C306C] focus:border-[#5C306C]/30 focus:ring-1 focus:ring-[#5C306C]/20 outline-none transition-all placeholder:text-[#5C306C]/50"
+                  className="flex-1 min-w-0 bg-white border border-[#5C306C]/10 rounded-full px-4 py-2.5 text-sm text-[#5C306C] focus:border-[#5C306C]/30 focus:ring-1 focus:ring-[#5C306C]/20 outline-none transition-colors placeholder:text-[#5C306C]/50"
                 />
                 <button
                   type="submit"

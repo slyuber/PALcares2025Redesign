@@ -5,14 +5,14 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { EASE_IN_OUT, SPRING_SNAPPY, useSafeInView } from "../lib/animation-constants";
+import { SPRING_SNAPPY, useSafeInView } from "../lib/animation-constants";
 
 export default function Contact() {
   const prefersReducedMotion = useReducedMotion();
   const leftRef = useRef<HTMLDivElement>(null);
-  const leftInView = useSafeInView(leftRef, { once: true, amount: 0.15, margin: "50px 0px" });
+  const leftInView = useSafeInView(leftRef, { once: true, amount: 0.15, margin: "100px 0px" });
   const rightRef = useRef<HTMLDivElement>(null);
-  const rightInView = useSafeInView(rightRef, { once: true, amount: 0.15, margin: "50px 0px" });
+  const rightInView = useSafeInView(rightRef, { once: true, amount: 0.15, margin: "100px 0px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,7 +52,7 @@ export default function Contact() {
   };
 
   const getInputClasses = (field: string) => {
-    const base = "w-full bg-[#FAF8F5]/50 border-0 border-b-2 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:ring-2 focus-visible:ring-offset-2 outline-none transition-all placeholder:text-[#5C306C]/50";
+    const base = "w-full bg-[#FAF8F5]/50 border-0 border-b-2 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:ring-2 focus-visible:ring-offset-2 outline-none transition-colors placeholder:text-[#5C306C]/50";
     if (touched[field] && errors[field]) {
       return `${base} border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500`;
     }
@@ -98,8 +98,8 @@ export default function Contact() {
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-[#FFF9F5] via-transparent to-[#F5F0EB]/50" />
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#FF9966]/[0.04] blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-[#8FAE8B]/[0.05] blur-3xl" />
+        <div className="absolute -top-32 -right-32 w-[40vw] h-[40vw] bg-[radial-gradient(circle,_rgba(255,153,102,0.04)_0%,_rgba(255,153,102,0.015)_40%,_transparent_70%)] pointer-events-none" />
+        <div className="absolute -bottom-32 -left-32 w-[35vw] h-[35vw] bg-[radial-gradient(circle,_rgba(143,174,139,0.05)_0%,_rgba(143,174,139,0.02)_40%,_transparent_70%)] pointer-events-none" />
         <BackgroundPatterns variant="connection" opacity={0.5} />
       </div>
 
@@ -256,7 +256,7 @@ export default function Contact() {
                           name="org"
                           value={formData.org}
                           onChange={handleChange}
-                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:border-[#FF9966] focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 outline-none transition-all placeholder:text-[#5C306C]/50"
+                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:border-[#FF9966] focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 outline-none transition-colors placeholder:text-[#5C306C]/50"
                         />
                       </div>
                     </div>
@@ -289,7 +289,7 @@ export default function Contact() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#5C306C] text-white font-medium hover:bg-[#472055] transition-all disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
+                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#5C306C] text-white font-medium hover:bg-[#472055] transition-colors disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
                       >
                         {isSubmitting ? (
                           <>

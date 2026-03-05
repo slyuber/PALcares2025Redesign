@@ -107,6 +107,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }
+    return undefined;
   }, [loaderSeen, showLoader]);
 
   useEffect(() => {
@@ -167,7 +168,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   if (!initialized) {
     // When skip loader env is set, render children immediately
     if (skipLoaderEnv) return <>{children}</>;
-    return <div className="fixed inset-0 z-[999999] bg-[#F9F7F5]" />;
+    return <div className="fixed inset-0 z-[100] bg-[#F9F7F5]" />;
   }
 
   return (
@@ -175,7 +176,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       <AnimatePresence>
         {showLoader && (
           <motion.div
-            className="fixed inset-0 z-[999999] flex items-center justify-center overflow-hidden"
+            className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
             initial={{ opacity: 1 }}
             animate={{ opacity: isFinished ? 0 : 1 }}
             exit={{ opacity: 0 }}
@@ -187,19 +188,19 @@ export default function Loader({ children }: { children: React.ReactNode }) {
               <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5F1] via-[#F9F7F5] to-[#F0F4EF] opacity-80" />
               
               <motion.div
-                className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full mix-blend-multiply"
+                className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
                 transition={{ duration: 8, repeat: Infinity, ease: EASE_IN_OUT }}
                 style={{ opacity: 0.1, background: "radial-gradient(circle, rgba(255,153,102,0.4) 0%, rgba(255,153,102,0.1) 40%, transparent 70%)" }}
               />
               <motion.div
-                className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full mix-blend-multiply"
+                className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.15, 1], opacity: [0.08, 0.12, 0.08] }}
                 transition={{ duration: 10, repeat: Infinity, ease: EASE_IN_OUT, delay: 1 }}
                 style={{ opacity: 0.1, background: "radial-gradient(circle, rgba(143,174,139,0.4) 0%, rgba(143,174,139,0.1) 40%, transparent 70%)" }}
               />
               <motion.div
-                className="absolute top-[40%] left-[40%] w-[30%] h-[30%] rounded-full mix-blend-multiply"
+                className="absolute top-[40%] left-[40%] w-[30%] h-[30%] rounded-full"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1], opacity: [0.04, 0.06, 0.04] }}
                 transition={{ duration: 12, repeat: Infinity, ease: EASE_IN_OUT, delay: 2 }}
                 style={{ opacity: 0.05, background: "radial-gradient(circle, rgba(92,48,108,0.3) 0%, rgba(92,48,108,0.08) 40%, transparent 70%)" }}

@@ -40,9 +40,9 @@ export default function Values() {
   const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const headerInView = useSafeInView(headerRef, { once: true, amount: 0.15, margin: "50px 0px" });
+  const headerInView = useSafeInView(headerRef, { once: true, amount: 0.15, margin: "100px 0px" });
   const gridRef = useRef<HTMLDivElement>(null);
-  const gridInView = useSafeInView(gridRef, { once: true, amount: 0.1, margin: "50px 0px" });
+  const gridInView = useSafeInView(gridRef, { once: true, amount: 0.1, margin: "100px 0px" });
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -100,8 +100,8 @@ export default function Values() {
         <div ref={gridRef} className="grid md:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
           {/* Trust as Infrastructure */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
-            animate={gridInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0, ease: EASE_PREMIUM }}
             className="cursor-default"
@@ -128,8 +128,8 @@ export default function Values() {
 
           {/* Community Ownership */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
-            animate={gridInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.08, ease: EASE_PREMIUM }}
             className="cursor-default"
@@ -156,8 +156,8 @@ export default function Values() {
 
           {/* Data Sovereignty */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
-            animate={gridInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.16, ease: EASE_PREMIUM }}
             className="cursor-default"
@@ -184,8 +184,8 @@ export default function Values() {
 
           {/* Building Capacity, Not Dependency */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: "blur(3px)" }}
-            animate={gridInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.24, ease: EASE_PREMIUM }}
             className="cursor-default"
