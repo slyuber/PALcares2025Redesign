@@ -103,6 +103,10 @@
 }
 
 
+html {
+  overscroll-behavior: none; // Prevent browser bounce/pull-to-refresh from fighting Lenis
+}
+
 body {
   background: #F5F2EE;
   color: var(--color-dark-gray);

@@ -247,14 +247,14 @@ test.describe('Screenshot Audit', () => {
 
     await loaderPage.goto('/', { waitUntil: 'commit' });
 
-    // Loader timing (from Loader.tsx): words show at staggered intervals,
-    // merge at 3000ms, ready at 3600ms, fade out at ~4100ms
+    // Loader timing (accelerating heartbeat):
+    // words: 0/800/1500/2100ms, merge: 2900ms, exit: 3600ms, gone: ~4800ms
     const frames = [
-      { delay: 200,  name: 'loader-1-blank' },
-      { delay: 800,  name: 'loader-2-words-appearing' },
-      { delay: 1200, name: 'loader-3-words-complete' },
-      { delay: 1000, name: 'loader-4-merging' },
-      { delay: 800,  name: 'loader-5-reveal' },
+      { delay: 200,  name: 'loader-1-first-word' },
+      { delay: 800,  name: 'loader-2-cycling' },
+      { delay: 900,  name: 'loader-3-final-word' },
+      { delay: 900,  name: 'loader-4-merged' },
+      { delay: 1000, name: 'loader-5-exit' },
     ];
 
     for (const frame of frames) {

@@ -1,34 +1,41 @@
 // app/components/partials/Loader.tsx
-// 
-// VERSION: 2024-12-27 - Complete rework for proper centering
 //
-// RESEARCH-BACKED FIXES:
-// 1. NO fixed-width containers - words take natural width
-// 2. AnimatePresence mode="wait" - only ONE word exists at a time (no stacking)
-// 3. align-items: baseline for proper text alignment
-// 4. Simpler structure matching the hero section
+// Accelerating heartbeat loader with auto-proceed.
+// No "ENTER" gate — plays through and exits via clip-path circle reveal.
 //
-// Animation sequence:
-//   1. "PAL – teams" → "PAL – labs" → etc. (words swap, layout adjusts)
-//   2. Merge: Icon appears, dash collapses, colors change
-//   3. Final: Exact match to hero logo
+// Stutter fixes:
+//   1. Fixed minWidth on word slot (measured after fonts load) — no layout snapping
+//   2. Icon always in DOM (opacity-gated) — no AnimatePresence width animation
+//   3. Flat AnimatePresence structure — no nested mode="wait" blank frames
+//   4. Asymmetric word transitions — fast exit, smooth enter
 //
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { EASE_IN_OUT, EASE_SNAPPY, EASE_DRAMATIC } from "../../lib/animation-constants";
+import {
+  EASE_IN_OUT,
+  EASE_SNAPPY,
+  EASE_DRAMATIC,
+  EASE_TEXT_REVEAL,
+} from "../../lib/animation-constants";
 
 const words = ["teams", "labs", "research", "cares"];
 
 const COLORS = {
   pal: "#4a5890",
-  cares: "#FF9966", 
+  cares: "#FF9966",
   animating: "#5C306C",
 };
 
-// Inline SVG icon component
+// Accelerating heartbeat timing (ms from fontsReady)
+// Each word gets time to settle — accelerating rhythm but never rushed
+//   "teams" (800ms hold) → "labs" (700ms) → "research" (600ms) → "cares" (800ms pause) → merge → exit
+const WORD_SCHEDULE = [0, 800, 1500, 2100]; // when each word appears
+const MERGE_AT = 2900; // 800ms after "cares" appears
+const EXIT_AT = 3600; // 700ms after merge
+const SAFETY_TIMEOUT = 8000;
+
 function PALcaresIcon({ size }: { size: string }) {
   return (
     <svg
@@ -47,126 +54,134 @@ function PALcaresIcon({ size }: { size: string }) {
 
 export default function Loader({ children }: { children: React.ReactNode }) {
   const prefersReducedMotion = useReducedMotion();
-
-  // Skip loader entirely when env var is set (for testing tools like Lighthouse)
   const skipLoaderEnv = process.env.NEXT_PUBLIC_SKIP_LOADER === 'true';
 
   const [initialized, setInitialized] = useState(skipLoaderEnv);
-  const [fontsReady, setFontsReady] = useState(false); // Wait for fonts before animating
+  const [fontsReady, setFontsReady] = useState(false);
   const [showLoader, setShowLoader] = useState(!skipLoaderEnv);
   const [loaderSeen, setLoaderSeen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0); // Start at 0, not -1
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isMerged, setIsMerged] = useState(false);
-  const [isReady, setIsReady] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [wordSlotMinWidth, setWordSlotMinWidth] = useState(0);
 
-  // Font size - using CSS custom property pattern for consistency
+  const wordSlotRef = useRef<HTMLSpanElement>(null);
+
   const baseFontSize = "clamp(1.75rem, 5vw, 3.25rem)";
-  const palFontSize = "clamp(2rem, 5.75vw, 3.75rem)"; // ~1.15x
+  const palFontSize = "clamp(2rem, 5.75vw, 3.75rem)";
   const iconSize = "clamp(2.25rem, 6.5vw, 4.5rem)";
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Skip loader for testing: add ?skiploader=true to URL, set in sessionStorage,
-      // or detect automated testing tools (Lighthouse, Puppeteer, Playwright, etc.)
-      const urlParams = new URLSearchParams(window.location.search);
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isAutomatedTest =
-        urlParams.get('skiploader') === 'true' ||
-        process.env.NODE_ENV === 'test' ||
-        userAgent.includes('lighthouse') ||
-        userAgent.includes('headless') ||
-        userAgent.includes('puppeteer') ||
-        userAgent.includes('playwright') ||
-        // Playwright Chrome includes "HeadlessChrome" in UA
-        userAgent.includes('headlesschrome');
+  const exitLoader = useCallback(() => {
+    if (!showLoader) return;
+    setShowLoader(false);
+    setLoaderSeen(true);
+    sessionStorage.setItem("loaderSeen", "true");
+  }, [showLoader]);
 
-      const seen = sessionStorage.getItem("loaderSeen");
-      if (seen === "true" || isAutomatedTest) {
+  // Measure widest word using a hidden offscreen span (always in DOM)
+  const measureWidestWord = useCallback(() => {
+    const el = wordSlotRef.current;
+    if (!el) return;
+
+    let maxW = 0;
+    for (const word of words) {
+      el.textContent = word;
+      maxW = Math.max(maxW, el.getBoundingClientRect().width);
+    }
+    el.textContent = "";
+    setWordSlotMinWidth(Math.ceil(maxW));
+  }, []);
+
+  // Init: skip checks, font loading
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isAutomatedTest =
+      urlParams.get('skiploader') === 'true' ||
+      process.env.NODE_ENV === 'test' ||
+      userAgent.includes('lighthouse') ||
+      userAgent.includes('headless') ||
+      userAgent.includes('puppeteer') ||
+      userAgent.includes('playwright') ||
+      userAgent.includes('headlesschrome');
+
+    const seen = sessionStorage.getItem("loaderSeen");
+    if (seen === "true" || isAutomatedTest) {
+      setShowLoader(false);
+      setLoaderSeen(true);
+      if (isAutomatedTest) sessionStorage.setItem("loaderSeen", "true");
+    }
+    setInitialized(true);
+
+    // Wait for fonts, then measure widest word
+    const fontFamily = 'Raleway';
+    document.fonts.ready.then(() => {
+      // Verify the actual font loaded (not fallback)
+      const loaded = document.fonts.check(`1em ${fontFamily}`);
+      if (loaded) {
+        setFontsReady(true);
+      } else {
+        // Fallback: short delay then proceed anyway
+        setTimeout(() => setFontsReady(true), 50);
+      }
+    });
+
+    const handleResize = () => {
+      const s = sessionStorage.getItem("loaderSeen");
+      if (s === "true") {
         setShowLoader(false);
         setLoaderSeen(true);
-        if (isAutomatedTest) sessionStorage.setItem("loaderSeen", "true");
       }
-      setInitialized(true);
+    };
 
-      // Wait for fonts to load before starting animation
-      // This prevents jank from font loading during animation
-      document.fonts.ready.then(() => {
-        // Small delay to ensure paint is complete
-        setTimeout(() => setFontsReady(true), 100);
-      });
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [loaderSeen]);
 
-      const handleResize = () => {
-        const seen = sessionStorage.getItem("loaderSeen");
-        if (seen === "true" && showLoader) {
-          setShowLoader(false);
-          setLoaderSeen(true);
-        }
-      };
+  // Measure after fonts ready + DOM painted
+  useEffect(() => {
+    if (!fontsReady) return;
+    requestAnimationFrame(() => {
+      measureWidestWord();
+    });
+  }, [fontsReady, measureWidestWord]);
 
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-    return undefined;
-  }, [loaderSeen, showLoader]);
-
+  // Accelerating heartbeat word sequence + merge + auto-exit
   useEffect(() => {
     if (!showLoader || !initialized || !fontsReady) return;
 
     if (prefersReducedMotion) {
-      setTimeout(() => {
-        setShowLoader(false);
-        setLoaderSeen(true);
-        sessionStorage.setItem("loaderSeen", "true");
-      }, 500);
+      setTimeout(exitLoader, 500);
       return;
     }
 
-    // Word timings - start after fonts are ready
-    const wordTimings = [600, 1200, 1800, 2400]; // Slightly faster since we waited for fonts
     const timeouts: NodeJS.Timeout[] = [];
 
-    wordTimings.forEach((time, index) => {
-      if (index > 0) { // Skip first, already showing
+    // Word transitions (skip index 0, already showing)
+    WORD_SCHEDULE.forEach((time, index) => {
+      if (index > 0) {
         timeouts.push(setTimeout(() => setCurrentIndex(index), time));
       }
     });
 
-    // Merge after last word has been shown for a moment
-    timeouts.push(setTimeout(() => setIsMerged(true), 3000));
-    timeouts.push(setTimeout(() => setIsReady(true), 3600));
+    // Merge: icon appears, dash collapses, colors change
+    timeouts.push(setTimeout(() => setIsMerged(true), MERGE_AT));
+
+    // Auto-exit: clip-path circle reveal
+    timeouts.push(setTimeout(() => setIsFinished(true), EXIT_AT));
+
+    // Loader fully gone after exit animation completes (~1.2s)
+    timeouts.push(setTimeout(exitLoader, EXIT_AT + 1200));
 
     // Safety timeout
-    timeouts.push(setTimeout(() => {
-      if (showLoader) {
-        setShowLoader(false);
-        setLoaderSeen(true);
-        sessionStorage.setItem("loaderSeen", "true");
-      }
-    }, 8000));
+    timeouts.push(setTimeout(exitLoader, SAFETY_TIMEOUT));
 
     return () => timeouts.forEach(clearTimeout);
-  }, [showLoader, initialized, fontsReady, prefersReducedMotion]);
-
-  useEffect(() => {
-    if (!isReady || isFinished) return;
-
-    const handleInput = () => {
-      setIsFinished(true);
-      setTimeout(() => {
-        setShowLoader(false);
-        setLoaderSeen(true);
-        sessionStorage.setItem("loaderSeen", "true");
-      }, 1000);
-    };
-
-    const events = ["click", "wheel", "keydown", "touchstart"] as const;
-    events.forEach((e) => window.addEventListener(e, handleInput, { passive: true }));
-    return () => events.forEach((e) => window.removeEventListener(e, handleInput));
-  }, [isReady, isFinished]);
+  }, [showLoader, initialized, fontsReady, prefersReducedMotion, exitLoader]);
 
   if (!initialized) {
-    // When skip loader env is set, render children immediately
     if (skipLoaderEnv) return <>{children}</>;
     return <div className="fixed inset-0 z-[100] bg-[#F9F7F5]" />;
   }
@@ -177,6 +192,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         {showLoader && (
           <motion.div
             className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
+            data-loader-phase={isFinished ? "exiting" : isMerged ? "merged" : "cycling"}
             initial={{ opacity: 1 }}
             animate={{ opacity: isFinished ? 0 : 1 }}
             exit={{ opacity: 0 }}
@@ -186,7 +202,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
             {/* BACKGROUND */}
             <div className="absolute inset-0 bg-[#F9F7F5]">
               <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5F1] via-[#F9F7F5] to-[#F0F4EF] opacity-80" />
-              
+
               <motion.div
                 className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
@@ -207,18 +223,23 @@ export default function Loader({ children }: { children: React.ReactNode }) {
               />
             </div>
 
-            {/* ═══════════════════════════════════════════════════════════════
-                LOGO TEXT
+            {/* Hidden measurement span — always in DOM for measuring widest word */}
+            <span
+              ref={wordSlotRef}
+              aria-hidden="true"
+              className="font-semibold leading-none"
+              style={{
+                fontSize: baseFontSize,
+                position: "absolute",
+                visibility: "hidden",
+                pointerEvents: "none",
+                whiteSpace: "nowrap",
+              }}
+            />
 
-                Key insight from research:
-                - Use inline-flex with align-items: baseline for text alignment
-                - Let words take their natural width (no fixed containers)
-                - AnimatePresence mode="wait" ensures only one word at a time
-                - The whole block naturally centers in its parent
-                - Show static icon while fonts load to prevent jank
-            ═══════════════════════════════════════════════════════════════ */}
-            <div className="relative z-10">
-              {/* Static icon shown while fonts load */}
+            {/* LOGO TEXT */}
+            <div className="relative z-10" data-loader-text>
+              {/* Static icon while fonts load */}
               <AnimatePresence mode="wait">
                 {!fontsReady ? (
                   <motion.div
@@ -232,125 +253,109 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                     <PALcaresIcon size="clamp(4rem, 12vw, 8rem)" />
                   </motion.div>
                 ) : (
-              <motion.div
-                key="logo-text"
-                className="inline-flex items-baseline justify-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4 }}
-                layout
-              >
-                {/* ICON - appears after merge */}
-                <AnimatePresence>
-                  {isMerged && (
+                  <motion.div
+                    key="logo-text"
+                    className="inline-flex items-baseline justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    {/* ICON — always in DOM, opacity + scale gated (no width animation) */}
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.8, width: 0, marginRight: 0 }}
-                      animate={{ opacity: 1, scale: 1, width: "auto", marginRight: "0.3em" }}
-                      exit={{ opacity: 0, scale: 0.8, width: 0, marginRight: 0 }}
-                      transition={{ duration: 0.4, ease: EASE_SNAPPY }}
                       className="flex items-center self-center overflow-hidden"
+                      style={{ marginRight: "0.3em", width: iconSize }}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{
+                        opacity: isMerged ? 1 : 0,
+                        scale: isMerged ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.4, ease: EASE_SNAPPY }}
                     >
                       <PALcaresIcon size={iconSize} />
                     </motion.div>
-                  )}
-                </AnimatePresence>
 
-                {/* PAL */}
-                <motion.span
-                  className="font-semibold tracking-tight leading-none"
-                  style={{ fontSize: palFontSize }}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{
-                    opacity: 1,
-                    x: 0,
-                    color: isMerged ? COLORS.pal : COLORS.animating,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    color: { duration: 0.4 },
-                  }}
-                >
-                  PAL
-                </motion.span>
-
-                {/* DASH - collapses on merge */}
-                <motion.span
-                  className="font-light leading-none"
-                  style={{ fontSize: baseFontSize, color: COLORS.animating }}
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: isMerged ? 0 : 1,
-                    marginLeft: isMerged ? 0 : "0.2em",
-                    marginRight: isMerged ? 0 : "0.2em",
-                    width: isMerged ? 0 : "auto",
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {!isMerged && "–"}
-                </motion.span>
-
-                {/* ROTATING WORD / FINAL "cares"
-                    
-                    KEY FIX: Using AnimatePresence mode="wait"
-                    This ensures only ONE word exists in the DOM at a time.
-                    No stacking, no fixed widths, no centering issues.
-                    The container naturally sizes to fit the current word.
-                */}
-                <AnimatePresence mode="wait">
-                  {!isMerged ? (
+                    {/* PAL */}
                     <motion.span
-                      key={words[currentIndex]}
-                      className="font-semibold leading-none inline-block"
+                      className="font-semibold tracking-tight leading-none"
+                      style={{ fontSize: palFontSize }}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        color: isMerged ? COLORS.pal : COLORS.animating,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        color: { duration: 0.4 },
+                      }}
+                    >
+                      PAL
+                    </motion.span>
+
+                    {/* DASH — collapses on merge */}
+                    <motion.span
+                      className="font-light leading-none"
                       style={{ fontSize: baseFontSize, color: COLORS.animating }}
-                      initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      exit={{ opacity: 0, y: -20, filter: "blur(4px)" }}
-                      transition={{
-                        duration: 0.3,
-                        ease: EASE_SNAPPY,
+                      initial={{ opacity: 0 }}
+                      animate={{
+                        opacity: isMerged ? 0 : 1,
+                        marginLeft: isMerged ? 0 : "0.2em",
+                        marginRight: isMerged ? 0 : "0.2em",
+                        width: isMerged ? 0 : "auto",
                       }}
+                      transition={{ duration: 0.3 }}
                     >
-                      {words[currentIndex]}
+                      {!isMerged && "\u2013"}
                     </motion.span>
-                  ) : (
-                    <motion.span
-                      key="final-cares"
-                      className="font-semibold leading-none inline-block"
-                      style={{ fontSize: baseFontSize }}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0, color: COLORS.cares }}
-                      transition={{
-                        duration: 0.4,
-                        color: { duration: 0.5 },
-                      }}
-                    >
-                      cares
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+
+                    {/* ROTATING WORD / FINAL "cares" */}
+                    <AnimatePresence mode="wait">
+                      {!isMerged ? (
+                        <motion.span
+                          key={words[currentIndex]}
+                          data-loader-word
+                          className="font-semibold leading-none inline-block"
+                          style={{
+                            fontSize: baseFontSize,
+                            color: COLORS.animating,
+                            minWidth: wordSlotMinWidth > 0 ? wordSlotMinWidth : undefined,
+                          }}
+                          initial={{ opacity: 0, y: 12, filter: "blur(2px)" }}
+                          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                          exit={{ opacity: 0, y: -12, filter: "blur(2px)" }}
+                          transition={{
+                            duration: 0.25,
+                            ease: EASE_TEXT_REVEAL,
+                          }}
+                        >
+                          {words[currentIndex]}
+                        </motion.span>
+                      ) : (
+                        <motion.span
+                          key="final-cares"
+                          data-loader-word
+                          className="font-semibold leading-none inline-block"
+                          style={{
+                            fontSize: baseFontSize,
+                            minWidth: wordSlotMinWidth > 0 ? wordSlotMinWidth : undefined,
+                          }}
+                          initial={{ opacity: 0, x: 10 }}
+                          animate={{ opacity: 1, x: 0, color: COLORS.cares }}
+                          transition={{
+                            duration: 0.4,
+                            color: { duration: 0.5 },
+                          }}
+                        >
+                          cares
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* ENTER PROMPT */}
-            <motion.div
-              className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-2 text-sm font-medium tracking-widest uppercase"
-              style={{ color: `${COLORS.pal}66` }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: isReady ? 1 : 0, y: isReady ? 0 : 10 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span>Enter</span>
-              <motion.div
-                animate={prefersReducedMotion ? {} : { y: [0, 4, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: EASE_IN_OUT }}
-              >
-                <ChevronDown className="w-4 h-4" />
-              </motion.div>
-            </motion.div>
-
-            {/* TRANSITION OUT */}
+            {/* TRANSITION OUT — clip-path circle reveal */}
             <AnimatePresence>
               {isFinished && (
                 <motion.div
@@ -369,8 +374,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Page content - no opacity animation to avoid double-fade with component whileInView animations */}
-      {/* The loader overlay already covers content, so we just disable pointer events */}
+      {/* Page content */}
       <div style={{ pointerEvents: showLoader ? "none" : "auto" }}>
         {children}
       </div>
