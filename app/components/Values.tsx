@@ -49,7 +49,7 @@ export default function Values() {
     offset: ["start end", "end start"],
   });
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
     <section

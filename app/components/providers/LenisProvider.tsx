@@ -4,6 +4,7 @@ import { ReactLenis, useLenis } from "lenis/react";
 import "lenis/dist/lenis.css";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { useReducedMotion } from "framer-motion";
 
 // Scroll to top on route change - fixes Next.js App Router + Lenis issue
 // where page doesn't start at top if navigating while scroll is in motion
@@ -24,15 +25,15 @@ interface LenisProviderProps {
 }
 
 export default function LenisProvider({ children }: LenisProviderProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <ReactLenis
       root
       options={{
-        // lerp: higher = tighter/snappier, lower = smoother/driftier
-        // 0.1 is default, 0.15 gives responsive feel with minimal lag
-        lerp: 0.15,
-        smoothWheel: true,
-        syncTouch: false, // Native touch on mobile/tablet - much better UX
+        lerp: prefersReducedMotion ? 1 : 0.1,
+        smoothWheel: !prefersReducedMotion,
+        syncTouch: false,
       }}
     >
       <ScrollReset />

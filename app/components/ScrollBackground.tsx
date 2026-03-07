@@ -14,9 +14,9 @@ export default function ScrollBackground() {
   
   // PROVEN PATTERN: useTransform for scroll-linked values (no springs needed for subtle parallax)
   // This avoids continuous spring calculations - transforms are computed only when scrollYProgress changes
-  const layer1Y = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
-  const layer2Y = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
-  const layer3Y = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
+  const layer1Y = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
+  const layer2Y = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
+  const layer3Y = useTransform(scrollYProgress, [0, 1], ["0%", "-55%"]);
 
   useEffect(() => {
     setMounted(true);
