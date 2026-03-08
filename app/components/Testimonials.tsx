@@ -175,13 +175,13 @@ export default function Testimonials() {
           className="text-center mb-16 md:mb-24 space-y-4"
           initial={{ opacity: 0 }}
           animate={headerInView ? { opacity: 1 } : undefined}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
         >
           <motion.span
             className="text-xs font-semibold uppercase tracking-[0.2em] block"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
             animate={headerInView ? { opacity: 1, y: 0, color: "#E07B4C" } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
           >
             {testimonials.label}
           </motion.span>
@@ -189,7 +189,7 @@ export default function Testimonials() {
             className="text-3xl md:text-4xl font-light text-[#5C306C] tracking-tight"
             initial={{ opacity: 0, y: 15 }}
             animate={headerInView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
           >
             {testimonials.title}
           </motion.h2>

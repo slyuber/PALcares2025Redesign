@@ -30,6 +30,26 @@ export default function Hero() {
     setIsMounted(true);
   }, []);
 
+  const handleScrollToStorytelling = useCallback(() => {
+    const desktop = document.getElementById("storytelling");
+    const mobile = document.getElementById("storytelling-mobile");
+    // Use whichever version is actually visible
+    const target = (desktop && desktop.offsetHeight > 0) ? desktop
+      : (mobile && mobile.offsetHeight > 0) ? mobile
+      : null;
+
+    if (target) {
+      if (lenis) {
+        lenis.scrollTo(target, {
+          offset: -100,
+          duration: prefersReducedMotion ? 0 : 1.2,
+        });
+      } else {
+        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+      }
+    }
+  }, [lenis, prefersReducedMotion]);
+
   const handleScrollDown = useCallback(() => {
     // Mobile uses storytelling-mobile, desktop uses storytelling
     // Check both and use whichever has non-zero height (is visible)
@@ -124,7 +144,7 @@ export default function Hero() {
           className="lg:hidden flex justify-center mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: EASE_PREMIUM }}
         >
           <Image
             src="/svg/PALcares_logo_light.svg"
@@ -234,14 +254,16 @@ export default function Hero() {
             transition={{
               delay: prefersReducedMotion ? 0 : 0.75,
               duration: prefersReducedMotion ? 0 : 0.4,
+              ease: EASE_PREMIUM,
             }}
           >
             {hero.location}
           </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <motion.a
-              href="#storytelling"
+            <motion.button
+              type="button"
+              onClick={handleScrollToStorytelling}
               className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
               whileHover={prefersReducedMotion ? {} : {
                 scale: 1.02,
@@ -251,7 +273,7 @@ export default function Hero() {
               transition={SPRING_SNAPPY}
             >
               {hero.buttonPrimary}
-            </motion.a>
+            </motion.button>
             <motion.a
               href="#contact"
               className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C]/80 bg-[#5C306C]/[0.06] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"

@@ -59,7 +59,7 @@ export default function RootLayout({
         <LenisProvider>
           <Loader>
             <Header />
-            <div className="main">{children}</div>
+            <div id="main-content" className="main">{children}</div>
             <Footer />
           </Loader>
         </LenisProvider>

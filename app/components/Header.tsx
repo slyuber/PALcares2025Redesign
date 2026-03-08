@@ -50,13 +50,35 @@ export default function Header() {
     }
   });
 
-  // Prevent scroll when menu is open - use Lenis stop/start for proper integration
+  // Prevent scroll when menu is open - Lenis + CSS fallback + inert background
   useEffect(() => {
     if (menuOpen) {
       lenis?.stop();
+      document.body.style.overflow = 'hidden';
+
+      // Make background content inert so screen readers can't reach it
+      const mainContent = document.getElementById('main-content');
+      const pageFooter = document.querySelector<HTMLElement>('footer[class*="pt-16"]');
+      if (mainContent) mainContent.setAttribute('inert', '');
+      if (pageFooter) pageFooter.setAttribute('inert', '');
     } else {
       lenis?.start();
+      document.body.style.overflow = '';
+
+      const mainContent = document.getElementById('main-content');
+      const pageFooter = document.querySelector<HTMLElement>('footer[class*="pt-16"]');
+      if (mainContent) mainContent.removeAttribute('inert');
+      if (pageFooter) pageFooter.removeAttribute('inert');
     }
+
+    // Cleanup on unmount to prevent stale scroll-lock
+    return () => {
+      document.body.style.overflow = '';
+      const mainContent = document.getElementById('main-content');
+      const pageFooter = document.querySelector<HTMLElement>('footer[class*="pt-16"]');
+      if (mainContent) mainContent.removeAttribute('inert');
+      if (pageFooter) pageFooter.removeAttribute('inert');
+    };
   }, [menuOpen, lenis]);
 
   // Escape key closes mobile menu
@@ -119,10 +141,28 @@ export default function Header() {
 
     // If targeting storytelling and desktop version is hidden, use mobile version
     if (id === "storytelling" && element && element.offsetHeight === 0) {
-      const mobileTarget = document.getElementById("storytelling-mobile");
-      if (mobileTarget && mobileTarget.offsetHeight > 0) {
-        element = mobileTarget;
-        scrollOffset = undefined; // Mobile layout is linear, no panel offsets
+      // Map scrollOffset values to specific mobile panel IDs
+      const mobileIdMap: Record<number, string> = {
+        0.2: "mobile-panel-teams",
+        0.4: "mobile-panel-research",
+        0.6: "mobile-panel-labs",
+      };
+
+      if (scrollOffset !== undefined && mobileIdMap[scrollOffset]) {
+        const panelTarget = document.getElementById(mobileIdMap[scrollOffset]);
+        if (panelTarget && panelTarget.offsetHeight > 0) {
+          element = panelTarget;
+          scrollOffset = undefined;
+        }
+      }
+
+      // Fallback to storytelling-mobile container if no specific panel matched
+      if (element.offsetHeight === 0) {
+        const mobileTarget = document.getElementById("storytelling-mobile");
+        if (mobileTarget && mobileTarget.offsetHeight > 0) {
+          element = mobileTarget;
+          scrollOffset = undefined;
+        }
       }
     }
 
@@ -132,9 +172,7 @@ export default function Header() {
         ? scrollOffset * element.offsetHeight
         : 0;
 
-      // Brief delay to allow Lenis to restart after menu close
-      const scrollDelay = wasMenuOpen ? 50 : 0;
-      setTimeout(() => {
+      const performScroll = () => {
         // Use Lenis for smooth scrolling, with native fallback for slow devices
         if (lenis) {
           lenis.scrollTo(element, {
@@ -145,7 +183,16 @@ export default function Header() {
           // Fallback: native smooth scroll if Lenis not ready
           element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      }, scrollDelay);
+      };
+
+      if (wasMenuOpen) {
+        // Double rAF ensures React commit + Lenis restart have completed (~32ms at 60fps)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(performScroll);
+        });
+      } else {
+        performScroll();
+      }
     } else if (pathname !== "/") {
       router.push(`/#${id}`);
     }
@@ -294,7 +341,7 @@ export default function Header() {
                 className="relative px-4 py-2.5 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors duration-300 flex items-center gap-1.5 rounded-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C]"
                 whileHover={{ backgroundColor: "rgba(92, 48, 108, 0.04)" }}
                 whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.15 }}
+                transition={{ duration: 0.15, ease: EASE_SNAPPY }}
                 aria-haspopup={item.hasSubmenu ? "true" : undefined}
                 aria-expanded={item.hasSubmenu ? openSubmenu === item.id : undefined}
               >
@@ -334,7 +381,7 @@ export default function Header() {
                           className="w-full text-left px-4 py-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.05] transition-colors duration-200 flex items-center gap-2.5 group/item focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.05, duration: 0.2 }}
+                          transition={{ delay: i * 0.05, duration: 0.2, ease: EASE_SNAPPY }}
                           whileHover={{ x: 2 }}
                           role="menuitem"
                         >
@@ -535,7 +582,7 @@ export default function Header() {
                   className="mt-8 pt-6 border-t border-[#5C306C]/10"
                   initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: prefersReducedMotion ? 0 : drawerItems.length * 0.05 + 0.1, duration: prefersReducedMotion ? 0 : 0.3 }}
+                  transition={{ delay: prefersReducedMotion ? 0 : drawerItems.length * 0.05 + 0.1, duration: prefersReducedMotion ? 0 : 0.3, ease: EASE_SNAPPY }}
                 >
                   <motion.button
                     type="button"

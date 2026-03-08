@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { SPRING_SNAPPY, useSafeInView } from "../lib/animation-constants";
+import { EASE_PREMIUM, SPRING_SNAPPY, useSafeInView } from "../lib/animation-constants";
 
 export default function Contact() {
   const prefersReducedMotion = useReducedMotion();
@@ -112,14 +112,14 @@ export default function Contact() {
             className="lg:col-span-2 space-y-8"
             initial={{ opacity: 0, y: 20 }}
             animate={leftInView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: EASE_PREMIUM }}
           >
             <div className="space-y-4">
               <motion.span
                 className="text-xs font-semibold uppercase tracking-[0.2em] block"
                 initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
                 animate={leftInView ? { opacity: 1, y: 0, color: "#FF9966" } : undefined}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
               >
                 Let&apos;s Connect
               </motion.span>
@@ -127,7 +127,7 @@ export default function Contact() {
                 className="text-3xl md:text-4xl font-light text-[#5C306C] leading-tight tracking-tight"
                 initial={{ opacity: 0, y: 15 }}
                 animate={leftInView ? { opacity: 1, y: 0 } : undefined}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
               >
                 We engage with organizations in different ways
               </motion.h2>
@@ -137,7 +137,7 @@ export default function Contact() {
               className="text-base text-[#5C306C]/70 leading-relaxed"
               initial={{ opacity: 0, y: 10 }}
               animate={leftInView ? { opacity: 1, y: 0 } : undefined}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.2 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
             >
               Educational workshops on data, infrastructure, or ethical technology. Placements and PAL-Labs information. Connections between organizations facing similar challenges. Embedded teams, shared resources or tools that might help. Technical support for a specific problem. Or just a conversation about what you&apos;re building.
             </motion.p>
@@ -167,7 +167,7 @@ export default function Contact() {
             className="lg:col-span-3"
             initial={{ opacity: 0, y: 20 }}
             animate={rightInView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.15 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.15, ease: EASE_PREMIUM }}
           >
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-[#5C306C]/[0.06] p-8 md:p-10 shadow-[0_8px_32px_rgba(92,48,108,0.04)] transform-gpu">
               <AnimatePresence mode="wait">

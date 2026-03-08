@@ -142,6 +142,7 @@ export default function Storytelling() {
 
             {/* Panel 1: Teams - MOBILE */}
             <ContentPanelMobile
+              id="mobile-panel-teams"
               icon={<Users className="w-6 h-6 text-[#FF9966]" />}
               label="Embedded Partnerships"
               title="PAL Teams"
@@ -158,6 +159,7 @@ export default function Storytelling() {
 
             {/* Panel 2: Research - MOBILE */}
             <ContentPanelMobile
+              id="mobile-panel-research"
               icon={<BookOpen className="w-6 h-6 text-[#FF9966]" />}
               label="Turning Individual Investments into Sector Resources"
               title="PAL Research"
@@ -174,6 +176,7 @@ export default function Storytelling() {
 
             {/* Panel 3: Labs - MOBILE */}
             <ContentPanelMobile
+              id="mobile-panel-labs"
               icon={<Sprout className="w-6 h-6 text-[#FF9966]" />}
               label="Building Local Capacity"
               title="PAL Labs"
@@ -565,7 +568,7 @@ export default function Storytelling() {
               className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/60 hover:text-[#5C306C]/80 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/95 z-[60] pointer-events-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966]"
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.2, ease: EASE_SNAPPY }}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -705,7 +708,8 @@ function stylePalNames(text: string): React.ReactNode {
 }
 
 // Mobile version - shows all content inline
-function ContentPanelMobile({ icon, label, title, description, secondaryDescription, details, items, quote }: {
+function ContentPanelMobile({ id, icon, label, title, description, secondaryDescription, details, items, quote }: {
+  id?: string;
   icon: React.ReactNode;
   label: string;
   title: string;
@@ -718,7 +722,7 @@ function ContentPanelMobile({ icon, label, title, description, secondaryDescript
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <article className="space-y-6 sm:space-y-8 py-10 sm:py-14 border-b border-[#5C306C]/10 last:border-b-0">
+    <article id={id} className="space-y-6 sm:space-y-8 py-10 sm:py-14 border-b border-[#5C306C]/10 last:border-b-0">
       {/* Header Section - Enhanced icon container */}
       <header className="flex items-center gap-3 text-[#FF9966]">
         <motion.div
@@ -870,7 +874,7 @@ const ContentPanel = React.memo(function ContentPanel({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.15 } }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
           >
             {/* LEFT COLUMN - Visual anchor: Icon, Label, Title, Quote */}
             <div className="space-y-5 lg:col-span-4">
@@ -969,7 +973,7 @@ const ContentPanel = React.memo(function ContentPanel({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.15 } }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
           >
             {/* LEFT COLUMN - Title and navigation */}
             <div className="lg:col-span-4 space-y-4 lg:space-y-5 lg:pr-4">
