@@ -296,7 +296,7 @@ export default function Hero() {
       {isMounted && (
         <motion.button
           type="button"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded-lg p-2 group"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-3 z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded-lg p-2 group"
           onClick={handleScrollDown}
           aria-label="Scroll to learn more"
           style={{ opacity: scrollIndicatorOpacity }}
