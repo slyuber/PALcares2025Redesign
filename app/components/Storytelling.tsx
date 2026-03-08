@@ -26,7 +26,7 @@ export default function Storytelling() {
 
   // Track if Storytelling section is in view for skip button visibility
   const isStorytellingInView = useInView(containerRef, {
-    margin: "-20% 0px -20% 0px",
+    margin: "-45% 0px -45% 0px",
     once: false // Re-evaluate as user scrolls
   });
 

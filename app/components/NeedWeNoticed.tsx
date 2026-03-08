@@ -2,41 +2,97 @@
 // ENHANCEMENT: 2025-01 - Award-winning design: Background patterns
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useLenis } from "lenis/react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { EASE_ORGANIC, useSafeInView } from "../lib/animation-constants";
+import { EASE_PREMIUM, EASE_ENERGETIC, DURATION_NORMAL, DURATION_SLOW, STAGGER_NORMAL, useSafeInView } from "../lib/animation-constants";
 
 export default function NeedWeNoticed() {
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const lenis = useLenis();
+  const hasSnapped = useRef(false);
   const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "100px 0px" });
+
+  // Gentle delayed snap: wait 600ms after section becomes visible, then ease in
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || !lenis || prefersReducedMotion) return;
+
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        clearTimeout(timeout);
+        if (entry.isIntersecting && !hasSnapped.current) {
+          // Wait 600ms — let the user settle before nudging
+          timeout = setTimeout(() => {
+            hasSnapped.current = true;
+            lenis.scrollTo(el, { offset: -80, duration: 2 });
+          }, 600);
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(el);
+    return () => { observer.disconnect(); clearTimeout(timeout); };
+  }, [lenis, prefersReducedMotion]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.15,
-        delayChildren: prefersReducedMotion ? 0 : 0.1,
+        staggerChildren: prefersReducedMotion ? 0 : STAGGER_NORMAL,
       },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 24 },
+  // Label: quick, subtle fade
+  const labelVariants = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 8 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: prefersReducedMotion ? 0 : 0.7,
-        ease: EASE_ORGANIC,
+        duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
+        ease: EASE_PREMIUM,
+      },
+    },
+  };
+
+  // Headline: slightly overshoots then settles — the "snap" moment
+  const headlineVariants = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : DURATION_SLOW,
+        ease: EASE_ENERGETIC,
+      },
+    },
+  };
+
+  // Body content: smooth slide-up
+  const bodyVariants = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 14 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
+        ease: EASE_PREMIUM,
       },
     },
   };
 
   return (
     <section
+      ref={sectionRef}
       id="where-we-started"
       className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
       aria-label="Where we started - the need we noticed"
@@ -58,15 +114,15 @@ export default function NeedWeNoticed() {
         {/* Section Label */}
         <motion.span
           className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966] block mb-6"
-          variants={itemVariants}
+          variants={labelVariants}
         >
           Where We Started
         </motion.span>
 
-        {/* Headline */}
+        {/* Headline — the anchor moment, subtle overshoot */}
         <motion.h2
           className="text-3xl md:text-4xl lg:text-5xl font-light text-[#5C306C] mb-12 tracking-tight leading-tight"
-          variants={itemVariants}
+          variants={headlineVariants}
         >
           We noticed a need in our communities.
         </motion.h2>
@@ -76,7 +132,7 @@ export default function NeedWeNoticed() {
           {/* Main Content Column */}
           <motion.div
             className="lg:col-span-7 space-y-6"
-            variants={itemVariants}
+            variants={bodyVariants}
           >
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
               Across North America, organizations are questioning why technology
@@ -113,7 +169,7 @@ export default function NeedWeNoticed() {
           {/* Supporting Column - Vision */}
           <motion.div
             className="lg:col-span-5 lg:pt-2"
-            variants={itemVariants}
+            variants={bodyVariants}
           >
             <div className="lg:pl-8 lg:border-l border-[#5C306C]/10">
               <p className="text-base md:text-lg text-[#5C306C]/70 leading-relaxed mb-6">

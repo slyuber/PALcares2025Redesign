@@ -233,6 +233,19 @@ body {
   animation: bounce-slow 2s ease-in-out infinite;
 }
 
+/* Scroll indicator: line draws downward, pauses, fades, resets */
+@keyframes scroll-line {
+  0% { height: 0; opacity: 0; }
+  15% { opacity: 1; }
+  70% { height: 100%; opacity: 1; }
+  90% { height: 100%; opacity: 0; }
+  100% { height: 0; opacity: 0; }
+}
+
+.animate-scroll-line {
+  animation: scroll-line 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 /* Node pulse animations - synced to particle arrivals in EcosystemPanel */
 /* Particles travel ~4.5s between nodes, with staggered delays */
 
@@ -285,6 +298,7 @@ body {
   .animate-sway-slow-reverse,
   .animate-sway-medium,
   .animate-bounce-slow,
+  .animate-scroll-line,
   .animate-node-pulse-research,
   .animate-node-pulse-teams,
   .animate-node-pulse-labs {

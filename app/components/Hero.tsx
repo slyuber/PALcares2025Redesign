@@ -6,11 +6,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { ArrowDown } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { useLenis } from "lenis/react";
 import { hero } from "../lib/site-content";
-import { EASE_PREMIUM, EASE_OUT_CUBIC, EASE_IN_OUT, SPRING_SNAPPY } from "../lib/animation-constants";
+import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY } from "../lib/animation-constants";
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -25,6 +24,7 @@ export default function Hero() {
   const logoOpacity = useTransform(scrollY, [100, 250], [1, 0]);
   const logoY = useTransform(scrollY, [0, 250], [0, -60]);
   const logoScale = useTransform(scrollY, [0, 250], [1, 0.7]);
+  const scrollIndicatorOpacity = useTransform(scrollY, [0, 80], [1, 0]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -292,20 +292,24 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator - Positioned at bottom right, subtle and elegant */}
+      {/* Scroll Indicator - Bottom center, line-draw animation, fades on scroll */}
       {isMounted && (
         <motion.button
           type="button"
-          className="absolute bottom-8 right-6 md:bottom-12 md:right-12 flex flex-col items-center gap-1.5 z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded-lg p-2 group"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded-lg p-2 group"
           onClick={handleScrollDown}
           aria-label="Scroll to learn more"
-          animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: EASE_IN_OUT }}
+          style={{ opacity: scrollIndicatorOpacity }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.5, ease: EASE_OUT_CUBIC }}
         >
-          <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors">
+          <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/40 group-hover:text-[#5C306C]/60 transition-colors font-medium">
             Scroll
           </span>
-          <ArrowDown className="w-4 h-4 text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors" />
+          <div className="w-px h-8 relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 w-full bg-[#5C306C]/30 animate-scroll-line" />
+          </div>
         </motion.button>
       )}
     </section>
