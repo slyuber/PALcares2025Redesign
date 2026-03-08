@@ -50,11 +50,13 @@ export default function Header() {
     }
   });
 
-  // Prevent scroll when menu is open - Lenis + CSS fallback + inert background
+  // Prevent scroll when menu is open - Lenis + overscroll-behavior + inert background
+  // Desktop: lenis.stop() toggles `lenis-stopped` class on <html> (overflow: hidden)
+  // Mobile: overscroll-y-contain on menu overlay prevents touch scroll chaining (CSS-only)
+  // No body.style.overflow manipulation — that corrupts iOS Safari native scroll state
   useEffect(() => {
     if (menuOpen) {
       lenis?.stop();
-      document.body.style.overflow = 'hidden';
 
       // Make background content inert so screen readers can't reach it
       const mainContent = document.getElementById('main-content');
@@ -63,7 +65,6 @@ export default function Header() {
       if (pageFooter) pageFooter.setAttribute('inert', '');
     } else {
       lenis?.start();
-      document.body.style.overflow = '';
 
       const mainContent = document.getElementById('main-content');
       const pageFooter = document.querySelector<HTMLElement>('footer[class*="pt-16"]');
@@ -71,9 +72,8 @@ export default function Header() {
       if (pageFooter) pageFooter.removeAttribute('inert');
     }
 
-    // Cleanup on unmount to prevent stale scroll-lock
+    // Cleanup on unmount to prevent stale inert state
     return () => {
-      document.body.style.overflow = '';
       const mainContent = document.getElementById('main-content');
       const pageFooter = document.querySelector<HTMLElement>('footer[class*="pt-16"]');
       if (mainContent) mainContent.removeAttribute('inert');
@@ -447,7 +447,7 @@ export default function Header() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed inset-0 bg-[#FAF8F5] z-[80] lg:hidden flex flex-col"
+            className="fixed inset-0 bg-[#FAF8F5] z-[80] lg:hidden flex flex-col overscroll-contain"
             data-mobile-menu
             role="dialog"
             aria-modal="true"
@@ -517,7 +517,7 @@ export default function Header() {
               </div>
 
               {/* Menu Content - Scrollable */}
-              <nav className="flex-1 overflow-y-auto px-6 py-6">
+              <nav className="flex-1 overflow-y-auto overscroll-y-contain px-6 py-6">
                 <div className="space-y-1">
                   {drawerItems.map((item, index) => {
                     const hasSubmenu = "hasSubmenu" in item && item.hasSubmenu;
