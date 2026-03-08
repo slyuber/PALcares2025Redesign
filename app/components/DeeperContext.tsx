@@ -120,7 +120,7 @@ export default function DeeperContext() {
                 Frontline staff know what doesn&apos;t appear in any requirements document. That knowledge should shape technology development&mdash;but it only does if two things are true.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                First: a relationship where feedback actually travels. Staff tell you what isn&apos;t working when they trust it won&apos;t create problems and believe something will happen as a result.
+                First: a relationship where feedback travels. Staff tell you what isn&apos;t working when they trust it won&apos;t create problems and believe something will happen as a result.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 Second, and harder: the infrastructure to act on that feedback safely. We work through smaller, lower-stakes things first&mdash;not to delay, but because that&apos;s where surprises surface while there&apos;s still room to handle them. By the time we&apos;re touching the systems that matter most, we&apos;ve already learned how this organization&apos;s environment behaves.
@@ -166,7 +166,7 @@ export default function DeeperContext() {
                 Our structure makes room for that differently. When something doesn&apos;t go as planned, we reorient. We rescope. We meet the new context rather than defending the old one. That&apos;s sometimes uncomfortable&mdash;it doesn&apos;t always look like what either party expected. But having the room and resources to do that together, rather than fighting about whose fault the change is, is what makes the difference.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                This isn&apos;t looseness—it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work actually unfolds</strong>.
+                This isn&apos;t looseness&mdash;it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work unfolds</strong>.
               </p>
             </div>
             <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#5C306C] ring-4 ring-[#5C306C]/20" />

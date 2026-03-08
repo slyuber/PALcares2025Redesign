@@ -16,7 +16,7 @@ import LenisProvider from "./components/providers/LenisProvider";
 export const metadata = {
   title: "PALcares | Technology That Strengthens Relationships",
   description:
-    "PALcares embeds technical teams inside Alberta's social service organizations\u2014building the infrastructure and processes that let technology actually change with the work.",
+    "PALcares embeds technical teams inside Alberta's social service organizations\u2014building the infrastructure and processes that let technology change with the work.",
   metadataBase: new URL("https://www.palcares.org"),
   openGraph: {
     title: "PALcares | Technology That Strengthens Relationships",

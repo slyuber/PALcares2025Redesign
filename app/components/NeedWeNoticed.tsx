@@ -106,13 +106,13 @@ export default function NeedWeNoticed() {
             className="lg:col-span-7 space-y-6"
             variants={bodyVariants}
           >
-            <p className="text-base md:text-lg text-[#5C306C]/90 leading-relaxed">
+            <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
               Across North America, organizations are questioning why technology
               that should serve communities often ends up extracting from them.
               We&apos;re part of this broader conversation, but our focus is specific.
             </p>
 
-            <p className="text-base md:text-lg text-[#5C306C]/90 leading-relaxed">
+            <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
               <strong className="text-[#5C306C] font-semibold">
                 Those closest to the work should shape the tools they use
               </strong>
@@ -127,7 +127,7 @@ export default function NeedWeNoticed() {
               .
             </p>
 
-            <p className="text-base md:text-lg text-[#5C306C]/90 leading-relaxed">
+            <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
               We have a sense of how this work should be done.{" "}
               <span className="text-[#5C306C] font-medium">
                 Nonprofit structure, multi-year commitments, open licensing,
@@ -143,7 +143,7 @@ export default function NeedWeNoticed() {
             variants={bodyVariants}
           >
             <div className="lg:pl-8 lg:border-l border-[#5C306C]/10">
-              <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed mb-6">
+              <p className="text-base md:text-lg text-[#5C306C]/90 leading-relaxed mb-6">
                 Our technical teams learn how your organization works before deciding what to build. Students and newcomers develop skills through supervised placements with real scope. Solutions that prove themselves get released openly&mdash;the patterns, not your data.
               </p>
 

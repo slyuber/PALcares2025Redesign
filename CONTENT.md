@@ -13,7 +13,7 @@
 | Field | Text |
 |-------|------|
 | Page title | PALcares \| Technology That Strengthens Relationships |
-| Meta description | PALcares embeds technical teams inside Alberta's social service organizations—building the infrastructure and processes that let technology actually change with the work. |
+| Meta description | PALcares embeds technical teams inside Alberta's social service organizations—building the infrastructure and processes that let technology change with the work. |
 | OG title | PALcares \| Technology That Strengthens Relationships |
 | OG description | Embedded partnerships and open-source tools for Alberta's social sector. |
 | OG site name | PALcares |
@@ -125,7 +125,7 @@ PAL Teams embeds technical staff directly within organizations for **multi-year 
 The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires someone inside the organization long enough to understand it.
 
 **Details:**
-The technical work ranges from urgent to strategic: the Excel formula that's mission-critical, the **automated reporting saving weekends**, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, **why that workaround actually works**, and we're reachable when something doesn't.
+The technical work ranges from urgent to strategic: the Excel formula that's mission-critical, the **automated reporting saving weekends**, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, **why that workaround works**, and we're reachable when something doesn't.
 
 **Bullet points:**
 - Multi-year partnerships that give time to build relationships, processes, and real understanding
@@ -167,7 +167,7 @@ What makes this possible is the trust and working relationships built through em
 **Title:** PAL Labs
 
 **Description:**
-PAL Labs extends technical capacity to organizations through supervised placements—connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use. This isn't shadowing or administrative support.
+PAL Labs extends technical capacity to organizations through supervised placements—connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use.
 
 **Secondary description:**
 Labs builds on what Teams creates. The organizational understanding, the established relationships, the documented systems—these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and the support is real.
@@ -239,7 +239,7 @@ We **inherit whatever you have**. That Excel sheet from 2008 holds years of **in
 
 Frontline staff know what doesn't appear in any requirements document. That knowledge should shape technology development—but it only does if two things are true.
 
-First: a relationship where feedback actually travels. Staff tell you what isn't working when they trust it won't create problems and believe something will happen as a result.
+First: a relationship where feedback travels. Staff tell you what isn't working when they trust it won't create problems and believe something will happen as a result.
 
 Second, and harder: the infrastructure to act on that feedback safely. We work through smaller, lower-stakes things first—not to delay, but because that's where surprises surface while there's still room to handle them. By the time we're touching the systems that matter most, we've already learned how this organization's environment behaves.
 
@@ -263,7 +263,7 @@ In typical consulting, unexpected roadblocks threaten the whole engagement. Diff
 
 Our structure makes room for that differently. When something doesn't go as planned, we reorient. We rescope. We meet the new context rather than defending the old one. That's sometimes uncomfortable—it doesn't always look like what either party expected. But having the room and resources to do that together, rather than fighting about whose fault the change is, is what makes the difference.
 
-This isn't looseness—it's **contracts structured for how work actually unfolds**.
+This isn't looseness—it's **contracts structured for how work unfolds**.
 
 ---
 
@@ -276,7 +276,7 @@ This isn't looseness—it's **contracts structured for how work actually unfolds
 
 ### Trust as Infrastructure
 
-Good technology can't be separated from the relationships that create it. We don't finish understanding your organization and then start building—**the building is part of the understanding**. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When *trust and technology develop together*, what emerges actually fits how your organization operates.
+Good technology can't be separated from the relationships that create it. We don't finish understanding your organization and then start building—**the building is part of the understanding**. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When *trust and technology develop together*, what emerges fits how your organization operates.
 
 ---
 
