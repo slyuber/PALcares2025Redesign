@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, Mot
 import { useSafeInView } from "../lib/animation-constants";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE } from "../lib/animation-constants";
+import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST } from "../lib/animation-constants";
 import Image from "next/image";
 
 export default function Storytelling() {
@@ -24,11 +24,9 @@ export default function Storytelling() {
     offset: ["start start", "end end"],
   });
 
-  // Track if Storytelling section is in view for skip button visibility
-  const isStorytellingInView = useInView(containerRef, {
-    margin: "-45% 0px -45% 0px",
-    once: false // Re-evaluate as user scrolls
-  });
+  // Skip button visibility — gated on scroll progress, not IntersectionObserver
+  const showSkipRef = useRef(false);
+  const [showSkipButton, setShowSkipButton] = useState(false);
 
   // Track if mobile section is in view — gates infinite particle animations
   const isMobileInView = useInView(mobileStickyRef, {
@@ -82,11 +80,20 @@ export default function Storytelling() {
       lastIndexRef.current = newIndex;
       setActiveIndex(newIndex);
     }
+    // Skip button: visible after ecosystem color change, hidden near end
+    const shouldShowSkip = latest > 0.07 && latest < 0.8;
+    if (shouldShowSkip !== showSkipRef.current) {
+      showSkipRef.current = shouldShowSkip;
+      setShowSkipButton(shouldShowSkip);
+    }
   });
 
   // Direct MotionValue transforms for scroll-linked visuals
   // PERF: Removed no-op smoothProgress transform - use scrollYProgress directly
   const lineOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
+
+  // Scroll cue: brief appearance on section entry, gone before ecosystem color change completes
+  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.01, 0.04, 0.06], [0, 0.6, 0.6, 0]);
 
   // Two-state intro reveal - completes by 0.06 for early clarity
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.06], [0, 1]);
@@ -391,12 +398,10 @@ export default function Storytelling() {
                     Not three separate services—<span className="font-semibold">one approach</span> where each part strengthens&nbsp;the&nbsp;others.
                   </motion.p>
 
-                  {/* Scroll cue - fades out as user starts scrolling */}
+                  {/* Scroll cue - brief appearance, scroll-linked fade */}
                   <motion.div
                     className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: activeIndex === 0 ? 0.6 : 0 }}
-                    transition={{ duration: 0.4, ease: EASE_PREMIUM }}
+                    style={{ opacity: prefersReducedMotion ? (activeIndex === 0 ? 0.6 : 0) : scrollCueOpacity }}
                   >
                     <span className="text-xs text-[#5C306C]/60 tracking-[0.2em] uppercase mb-2">
                       Scroll
@@ -561,32 +566,36 @@ export default function Storytelling() {
             {`Viewing section ${activeIndex + 1} of 5`}
           </div>
 
-          {/* Skip affordance - only visible when Storytelling section is in view */}
-          {isStorytellingInView && activeIndex < 4 && (
-            <motion.button
-              type="button"
-              className="fixed bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/60 hover:text-[#5C306C]/80 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/95 z-[60] pointer-events-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966]"
-              initial={{ opacity: 1 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2, ease: EASE_SNAPPY }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const el = containerRef.current;
-                if (!el) return;
-                // Scroll to the end of the storytelling section (past the 500vh container)
-                const sectionEnd = el.offsetTop + el.offsetHeight;
-                window.scrollTo({ 
-                  top: sectionEnd, 
-                  behavior: prefersReducedMotion ? "auto" : "smooth" 
-                });
-              }}
-              aria-label="Skip to next section"
-            >
-              <span>Skip section</span>
-              <ArrowDown className="w-3 h-3" />
-            </motion.button>
-          )}
+          {/* Skip affordance - appears after ecosystem color change, fades out near end */}
+          <AnimatePresence>
+            {showSkipButton && (
+              <motion.button
+                key="skip-btn"
+                type="button"
+                className="fixed bottom-8 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/60 hover:text-[#5C306C]/80 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/90 backdrop-blur-sm shadow-sm z-[60] pointer-events-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966]"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: DURATION_FAST, ease: EASE_PREMIUM }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const el = containerRef.current;
+                  if (!el) return;
+                  // Scroll to the end of the storytelling section (past the 500vh container)
+                  const sectionEnd = el.offsetTop + el.offsetHeight;
+                  window.scrollTo({
+                    top: sectionEnd,
+                    behavior: prefersReducedMotion ? "auto" : "smooth"
+                  });
+                }}
+                aria-label="Skip to next section"
+              >
+                <span>Skip section</span>
+                <ArrowDown className="w-3 h-3" />
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
       </section>
     </>
