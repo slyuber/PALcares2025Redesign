@@ -129,7 +129,7 @@ export default function Contact() {
                 animate={leftInView ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
               >
-                Here's how we can help
+                We engage with organizations in different ways
               </motion.h2>
             </div>
 
@@ -139,7 +139,7 @@ export default function Contact() {
               animate={leftInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
             >
-              Educational workshops on data, infrastructure, or ethical technology. Placements and PAL-Labs information. Connections between organizations facing similar challenges. Embedded teams, shared resources or tools that might help. Technical support for a specific problem. Or just a conversation about what you&apos;re building.
+              Whatever brought you here&mdash;a specific challenge, a question about fit, or just curiosity about what we do&mdash;we&apos;re glad to talk. We read every message and respond personally.
             </motion.p>
 
             <div className="w-16 h-px bg-gradient-to-r from-[#FF9966]/50 to-transparent" />

@@ -14,9 +14,9 @@ import Footer from "./components/Footer";
 import LenisProvider from "./components/providers/LenisProvider";
 
 export const metadata = {
-  title: "PALcares | Technology Partnerships for Alberta's Social Services",
+  title: "PALcares | Technology That Strengthens Relationships",
   description:
-    "PALcares builds sustainable technology partnerships with Alberta's social service organizations. Embedded teams, open-source tools, and community-owned solutions on Treaty 6 & 7 territories.",
+    "PALcares embeds technical teams inside Alberta's social service organizations\u2014building the infrastructure and processes that let technology actually change with the work.",
   metadataBase: new URL("https://www.palcares.org"),
   openGraph: {
     title: "PALcares | Technology That Strengthens Relationships",

@@ -109,13 +109,12 @@ export default function NeedWeNoticed() {
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
               Across North America, organizations are questioning why technology
               that should serve communities often ends up extracting from them.
-              We&apos;re part of this broader conversation—but our focus is specific.
+              We&apos;re part of this broader conversation, but our focus is specific.
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
-              We believe{" "}
               <strong className="text-[#5C306C] font-semibold">
-                those closest to the work should shape the tools they use
+                Those closest to the work should shape the tools they use
               </strong>
               .{" "}
               <strong className="text-[#5C306C] font-semibold">
@@ -129,12 +128,12 @@ export default function NeedWeNoticed() {
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
-              This takes deliberate choices. Small, purposeful decisions:
+              We have a sense of how this work should be done.{" "}
               <span className="text-[#5C306C] font-medium">
-                nonprofit structure, multi-year commitments, open licensing,
+                Nonprofit structure, multi-year commitments, open licensing,
                 relationship-centered contracts
               </span>
-              . Together they give us the flexibility to work differently.
+              {" "}&mdash; these aren&apos;t branding. They&apos;re the decisions that give us a little more room to actually try it.
             </p>
           </motion.div>
 
@@ -145,7 +144,7 @@ export default function NeedWeNoticed() {
           >
             <div className="lg:pl-8 lg:border-l border-[#5C306C]/10">
               <p className="text-base md:text-lg text-[#5C306C]/70 leading-relaxed mb-6">
-                Our technical teams sit inside your organization before writing a line of code. Emerging talent and newcomers build local capacity through supervised placements. Solutions that prove themselves get released openly so the whole sector benefits.
+                Our technical teams learn how your organization works before deciding what to build. Students and newcomers develop skills through supervised placements with real scope. Solutions that prove themselves get released openly&mdash;the patterns, not your data.
               </p>
 
               <p className="text-[#5C306C] font-semibold text-base md:text-lg leading-relaxed">

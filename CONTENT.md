@@ -12,8 +12,8 @@
 
 | Field | Text |
 |-------|------|
-| Page title | PALcares \| Technology Partnerships for Alberta's Social Services |
-| Meta description | PALcares builds sustainable technology partnerships with Alberta's social service organizations. Embedded teams, open-source tools, and community-owned solutions on Treaty 6 & 7 territories. |
+| Page title | PALcares \| Technology That Strengthens Relationships |
+| Meta description | PALcares embeds technical teams inside Alberta's social service organizations—building the infrastructure and processes that let technology actually change with the work. |
 | OG title | PALcares \| Technology That Strengthens Relationships |
 | OG description | Embedded partnerships and open-source tools for Alberta's social sector. |
 | OG site name | PALcares |
@@ -29,7 +29,7 @@ Rotating brand words: **teams** / **labs** / **research** / **cares**
 
 Display sequence: `PAL – teams` ... `PAL – labs` ... `PAL – research` ... merges to **PALcares**
 
-Button: **Enter**
+Button: **Skip**
 
 ---
 
@@ -67,16 +67,13 @@ Button: **Enter**
 **Description:**
 > We're not here to transform the sector—we're here to support the organizations already doing transformative work.
 
-**Description (bold):**
-> **Genuine partnerships, not transactions.**
-
 **Location line:**
 > Supporting social service providers in Calgary, Edmonton, and surrounding areas
 
 | Button | Label |
 |--------|-------|
-| Primary | See How We Work |
-| Secondary | Start a Conversation |
+| Primary | Start a Conversation |
+| Secondary | See How We Work |
 
 **Scroll indicator:** "Scroll" (with aria-label "Scroll to learn more")
 
@@ -89,16 +86,16 @@ Button: **Enter**
 **Heading (h2):** We noticed a need in our communities.
 
 **Paragraph 1:**
-Across North America, organizations are questioning why technology that should serve communities often ends up extracting from them. We're part of this broader conversation—but our focus is specific.
+Across North America, organizations are questioning why technology that should serve communities often ends up extracting from them. We're part of this broader conversation, but our focus is specific.
 
 **Paragraph 2:**
-We believe **those closest to the work should shape the tools they use**. **What gets built should stay with the communities that helped create it**. **Builders and practitioners should work side by side**.
+**Those closest to the work should shape the tools they use**. **What gets built should stay with the communities that helped create it**. **Builders and practitioners should work side by side**.
 
 **Paragraph 3:**
-This takes deliberate choices. Small, purposeful decisions: *nonprofit structure, multi-year commitments, open licensing, relationship-centered contracts*. Together they give us the flexibility to work differently.
+We have a sense of how this work should be done. Nonprofit structure, multi-year commitments, open licensing, relationship-centered contracts — these aren't branding. They're the decisions that give us a little more room to actually try it.
 
 **Supporting text (right column):**
-Our technical teams sit inside your organization before writing a line of code. Emerging talent and newcomers build local capacity through supervised placements. Solutions that prove themselves get released openly so the whole sector benefits.
+Our technical teams learn how your organization works before deciding what to build. Students and newcomers develop skills through supervised placements with real scope. Solutions that prove themselves get released openly—the patterns, not your data.
 
 **Closing statement:**
 > **Sustainable technology starts with trust.**
@@ -125,15 +122,15 @@ Not three separate services—**one approach** where each part strengthens the o
 PAL Teams embeds technical staff directly within organizations for **multi-year partnerships**—building the relationships, processes, and infrastructure that let frontline expertise guide technology development.
 
 **Secondary description:**
-This is **capacity building through daily work**. Each tool we build addresses immediate needs while strengthening the connection between staff and their technical systems. We create the groundwork—**feedback loops, testing processes, communication channels**—that makes steady iteration possible.
+The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires someone inside the organization long enough to understand it.
 
 **Details:**
-The technical work ranges from urgent to strategic: the Excel formula that's mission-critical, the **automated reporting saving weekends**, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Multi-year commitment means we understand why that seemingly simple change is complex, **why that workaround actually works**.
+The technical work ranges from urgent to strategic: the Excel formula that's mission-critical, the **automated reporting saving weekends**, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, **why that workaround actually works**, and we're reachable when something doesn't.
 
 **Bullet points:**
 - Multi-year partnerships that give time to build relationships, processes, and real understanding
-- Contracts structured for flexibility—so roadblocks become problems to solve, not threats to the project
-- Feedback loops connecting staff to their technology—iteration that's affordable because the groundwork is already in place
+- Contracts structured for flexibility, so roadblocks become problems to solve, not threats to the project
+- Infrastructure built to make changes cheaper, faster, and lower-risk over time
 
 **Quote:**
 > Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them.
@@ -142,21 +139,21 @@ The technical work ranges from urgent to strategic: the Excel formula that's mis
 
 ## Storytelling — Panel 2: PAL Research
 
-**Label:** Turning Individual Investments into Sector Resources
+**Label:** Shared Solutions
 **Title:** PAL Research
 
 **Description:**
-PAL Research generalizes solutions built through PAL Teams partnerships and releases them under **open license**—so what works for one organization can benefit others across the sector.
+PAL Research takes solutions built through PAL Teams partnerships and works to release them under **open license**. What one organization's work produced, others don't have to rebuild from scratch.
 
 **Secondary description:**
-This is **knowledge transfer through proven solutions**. Every tool we generalize has survived daily use, been shaped by frontline feedback, solved real operational problems. We work through the relationships and channels that PAL Teams have already built—**carefully extracting the patterns**, stripping out anything specific to one organization while keeping what makes the solution work.
+This is knowledge transfer through proven solutions. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL Teams have already built—carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work.
 
 **Details:**
-What makes this possible is the **trust and working relationships built through embedded partnerships**. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they **emerged from actual use**, not theoretical design.
+What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from actual use, not theoretical design. The first tools built through this process are in testing now, with public releases coming.
 
 **Bullet points:**
-- Solutions proven through daily use before being generalized—not theoretical designs
-- Individual investments become collective resources—strengthening the sector without exposing organizational specifics
+- Generalization starts with the user base, not the solution: we find who needs it before deciding if it's worth building
+- Individual investments become collective resources—without exposing the organizational specifics behind them
 - Open licensing ensures tools stay with the community, not locked behind vendor agreements
 
 **Quote:**
@@ -170,21 +167,21 @@ What makes this possible is the **trust and working relationships built through 
 **Title:** PAL Labs
 
 **Description:**
-PAL Labs extends technical capacity to organizations through **supervised placements**—connecting emerging talent with real project needs while building on the relationships and systems that PAL Teams have already established.
+PAL Labs extends technical capacity to organizations through supervised placements—connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use. This isn't shadowing or administrative support.
 
 **Secondary description:**
-Labs builds on what Teams creates. The organizational understanding, the trusted relationships, the technical groundwork—all become the foundation for **meaningful placements**. A student generalizes an existing solution for sector-wide use. A newcomer builds custom tools for unique program needs. Someone transitioning careers creates data infrastructure. Different people, different skills, same structure: learn in our environments under mentorship, apply those skills where they're needed, leave something maintainable behind.
+Labs builds on what Teams creates. The organizational understanding, the established relationships, the documented systems—these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and the support is real.
 
 **Details:**
-We gather funding from foundations, government, and larger organizations who understand the sector-wide benefit, **pooling resources to run lean cohorts** where technical talent learns specialized skills. The technical work is sophisticated—data engineering, cloud architecture, custom development—but **connected to frontline reality** through existing relationships. That messy data isn't abstract; it represents real people receiving real services.
+Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally—which means organizations don't pay for it out of already-thin budgets. Placements run through the infrastructure Teams has already built: established relationships, documented systems, a clear sense of what's sensitive and what isn't. The work is real—data engineering, cloud architecture, custom tooling—and the context is what makes it meaningful. That messy data isn't abstract; it represents real people receiving real services.
 
 **Bullet points:**
-- Meaningful local placements that keep technical talent connected to Alberta communities
-- Professional-level help for organizations that couldn't otherwise afford it—without the administrative burden
+- Local placements that keep students and newcomers connected to Alberta communities and the sector's actual work
+- Labs placements are fully funded—no financial cost to the receiving organization
 - Sustainable handoffs—every project leaves something maintainable behind
 
 **Quote:**
-> A Waterloo engineering student completed his co-op term locally through PALcares. Working in our environment first under mentorship, then with real data—cleaning years of messy information to answer a specific operational question under a deadline. The organization gets expertise they couldn't otherwise afford. The student sees technical skills applied in the social service sector in his own community.
+> A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with actual stakes.
 
 ---
 
@@ -228,7 +225,7 @@ We gather funding from foundations, government, and larger organizations who und
 **Heading (h2):** Our Approach
 
 **Subtitle:**
-What makes partnership like this possible—and why it matters.
+What makes partnership like this possible, and why it matters.
 
 ---
 
@@ -238,11 +235,15 @@ We **inherit whatever you have**. That Excel sheet from 2008 holds years of **in
 
 ---
 
-### Beat 2 — Expertise That Shapes Development
+### Beat 2 — Building Infrastructure Before Changing Systems
 
-The people using these tools every day hold knowledge that doesn't show up in a requirements document. They're connected to communities, to the work, to the reality this technology has to serve. Without that shaping development, what gets built doesn't fit. It doesn't improve things in ways that last.
+Frontline staff know what doesn't appear in any requirements document. That knowledge should shape technology development—but it only does if two things are true.
 
-So we build systems where **frontline insight holds real weight**. Where **feedback connects directly to what gets built next**. Where there's enough safety to try something, learn from it, and adjust.
+First: a relationship where feedback actually travels. Staff tell you what isn't working when they trust it won't create problems and believe something will happen as a result.
+
+Second, and harder: the infrastructure to act on that feedback safely. We work through smaller, lower-stakes things first—not to delay, but because that's where surprises surface while there's still room to handle them. By the time we're touching the systems that matter most, we've already learned how this organization's environment behaves.
+
+That's the sequence. Relationship first, infrastructure second. Both have to exist before feedback does anything useful.
 
 ---
 
@@ -250,17 +251,17 @@ So we build systems where **frontline insight holds real weight**. Where **feedb
 
 Short project timelines reward deliverables over understanding, handoffs over relationships. Our structure buys us something most consultancies can't offer: time. Time to understand before prescribing. Time for relationships that outlast individual projects.
 
-That means iteration becomes affordable once trust is established. **A report adjustment isn't a new project, it's a conversation**. A database change doesn't require a new contract—it requires a Tuesday morning call.
+That means iteration becomes affordable once the foundation exists. **A report adjustment isn't a new project, it's a conversation**. A database change doesn't require a new contract—it requires a Tuesday morning call.
 
-Most nonprofits have graveyards of abandoned systems. **We stay. We adapt.** Knowledge transfers through the work itself, not just documentation handed over at the end.
+Technology projects fail at a predictable point: when the relationship ends and the system has to survive without the people who understood it. **We stay. We adapt.** When our team changes—and it will—knowledge lives in the systems, processes, and documentation we've built together, not only in whoever's currently on your file. Knowledge transfers through the work itself, not just documentation handed over at the end.
 
 ---
 
 ### Beat 4 — When Plans Change
 
-In typical consulting, unexpected roadblocks threaten the whole engagement. You discover you need different personnel, or data that has to be gathered first, or requirements that shifted—and suddenly you're over budget or starting the RFP process again.
+In typical consulting, unexpected roadblocks threaten the whole engagement. Different personnel needed, data to gather first, requirements that shifted—suddenly you're over budget or restarting the RFP process.
 
-Our structure absorbs that differently. **Roadblocks become problems to solve together**, not threats to the project. Team composition adjusts to actual needs, not what was promised six months ago. The work continues even when the specifics shift.
+Our structure makes room for that differently. When something doesn't go as planned, we reorient. We rescope. We meet the new context rather than defending the old one. That's sometimes uncomfortable—it doesn't always look like what either party expected. But having the room and resources to do that together, rather than fighting about whose fault the change is, is what makes the difference.
 
 This isn't looseness—it's **contracts structured for how work actually unfolds**.
 
@@ -275,25 +276,27 @@ This isn't looseness—it's **contracts structured for how work actually unfolds
 
 ### Trust as Infrastructure
 
-Good technology can't be separated from the relationships that create it. We don't finish understanding your organization and then start building—**the building is part of the understanding**. The small fixes, the documentation, the patient learning alongside your team—that IS the technical work. When *trust and technology develop together*, what emerges actually fits how your organization operates.
+Good technology can't be separated from the relationships that create it. We don't finish understanding your organization and then start building—**the building is part of the understanding**. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When *trust and technology develop together*, what emerges actually fits how your organization operates.
 
 ---
 
 ### Community Ownership
 
-What we build together comes from your organization's knowledge and the communities you serve. It shouldn't be locked in proprietary systems or sold back to you. **Tools shaped by community expertise belong to the people who shaped them**—to use, change, and share freely.
+What we build together comes from your organization's knowledge and the communities you serve. It shouldn't be locked in proprietary systems or sold back to you. **Tools shaped by community expertise belong to the people who shaped them**, to use, change, and share freely. That's not a philosophy we apply at the end of an engagement. It's built into how we license what we create.
 
 ---
 
 ### Data Sovereignty
 
-Indigenous-led movements, including *OCAP principles* here in Alberta, have shown that data about communities should be governed by those communities. We're learning from that leadership. When organizations lose control of their data through vendor lock-in or proprietary systems, they can no longer tell their own stories or advocate on their own terms. **Your data stays yours. Full stop.**
+Indigenous-led movements, including *OCAP principles* here in Alberta, have shown that data about communities should be governed by those communities. We're learning from that leadership. The data your organization holds isn't really organizational data—it's data about the people you serve. When organizations lose control of it through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms.
+
+Where we inherit systems that don't yet support data portability, moving toward it is part of the work. Your data stays yours. That's the goal, and when it isn't the current state, it's what we're building toward.
 
 ---
 
 ### Building Capacity, Not Dependency
 
-We don't aim to stay forever—but we'll stay as long as we're needed. Some organizations choose deep, ongoing collaboration; others gradually take the lead. Either way, technology partnerships should **leave your organization stronger**—with *real skills transferred*, not a binder and a handshake.
+We don't aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn't dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability—not a binder and a handshake, and not a dependency we've dressed up as a partnership.
 
 ---
 
@@ -337,16 +340,14 @@ We don't aim to stay forever—but we'll stay as long as we're needed. Some orga
 
 **Section label:** Let's Connect
 
-**Heading (h2):** Here's how we can help
+**Heading (h2):** We engage with organizations in different ways
 
 **Description:**
-Educational workshops on data, infrastructure, or ethical technology. Placements and PAL-Labs information. Connections between organizations facing similar challenges. Embedded teams, shared resources or tools that might help. Technical support for a specific problem. Or just a conversation about what you're building.
+Whatever brought you here—a specific challenge, a question about fit, or just curiosity about what we do—we're glad to talk. We read every message and respond personally.
 
 **Email:** support@palcares.ca
 
-**Location:**
-- Treaty 6 & Treaty 7 Territories
-- Calgary & Edmonton, Alberta
+**Location:** Calgary & Edmonton, Alberta
 
 ### Contact Form
 
@@ -372,7 +373,7 @@ Educational workshops on data, infrastructure, or ethical technology. Placements
 
 ## Footer
 
-**Tagline:** Building sustainable data infrastructure for Alberta's social services.
+**Tagline:** Embedded technology partnerships for Alberta's social services.
 
 **Location:** Serving Calgary, Edmonton & surrounding areas
 
@@ -407,3 +408,4 @@ Educational workshops on data, infrastructure, or ethical technology. Placements
 1. **Testimonial 2 is a placeholder** — needs real content from a partner.
 2. **Contact form and newsletter have no backend** — submissions are faked with setTimeout.
 3. **Content source split**: `app/lib/site-content.ts` holds Hero + Testimonials content. All other sections hardcode their text directly in component `.tsx` files.
+4. **PAL Research** — first open license releases expected within ~3 months. Update the Research description (remove "in testing, with public releases coming") once tools go live and link to them.

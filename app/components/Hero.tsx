@@ -213,8 +213,7 @@ export default function Hero() {
               ease: EASE_OUT_CUBIC,
             }}
           >
-            {hero.description}{" "}
-            <span className="font-semibold text-[#5C306C]">{hero.descriptionBold}</span>
+            {hero.description}
           </motion.p>
 
           <motion.p
@@ -233,7 +232,10 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <motion.button
               type="button"
-              onClick={handleScrollToStorytelling}
+              onClick={() => {
+                const el = document.getElementById("contact");
+                if (el) scrollTo(el, { duration: SCROLL_DURATION_HERO });
+              }}
               className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
               whileHover={prefersReducedMotion ? {} : {
                 scale: 1.02,
@@ -246,10 +248,7 @@ export default function Hero() {
             </motion.button>
             <motion.button
               type="button"
-              onClick={() => {
-                const el = document.getElementById("contact");
-                if (el) scrollTo(el, { duration: SCROLL_DURATION_HERO });
-              }}
+              onClick={handleScrollToStorytelling}
               className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C]/80 bg-[#5C306C]/[0.06] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"
               whileHover={prefersReducedMotion ? {} : {
                 scale: 1.02,

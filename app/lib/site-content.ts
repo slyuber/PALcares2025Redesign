@@ -23,14 +23,12 @@ export const hero = {
     line2: "your work depends on",
   },
 
-  description: "We're not here to transform the sector—we're here to support the organizations already doing transformative work.",
-
-  descriptionBold: "Genuine partnerships, not transactions.",
+  description: "We\u2019re not here to transform the sector\u2014we\u2019re here to support the organizations already doing transformative work.",
 
   location: "Supporting social service providers in Calgary, Edmonton, and surrounding areas",
 
-  buttonPrimary: "See How We Work",
-  buttonSecondary: "Start a Conversation",
+  buttonPrimary: "Start a Conversation",
+  buttonSecondary: "See How We Work",
 };
 
 // ----------------------------------------------------------------------------

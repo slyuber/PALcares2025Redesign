@@ -80,7 +80,7 @@ export default function DeeperContext() {
           <p
             className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-light max-w-2xl mx-auto lg:whitespace-nowrap"
           >
-            What makes partnership like this possible—and why it matters.
+            What makes partnership like this possible, and why it matters.
           </p>
         </div>
 
@@ -109,18 +109,24 @@ export default function DeeperContext() {
             <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8FAE8B] ring-4 ring-[#8FAE8B]/20" />
           </AnimatedBeat>
 
-          {/* Beat 2: Expertise That Shapes Development - RIGHT */}
+          {/* Beat 2: Building Infrastructure Before Changing Systems - RIGHT */}
           <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-24" delay={0.1}>
             <div className="hidden md:block" />
             <div className="md:pl-10">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
-                Expertise That Shapes Development
+                Building Infrastructure Before Changing Systems
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                The people using these tools every day hold knowledge that doesn&apos;t show up in a requirements document. They&apos;re connected to communities, to the work, to the reality this technology has to serve. Without that shaping development, what gets built doesn&apos;t fit. It doesn&apos;t improve things in ways that last.
+                Frontline staff know what doesn&apos;t appear in any requirements document. That knowledge should shape technology development&mdash;but it only does if two things are true.
+              </p>
+              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
+                First: a relationship where feedback actually travels. Staff tell you what isn&apos;t working when they trust it won&apos;t create problems and believe something will happen as a result.
+              </p>
+              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
+                Second, and harder: the infrastructure to act on that feedback safely. We work through smaller, lower-stakes things first&mdash;not to delay, but because that&apos;s where surprises surface while there&apos;s still room to handle them. By the time we&apos;re touching the systems that matter most, we&apos;ve already learned how this organization&apos;s environment behaves.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                So we build systems where <strong className="font-semibold text-[#5C306C]">frontline insight holds real weight</strong>. Where <strong className="font-semibold text-[#5C306C]">feedback connects directly to what gets built next</strong>. Where there&apos;s enough safety to try something, learn from it, and adjust.
+                That&apos;s the sequence. Relationship first, infrastructure second. Both have to exist before feedback does anything useful.
               </p>
             </div>
             <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#FF9966] ring-4 ring-[#FF9966]/20" />
@@ -136,10 +142,10 @@ export default function DeeperContext() {
                 Short project timelines reward deliverables over understanding, handoffs over relationships. Our structure buys us something most consultancies can&apos;t offer: time. Time to understand before prescribing. Time for relationships that outlast individual projects.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                That means iteration becomes affordable once trust is established. <strong className="font-semibold text-[#5C306C]">A report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>. A database change doesn&apos;t require a new contract—it requires a Tuesday morning call.
+                That means iteration becomes affordable once the foundation exists. <strong className="font-semibold text-[#5C306C]">A report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>. A database change doesn&apos;t require a new contract&mdash;it requires a Tuesday morning call.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                Most nonprofits have graveyards of abandoned systems. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> Knowledge transfers through the work itself, not just documentation handed over at the end.
+                Technology projects fail at a predictable point: when the relationship ends and the system has to survive without the people who understood it. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> When our team changes&mdash;and it will&mdash;knowledge lives in the systems, processes, and documentation we&apos;ve built together, not only in whoever&apos;s currently on your file. Knowledge transfers through the work itself, not just documentation handed over at the end.
               </p>
             </div>
             <div className="hidden md:block" />
@@ -154,10 +160,10 @@ export default function DeeperContext() {
                 When Plans Change
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                In typical consulting, unexpected roadblocks threaten the whole engagement. You discover you need different personnel, or data that has to be gathered first, or requirements that shifted—and suddenly you&apos;re over budget or starting the RFP process again.
+                In typical consulting, unexpected roadblocks threaten the whole engagement. Different personnel needed, data to gather first, requirements that shifted&mdash;suddenly you&apos;re over budget or restarting the RFP process.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Our structure absorbs that differently. <strong className="font-semibold text-[#5C306C]">Roadblocks become problems to solve together</strong>, not threats to the project. Team composition adjusts to actual needs, not what was promised six months ago. The work continues even when the specifics shift.
+                Our structure makes room for that differently. When something doesn&apos;t go as planned, we reorient. We rescope. We meet the new context rather than defending the old one. That&apos;s sometimes uncomfortable&mdash;it doesn&apos;t always look like what either party expected. But having the room and resources to do that together, rather than fighting about whose fault the change is, is what makes the difference.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 This isn&apos;t looseness—it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work actually unfolds</strong>.

@@ -156,12 +156,12 @@ export default function Storytelling() {
               label="Embedded Partnerships"
               title="PAL Teams"
               description="PAL Teams embeds technical staff directly within organizations for multi-year partnerships—building the relationships, processes, and infrastructure that let frontline expertise guide technology development."
-              secondaryDescription="This is capacity building through daily work. Each tool we build addresses immediate needs while strengthening the connection between staff and their technical systems. We create the groundwork—feedback loops, testing processes, communication channels—that makes steady iteration possible."
-              details="The technical work ranges from urgent to strategic: the Excel formula that's mission-critical, the automated reporting saving weekends, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Multi-year commitment means we understand why that seemingly simple change is complex, why that workaround actually works."
+              secondaryDescription="The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires someone inside the organization long enough to understand it."
+              details="The technical work ranges from urgent to strategic: the Excel formula that's mission-critical, the automated reporting saving weekends, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, why that workaround actually works, and we're reachable when something doesn't."
               items={[
                 "Multi-year partnerships that give time to build relationships, processes, and real understanding",
-                "Contracts structured for flexibility—so roadblocks become problems to solve, not threats to the project",
-                "Feedback loops connecting staff to their technology—iteration that's affordable because the groundwork is already in place"
+                "Contracts structured for flexibility, so roadblocks become problems to solve, not threats to the project",
+                "Infrastructure built to make changes cheaper, faster, and lower-risk over time"
               ]}
               quote="Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them."
             />
@@ -170,14 +170,14 @@ export default function Storytelling() {
             <ContentPanelMobile
               id="mobile-panel-research"
               icon={<BookOpen className="w-6 h-6 text-[#FF9966]" />}
-              label="Turning Individual Investments into Sector Resources"
+              label="Shared Solutions"
               title="PAL Research"
-              description="PAL Research generalizes solutions built through PAL Teams partnerships and releases them under open license—so what works for one organization can benefit others across the sector."
-              secondaryDescription="This is knowledge transfer through proven solutions. Every tool we generalize has survived daily use, been shaped by frontline feedback, solved real operational problems. We work through the relationships and channels that PAL Teams have already built—carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work."
-              details="What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from actual use, not theoretical design."
+              description="PAL Research takes solutions built through PAL Teams partnerships and works to release them under open license. What one organization's work produced, others don't have to rebuild from scratch."
+              secondaryDescription="This is knowledge transfer through proven solutions. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL Teams have already built—carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work."
+              details="What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from actual use, not theoretical design. The first tools built through this process are in testing now, with public releases coming."
               items={[
-                "Solutions proven through daily use before being generalized—not theoretical designs",
-                "Individual investments become collective resources—strengthening the sector without exposing organizational specifics",
+                "Generalization starts with the user base, not the solution: we find who needs it before deciding if it's worth building",
+                "Individual investments become collective resources—without exposing the organizational specifics behind them",
                 "Open licensing ensures tools stay with the community, not locked behind vendor agreements"
               ]}
               quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
@@ -189,15 +189,15 @@ export default function Storytelling() {
               icon={<Sprout className="w-6 h-6 text-[#FF9966]" />}
               label="Building Local Capacity"
               title="PAL Labs"
-              description="PAL Labs extends technical capacity to organizations through supervised placements—connecting emerging talent with real project needs while building on the relationships and systems that PAL Teams have already established."
-              secondaryDescription="Labs builds on what Teams creates. The organizational understanding, the trusted relationships, the technical groundwork—all become the foundation for meaningful placements. A student generalizes an existing solution for sector-wide use. A newcomer builds custom tools for unique program needs. Someone transitioning careers creates data infrastructure. Different people, different skills, same structure: learn in our environments under mentorship, apply those skills where they're needed, leave something maintainable behind."
-              details="We gather funding from foundations, government, and larger organizations who understand the sector-wide benefit, pooling resources to run lean cohorts where technical talent learns specialized skills. The technical work is sophisticated—data engineering, cloud architecture, custom development—but connected to frontline reality through existing relationships. That messy data isn't abstract; it represents real people receiving real services."
+              description="PAL Labs extends technical capacity to organizations through supervised placements—connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use. This isn't shadowing or administrative support."
+              secondaryDescription="Labs builds on what Teams creates. The organizational understanding, the established relationships, the documented systems—these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and the support is real."
+              details="Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally—which means organizations don't pay for it out of already-thin budgets. Placements run through the infrastructure Teams has already built: established relationships, documented systems, a clear sense of what's sensitive and what isn't. The work is real—data engineering, cloud architecture, custom tooling—and the context is what makes it meaningful. That messy data isn't abstract; it represents real people receiving real services."
               items={[
-                "Meaningful local placements that keep technical talent connected to Alberta communities",
-                "Professional-level help for organizations that couldn't otherwise afford it—without the administrative burden",
+                "Local placements that keep students and newcomers connected to Alberta communities and the sector's actual work",
+                "Labs placements are fully funded—no financial cost to the receiving organization",
                 "Sustainable handoffs—every project leaves something maintainable behind"
               ]}
-              quote="A Waterloo engineering student completed his co-op term locally through PALcares. Working in our environment first under mentorship, then with real data—cleaning years of messy information to answer a specific operational question under a deadline. The organization gets expertise they couldn't otherwise afford. The student sees technical skills applied in the social service sector in his own community."
+              quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with actual stakes."
             />
 
             {/* Panel 4: Ecosystem Summary - MOBILE with triangle + particles */}
@@ -428,13 +428,13 @@ export default function Storytelling() {
                 icon={<Users className="w-6 h-6 text-[#FF9966]" />}
                 label="Embedded Partnerships"
                 title="PAL Teams"
-                description={<>PAL <span className="font-semibold text-[#FF9966]">Teams</span> embeds technical staff directly within organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>—building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
-                secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">capacity building through daily work</strong>. Each tool we build addresses immediate needs while strengthening the connection between staff and their technical systems. We create the groundwork—<strong className="font-semibold text-[#5C306C]">feedback loops, testing processes, communication channels</strong>—that makes steady iteration possible.</>}
-                details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround actually works</strong>.</>}
+                description={<>PAL <span className="font-semibold text-[#FF9966]">Teams</span> embeds technical staff directly within organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>&mdash;building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
+                secondaryDescription={<>The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires someone inside the organization long enough to understand it.</>}
+                details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround actually works</strong>, and we&apos;re reachable when something doesn&apos;t.</>}
                 items={[
                   "Multi-year partnerships that give time to build relationships, processes, and real understanding",
-                  "Contracts structured for flexibility—so roadblocks become problems to solve, not threats to the project",
-                  "Feedback loops connecting staff to their technology—iteration that's affordable because the groundwork is already in place"
+                  "Contracts structured for flexibility, so roadblocks become problems to solve, not threats to the project",
+                  "Infrastructure built to make changes cheaper, faster, and lower-risk over time"
                 ]}
                 quote="Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them."
                 prefersReducedMotion={prefersReducedMotion}
@@ -445,14 +445,14 @@ export default function Storytelling() {
               <ContentPanel
                 active={activeIndex === 2}
                 icon={<BookOpen className="w-6 h-6 text-[#FF9966]" />}
-                label="Turning Individual Investments into Sector Resources"
+                label="Shared Solutions"
                 title="PAL Research"
-                description={<>PAL <span className="font-semibold text-[#FF9966]">Research</span> generalizes solutions built through PAL <span className="font-semibold text-[#FF9966]">Teams</span> partnerships and releases them under <strong className="font-semibold text-[#5C306C]">open license</strong>—so what works for one organization can benefit others across the sector.</>}
-                secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">knowledge transfer through proven solutions</strong>. Every tool we generalize has survived daily use, been shaped by frontline feedback, solved real operational problems. We work through the relationships and channels that PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already built—<strong className="font-semibold text-[#5C306C]">carefully extracting the patterns</strong>, stripping out anything specific to one organization while keeping what makes the solution work.</>}
-                details={<>What makes this possible is the <strong className="font-semibold text-[#5C306C]">trust and working relationships built through embedded partnerships</strong>. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they <strong className="font-semibold text-[#5C306C]">emerged from actual use</strong>, not theoretical design.</>}
+                description={<>PAL <span className="font-semibold text-[#FF9966]">Research</span> takes solutions built through PAL <span className="font-semibold text-[#FF9966]">Teams</span> partnerships and works to release them under <strong className="font-semibold text-[#5C306C]">open license</strong>. What one organization&apos;s work produced, others don&apos;t have to rebuild from scratch.</>}
+                secondaryDescription={<>This is knowledge transfer through proven solutions. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already built&mdash;carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work.</>}
+                details={<>What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from actual use, not theoretical design. The first tools built through this process are in testing now, with public releases coming.</>}
                 items={[
-                  "Solutions proven through daily use before being generalized—not theoretical designs",
-                  "Individual investments become collective resources—strengthening the sector without exposing organizational specifics",
+                  "Generalization starts with the user base, not the solution: we find who needs it before deciding if it's worth building",
+                  "Individual investments become collective resources—without exposing the organizational specifics behind them",
                   "Open licensing ensures tools stay with the community, not locked behind vendor agreements"
                 ]}
                 quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
@@ -466,15 +466,15 @@ export default function Storytelling() {
                 icon={<Sprout className="w-6 h-6 text-[#FF9966]" />}
                 label="Building Local Capacity"
                 title="PAL Labs"
-                description={<>PAL <span className="font-semibold text-[#FF9966]">Labs</span> extends technical capacity to organizations through <strong className="font-semibold text-[#5C306C]">supervised placements</strong>—connecting emerging talent with real project needs while building on the relationships and systems that PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already established.</>}
-                secondaryDescription={<>Labs builds on what Teams creates. The organizational understanding, the trusted relationships, the technical groundwork—all become the foundation for <strong className="font-semibold text-[#5C306C]">meaningful placements</strong>. A student generalizes an existing solution for sector-wide use. A newcomer builds custom tools for unique program needs. Someone transitioning careers creates data infrastructure. Different people, different skills, same structure: learn in our environments under mentorship, apply those skills where they&apos;re needed, leave something maintainable behind.</>}
-                details={<>We gather funding from foundations, government, and larger organizations who understand the sector-wide benefit, <strong className="font-semibold text-[#5C306C]">pooling resources to run lean cohorts</strong> where technical talent learns specialized skills. The technical work is sophisticated—data engineering, cloud architecture, custom development—but <strong className="font-semibold text-[#5C306C]">connected to frontline reality</strong> through existing relationships. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
+                description={<>PAL <span className="font-semibold text-[#FF9966]">Labs</span> extends technical capacity to organizations through <strong className="font-semibold text-[#5C306C]">supervised placements</strong>&mdash;connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use. This isn&apos;t shadowing or administrative support.</>}
+                secondaryDescription={<>Labs builds on what Teams creates. The organizational understanding, the established relationships, the documented systems&mdash;these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and the support is real.</>}
+                details={<>Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally&mdash;which means organizations don&apos;t pay for it out of already-thin budgets. Placements run through the infrastructure Teams has already built: established relationships, documented systems, a clear sense of what&apos;s sensitive and what isn&apos;t. The work is real&mdash;data engineering, cloud architecture, custom tooling&mdash;and the context is what makes it meaningful. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
                 items={[
-                  "Meaningful local placements that keep technical talent connected to Alberta communities",
-                  "Professional-level help for organizations that couldn't otherwise afford it—without the administrative burden",
+                  "Local placements that keep students and newcomers connected to Alberta communities and the sector's actual work",
+                  "Labs placements are fully funded—no financial cost to the receiving organization",
                   "Sustainable handoffs—every project leaves something maintainable behind"
                 ]}
-                quote="A Waterloo engineering student completed his co-op term locally through PALcares. Working in our environment first under mentorship, then with real data—cleaning years of messy information to answer a specific operational question under a deadline. The organization gets expertise they couldn't otherwise afford. The student sees technical skills applied in the social service sector in his own community."
+                quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with actual stakes."
                 prefersReducedMotion={prefersReducedMotion}
                 fillProgress={labsFillClamped}
               />

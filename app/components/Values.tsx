@@ -122,7 +122,7 @@ export default function Values() {
               {values[0].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              Good technology can't be separated from the relationships that create it. We don't finish understanding your organization and then start building—<strong className="font-semibold text-[#4A2756]">the building is part of the understanding</strong>. The small fixes, the documentation, the patient learning alongside your team—that IS the technical work. When <span className="font-medium">trust and technology develop together</span>, what emerges actually fits how your organization operates.
+              Good technology can&apos;t be separated from the relationships that create it. We don&apos;t finish understanding your organization and then start building&mdash;<strong className="font-semibold text-[#4A2756]">the building is part of the understanding</strong>. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When <span className="font-medium">trust and technology develop together</span>, what emerges actually fits how your organization operates.
             </p>
           </motion.div>
 
@@ -150,7 +150,7 @@ export default function Values() {
               {values[1].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              What we build together comes from your organization's knowledge and the communities you serve. It shouldn't be locked in proprietary systems or sold back to you. <strong className="font-semibold text-[#4A2756]">Tools shaped by community expertise belong to the people who shaped them</strong>—to use, change, and share freely.
+              What we build together comes from your organization&apos;s knowledge and the communities you serve. It shouldn&apos;t be locked in proprietary systems or sold back to you. <strong className="font-semibold text-[#4A2756]">Tools shaped by community expertise belong to the people who shaped them</strong>, to use, change, and share freely. That&apos;s not a philosophy we apply at the end of an engagement. It&apos;s built into how we license what we create.
             </p>
           </motion.div>
 
@@ -178,7 +178,7 @@ export default function Values() {
               {values[2].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              Indigenous-led movements, including <span className="font-medium">OCAP principles</span> here in Alberta, have shown that data about communities should be governed by those communities. We're learning from that leadership. When organizations lose control of their data through vendor lock-in or proprietary systems, they can no longer tell their own stories or advocate on their own terms. <strong className="font-semibold text-[#4A2756]">Your data stays yours. Full stop.</strong>
+              Indigenous-led movements, including <span className="font-medium">OCAP principles</span> here in Alberta, have shown that data about communities should be governed by those communities. We&apos;re learning from that leadership. The data your organization holds isn&apos;t really organizational data&mdash;it&apos;s data about the people you serve. When organizations lose control of it through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms. Where we inherit systems that don&apos;t yet support data portability, moving toward it is part of the work. <strong className="font-semibold text-[#4A2756]">Your data stays yours.</strong> That&apos;s the goal, and when it isn&apos;t the current state, it&apos;s what we&apos;re building toward.
             </p>
           </motion.div>
 
@@ -206,7 +206,7 @@ export default function Values() {
               {values[3].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              We don't aim to stay forever—but we'll stay as long as we're needed. Some organizations choose deep, ongoing collaboration; others gradually take the lead. Either way, technology partnerships should <strong className="font-semibold text-[#4A2756]">leave your organization stronger</strong>—with <span className="font-medium">real skills transferred</span>, not a binder and a handshake.
+              We don&apos;t aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn&apos;t dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability&mdash;not a binder and a handshake, and not a dependency we&apos;ve dressed up as a partnership.
             </p>
           </motion.div>
         </div>

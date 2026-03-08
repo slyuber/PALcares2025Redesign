@@ -59,7 +59,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-[#5C306C]/85 text-sm leading-relaxed max-w-[280px]">
-              Building sustainable data infrastructure for Alberta&apos;s social services.
+              Embedded technology partnerships for Alberta&apos;s social services.
             </p>
             <div className="space-y-1.5 text-xs text-[#5C306C]/60">
               <p>Serving Calgary, Edmonton & surrounding areas</p>
