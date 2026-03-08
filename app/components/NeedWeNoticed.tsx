@@ -143,7 +143,7 @@ export default function NeedWeNoticed() {
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
               We believe{" "}
               <strong className="text-[#5C306C] font-semibold">
-                the people closest to the work should shape the tools they use
+                those closest to the work should shape the tools they use
               </strong>
               .{" "}
               <strong className="text-[#5C306C] font-semibold">
@@ -151,7 +151,7 @@ export default function NeedWeNoticed() {
               </strong>
               .{" "}
               <strong className="text-[#5C306C] font-semibold">
-                The people who know the code and the people who know the work should build side by side
+                Builders and practitioners should work side by side
               </strong>
               .
             </p>
