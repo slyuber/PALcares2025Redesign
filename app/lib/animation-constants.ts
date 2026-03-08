@@ -64,6 +64,22 @@ export const DURATION_NORMAL = 0.4; // Content transitions, expand/collapse
 export const DURATION_SLOW = 0.6; // Large layout changes, hero animations
 
 /**
+ * Programmatic Scroll Durations (seconds)
+ * Used with Lenis scrollTo — NOT for CSS/Framer animations.
+ *
+ * Award-winning scroll feel: short, decisive, never floaty.
+ * - Under 0.6s feels twitchy for long distances
+ * - Over 1.2s feels sluggish/floaty
+ * - Sweet spot: 0.8–1.0s for most interactions
+ */
+export const SCROLL_DURATION_SNAP = 0.8; // Snap scroll, progress rail clicks
+export const SCROLL_DURATION_NAV = 1.0;  // Nav menu clicks, skip buttons
+export const SCROLL_DURATION_HERO = 1.2; // Long-distance scroll from hero
+
+/** Standard offset to clear the fixed header */
+export const SCROLL_HEADER_OFFSET = -100;
+
+/**
  * Mobile-Optimized Durations (2025)
  * Shorter durations for snappier mobile experience
  */

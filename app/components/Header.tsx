@@ -8,7 +8,8 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, 
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { useLenis } from "lenis/react";
-import { EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY } from "../lib/animation-constants";
+import { EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY, SCROLL_DURATION_NAV, SCROLL_HEADER_OFFSET } from "../lib/animation-constants";
+import { useScrollTo } from "../lib/use-scroll-to";
 
 interface NavItem {
   id: string;
@@ -30,8 +31,9 @@ export default function Header() {
   const prefersReducedMotion = useReducedMotion();
   const router = useRouter();
   const pathname = usePathname();
-  const lenis = useLenis();
-  
+  const lenis = useLenis(); // kept for lenis.stop() / lenis.start() in menu logic
+  const scrollToTarget = useScrollTo();
+
   // Logo visibility: scroll-linked crossfade with hero logo
   const { scrollY, scrollYProgress } = useScroll();
   // Smooth fade-in that overlaps with hero logo fade-out ([100, 250])
@@ -173,16 +175,10 @@ export default function Header() {
         : 0;
 
       const performScroll = () => {
-        // Use Lenis for smooth scrolling, with native fallback for slow devices
-        if (lenis) {
-          lenis.scrollTo(element, {
-            offset: additionalOffset - 100, // -100 for header clearance
-            duration: 1.2,
-          });
-        } else {
-          // Fallback: native smooth scroll if Lenis not ready
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        scrollToTarget(element, {
+          offset: additionalOffset + SCROLL_HEADER_OFFSET,
+          duration: SCROLL_DURATION_NAV,
+        });
       };
 
       if (wasMenuOpen) {

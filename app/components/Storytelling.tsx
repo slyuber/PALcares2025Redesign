@@ -6,7 +6,8 @@ import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, Mot
 import { useSafeInView } from "../lib/animation-constants";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST } from "../lib/animation-constants";
+import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST, SCROLL_DURATION_SNAP, SCROLL_DURATION_NAV } from "../lib/animation-constants";
+import { useScrollTo } from "../lib/use-scroll-to";
 import Image from "next/image";
 
 export default function Storytelling() {
@@ -16,6 +17,7 @@ export default function Storytelling() {
   const mobileStickyRef = useRef<HTMLDivElement>(null);
   const mobileContentRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const scrollTo = useScrollTo();
   const [headerHeight, setHeaderHeight] = useState(0);
 
   // Desktop scroll tracking
@@ -498,7 +500,7 @@ export default function Storytelling() {
                   const scrollRange = Math.max(1, el.offsetHeight - window.innerHeight);
                   const p = Math.min(0.999, Math.max(0.001, (i + 0.12) / 5));
                   const target = top + (p * scrollRange);
-                  window.scrollTo({ top: target, behavior: prefersReducedMotion ? "auto" : "smooth" });
+                  scrollTo(target, { duration: SCROLL_DURATION_SNAP });
                 };
 
                 return [0, 1, 2, 3, 4].map((i) => (
@@ -582,12 +584,8 @@ export default function Storytelling() {
                   e.stopPropagation();
                   const el = containerRef.current;
                   if (!el) return;
-                  // Scroll to the end of the storytelling section (past the 500vh container)
                   const sectionEnd = el.offsetTop + el.offsetHeight;
-                  window.scrollTo({
-                    top: sectionEnd,
-                    behavior: prefersReducedMotion ? "auto" : "smooth"
-                  });
+                  scrollTo(sectionEnd, { duration: SCROLL_DURATION_NAV });
                 }}
                 aria-label="Skip to next section"
               >

@@ -7,20 +7,17 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { useLenis } from "lenis/react";
 import { hero } from "../lib/site-content";
-import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY } from "../lib/animation-constants";
+import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY, SCROLL_DURATION_HERO } from "../lib/animation-constants";
+import { useScrollTo } from "../lib/use-scroll-to";
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [isMounted, setIsMounted] = useState(false);
-  const lenis = useLenis();
+  const scrollTo = useScrollTo();
 
   const { scrollY } = useScroll();
-  
-  // PROVEN PATTERN: Direct useTransform (no springs) for simple scroll-linked fades
-  // Springs add complexity and constant calculations - not needed for basic parallax
-  // Adjusted for polished crossfade with header logo (overlapping fade)
+
   const logoOpacity = useTransform(scrollY, [100, 250], [1, 0]);
   const logoY = useTransform(scrollY, [0, 250], [0, -60]);
   const logoScale = useTransform(scrollY, [0, 250], [1, 0.7]);
@@ -30,54 +27,27 @@ export default function Hero() {
     setIsMounted(true);
   }, []);
 
-  const handleScrollToStorytelling = useCallback(() => {
+  const findVisibleTarget = useCallback(() => {
     const desktop = document.getElementById("storytelling");
     const mobile = document.getElementById("storytelling-mobile");
-    // Use whichever version is actually visible
-    const target = (desktop && desktop.offsetHeight > 0) ? desktop
-      : (mobile && mobile.offsetHeight > 0) ? mobile
-      : null;
+    if (mobile && mobile.offsetHeight > 0) return mobile;
+    if (desktop && desktop.offsetHeight > 0) return desktop;
+    return null;
+  }, []);
 
-    if (target) {
-      if (lenis) {
-        lenis.scrollTo(target, {
-          offset: -100,
-          duration: prefersReducedMotion ? 0 : 1.2,
-        });
-      } else {
-        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-      }
-    }
-  }, [lenis, prefersReducedMotion]);
+  const handleScrollToStorytelling = useCallback(() => {
+    const target = findVisibleTarget();
+    if (target) scrollTo(target, { duration: SCROLL_DURATION_HERO });
+  }, [findVisibleTarget, scrollTo]);
 
   const handleScrollDown = useCallback(() => {
-    // Mobile uses storytelling-mobile, desktop uses storytelling
-    // Check both and use whichever has non-zero height (is visible)
-    const desktopTarget = document.getElementById("storytelling");
-    const mobileTarget = document.getElementById("storytelling-mobile");
-    const target = (mobileTarget && mobileTarget.offsetHeight > 0) ? mobileTarget : desktopTarget;
-
-    if (target && target.offsetHeight > 0) {
-      // Use Lenis for smooth scrolling, with native fallback for slow devices
-      if (lenis) {
-        lenis.scrollTo(target, {
-          duration: prefersReducedMotion ? 0 : 1.2,
-        });
-      } else {
-        // Fallback: native smooth scroll if Lenis not ready
-        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-      }
+    const target = findVisibleTarget();
+    if (target) {
+      scrollTo(target, { duration: SCROLL_DURATION_HERO });
     } else {
-      // Fallback: scroll to viewport height
-      if (lenis) {
-        lenis.scrollTo(window.innerHeight, {
-          duration: prefersReducedMotion ? 0 : 1.2,
-        });
-      } else {
-        window.scrollTo({ top: window.innerHeight, behavior: prefersReducedMotion ? "auto" : "smooth" });
-      }
+      scrollTo(window.innerHeight, { duration: SCROLL_DURATION_HERO });
     }
-  }, [lenis, prefersReducedMotion]);
+  }, [findVisibleTarget, scrollTo]);
 
   return (
     <section
@@ -274,8 +244,12 @@ export default function Hero() {
             >
               {hero.buttonPrimary}
             </motion.button>
-            <motion.a
-              href="#contact"
+            <motion.button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("contact");
+                if (el) scrollTo(el, { duration: SCROLL_DURATION_HERO });
+              }}
               className="w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-[#5C306C]/80 bg-[#5C306C]/[0.06] text-[#5C306C] font-medium text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] transition-colors"
               whileHover={prefersReducedMotion ? {} : {
                 scale: 1.02,
@@ -286,7 +260,7 @@ export default function Hero() {
               transition={SPRING_SNAPPY}
             >
               {hero.buttonSecondary}
-            </motion.a>
+            </motion.button>
           </div>
         </div>
         </div>

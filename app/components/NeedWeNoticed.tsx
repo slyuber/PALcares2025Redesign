@@ -2,9 +2,8 @@
 // ENHANCEMENT: 2025-01 - Award-winning design: Background patterns
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { useLenis } from "lenis/react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { EASE_PREMIUM, EASE_ENERGETIC, DURATION_NORMAL, DURATION_SLOW, STAGGER_NORMAL, useSafeInView } from "../lib/animation-constants";
 
@@ -12,34 +11,7 @@ export default function NeedWeNoticed() {
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const lenis = useLenis();
-  const hasSnapped = useRef(false);
   const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "100px 0px" });
-
-  // Gentle delayed snap: wait 600ms after section becomes visible, then ease in
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || !lenis || prefersReducedMotion) return;
-
-    let timeout: ReturnType<typeof setTimeout>;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        clearTimeout(timeout);
-        if (entry.isIntersecting && !hasSnapped.current) {
-          // Wait 600ms — let the user settle before nudging
-          timeout = setTimeout(() => {
-            hasSnapped.current = true;
-            lenis.scrollTo(el, { offset: -80, duration: 2 });
-          }, 600);
-        }
-      },
-      { threshold: 0.35 }
-    );
-
-    observer.observe(el);
-    return () => { observer.disconnect(); clearTimeout(timeout); };
-  }, [lenis, prefersReducedMotion]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
