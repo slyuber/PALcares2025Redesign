@@ -63,7 +63,7 @@ export default function Footer() {
             </p>
             <div className="space-y-1.5 text-xs text-[#5C306C]/60">
               <p>Serving Calgary, Edmonton & surrounding areas</p>
-              <p>Open tools · Shared resources · Sector capacity</p>
+              <p>Open tools · Shared resources · Local expertise</p>
             </div>
             <p className="text-sm text-[#5C306C] font-medium pt-1">
               Genuine partnerships, not transactions.

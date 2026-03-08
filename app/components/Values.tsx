@@ -150,7 +150,7 @@ export default function Values() {
               {values[1].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              What we build together comes from your organization's knowledge and the communities you serve. It shouldn't be locked in proprietary systems or sold back to you. <strong className="font-semibold text-[#4A2756]">Tools shaped by community expertise belong to that community</strong>—to use, change, and share freely.
+              What we build together comes from your organization's knowledge and the communities you serve. It shouldn't be locked in proprietary systems or sold back to you. <strong className="font-semibold text-[#4A2756]">Tools shaped by community expertise belong to the people who shaped them</strong>—to use, change, and share freely.
             </p>
           </motion.div>
 
@@ -178,7 +178,7 @@ export default function Values() {
               {values[2].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              Indigenous-led movements—including <span className="font-medium">OCAP principles</span> here in Alberta—have shown that data about communities should be governed by those communities. We're learning from that leadership. When organizations lose control of their data through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms. <strong className="font-semibold text-[#4A2756]">Your data stays yours. Full stop.</strong>
+              Indigenous-led movements, including <span className="font-medium">OCAP principles</span> here in Alberta, have shown that data about communities should be governed by those communities. We're learning from that leadership. When organizations lose control of their data through vendor lock-in or proprietary systems, they can no longer tell their own stories or advocate on their own terms. <strong className="font-semibold text-[#4A2756]">Your data stays yours. Full stop.</strong>
             </p>
           </motion.div>
 
@@ -206,7 +206,7 @@ export default function Values() {
               {values[3].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              We don't aim to stay forever—but we'll stay as long as we're needed. Some organizations choose deep, ongoing collaboration; others gradually take the lead. Either way, technology partnerships should <strong className="font-semibold text-[#4A2756]">leave your organization stronger</strong>—with <span className="font-medium">real skills transferred</span>, not just documentation handed over.
+              We don't aim to stay forever—but we'll stay as long as we're needed. Some organizations choose deep, ongoing collaboration; others gradually take the lead. Either way, technology partnerships should <strong className="font-semibold text-[#4A2756]">leave your organization stronger</strong>—with <span className="font-medium">real skills transferred</span>, not a binder and a handshake.
             </p>
           </motion.div>
         </div>

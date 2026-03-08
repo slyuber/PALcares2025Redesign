@@ -91,23 +91,22 @@ export default function NeedWeNoticed() {
               </strong>
               .{" "}
               <strong className="text-[#5C306C] font-semibold">
-                What gets built should stay with the organizations and communities that helped create it
+                What gets built should stay with the communities that helped create it
               </strong>
               .{" "}
               <strong className="text-[#5C306C] font-semibold">
-                Technical expertise and frontline wisdom need equal weight
-              </strong>{" "}
-              in development decisions.
+                The people who know the code and the people who know the work should build side by side
+              </strong>
+              .
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C]/80 leading-relaxed">
-              Creating the conditions for this kind of partnership takes
-              deliberate choices. Small, purposeful decisions—
+              This takes deliberate choices. Small, purposeful decisions:
               <span className="text-[#5C306C] font-medium">
                 nonprofit structure, multi-year commitments, open licensing,
                 relationship-centered contracts
               </span>
-              —that together give us the flexibility to work differently.
+              . Together they give us the flexibility to work differently.
             </p>
           </motion.div>
 
@@ -118,14 +117,11 @@ export default function NeedWeNoticed() {
           >
             <div className="lg:pl-8 lg:border-l border-[#5C306C]/10">
               <p className="text-base md:text-lg text-[#5C306C]/70 leading-relaxed mb-6">
-                We&apos;re building an ecosystem where embedded technical teams
-                learn organizational reality before writing code, where emerging
-                talent and newcomers strengthen local capacity, where proven
-                solutions become resources for the sector.
+                Our technical teams sit inside your organization before writing a line of code. Emerging talent and newcomers build local capacity through supervised placements. Solutions that prove themselves get released openly so the whole sector benefits.
               </p>
 
               <p className="text-[#5C306C] font-semibold text-base md:text-lg leading-relaxed">
-                Sustainable technology emerges from genuine partnership.
+                Sustainable technology starts with trust.
               </p>
             </div>
           </motion.div>

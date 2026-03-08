@@ -129,7 +129,7 @@ export default function Contact() {
                 animate={leftInView ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
               >
-                We engage with organizations in different ways
+                Here's how we can help
               </motion.h2>
             </div>
 

@@ -80,7 +80,7 @@ export default function DeeperContext() {
           <p
             className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-light max-w-2xl mx-auto lg:whitespace-nowrap"
           >
-            What makes genuine partnership possible—and why it matters for the work.
+            What makes partnership like this possible—and why it matters.
           </p>
         </div>
 
@@ -117,10 +117,10 @@ export default function DeeperContext() {
                 Expertise That Shapes Development
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                The people using these tools every day—connected to communities, to the work, to the systems this technology needs to fit—hold knowledge that doesn&apos;t show up in a requirements document. Without it shaping development, technology doesn&apos;t fit. It doesn&apos;t improve things in ways that last.
+                The people using these tools every day hold knowledge that doesn&apos;t show up in a requirements document. They&apos;re connected to communities, to the work, to the reality this technology has to serve. Without that shaping development, what gets built doesn&apos;t fit. It doesn&apos;t improve things in ways that last.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                So we build infrastructure where <strong className="font-semibold text-[#5C306C]">frontline insight holds real weight</strong>. Where <strong className="font-semibold text-[#5C306C]">feedback connects directly to what gets built next</strong>. Where there&apos;s enough safety to try something, learn from it, and adjust.
+                So we build systems where <strong className="font-semibold text-[#5C306C]">frontline insight holds real weight</strong>. Where <strong className="font-semibold text-[#5C306C]">feedback connects directly to what gets built next</strong>. Where there&apos;s enough safety to try something, learn from it, and adjust.
               </p>
             </div>
             <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#FF9966] ring-4 ring-[#FF9966]/20" />
@@ -133,10 +133,10 @@ export default function DeeperContext() {
                 What Time Makes Possible
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Short project timelines reward deliverables over understanding, handoffs over relationships. We&apos;ve structured ourselves differently—nonprofit, embedded teams, multi-year commitment—which creates room for a different kind of work.
+                Short project timelines reward deliverables over understanding, handoffs over relationships. Our structure buys us something most consultancies can&apos;t offer: time. Time to understand before prescribing. Time for relationships that outlast individual projects.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Room for understanding before prescribing solutions. Room for relationships that outlast individual projects. Room for the kind of iteration that becomes affordable once trust is established—where <strong className="font-semibold text-[#5C306C]">a report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>.
+                That means iteration becomes affordable once trust is established. <strong className="font-semibold text-[#5C306C]">A report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>. A database change doesn&apos;t require a new contract—it requires a Tuesday morning call.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 Most nonprofits have graveyards of abandoned systems. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> Knowledge transfers through the work itself, not just documentation handed over at the end.
@@ -157,7 +157,7 @@ export default function DeeperContext() {
                 In typical consulting, unexpected roadblocks threaten the whole engagement. You discover you need different personnel, or data that has to be gathered first, or requirements that shifted—and suddenly you&apos;re over budget or starting the RFP process again.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Our structure absorbs that differently. <strong className="font-semibold text-[#5C306C]">Roadblocks become problems to solve together</strong>, not threats to the project. Team composition adjusts to actual needs, not what was promised six months ago. The relationship continues even when the specifics shift.
+                Our structure absorbs that differently. <strong className="font-semibold text-[#5C306C]">Roadblocks become problems to solve together</strong>, not threats to the project. Team composition adjusts to actual needs, not what was promised six months ago. The work continues even when the specifics shift.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 This isn&apos;t looseness—it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work actually unfolds</strong>.
