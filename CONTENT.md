@@ -92,7 +92,7 @@ Across North America, organizations are questioning why technology that should s
 **Those closest to the work should shape the tools they use**. **What gets built should stay with the communities that helped create it**. **Builders and practitioners should work side by side**.
 
 **Paragraph 3:**
-We have a sense of how this work should be done. Nonprofit structure, multi-year commitments, open licensing, relationship-centered contracts — these aren't branding. They're the decisions that give us a little more room to actually try it.
+We have a sense of how this work should be done. Nonprofit structure, multi-year commitments, open licensing, relationship-centered contracts — the kind of decisions that keep the work accountable to the people it's for.
 
 **Supporting text (right column):**
 Our technical teams learn how your organization works before deciding what to build. Students and newcomers develop skills through supervised placements with real scope. Solutions that prove themselves get released openly—the patterns, not your data.
