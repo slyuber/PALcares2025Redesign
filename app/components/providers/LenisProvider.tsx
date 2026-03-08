@@ -31,7 +31,7 @@ export default function LenisProvider({ children }: LenisProviderProps) {
     <ReactLenis
       root
       options={{
-        lerp: prefersReducedMotion ? 1 : 0.1,
+        lerp: prefersReducedMotion ? 1 : 0.12,
         smoothWheel: !prefersReducedMotion,
         syncTouch: false,
       }}
