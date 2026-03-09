@@ -159,9 +159,9 @@ export default function Storytelling() {
               secondaryDescription={<>The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires <strong className="font-semibold text-[#5C306C]">someone inside the organization long enough to understand it</strong>.</>}
               details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround works</strong>, and we&apos;re reachable when something doesn&apos;t.</>}
               items={[
-                "Multi-year partnerships that give time to build relationships, processes, and real understanding",
-                "Contracts structured for flexibility, so roadblocks become problems to solve, not threats to the project",
-                "Infrastructure built to make changes cheaper, faster, and lower-risk over time"
+                <><strong className="font-semibold text-[#5C306C]">Multi-year partnerships</strong> that give time to build relationships, processes, and real understanding</>,
+                <><strong className="font-semibold text-[#5C306C]">Contracts structured for flexibility,</strong> so roadblocks become problems to solve, not threats to the project</>,
+                <><strong className="font-semibold text-[#5C306C]">Infrastructure built to make changes cheaper, faster,</strong> and lower-risk over time</>
               ]}
               quote="Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them."
             />
@@ -176,9 +176,9 @@ export default function Storytelling() {
               secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">knowledge transfer through proven solutions</strong>. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL Teams have already built&mdash;carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work.</>}
               details={<>What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from <strong className="font-semibold text-[#5C306C]">actual use, not theoretical design</strong>. The first tools built through this process are in testing now, with public releases coming.</>}
               items={[
-                "Generalization starts with the user base, not the solution: we find who needs it before deciding if it's worth building",
-                "Individual investments become collective resources—without exposing the organizational specifics behind them",
-                "Open licensing ensures tools stay with the community, not locked behind vendor agreements"
+                <><strong className="font-semibold text-[#5C306C]">Generalization starts with the user base,</strong> not the solution: we find who needs it before deciding if it&apos;s worth building</>,
+                <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources</strong>&mdash;without exposing the organizational specifics behind them</>,
+                <><strong className="font-semibold text-[#5C306C]">Open licensing</strong> ensures tools stay with the community, not locked behind vendor agreements</>
               ]}
               quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
             />
@@ -193,9 +193,9 @@ export default function Storytelling() {
               secondaryDescription={<>Labs builds on what Teams creates. The organizational understanding, the established relationships, the documented systems&mdash;these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and <strong className="font-semibold text-[#5C306C]">the support is real</strong>.</>}
               details={<>Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally&mdash;which means <strong className="font-semibold text-[#5C306C]">organizations don&apos;t pay for it out of already-thin budgets</strong>. Placements run through the infrastructure Teams has already built: established relationships, documented systems, a clear sense of what&apos;s sensitive and what isn&apos;t. The work is real&mdash;data engineering, cloud architecture, custom tooling&mdash;and the context is what makes it meaningful. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
               items={[
-                "Local placements that keep students and newcomers connected to Alberta communities and the sector's actual work",
-                "Labs placements are fully funded—no financial cost to the receiving organization",
-                "Sustainable handoffs—every project leaves something maintainable behind"
+                <><strong className="font-semibold text-[#5C306C]">Local placements</strong> that keep students and newcomers connected to Alberta communities and the sector&apos;s actual work</>,
+                <><strong className="font-semibold text-[#5C306C]">Fully funded</strong>&mdash;no financial cost to the receiving organization</>,
+                <><strong className="font-semibold text-[#5C306C]">Sustainable handoffs</strong>&mdash;every project leaves something maintainable behind</>
               ]}
               quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with actual stakes."
             />
@@ -432,9 +432,9 @@ export default function Storytelling() {
                 secondaryDescription={<>The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires <strong className="font-semibold text-[#5C306C]">someone inside the organization long enough to understand it</strong>.</>}
                 details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround works</strong>, and we&apos;re reachable when something doesn&apos;t.</>}
                 items={[
-                  "Multi-year partnerships that give time to build relationships, processes, and real understanding",
-                  "Contracts structured for flexibility, so roadblocks become problems to solve, not threats to the project",
-                  "Infrastructure built to make changes cheaper, faster, and lower-risk over time"
+                  <><strong className="font-semibold text-[#5C306C]">Multi-year partnerships</strong> that give time to build relationships, processes, and real understanding</>,
+                  <><strong className="font-semibold text-[#5C306C]">Contracts structured for flexibility,</strong> so roadblocks become problems to solve, not threats to the project</>,
+                  <><strong className="font-semibold text-[#5C306C]">Infrastructure built to make changes cheaper, faster,</strong> and lower-risk over time</>
                 ]}
                 quote="Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them."
                 prefersReducedMotion={prefersReducedMotion}
@@ -451,9 +451,9 @@ export default function Storytelling() {
                 secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">knowledge transfer through proven solutions</strong>. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already built&mdash;carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work.</>}
                 details={<>What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from <strong className="font-semibold text-[#5C306C]">actual use, not theoretical design</strong>. The first tools built through this process are in testing now, with public releases coming.</>}
                 items={[
-                  "Generalization starts with the user base, not the solution: we find who needs it before deciding if it's worth building",
-                  "Individual investments become collective resources—without exposing the organizational specifics behind them",
-                  "Open licensing ensures tools stay with the community, not locked behind vendor agreements"
+                  <><strong className="font-semibold text-[#5C306C]">Generalization starts with the user base,</strong> not the solution: we find who needs it before deciding if it&apos;s worth building</>,
+                  <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources</strong>&mdash;without exposing the organizational specifics behind them</>,
+                  <><strong className="font-semibold text-[#5C306C]">Open licensing</strong> ensures tools stay with the community, not locked behind vendor agreements</>
                 ]}
                 quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
                 prefersReducedMotion={prefersReducedMotion}
@@ -470,9 +470,9 @@ export default function Storytelling() {
                 secondaryDescription={<>Labs builds on what Teams creates. The organizational understanding, the established relationships, the documented systems&mdash;these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and <strong className="font-semibold text-[#5C306C]">the support is real</strong>.</>}
                 details={<>Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally&mdash;which means <strong className="font-semibold text-[#5C306C]">organizations don&apos;t pay for it out of already-thin budgets</strong>. Placements run through the infrastructure Teams has already built: established relationships, documented systems, a clear sense of what&apos;s sensitive and what isn&apos;t. The work is real&mdash;data engineering, cloud architecture, custom tooling&mdash;and the context is what makes it meaningful. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
                 items={[
-                  "Local placements that keep students and newcomers connected to Alberta communities and the sector's actual work",
-                  "Labs placements are fully funded—no financial cost to the receiving organization",
-                  "Sustainable handoffs—every project leaves something maintainable behind"
+                  <><strong className="font-semibold text-[#5C306C]">Local placements</strong> that keep students and newcomers connected to Alberta communities and the sector&apos;s actual work</>,
+                  <><strong className="font-semibold text-[#5C306C]">Fully funded</strong>&mdash;no financial cost to the receiving organization</>,
+                  <><strong className="font-semibold text-[#5C306C]">Sustainable handoffs</strong>&mdash;every project leaves something maintainable behind</>
                 ]}
                 quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with actual stakes."
                 prefersReducedMotion={prefersReducedMotion}
@@ -696,7 +696,7 @@ interface ContentPanelProps {
   description: React.ReactNode;
   secondaryDescription?: React.ReactNode;
   details?: React.ReactNode;
-  items: string[];
+  items: React.ReactNode[];
   quote?: string;
   prefersReducedMotion: boolean | null;
   fillProgress?: MotionValue<number> | number;
@@ -724,7 +724,7 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
   description: React.ReactNode;
   secondaryDescription?: React.ReactNode;
   details?: React.ReactNode;
-  items: string[];
+  items: React.ReactNode[];
   quote?: string;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -827,17 +827,17 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
       </div>
 
       {/* Key Points List - Always visible */}
-      <ul className="space-y-4 pt-2">
-        {items.map((item: string) => (
+      <ul className="space-y-3 pt-2">
+        {items.map((item, i) => (
           <li
-            key={item}
-            className="flex items-start gap-3 text-[#5C306C]/90 text-base min-h-[44px]"
+            key={i}
+            className="flex items-start gap-3 text-[#5C306C]/80 text-base min-h-[44px]"
           >
-            <motion.div
-              className="w-6 h-6 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5"
+            <div
+              className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-1"
             >
               <ArrowRight className="w-3 h-3 text-[#FF9966]" />
-            </motion.div>
+            </div>
             <span className="leading-relaxed">{item}</span>
           </li>
         ))}
@@ -944,15 +944,15 @@ const ContentPanel = React.memo(function ContentPanel({
                 
                 {/* Bullet points - PERF: Use CSS transition instead of Framer Motion */}
                 <ul className="pt-2 grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-3">
-                  {items.map((item: string) => (
+                  {items.map((item, i) => (
                     <li
-                      key={item}
+                      key={i}
                       className={cn(
-                        "flex items-start gap-3 text-[#5C306C]/90 text-base group transition-[opacity,transform] duration-300",
+                        "flex items-start gap-3 text-[#5C306C]/80 text-base group transition-[opacity,transform] duration-300",
                         active ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
                       )}
                     >
-                      <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-1">
                         <ArrowRight className="w-3 h-3 text-[#FF9966]" />
                       </div>
                       <span className="leading-relaxed">{item}</span>
