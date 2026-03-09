@@ -97,13 +97,15 @@ export default function Contact() {
         }),
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (data.success) {
         setIsSuccess(true);
         setFormData({ firstName: '', lastName: '', email: '', org: '', message: '' });
         setErrors({});
         setTouched({});
       } else {
-        setErrors(prev => ({ ...prev, submit: 'Something went wrong. Please try again or email us directly.' }));
+        setErrors(prev => ({ ...prev, submit: data.message || 'Something went wrong. Please try again or email us directly.' }));
       }
     } catch {
       setErrors(prev => ({ ...prev, submit: 'Network error. Please try again or email us directly.' }));
