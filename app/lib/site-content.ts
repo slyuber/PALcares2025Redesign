@@ -54,11 +54,4 @@ export const testimonialsList = [
     role: "Program Manager, 24/7 Crisis Diversion",
     org: "REACH Edmonton Council for Safe Communities",
   },
-  {
-    pullQuote: null,
-    fullTestimonial: [],
-    author: "",
-    role: "",
-    org: "Partner testimonial coming soon",
-  },
 ];
