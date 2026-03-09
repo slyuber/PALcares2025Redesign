@@ -184,7 +184,31 @@ export default function Hero() {
                 ease: EASE_PREMIUM,
               }}
             >
-              {hero.tagline.emphasis}
+              strengthens the{" "}
+              <span className="relative inline-block">
+                <motion.span
+                  className="text-[#E08860]"
+                  initial={prefersReducedMotion ? {} : { color: "#5C306C" }}
+                  animate={{ color: "#E08860" }}
+                  transition={{
+                    delay: prefersReducedMotion ? 0 : 0.8,
+                    duration: prefersReducedMotion ? 0 : 0.6,
+                    ease: EASE_PREMIUM,
+                  }}
+                >
+                  relationships
+                </motion.span>
+                <motion.span
+                  className="absolute bottom-[0.08em] left-0 h-[2px] bg-[#E08860]/40 rounded-full"
+                  initial={{ width: "0%" }}
+                  animate={{ width: prefersReducedMotion ? "100%" : "100%" }}
+                  transition={{
+                    delay: prefersReducedMotion ? 0 : 1.1,
+                    duration: prefersReducedMotion ? 0 : 0.5,
+                    ease: EASE_PREMIUM,
+                  }}
+                />
+              </span>
             </motion.span>{" "}
             <br className="hidden md:block" />
             {/* Line 3 - enters last */}
@@ -213,7 +237,8 @@ export default function Hero() {
               ease: EASE_OUT_CUBIC,
             }}
           >
-            {hero.description}
+            We&apos;re not here to transform the sector&mdash;we&apos;re here to{" "}
+            <strong className="font-medium text-[#5C306C]">support the organizations already doing transformative work</strong>.
           </motion.p>
 
           <motion.p
@@ -226,7 +251,10 @@ export default function Hero() {
               ease: EASE_PREMIUM,
             }}
           >
-            {hero.location}
+            Supporting social service providers in{" "}
+            <span className="font-medium text-[#5C306C]">Calgary</span>,{" "}
+            <span className="font-medium text-[#5C306C]">Edmonton</span>,{" "}
+            and surrounding areas
           </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
