@@ -14,14 +14,31 @@ export default function Footer() {
   const gridRef = useRef<HTMLDivElement>(null);
   const gridInView = useSafeInView(gridRef, { once: true, amount: 0.1, margin: "100px 0px" });
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setTimeout(() => {
-        setIsSubscribed(false);
-        setEmail("");
-      }, 3000);
+    if (!email.trim()) return;
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: '80c1f5f5-77f7-4e7d-b033-b61ec7633706',
+          subject: 'New Newsletter Subscription — PALcares',
+          email,
+          replyto: email,
+        }),
+      });
+
+      if (res.ok) {
+        setIsSubscribed(true);
+        setTimeout(() => {
+          setIsSubscribed(false);
+          setEmail("");
+        }, 3000);
+      }
+    } catch {
+      // Silent fail — newsletter is low-stakes
     }
   };
 
@@ -100,6 +117,7 @@ export default function Footer() {
               </p>
             ) : (
               <form onSubmit={handleSubscribe} className="flex gap-2">
+                <input type="text" name="_gotcha" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
                 <input
                   type="email"
                   value={email}

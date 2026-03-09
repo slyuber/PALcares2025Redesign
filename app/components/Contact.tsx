@@ -62,7 +62,7 @@ export default function Contact() {
     return `${base} border-[#5C306C]/10 focus-visible:border-[#FF9966] focus-visible:ring-[#FF9966]`;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors: Record<string, string> = {};
@@ -80,13 +80,36 @@ export default function Contact() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
+    setErrors(prev => ({ ...prev, submit: '' }));
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: '5ef71b93-d323-49ac-a070-060f2d8c56b7',
+          subject: 'New Contact Form Submission — PALcares',
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          organization: formData.org,
+          message: formData.message,
+          replyto: formData.email,
+        }),
+      });
+
+      if (res.ok) {
+        setIsSuccess(true);
+        setFormData({ firstName: '', lastName: '', email: '', org: '', message: '' });
+        setErrors({});
+        setTouched({});
+      } else {
+        setErrors(prev => ({ ...prev, submit: 'Something went wrong. Please try again or email us directly.' }));
+      }
+    } catch {
+      setErrors(prev => ({ ...prev, submit: 'Network error. Please try again or email us directly.' }));
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormData({ firstName: '', lastName: '', email: '', org: '', message: '' });
-      setErrors({});
-      setTouched({});
-    }, 1500);
+    }
   };
 
   return (
@@ -179,6 +202,9 @@ export default function Contact() {
                     onSubmit={handleSubmit}
                     className="space-y-6"
                   >
+                    {/* Honeypot spam protection */}
+                    <input type="text" name="_gotcha" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+
                     {/* Name row */}
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-2">
@@ -307,6 +333,9 @@ export default function Contact() {
                           </>
                         )}
                       </button>
+                      {errors.submit && (
+                        <p className="text-sm text-red-600 mt-3">{errors.submit}</p>
+                      )}
                     </div>
                   </motion.form>
                 ) : (
