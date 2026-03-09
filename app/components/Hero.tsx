@@ -186,18 +186,9 @@ export default function Hero() {
             >
               strengthens the{" "}
               <span className="relative inline-block">
-                <motion.span
-                  className="text-[#E08860]"
-                  initial={prefersReducedMotion ? {} : { color: "#5C306C" }}
-                  animate={{ color: "#E08860" }}
-                  transition={{
-                    delay: prefersReducedMotion ? 0 : 0.8,
-                    duration: prefersReducedMotion ? 0 : 0.6,
-                    ease: EASE_PREMIUM,
-                  }}
-                >
+                <span className="text-[#5C306C]">
                   relationships
-                </motion.span>
+                </span>
                 <motion.span
                   className="absolute bottom-[0.08em] left-0 h-[2px] bg-[#E08860]/40 rounded-full"
                   initial={{ width: "0%" }}
@@ -242,7 +233,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.p
-            className="text-sm md:text-base text-[#5C306C]/80"
+            className="text-sm md:text-base text-[#5C306C]/80 font-medium"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
