@@ -128,7 +128,7 @@ export default function NeedWeNoticed() {
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
-              We have a sense of how this work should be done.{" "}
+              The work has taught us what matters.{" "}
               <span className="text-[#5C306C] font-medium">
                 Nonprofit structure, multi-year commitments, open licensing,
                 relationship-centered contracts

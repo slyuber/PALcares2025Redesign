@@ -92,7 +92,7 @@ Across North America, organizations are questioning why technology that should s
 **Those closest to the work should shape the tools they use**. **What gets built should stay with the communities that helped create it**. **Builders and practitioners should work side by side**.
 
 **Paragraph 3:**
-We have a sense of how this work should be done. Nonprofit structure, multi-year commitments, open licensing, relationship-centered contracts — the kind of decisions that keep the work accountable to the people it's for.
+The work has taught us what matters. Nonprofit structure, multi-year commitments, open licensing, relationship-centered contracts — the kind of decisions that keep the work accountable to the people it's for.
 
 **Supporting text (right column):**
 Our technical teams learn how your organization works before deciding what to build. Students and newcomers develop skills through supervised placements with real scope. Solutions that prove themselves get released openly—the patterns, not your data.
@@ -343,7 +343,7 @@ We don't aim to stay forever. The goal is an organization that understands its o
 **Heading (h2):** We engage with organizations in different ways
 
 **Description:**
-Whatever brought you here—a specific challenge, a question about fit, or just curiosity about what we do—we're glad to talk. We read every message and respond personally.
+Whatever brought you here—a specific challenge, a question about fit, or just curiosity about what we do—we're glad to talk.
 
 **Email:** support@palcares.ca
 

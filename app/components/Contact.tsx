@@ -139,7 +139,7 @@ export default function Contact() {
               animate={leftInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
             >
-              Whatever brought you here&mdash;a specific challenge, a question about fit, or just curiosity about what we do&mdash;we&apos;re glad to talk. We read every message and respond personally.
+              Whatever brought you here&mdash;a specific challenge, a question about fit, or just curiosity about what we do&mdash;we&apos;re glad to talk.
             </motion.p>
 
             <div className="w-16 h-px bg-gradient-to-r from-[#FF9966]/50 to-transparent" />
@@ -155,7 +155,6 @@ export default function Contact() {
               </a>
 
               <div className="text-sm text-[#5C306C]/60">
-                <p className="font-medium text-[#5C306C]/80">Treaty 6 &amp; Treaty 7 Territories</p>
                 <p>Calgary &amp; Edmonton, Alberta</p>
               </div>
             </div>
