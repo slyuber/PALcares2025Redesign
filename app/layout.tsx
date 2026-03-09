@@ -17,12 +17,12 @@ export const metadata = {
   title: "PALcares | Technology That Strengthens Relationships",
   description:
     "PALcares embeds technical teams inside Alberta's social service organizations\u2014building the infrastructure and processes that let technology change with the work.",
-  metadataBase: new URL("https://www.palcares.org"),
+  metadataBase: new URL("https://www.palcares.ca"),
   openGraph: {
     title: "PALcares | Technology That Strengthens Relationships",
     description:
       "Embedded partnerships and open-source tools for Alberta's social sector.",
-    url: "https://www.palcares.org",
+    url: "https://www.palcares.ca",
     siteName: "PALcares",
     images: [
       {

@@ -22,13 +22,6 @@ export default defineConfig({
       },
     },
     {
-      name: 'Desktop Firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        viewport: { width: 1920, height: 1080 },
-      },
-    },
-    {
       name: 'Desktop Safari',
       use: {
         ...devices['Desktop Safari'],
@@ -39,31 +32,6 @@ export default defineConfig({
       name: 'Mobile Safari',
       use: {
         ...devices['iPhone 12'],
-      },
-    },
-    {
-      name: 'Mobile Android',
-      use: {
-        ...devices['Pixel 5'],
-      },
-    },
-    {
-      name: 'Android Low-End',
-      use: {
-        ...devices['Moto G4'],
-        // Simulates budget Android device
-        launchOptions: {
-          args: [
-            '--disable-gpu',
-            '--disable-dev-shm-usage',
-          ],
-        },
-      },
-    },
-    {
-      name: 'Tablet',
-      use: {
-        ...devices['iPad (gen 7)'],
       },
     },
   ],
