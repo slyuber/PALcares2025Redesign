@@ -60,6 +60,12 @@ logs
 *.temp
 .cache/
 
+# Test artifacts
+tests/e2e/screenshots/
+playwright-report/
+test-results/
+tests/e2e/*-report.json
+
 # Project tooling
 .claude/
 CLAUDE.md
