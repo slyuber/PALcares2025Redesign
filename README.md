@@ -1,65 +1,48 @@
-# PALcares Website - Content-Aligned Update
+# PALcares Website
 
-## What Changed in This Update
+PALcares embeds technical teams inside Alberta's social service organizations — building infrastructure and processes that let technology strengthen the relationships these organizations depend on.
 
-### Content Alignment
-All content has been aligned with the original PALcares content guide, including:
-
-- **Hero**: Updated treaty language to factual format: "Serving Calgary (Treaty 7) and Edmonton (Treaty 6)"
-- **MeetingYouWhereYouAre**: Now centered, more prominent, with decorative background elements
-- **DeeperContext**: New alternating timeline layout from Figma design
-- **Testimonials**: Placeholders for real partner testimonials (Reach, 24-7 Crisis Diversion)
-- **Footer**: Updated treaty language format
-
-### Design Updates
-- MeetingYouWhereYouAre section now has centered layout with label badge
-- DeeperContext uses alternating left/right cards with center timeline
-- Subtle background orbs and decorative elements added
-
-### Terminology
-- "2-4 year partnerships" → "multi-year partnerships" throughout
-- "Treaty 6 & 7 communities" → "Calgary (Treaty 7) and Edmonton (Treaty 6)"
-
-## Installation
+## Quick Start
 
 ```bash
 npm install
 npm run dev
 ```
 
-## File Structure
+Dev server runs at `http://localhost:3000`.
+
+## Build for Production
+
+```bash
+npm run build
+```
+
+Static output is generated in the `out/` directory, ready for deployment.
+
+## Project Structure
 
 ```
 app/
-├── layout.tsx              # Root layout
-├── page.tsx                # Homepage composition
-├── globals.scss            # Global styles
-├── components/
-│   ├── Hero.tsx            # Hero with updated treaty language
-│   ├── Storytelling.tsx    # Scroll-jacking ecosystem panels
-│   ├── MeetingYouWhereYouAre.tsx  # New centered design
-│   ├── DeeperContext.tsx   # Alternating timeline design
-│   ├── Values.tsx          # Values grid
-│   ├── Testimonials.tsx    # Placeholder testimonials
-│   ├── Contact.tsx         # Contact form
-│   ├── Footer.tsx          # Updated footer
-│   ├── Header.tsx          # Navigation
-│   └── partials/
-│       └── Loader.tsx      # Word animation loader
+├── components/       # React components (Hero, Storytelling, Contact, etc.)
+├── lib/              # Content (site-content.ts) and animation constants
+├── page.tsx          # Homepage composition
+├── layout.tsx        # Root layout
+└── globals.scss      # Global styles
+tests/e2e/            # Playwright end-to-end tests
+public/               # Static assets (images, SVGs, fonts)
 ```
 
-## Content Guide Alignment
+## Tech Stack
 
-This update addresses the content audit recommendations:
+Next.js 14 (App Router, static export) · TypeScript · Tailwind CSS · Framer Motion · Lenis smooth scroll · Raleway font
 
-✅ Treaty language factual and parenthetical
-✅ "Meeting You Where You Are" section prominent
-✅ Testimonials as placeholders (not fake)
-✅ Footer with full serving/creating/focus content
-✅ DeeperContext with Indigenous data sovereignty context
+## Content Editing
 
-## Todo (Requires Real Content)
+All website copy lives in `app/lib/site-content.ts`. Edit text there, not in components. See `CONTENT.md` for a full content reference organized by section.
 
-- [ ] Get real testimonials from Reach, 24-7 Crisis Diversion
-- [ ] Add Waterloo student story quote (when available)
-- [ ] Add partner photos/logos
+## Testing
+
+```bash
+npm run test:e2e              # Run all Playwright tests
+npm run test:e2e:headed       # Run with visible browser
+```
