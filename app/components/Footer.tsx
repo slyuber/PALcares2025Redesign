@@ -92,7 +92,7 @@ export default function Footer() {
             <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#5C306C]/80">
               Quick Links
             </span>
-            <nav className="flex flex-col gap-2.5">
+            <nav aria-label="Footer navigation" className="flex flex-col gap-2.5">
               {links.map((link) => (
                 <a
                   key={link.name}
