@@ -36,10 +36,6 @@ public/               # Static assets (images, SVGs, fonts)
 
 Next.js 14 (App Router, static export) · TypeScript · Tailwind CSS · Framer Motion · Lenis smooth scroll · Raleway font
 
-## Content Editing
-
-All website copy lives in `app/lib/site-content.ts`. Edit text there, not in components. See `CONTENT.md` for a full content reference organized by section.
-
 ## Testing
 
 ```bash
