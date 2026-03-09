@@ -117,16 +117,16 @@ export default function DeeperContext() {
                 Building Infrastructure Before Changing Systems
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Frontline staff know what doesn&apos;t appear in any requirements document. That knowledge should shape technology development&mdash;but it only does if two things are true.
+                Frontline staff know <strong className="font-semibold text-[#5C306C]">what doesn&apos;t appear in any requirements document</strong>. That knowledge should shape technology development&mdash;but it only does if two things are true.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                First: a relationship where feedback travels. Staff tell you what isn&apos;t working when they trust it won&apos;t create problems and believe something will happen as a result.
+                First: <strong className="font-semibold text-[#5C306C]">a relationship where feedback travels</strong>. Staff tell you what isn&apos;t working when they trust it won&apos;t create problems and believe something will happen as a result.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Second, and harder: the infrastructure to act on that feedback safely. We work through smaller, lower-stakes things first&mdash;not to delay, but because that&apos;s where surprises surface while there&apos;s still room to handle them. By the time we&apos;re touching the systems that matter most, we&apos;ve already learned how this organization&apos;s environment behaves.
+                Second, and harder: <strong className="font-semibold text-[#5C306C]">the infrastructure to act on that feedback safely</strong>. We work through smaller, lower-stakes things first&mdash;not to delay, but because that&apos;s where surprises surface while there&apos;s still room to handle them. By the time we&apos;re touching the systems that matter most, we&apos;ve already learned how this organization&apos;s environment behaves.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                That&apos;s the sequence. Relationship first, infrastructure second. Both have to exist before feedback does anything useful.
+                That&apos;s the sequence. <strong className="font-semibold text-[#5C306C]">Relationship first, infrastructure second</strong>. Both have to exist before feedback does anything useful.
               </p>
             </div>
             <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#FF9966] ring-4 ring-[#FF9966]/20" />
@@ -139,7 +139,7 @@ export default function DeeperContext() {
                 What Time Makes Possible
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Short project timelines reward deliverables over understanding, handoffs over relationships. Our structure buys us something most consultancies can&apos;t offer: time. Time to understand before prescribing. Time for relationships that outlast individual projects.
+                Short project timelines reward deliverables over understanding, handoffs over relationships. Our structure buys us something most consultancies can&apos;t offer: <strong className="font-semibold text-[#5C306C]">time</strong>. Time to understand before prescribing. Time for relationships that outlast individual projects.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 That means iteration becomes affordable once the foundation exists. <strong className="font-semibold text-[#5C306C]">A report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>. A database change doesn&apos;t require a new contract&mdash;it requires a Tuesday morning call.
@@ -163,7 +163,7 @@ export default function DeeperContext() {
                 In typical consulting, unexpected roadblocks threaten the whole engagement. Different personnel needed, data to gather first, requirements that shifted&mdash;suddenly you&apos;re over budget or restarting the RFP process.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Our structure makes room for that differently. When something doesn&apos;t go as planned, we reorient. We rescope. We meet the new context rather than defending the old one. That&apos;s sometimes uncomfortable&mdash;it doesn&apos;t always look like what either party expected. But having the room and resources to do that together, rather than fighting about whose fault the change is, is what makes the difference.
+                Our structure makes room for that differently. When something doesn&apos;t go as planned, we reorient. We rescope. We <strong className="font-semibold text-[#5C306C]">meet the new context rather than defending the old one</strong>. That&apos;s sometimes uncomfortable&mdash;it doesn&apos;t always look like what either party expected. But having the room and resources to do that together, rather than fighting about whose fault the change is, is what makes the difference.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 This isn&apos;t looseness&mdash;it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work unfolds</strong>.
