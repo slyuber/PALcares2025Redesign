@@ -758,7 +758,7 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
 
       {/* Title */}
       <h2 className="text-3xl sm:text-3xl font-light text-[#5C306C] leading-tight tracking-tight">
-        {title.startsWith('PAL ') ? <>PAL <span className="font-semibold text-[#FF9966]">{title.slice(4)}</span></> : title}
+        {title.startsWith('PAL ') ? <>PAL <span className="font-bold text-[#FF9966]">{title.slice(4)}</span></> : title}
       </h2>
 
       {/* Main Content */}
@@ -905,7 +905,7 @@ const ContentPanel = React.memo(function ContentPanel({
               
               {/* Title */}
               <h2 className="text-3xl md:text-4xl lg:text-4xl font-light text-[#5C306C] leading-tight tracking-tight">
-                {title.startsWith('PAL ') ? <>PAL <span className="font-semibold text-[#FF9966]">{title.slice(4)}</span></> : title}
+                {title.startsWith('PAL ') ? <>PAL <span className="font-bold text-[#FF9966]">{title.slice(4)}</span></> : title}
               </h2>
 
             </div>
@@ -1012,7 +1012,7 @@ const ContentPanel = React.memo(function ContentPanel({
               
               {/* Title */}
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-[#5C306C] leading-tight tracking-tight pr-2">
-                {title.startsWith('PAL ') ? <>PAL <span className="font-semibold text-[#FF9966]">{title.slice(4)}</span></> : title}
+                {title.startsWith('PAL ') ? <>PAL <span className="font-bold text-[#FF9966]">{title.slice(4)}</span></> : title}
               </h2>
               
               {/* Full quote - desktop only, below title */}
