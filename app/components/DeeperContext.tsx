@@ -102,7 +102,7 @@ export default function DeeperContext() {
                 Meeting You Where You Are
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                We <strong className="font-semibold text-[#5C306C]">inherit whatever you have</strong>. That Excel sheet from 2008 holds years of <strong className="font-semibold text-[#5C306C]">institutional knowledge</strong>. Those workarounds everyone relies on reveal where systems fall short. We learn from what&apos;s already working and what isn&apos;t—not from assumptions about what you should need. When five organizations independently build similar solutions, <span className="font-medium">that pattern tells us something the sector has been trying to say</span>.
+                We <strong className="font-semibold text-[#5C306C]">inherit whatever you have</strong>. That Excel sheet from 2008 holds years of <strong className="font-semibold text-[#5C306C]">institutional knowledge</strong>. Those workarounds everyone relies on reveal where systems fall short. We learn from what&apos;s already working and what isn&apos;t—not from assumptions about what you need. When five organizations independently build similar solutions, <span className="font-medium">that pattern tells us something the sector has been trying to say</span>.
               </p>
             </div>
             <div className="hidden md:block" />
@@ -117,13 +117,13 @@ export default function DeeperContext() {
                 Building Infrastructure Before Changing Systems
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Frontline staff know <strong className="font-semibold text-[#5C306C]">what doesn&apos;t appear in any requirements document</strong>. That knowledge should shape technology development&mdash;but it only does if two things are true.
+                Frontline staff know <strong className="font-semibold text-[#5C306C]">complexity that never makes it into a requirements document</strong>. That knowledge should shape technology development, but it only does if two things are true.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
                 First: <strong className="font-semibold text-[#5C306C]">a relationship where feedback travels</strong>. Staff tell you what isn&apos;t working when they trust it won&apos;t create problems and believe something will happen as a result.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Second, and harder: <strong className="font-semibold text-[#5C306C]">the infrastructure to act on that feedback safely</strong>. We work through smaller, lower-stakes things first&mdash;not to delay, but because that&apos;s where surprises surface while there&apos;s still room to handle them. By the time we&apos;re touching the systems that matter most, we&apos;ve already learned how this organization&apos;s environment behaves.
+                Second, and harder: <strong className="font-semibold text-[#5C306C]">the infrastructure to act on that feedback safely</strong>. We start with smaller, lower-stakes work. Not to delay, but because that&apos;s where surprises surface, and catching them early gives us room to respond. By the time we&apos;re touching the systems that matter most, we&apos;ve already learned how this organization&apos;s environment behaves.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 That&apos;s the sequence. <strong className="font-semibold text-[#5C306C]">Relationship first, infrastructure second</strong>. Both have to exist before feedback does anything useful.
@@ -142,10 +142,10 @@ export default function DeeperContext() {
                 Short project timelines reward deliverables over understanding, handoffs over relationships. Our structure buys us something most consultancies can&apos;t offer: <strong className="font-semibold text-[#5C306C]">time</strong>. Time to understand before prescribing. Time for relationships that outlast individual projects.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                That means iteration becomes affordable once the foundation exists. <strong className="font-semibold text-[#5C306C]">A report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>. A database change doesn&apos;t require a new contract&mdash;it requires a Tuesday morning call.
+                That means iteration and maintenance become affordable once the foundation exists. <strong className="font-semibold text-[#5C306C]">A report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>. A database change doesn&apos;t require a new contract&mdash;it requires a Tuesday morning call.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                Technology projects fail at a predictable point: when the relationship ends and the system has to survive without the people who understood it. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> When our team changes&mdash;and it will&mdash;knowledge lives in the systems, processes, and documentation we&apos;ve built together, not only in whoever&apos;s currently on your file. Knowledge transfers through the work itself, not just documentation handed over at the end.
+                Technology projects often fail at a predictable point: when the relationship ends and the system has to survive without the people who understood it. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> When our team changes&mdash;and it will&mdash;knowledge lives in the systems, processes, and documentation we&apos;ve built together, not only in whoever&apos;s currently on your file. Knowledge transfers through the work itself, not just documentation handed over at the end.
               </p>
             </div>
             <div className="hidden md:block" />
@@ -160,10 +160,10 @@ export default function DeeperContext() {
                 When Plans Change
               </span>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                In typical consulting, unexpected roadblocks threaten the whole engagement. Different personnel needed, data to gather first, requirements that shifted&mdash;suddenly you&apos;re over budget or restarting the RFP process.
+                In typical consulting, unexpected roadblocks threaten the whole engagement. Different personnel needed, data to gather first, requirements that shifted. Suddenly you&apos;re over budget or restarting the RFP process.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Our structure makes room for that differently. When something doesn&apos;t go as planned, we reorient. We rescope. We <strong className="font-semibold text-[#5C306C]">meet the new context rather than defending the old one</strong>. That&apos;s sometimes uncomfortable&mdash;it doesn&apos;t always look like what either party expected. But having the room and resources to do that together, rather than fighting about whose fault the change is, is what makes the difference.
+                Our structure makes room for that differently. When something doesn&apos;t go as planned, we reorient. We rescope. We <strong className="font-semibold text-[#5C306C]">meet the new context rather than defending the old one</strong>. That&apos;s sometimes uncomfortable&mdash;it doesn&apos;t always look like what either party expected. But the room to work through it together is what makes the difference.
               </p>
               <p className="text-base text-[#5C306C]/85 leading-relaxed">
                 This isn&apos;t looseness&mdash;it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work unfolds</strong>.

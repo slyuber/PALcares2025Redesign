@@ -23,9 +23,9 @@ export const hero = {
     line2: "your work depends on",
   },
 
-  description: "We\u2019re not here to transform the sector\u2014we\u2019re here to support the organizations already doing transformative work.",
+  description: "We\u2019re not here to transform the sector, but to support the organizations already doing transformative work.",
 
-  location: "Supporting social service providers in Calgary, Edmonton, and surrounding areas",
+  location: "Supporting social service providers in Calgary, Edmonton, and Rural Alberta.",
 
   buttonPrimary: "Start a Conversation",
   buttonSecondary: "See How We Work",

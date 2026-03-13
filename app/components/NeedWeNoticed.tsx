@@ -123,18 +123,18 @@ export default function NeedWeNoticed() {
               </strong>
               .{" "}
               <strong className="text-[#5C306C] font-semibold">
-                Builders and practitioners should work side by side
+                The people building the tools and the people using them should work side by side
               </strong>
               .
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
-              The work has taught us what matters.{" "}
+              Years of learning and working with community has taught us what matters.{" "}
               <span className="text-[#5C306C] font-medium">
-                Nonprofit structure, multi-year commitments, open licensing,
+                Nonprofit structure, multi-year agreements, open licensing,
                 relationship-centered contracts
               </span>
-              {" "}&mdash; the kind of decisions that keep the work accountable to the people it&apos;s for.
+              . The kinds of decisions that keep the work accountable to the people it&apos;s for.
             </p>
           </motion.div>
 
@@ -146,7 +146,7 @@ export default function NeedWeNoticed() {
             <div className="lg:pl-8 lg:border-l border-[#5C306C]/10">
               <p className="text-base md:text-lg text-[#5C306C]/90 leading-relaxed mb-6">
                 Our technical teams{" "}
-                <strong className="font-semibold text-[#5C306C]">learn how your organization works before deciding what to build</strong>.
+                <strong className="font-semibold text-[#5C306C]">learn how your organization works before jointly deciding with you what to build</strong>.
                 {" "}Students and newcomers develop skills through supervised placements with real scope. Solutions that prove themselves get released openly&mdash;<strong className="font-semibold text-[#5C306C]">the patterns, not your data</strong>.
               </p>
 

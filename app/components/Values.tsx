@@ -206,7 +206,7 @@ export default function Values() {
               {values[3].title}
             </h3>
             <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              We don&apos;t aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn&apos;t dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability&mdash;not a binder and a handshake, and not a dependency we&apos;ve dressed up as a partnership.
+              We don&apos;t aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn&apos;t dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability&mdash;not a finder&apos;s fee, a handshake, or dependency dressed up as partnership.
             </p>
           </motion.div>
         </div>
