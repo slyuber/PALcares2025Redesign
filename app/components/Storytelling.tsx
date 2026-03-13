@@ -667,12 +667,12 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
     <div
       data-storytelling-active-panel={active ? "true" : "false"}
       className={cn(
-        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-400 ease-out",
+        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-600 ease-out",
         active
           ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 translate-y-6 pointer-events-none"
+          : "opacity-0 translate-y-3 pointer-events-none"
       )}
-      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+      style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}
     >
       <div
         className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24 transition-[max-width] duration-150"
