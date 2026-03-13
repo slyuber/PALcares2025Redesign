@@ -185,18 +185,21 @@ export default function Hero() {
               }}
             >
               strengthens the{" "}
-              <motion.span
-                  className="text-[#5C306C] inline-block"
-                  initial={{ fontWeight: 300 }}
-                  animate={{ fontWeight: 600 }}
+              <span className="relative inline-block">
+                <span className="text-[#5C306C]">
+                  relationships
+                </span>
+                <motion.span
+                  className="absolute bottom-[0.08em] left-0 h-[2px] bg-[#E08860]/40 rounded-full"
+                  initial={{ width: "0%" }}
+                  animate={{ width: prefersReducedMotion ? "100%" : "100%" }}
                   transition={{
                     delay: prefersReducedMotion ? 0 : 1.1,
-                    duration: prefersReducedMotion ? 0 : 0.6,
+                    duration: prefersReducedMotion ? 0 : 0.5,
                     ease: EASE_PREMIUM,
                   }}
-                >
-                  relationships
-                </motion.span>
+                />
+              </span>
             </motion.span>{" "}
             <br className="hidden md:block" />
             {/* Line 3 - enters last */}
@@ -225,7 +228,7 @@ export default function Hero() {
               ease: EASE_OUT_CUBIC,
             }}
           >
-            We&apos;re not here to transform the sector, but to{" "}
+            We&apos;re not here to transform the sector&mdash;we&apos;re here to{" "}
             <strong className="font-medium text-[#5C306C]">support the organizations already doing transformative work</strong>.
           </motion.p>
 
@@ -242,7 +245,7 @@ export default function Hero() {
             Supporting social service providers in{" "}
             <span className="font-medium text-[#5C306C]">Calgary</span>,{" "}
             <span className="font-medium text-[#5C306C]">Edmonton</span>,{" "}
-            and <span className="font-medium text-[#5C306C]">Rural Alberta</span>.
+            and surrounding areas
           </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
