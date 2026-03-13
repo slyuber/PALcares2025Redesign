@@ -123,7 +123,7 @@ function TestimonialCard({
                   {testimonial.fullTestimonial.map((paragraph, i) => (
                     <p
                       key={i}
-                      className="text-base text-[#5C306C]/75 leading-relaxed"
+                      className="text-base text-[#5C306C]/90 leading-relaxed"
                     >
                       {paragraph}
                     </p>
