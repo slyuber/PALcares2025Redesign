@@ -252,7 +252,7 @@ export default function Hero() {
                 const el = document.getElementById("contact");
                 if (el) scrollTo(el, { duration: SCROLL_DURATION_HERO });
               }}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#4A2756] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
               whileHover={prefersReducedMotion ? {} : {
                 scale: 1.02,
                 boxShadow: "0 8px 24px rgba(92, 48, 108, 0.35)",

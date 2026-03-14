@@ -583,7 +583,7 @@ export default function Header() {
                   <motion.button
                     type="button"
                     onClick={() => handleNavClick("contact")}
-                    className="w-full px-6 py-4 text-base font-medium text-white bg-[#5C306C] hover:bg-[#4A2756] active:bg-[#3D1F45] rounded-lg transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
+                    className="w-full px-6 py-4 text-base font-medium text-white bg-[#5C306C] hover:bg-[#4A2756] active:bg-[#4A2756] rounded-lg transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
                     whileTap={{ scale: 0.98 }}
                   >
                     Get in Touch

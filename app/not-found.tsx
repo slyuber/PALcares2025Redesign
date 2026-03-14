@@ -59,7 +59,7 @@ export default function NotFound() {
 Maybe it got lost in the internet somewhere.
                 </p>
 
-                <Link href="/" className="inline-block px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] hover:shadow-xl transition-shadow">
+                <Link href="/" className="inline-block px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#4A2756] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] hover:shadow-xl transition-shadow">
                   Return Home
                 </Link>
 

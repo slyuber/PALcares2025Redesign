@@ -13,7 +13,7 @@ export default function Error({
         <p className="text-[#5C306C]/60">We&apos;re sorry — please try refreshing the page.</p>
         <button
           onClick={reset}
-          className="px-6 py-3 rounded-full bg-[#5C306C] text-white text-sm font-medium hover:bg-[#472055] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
+          className="px-6 py-3 rounded-full bg-[#5C306C] text-white text-sm font-medium hover:bg-[#4A2756] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
         >
           Try again
         </button>

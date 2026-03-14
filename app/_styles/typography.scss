@@ -1,11 +1,3 @@
-.text-component {
-    color: var(--color-dark-gray);
-  p {
-    margin-bottom: 1.2rem;
-    font-size: var(--text-base);
-  }
-}
-
 h1 {
   font-size: var(--text-3xl);
   line-height: var(--leading-none);
@@ -70,13 +62,6 @@ h5 {
         }
 }
 
-.text-base{
-font-size: var(--text-sm);
-      @media (min-width: 640px) {
-        font-size: var(--text-base);
-        }
-}
-
 h1,
 h2,
 h3,
@@ -108,14 +93,4 @@ h5 {
   }
 }
 
-.contact-link {
-  color: var(--foreground);
-  font-size: var(--text-base);
-}
-
-ul{
-  margin-bottom: 2em;
-  list-style-type: disc;
-  margin-left: 1em;
-}
 

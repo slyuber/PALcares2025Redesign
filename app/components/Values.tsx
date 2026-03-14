@@ -87,7 +87,7 @@ export default function Values() {
             What Guides Us
           </motion.span>
           <motion.h2
-            className="text-3xl md:text-4xl font-normal text-[#4A2756] tracking-tight"
+            className="text-3xl md:text-4xl font-normal text-[#5C306C] tracking-tight"
             initial={{ opacity: 0, y: 15 }}
             animate={headerInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
@@ -118,11 +118,11 @@ export default function Values() {
                 strokeWidth={1.5}
               />
             </motion.div>
-            <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
+            <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {values[0].title}
             </h3>
-            <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              Good technology can&apos;t be separated from the relationships that create it. We don&apos;t finish understanding your organization and then start building&mdash;<strong className="font-semibold text-[#4A2756]">the building is part of the understanding</strong>. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When <span className="font-medium">trust and technology develop together</span>, what emerges actually fits how your organization operates.
+            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
+              Good technology can&apos;t be separated from the relationships that create it. We don&apos;t finish understanding your organization and then start building&mdash;<strong className="font-semibold text-[#5C306C]">the building is part of the understanding</strong>. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When <span className="font-medium">trust and technology develop together</span>, what emerges actually fits how your organization operates.
             </p>
           </motion.div>
 
@@ -146,11 +146,11 @@ export default function Values() {
                 strokeWidth={1.5}
               />
             </motion.div>
-            <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
+            <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {values[1].title}
             </h3>
-            <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              What we build together comes from your organization&apos;s knowledge and the communities you serve. It shouldn&apos;t be locked in proprietary systems or sold back to you. <strong className="font-semibold text-[#4A2756]">Tools shaped by community expertise belong to the people who shaped them</strong>, to use, change, and share freely. That&apos;s not a philosophy we apply at the end of an engagement. It&apos;s built into how we license what we create.
+            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
+              What we build together comes from your organization&apos;s knowledge and the communities you serve. It shouldn&apos;t be locked in proprietary systems or sold back to you. <strong className="font-semibold text-[#5C306C]">Tools shaped by community expertise belong to the people who shaped them</strong>, to use, change, and share freely. That&apos;s not a philosophy we apply at the end of an engagement. It&apos;s built into how we license what we create.
             </p>
           </motion.div>
 
@@ -174,11 +174,11 @@ export default function Values() {
                 strokeWidth={1.5}
               />
             </motion.div>
-            <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
+            <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {values[2].title}
             </h3>
-            <p className="text-sm text-[#4A2756]/75 leading-relaxed">
-              Indigenous-led movements, including <span className="font-medium">OCAP principles</span> here in Alberta, have shown that data about communities should be governed by those communities. We&apos;re learning from that leadership. The data your organization holds isn&apos;t really organizational data&mdash;it&apos;s data about the people you serve. When organizations lose control of it through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms. Where we inherit systems that don&apos;t yet support data portability, moving toward it is part of the work. <strong className="font-semibold text-[#4A2756]">Your data stays yours.</strong> That&apos;s the goal, and when it isn&apos;t the current state, it&apos;s what we&apos;re building toward.
+            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
+              Indigenous-led movements, including <span className="font-medium">OCAP principles</span> here in Alberta, have shown that data about communities should be governed by those communities. We&apos;re learning from that leadership. The data your organization holds isn&apos;t really organizational data&mdash;it&apos;s data about the people you serve. When organizations lose control of it through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms. Where we inherit systems that don&apos;t yet support data portability, moving toward it is part of the work. <strong className="font-semibold text-[#5C306C]">Your data stays yours.</strong> That&apos;s the goal, and when it isn&apos;t the current state, it&apos;s what we&apos;re building toward.
             </p>
           </motion.div>
 
@@ -202,10 +202,10 @@ export default function Values() {
                 strokeWidth={1.5}
               />
             </motion.div>
-            <h3 className="text-lg font-semibold text-[#4A2756] mb-3">
+            <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {values[3].title}
             </h3>
-            <p className="text-sm text-[#4A2756]/75 leading-relaxed">
+            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
               We don&apos;t aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn&apos;t dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability&mdash;not a finder&apos;s fee, a handshake, or dependency dressed up as partnership.
             </p>
           </motion.div>

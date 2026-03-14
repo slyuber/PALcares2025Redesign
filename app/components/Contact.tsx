@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { EASE_PREMIUM, EASE_SMOOTH, SPRING_SNAPPY, DURATION_MEDIUM, DURATION_SLOW, useSafeInView } from "../lib/animation-constants";
+import { global as siteGlobal } from "../lib/site-content";
 
 export default function Contact() {
   const prefersReducedMotion = useReducedMotion();
@@ -54,10 +55,10 @@ export default function Contact() {
   const getInputClasses = (field: string) => {
     const base = "w-full bg-[#FAF8F5]/50 border-0 border-b-2 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:ring-2 focus-visible:ring-offset-2 outline-none transition-colors placeholder:text-[#5C306C]/50";
     if (touched[field] && errors[field]) {
-      return `${base} border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500`;
+      return `${base} border-[#E07B4C] focus-visible:border-[#E07B4C] focus-visible:ring-[#E07B4C]`;
     }
     if (touched[field] && !errors[field] && formData[field as keyof typeof formData]) {
-      return `${base} border-green-500 focus-visible:border-green-500 focus-visible:ring-green-500`;
+      return `${base} border-[#8FAE8B] focus-visible:border-[#8FAE8B] focus-visible:ring-[#8FAE8B]`;
     }
     return `${base} border-[#5C306C]/10 focus-visible:border-[#FF9966] focus-visible:ring-[#FF9966]`;
   };
@@ -171,11 +172,11 @@ export default function Contact() {
 
             <div className="space-y-4">
               <a
-                href="mailto:support@palcares.ca"
+                href={`mailto:${siteGlobal.supportEmail}`}
                 className="group flex items-center gap-3 text-[#5C306C] hover:text-[#FF9966] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
               >
                 <span className="text-base font-medium group-hover:underline underline-offset-4 decoration-[#FF9966]/50">
-                  support@palcares.ca
+                  {siteGlobal.supportEmail}
                 </span>
               </a>
 
@@ -193,7 +194,7 @@ export default function Contact() {
             animate={rightInView ? { opacity: 1, x: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, delay: 0.15, ease: EASE_SMOOTH }}
           >
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-[#5C306C]/[0.06] p-8 md:p-10 shadow-[0_8px_32px_rgba(92,48,108,0.04)] transform-gpu">
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-[#5C306C]/6 p-8 md:p-10 shadow-[0_8px_32px_rgba(92,48,108,0.04)] transform-gpu">
               <AnimatePresence mode="wait">
                 {!isSuccess ? (
                   <motion.form
@@ -224,7 +225,7 @@ export default function Contact() {
                           className={getInputClasses('firstName')}
                         />
                         {touched.firstName && errors.firstName && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p className="text-xs text-[#E07B4C] mt-1">
                             {errors.firstName}
                           </p>
                         )}
@@ -244,7 +245,7 @@ export default function Contact() {
                           className={getInputClasses('lastName')}
                         />
                         {touched.lastName && errors.lastName && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p className="text-xs text-[#E07B4C] mt-1">
                             {errors.lastName}
                           </p>
                         )}
@@ -268,7 +269,7 @@ export default function Contact() {
                           className={getInputClasses('email')}
                         />
                         {touched.email && errors.email && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p className="text-xs text-[#E07B4C] mt-1">
                             {errors.email}
                           </p>
                         )}
@@ -305,7 +306,7 @@ export default function Contact() {
                         className={`${getInputClasses('message')} resize-none`}
                       />
                       {touched.message && errors.message && (
-                        <p className="text-xs text-red-600 mt-1">
+                        <p className="text-xs text-[#E07B4C] mt-1">
                           {errors.message}
                         </p>
                       )}
@@ -316,7 +317,7 @@ export default function Contact() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#5C306C] text-white font-medium hover:bg-[#472055] transition-colors disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
+                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#5C306C] text-white font-medium hover:bg-[#4A2756] transition-colors disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
                       >
                         {isSubmitting ? (
                           <>
@@ -336,7 +337,7 @@ export default function Contact() {
                         )}
                       </button>
                       {errors.submit && (
-                        <p className="text-sm text-red-600 mt-3">{errors.submit}</p>
+                        <p className="text-sm text-[#E07B4C] mt-3">{errors.submit}</p>
                       )}
                     </div>
                   </motion.form>
@@ -355,7 +356,7 @@ export default function Contact() {
                     >
                       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#8FAE8B]/20 to-[#8FAE8B]/10" />
                       <div className="absolute inset-0 rounded-full border border-[#8FAE8B]/30" />
-                      <CheckCircle className="relative z-10 w-8 h-8 text-[#6B9B67]" />
+                      <CheckCircle className="relative z-10 w-8 h-8 text-[#8FAE8B]" />
                     </motion.div>
                     <div>
                       <h3 className="text-2xl font-light text-[#5C306C] mb-2">Message Sent</h3>
