@@ -1,0 +1,34 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Verify critical files
+        run: test -f out/CNAME && test -f out/.nojekyll && test -f out/index.html && test -d out/_next
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          external_repository: palcares/palcares.github.io
+          publish_branch: main
+          publish_dir: ./out
+          cname: palcares.ca
