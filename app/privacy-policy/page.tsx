@@ -8,7 +8,7 @@ export const metadata = {
     title: "Privacy Policy",
     description:
       "",
-    url: "https://www.palcares.org/page-1",
+    url: "https://palcares.ca/privacy-policy",
     images: ["/image/palcares-logo_full.svg"],
   },
   twitter: {
@@ -25,7 +25,7 @@ export default function PrivacyPolicy ()
   return (
     <>
 
- <section id="contact" className="contact bg-white relative py-20 pb-20 lg:py-30">
+ <section className="contact bg-white relative py-20 pb-20 lg:py-30">
         <ParallaxBackground
           src="/image/pal-hero-bg-enhanced.webp"
           alt="Contact background"
@@ -40,7 +40,7 @@ export default function PrivacyPolicy ()
               <section>
   <p><strong>Effective Date:</strong> November 6, 2025</p>
 
-  <p>PALcares (“we,” “our,” or “us”) respects your privacy and is committed to protecting it. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website <a className="link" href="https://palcares.org">palcares.org</a> (the “Site”).</p>
+  <p>PALcares (“we,” “our,” or “us”) respects your privacy and is committed to protecting it. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website <a className="link" href="https://palcares.ca">palcares.ca</a> (the “Site”).</p>
 
   <h3>1. Information We Collect</h3>
   <p>We may collect personal information that you voluntarily provide, such as:</p>

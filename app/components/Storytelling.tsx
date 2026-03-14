@@ -155,7 +155,7 @@ export default function Storytelling() {
               icon={<Users className="w-6 h-6 text-[#FF9966]" />}
               label="Embedded Partnerships"
               title="PAL Teams"
-              description={<>PAL Teams embeds technical staff directly within organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>&mdash;building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
+              description={<>PAL Teams embeds technical teams directly within partner organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>&mdash;building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
               secondaryDescription={<>The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires <strong className="font-semibold text-[#5C306C]">someone inside the organization long enough to understand it</strong>.</>}
               details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround works</strong>, and we&apos;re reachable when something doesn&apos;t.</>}
               items={[
@@ -177,7 +177,7 @@ export default function Storytelling() {
               details={<>What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from <strong className="font-semibold text-[#5C306C]">actual use, not theoretical design</strong>. The first tools built through this process are in testing now, with public releases coming.</>}
               items={[
                 <><strong className="font-semibold text-[#5C306C]">Generalization starts with the user base,</strong> not the solution: we find who needs it before deciding if it&apos;s worth building</>,
-                <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources</strong>&mdash;without exposing the organizational specifics behind them</>,
+                <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources.</strong> What larger organizations help build, smaller organizations and rural communities can access without starting from scratch</>,
                 <><strong className="font-semibold text-[#5C306C]">Open licensing</strong> ensures tools stay with the community, not locked behind vendor agreements</>
               ]}
               quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
@@ -194,7 +194,7 @@ export default function Storytelling() {
               details={<>Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally&mdash;which means <strong className="font-semibold text-[#5C306C]">organizations don&apos;t pay for it out of already-thin budgets</strong>. Placements run through the infrastructure Teams has already built: established relationships, documented systems, a clear sense of what&apos;s sensitive and what isn&apos;t. The work is real&mdash;data engineering, cloud architecture, custom tooling&mdash;and the context is what makes it meaningful. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
               items={[
                 <><strong className="font-semibold text-[#5C306C]">Local placements</strong> that keep students and newcomers connected to Alberta communities and the sector&apos;s actual work</>,
-                <><strong className="font-semibold text-[#5C306C]">Fully funded</strong>&mdash;no financial cost to the receiving organization</>,
+                <><strong className="font-semibold text-[#5C306C]">Funded placements</strong> mean little to no financial cost to the receiving organization</>,
                 <><strong className="font-semibold text-[#5C306C]">Sustainable handoffs</strong>&mdash;every project leaves something maintainable behind</>
               ]}
               quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with actual stakes."
@@ -394,10 +394,10 @@ export default function Storytelling() {
                     in three parts
                   </h2>
                   <motion.p
-                    className="text-[#5C306C]/70 leading-relaxed max-w-3xl mx-auto text-base md:text-lg font-normal"
+                    className="text-[#5C306C]/70 leading-relaxed max-w-3xl mx-auto text-base md:text-lg font-medium"
                     style={{ opacity: subtitleOpacity }}
                   >
-                    Not three separate services—<span className="font-semibold">one approach</span> where each part strengthens&nbsp;the&nbsp;others.
+                    Not three separate services. <span className="font-semibold">One approach</span> where each part <span className="font-semibold">strengthens&nbsp;the&nbsp;others</span>.
                   </motion.p>
 
                   {/* Scroll cue - brief appearance, scroll-linked fade */}
@@ -428,7 +428,7 @@ export default function Storytelling() {
                 icon={<Users className="w-6 h-6 text-[#FF9966]" />}
                 label="Embedded Partnerships"
                 title="PAL Teams"
-                description={<>PAL <span className="font-semibold text-[#FF9966]">Teams</span> embeds technical staff directly within organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>&mdash;building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
+                description={<>PAL <span className="font-semibold text-[#FF9966]">Teams</span> embeds technical teams directly within partner organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>&mdash;building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
                 secondaryDescription={<>The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires <strong className="font-semibold text-[#5C306C]">someone inside the organization long enough to understand it</strong>.</>}
                 details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround works</strong>, and we&apos;re reachable when something doesn&apos;t.</>}
                 items={[
@@ -452,7 +452,7 @@ export default function Storytelling() {
                 details={<>What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from <strong className="font-semibold text-[#5C306C]">actual use, not theoretical design</strong>. The first tools built through this process are in testing now, with public releases coming.</>}
                 items={[
                   <><strong className="font-semibold text-[#5C306C]">Generalization starts with the user base,</strong> not the solution: we find who needs it before deciding if it&apos;s worth building</>,
-                  <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources</strong>&mdash;without exposing the organizational specifics behind them</>,
+                  <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources.</strong> What larger organizations help build, smaller organizations and rural communities can access without starting from scratch</>,
                   <><strong className="font-semibold text-[#5C306C]">Open licensing</strong> ensures tools stay with the community, not locked behind vendor agreements</>
                 ]}
                 quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
@@ -471,7 +471,7 @@ export default function Storytelling() {
                 details={<>Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally&mdash;which means <strong className="font-semibold text-[#5C306C]">organizations don&apos;t pay for it out of already-thin budgets</strong>. Placements run through the infrastructure Teams has already built: established relationships, documented systems, a clear sense of what&apos;s sensitive and what isn&apos;t. The work is real&mdash;data engineering, cloud architecture, custom tooling&mdash;and the context is what makes it meaningful. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
                 items={[
                   <><strong className="font-semibold text-[#5C306C]">Local placements</strong> that keep students and newcomers connected to Alberta communities and the sector&apos;s actual work</>,
-                  <><strong className="font-semibold text-[#5C306C]">Fully funded</strong>&mdash;no financial cost to the receiving organization</>,
+                  <><strong className="font-semibold text-[#5C306C]">Funded placements</strong> mean little to no financial cost to the receiving organization</>,
                   <><strong className="font-semibold text-[#5C306C]">Sustainable handoffs</strong>&mdash;every project leaves something maintainable behind</>
                 ]}
                 quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with actual stakes."
@@ -645,7 +645,7 @@ function MobileIntroHeader() {
         in three parts
       </h2>
       <motion.p
-        className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-normal px-2"
+        className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-medium px-2"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : undefined}
         transition={{
@@ -654,7 +654,7 @@ function MobileIntroHeader() {
           ease: EASE_PREMIUM
         }}
       >
-        Not three separate services—<span className="font-semibold">one approach</span> where each part strengthens the others.
+        Not three separate services. <span className="font-semibold">One approach</span> where each part <span className="font-semibold">strengthens the others</span>.
       </motion.p>
     </header>
   );

@@ -180,7 +180,7 @@ export default function Contact() {
               </a>
 
               <div className="text-sm text-[#5C306C]/60">
-                <p>Calgary &amp; Edmonton, Alberta</p>
+                <p>Calgary, Edmonton, and Rural Alberta</p>
               </div>
             </div>
           </motion.div>

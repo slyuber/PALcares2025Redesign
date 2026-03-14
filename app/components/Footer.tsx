@@ -79,7 +79,7 @@ export default function Footer() {
               Embedded technology partnerships for Alberta&apos;s social services.
             </p>
             <div className="space-y-1.5 text-xs text-[#5C306C]/60">
-              <p>Serving Calgary, Edmonton & surrounding areas</p>
+              <p>Serving Calgary, Edmonton &amp; Rural Alberta</p>
               <p>Open tools · Shared resources · Local expertise</p>
             </div>
             <p className="text-sm text-[#5C306C] font-medium pt-1">

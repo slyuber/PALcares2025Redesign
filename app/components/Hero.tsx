@@ -185,21 +185,18 @@ export default function Hero() {
               }}
             >
               strengthens the{" "}
-              <span className="relative inline-block">
-                <span className="text-[#5C306C]">
-                  relationships
-                </span>
-                <motion.span
-                  className="absolute bottom-[0.08em] left-0 h-[2px] bg-[#E08860]/40 rounded-full"
-                  initial={{ width: "0%" }}
-                  animate={{ width: prefersReducedMotion ? "100%" : "100%" }}
+              <motion.span
+                  className="text-[#5C306C] inline-block"
+                  initial={{ fontWeight: 300 }}
+                  animate={{ fontWeight: 600 }}
                   transition={{
                     delay: prefersReducedMotion ? 0 : 1.1,
-                    duration: prefersReducedMotion ? 0 : 0.5,
+                    duration: prefersReducedMotion ? 0 : 0.6,
                     ease: EASE_PREMIUM,
                   }}
-                />
-              </span>
+                >
+                  relationships
+                </motion.span>
             </motion.span>{" "}
             <br className="hidden md:block" />
             {/* Line 3 - enters last */}
@@ -245,7 +242,7 @@ export default function Hero() {
             Supporting social service providers in{" "}
             <span className="font-medium text-[#5C306C]">Calgary</span>,{" "}
             <span className="font-medium text-[#5C306C]">Edmonton</span>,{" "}
-            and surrounding areas
+            and <span className="font-medium text-[#5C306C]">Rural Alberta</span>.
           </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
