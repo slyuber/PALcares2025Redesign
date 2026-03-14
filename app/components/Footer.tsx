@@ -89,7 +89,7 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div className="space-y-5">
-            <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#5C306C]/80">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5C306C]/80">
               Quick Links
             </span>
             <nav aria-label="Footer navigation" className="flex flex-col gap-2.5">
@@ -107,7 +107,7 @@ export default function Footer() {
 
           {/* Column 3: Newsletter & Social */}
           <div className="space-y-5">
-            <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#5C306C]/80">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5C306C]/80">
               Stay Updated
             </span>
 

@@ -751,7 +751,7 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
           />
           <div className="relative z-10">{icon}</div>
         </motion.div>
-        <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.15em]">
+        <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]">
           {label}
         </span>
       </header>
@@ -898,7 +898,7 @@ const ContentPanel = React.memo(function ContentPanel({
                   <div className="absolute inset-0 rounded-xl border border-[#FF9966]/20" />
                   <div className="relative z-10">{icon}</div>
                 </motion.div>
-                <span className="text-xs font-semibold uppercase tracking-[0.15em]">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em]">
                   {label}
                 </span>
               </div>
@@ -996,7 +996,7 @@ const ContentPanel = React.memo(function ContentPanel({
                   <span>Back</span>
                 </button>
                 <span className="text-[#5C306C]/20 mx-1">|</span>
-                <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#FF9966]/80 truncate">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966]/80 truncate">
                   {label}
                 </span>
               </div>

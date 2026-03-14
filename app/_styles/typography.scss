@@ -86,11 +86,8 @@ h5 {
   font-weight: 500;
 }
 
-.text-xxs{
-  font-size: 11px;
-}
 .link {
-  font-size: 14px;
+  font-size: var(--text-sm);
   text-decoration: none;
   background-image: linear-gradient(to right,
       currentColor 50%,
@@ -122,15 +119,3 @@ ul{
   margin-left: 1em;
 }
 
-.privacy-policy-page, .terms-of-use-page{
-  h3{
-    font-size: 22px;
-    margin-bottom: 0.25em;
-  }
-
-  p{
-    display: block;
-    position: relative;
-    margin-bottom: 1.5em ;
-  }
-}
