@@ -91,6 +91,9 @@ export default function Storytelling() {
   // Scroll cue: brief appearance on section entry, gone before ecosystem color change completes
   const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.01, 0.04, 0.06], [0, 0.6, 0.6, 0]);
 
+  // Smooth entry: content fades in as user enters the scroll-lock section
+  const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.025], [0, 1]);
+
   // Two-state intro reveal - completes by 0.06 for early clarity
   const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.06], [0, 1]);
 
@@ -363,9 +366,10 @@ export default function Storytelling() {
           {/* Main Grid Layout */}
           <div className="relative z-10 w-full h-full grid grid-cols-1 xl:grid-cols-[1fr_auto]">
             {/* Content Container */}
-            <div 
-              ref={contentRef} 
+            <motion.div
+              ref={contentRef}
               className="w-full max-w-7xl mx-auto px-8 md:px-12 lg:px-16 py-8 md:py-12 flex flex-col justify-center min-h-full"
+              style={{ opacity: contentEntryOpacity }}
             >
               {/* Panel 0: Intro */}
               <Panel active={activeIndex === 0}>
@@ -480,7 +484,7 @@ export default function Storytelling() {
                 description={<><strong className="text-[#5C306C] font-semibold">Each part sustains the others.</strong> <span className="font-semibold text-[#FF9966]">Teams</span> does the foundational work—learning your organization, building <strong className="text-[#5C306C] font-medium">processes and tools</strong>. <span className="font-semibold text-[#FF9966]">Research</span> generalizes what survives <strong className="text-[#5C306C] font-medium">daily use</strong> and releases it under open license. <span className="font-semibold text-[#FF9966]">Labs</span> builds on that foundation to <strong className="text-[#5C306C] font-medium">grow local expertise</strong>.</>}
                 prefersReducedMotion={prefersReducedMotion}
               />
-            </div>
+            </motion.div>
 
             {/* Progress Indicator */}
             <div className="hidden lg:flex flex-col items-center justify-center gap-5 pr-6 w-40" data-storytelling-rail="true">
@@ -661,12 +665,12 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
     <div
       data-storytelling-active-panel={active ? "true" : "false"}
       className={cn(
-        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-600 ease-out",
+        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out",
         active
           ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 translate-y-3 pointer-events-none"
+          : "opacity-0 translate-y-4 pointer-events-none"
       )}
-      style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}
+      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
     >
       <div
         className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24 transition-[max-width] duration-150"
@@ -942,9 +946,13 @@ const ContentPanel = React.memo(function ContentPanel({
                     <li
                       key={i}
                       className={cn(
-                        "flex items-start gap-3 text-[#5C306C]/80 text-base group transition-[opacity,transform] duration-300",
-                        active ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
+                        "flex items-start gap-3 text-[#5C306C]/80 text-base group transition-[opacity,transform] duration-400",
+                        active ? "opacity-100 translate-x-0" : "opacity-0 translate-x-3"
                       )}
+                      style={{
+                        transitionDelay: active ? `${i * 60}ms` : '0ms',
+                        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
                     >
                       <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-1">
                         <ArrowRight className="w-3 h-3 text-[#FF9966]" />
