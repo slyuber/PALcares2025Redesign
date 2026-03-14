@@ -186,12 +186,12 @@ export default function Hero() {
             >
               strengthens the{" "}
               <motion.span
-                  className="text-[#5C306C] inline-block"
-                  initial={{ fontWeight: 300 }}
-                  animate={{ fontWeight: 600 }}
+                  className="font-semibold inline-block"
+                  initial={{ color: "#5C306C" }}
+                  animate={{ color: "#E07B4C" }}
                   transition={{
-                    delay: prefersReducedMotion ? 0 : 1.1,
-                    duration: prefersReducedMotion ? 0 : DURATION_SLOW,
+                    delay: prefersReducedMotion ? 0 : 1.0,
+                    duration: prefersReducedMotion ? 0 : DURATION_HERO,
                     ease: EASE_PREMIUM,
                   }}
                 >
