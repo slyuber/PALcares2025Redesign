@@ -990,7 +990,7 @@ const ContentPanel = React.memo(function ContentPanel({
                 <button
                   type="button"
                   onClick={() => setExpanded(false)}
-                  className="group inline-flex items-center gap-1.5 font-medium text-[#5C306C]/50 hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
+                  className="group inline-flex items-center gap-1.5 font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
                 >
                   <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
                   <span>Back</span>

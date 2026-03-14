@@ -20,7 +20,7 @@ export const metadata = {
 export default function Terms() {
   return (
     <>
-      <section id="terms" className="bg-white relative py-20 pb-20 lg:py-30">
+      <section id="terms" aria-label="Terms of Use" className="bg-white relative py-20 pb-20 lg:py-30">
         <ParallaxBackground
           src="/image/pal-hero-bg-enhanced.webp"
           alt="Terms background"

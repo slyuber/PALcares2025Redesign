@@ -351,7 +351,7 @@ export default function Header() {
                     animate={{ rotate: openSubmenu === item.id ? 180 : 0 }}
                     transition={{ duration: 0.25, ease: EASE_SNAPPY }}
                   >
-                    <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity" />
+                    <ChevronDown className="w-3.5 h-3.5 opacity-60 group-hover:opacity-80 transition-opacity" />
                   </motion.span>
                 )}
               </motion.button>

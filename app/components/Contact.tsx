@@ -275,7 +275,7 @@ export default function Contact() {
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="org" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
-                          Organization <span className="font-normal normal-case tracking-normal text-[#5C306C]/50">(optional)</span>
+                          Organization <span className="font-normal normal-case tracking-normal text-[#5C306C]/60">(optional)</span>
                         </label>
                         <input
                           type="text"

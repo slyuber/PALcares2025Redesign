@@ -20,7 +20,7 @@ export const metadata = {
 export default function PrivacyPolicy() {
   return (
     <>
-      <section className="bg-white relative py-20 pb-20 lg:py-30">
+      <section aria-label="Privacy Policy" className="bg-white relative py-20 pb-20 lg:py-30">
         <ParallaxBackground
           src="/image/pal-hero-bg-enhanced.webp"
           alt="Privacy policy background"

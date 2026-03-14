@@ -12,7 +12,7 @@ export default function NotFound() {
     <main id="top" className="bg">
 
       {/* Hero Section */}
-      <section className="hero bg-white lg:height-100vh relative mt-20 lg:mt-15 mb-20">
+      <section aria-label="Page not found" className="hero bg-white lg:height-100vh relative mt-20 lg:mt-15 mb-20">
         <div className="p-0 lg:p-30">
           {/* Replace Image with ParallaxBackground */}
           <ParallaxBackground
@@ -57,7 +57,7 @@ export default function NotFound() {
 Maybe it got lost in the internet somewhere.
                 </p>
 
-                <Link href="/" className="btn btn--primary">
+                <Link href="/" className="inline-block px-8 py-3.5 rounded-full bg-gradient-to-br from-[#5C306C] to-[#472055] text-white font-medium tracking-wide shadow-lg shadow-[#5C306C]/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C] hover:shadow-xl transition-shadow">
                   Return Home
                 </Link>
 

@@ -52,7 +52,7 @@ function TestimonialCard({
         }}
       >
         <div className="border-l-2 border-[#5C306C]/15 pl-6 md:pl-10 py-4">
-          <p className="text-lg text-[#5C306C]/50 italic">
+          <p className="text-lg text-[#5C306C]/60 italic">
             {testimonial.org}
           </p>
         </div>

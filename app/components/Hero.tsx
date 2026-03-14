@@ -293,7 +293,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.5, ease: EASE_OUT_CUBIC }}
         >
-          <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/40 group-hover:text-[#5C306C]/60 transition-colors font-medium">
+          <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors font-medium">
             Scroll
           </span>
           <div className="w-px h-8 relative overflow-hidden">
