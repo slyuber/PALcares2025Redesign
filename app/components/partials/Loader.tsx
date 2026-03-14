@@ -80,6 +80,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     setShowLoader(false);
     setLoaderSeen(true);
     sessionStorage.setItem("loaderSeen", "true");
+    window.dispatchEvent(new Event("loaderComplete"));
   }, [showLoader]);
 
   // Measure widest word using a hidden offscreen span (always in DOM)

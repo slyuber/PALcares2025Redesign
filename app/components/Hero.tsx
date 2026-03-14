@@ -14,6 +14,7 @@ import { useScrollTo } from "../lib/use-scroll-to";
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [isMounted, setIsMounted] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const scrollTo = useScrollTo();
 
   const { scrollY } = useScroll();
@@ -25,6 +26,17 @@ export default function Hero() {
 
   useEffect(() => {
     setIsMounted(true);
+
+    // If loader already ran (return visit / session), animate immediately
+    if (sessionStorage.getItem("loaderSeen") === "true") {
+      setIsReady(true);
+      return;
+    }
+
+    // Otherwise wait for the loader to finish
+    const onLoaderComplete = () => setIsReady(true);
+    window.addEventListener("loaderComplete", onLoaderComplete);
+    return () => window.removeEventListener("loaderComplete", onLoaderComplete);
   }, []);
 
   const findVisibleTarget = useCallback(() => {
@@ -113,7 +125,7 @@ export default function Hero() {
         <motion.div
           className="lg:hidden flex justify-center mb-8"
           initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isReady ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, ease: EASE_PREMIUM }}
         >
           <Image
@@ -132,7 +144,7 @@ export default function Hero() {
         <motion.div
           className="hidden lg:flex justify-center mb-12"
           initial={{ x: -6 }}
-          animate={{ x: 0 }}
+          animate={isReady ? { x: 0 } : undefined}
           transition={{ duration: prefersReducedMotion ? 0 : DURATION_HERO, ease: EASE_PREMIUM }}
           style={prefersReducedMotion ? {} : {
             opacity: logoOpacity,
@@ -164,7 +176,7 @@ export default function Hero() {
             <motion.span
               className="inline-block"
               initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={isReady ? { opacity: 1, y: 0 } : undefined}
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.2,
                 duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
@@ -177,7 +189,7 @@ export default function Hero() {
             <motion.span
               className="font-medium inline-block"
               initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={isReady ? { opacity: 1, y: 0 } : undefined}
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.35,
                 duration: prefersReducedMotion ? 0 : DURATION_SLOW,
@@ -188,7 +200,7 @@ export default function Hero() {
               <motion.span
                   className="font-semibold inline-block"
                   initial={{ color: "#5C306C" }}
-                  animate={{ color: "#E07B4C" }}
+                  animate={isReady ? { color: "#E07B4C" } : undefined}
                   transition={{
                     delay: prefersReducedMotion ? 0 : 1.0,
                     duration: prefersReducedMotion ? 0 : DURATION_HERO,
@@ -203,7 +215,7 @@ export default function Hero() {
             <motion.span
               className="inline-block"
               initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={isReady ? { opacity: 1, y: 0 } : undefined}
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.5,
                 duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
@@ -218,7 +230,7 @@ export default function Hero() {
             className="font-normal leading-relaxed text-[#5C306C]/90 max-w-2xl mx-auto"
             style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)" }}
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={isReady ? { opacity: 1, y: 0 } : undefined}
             transition={{
               delay: prefersReducedMotion ? 0 : 0.6,
               duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
@@ -232,7 +244,7 @@ export default function Hero() {
           <motion.p
             className="text-sm md:text-base text-[#5C306C]/80 font-medium"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={isReady ? { opacity: 1 } : undefined}
             transition={{
               delay: prefersReducedMotion ? 0 : 0.75,
               duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
@@ -282,7 +294,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator - Bottom center, line-draw animation, fades on scroll */}
-      {isMounted && (
+      {isMounted && isReady && (
         <motion.button
           type="button"
           className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-3 z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded-lg p-2 group"
