@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, Mot
 import { useSafeInView } from "../lib/animation-constants";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST, DURATION_FAST_MOBILE, DURATION_NORMAL_MOBILE, SCROLL_DURATION_SNAP, SCROLL_DURATION_NAV } from "../lib/animation-constants";
+import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST, DURATION_FAST_MOBILE, DURATION_NORMAL_MOBILE, DURATION_MEDIUM, DURATION_SLOW, DURATION_HERO, SCROLL_DURATION_SNAP, SCROLL_DURATION_NAV } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
 import Image from "next/image";
 
@@ -632,10 +632,10 @@ function MobileIntroHeader() {
             scale: [1, 1.02, 1.005, 1]
           } : undefined}
           transition={{
-            duration: prefersReducedMotion ? 0 : 0.6,
+            duration: prefersReducedMotion ? 0 : DURATION_SLOW,
             ease: EASE_PREMIUM,
             scale: {
-              duration: prefersReducedMotion ? 0 : 0.8,
+              duration: prefersReducedMotion ? 0 : DURATION_HERO,
               times: [0, 0.4, 0.7, 1]
             }
           }}
@@ -649,8 +649,8 @@ function MobileIntroHeader() {
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : undefined}
         transition={{
-          duration: prefersReducedMotion ? 0 : 0.5,
-          delay: 0.2,
+          duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
+          delay: prefersReducedMotion ? 0 : 0.2,
           ease: EASE_PREMIUM
         }}
       >

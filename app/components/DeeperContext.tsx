@@ -5,7 +5,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { EASE_PREMIUM, useSafeInView } from "../lib/animation-constants";
+import { EASE_PREMIUM, DURATION_MEDIUM, useSafeInView } from "../lib/animation-constants";
 
 // Reusable animated section - useInView triggers with refined premium animation
 function AnimatedBeat({
@@ -26,13 +26,13 @@ function AnimatedBeat({
     <motion.div
       ref={ref}
       className={className}
-      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
       animate={isInView
         ? { opacity: 1, y: 0 }
         : undefined
       }
       transition={{
-        duration: prefersReducedMotion ? 0 : 0.55,
+        duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
         delay: prefersReducedMotion ? 0 : delay,
         ease: EASE_PREMIUM,
       }}

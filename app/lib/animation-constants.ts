@@ -63,6 +63,7 @@ export const DURATION_FAST = 0.2; // Button presses, small reveals
 export const DURATION_NORMAL = 0.4; // Content transitions, expand/collapse
 export const DURATION_MEDIUM = 0.5; // Section entrances, element reveals
 export const DURATION_SLOW = 0.6; // Large layout changes, hero animations
+export const DURATION_HERO = 0.8; // Hero/entrance reveals, prominent animations
 
 /**
  * Programmatic Scroll Durations (seconds)

@@ -8,7 +8,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import Image from "next/image";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { hero } from "../lib/site-content";
-import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY, SCROLL_DURATION_HERO } from "../lib/animation-constants";
+import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY, SCROLL_DURATION_HERO, DURATION_SLOW, DURATION_MEDIUM, DURATION_NORMAL, DURATION_HERO } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
 
 export default function Hero() {
@@ -112,9 +112,9 @@ export default function Hero() {
         {/* Mobile Logo - Only shows on mobile since desktop uses Header */}
         <motion.div
           className="lg:hidden flex justify-center mb-8"
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: EASE_PREMIUM }}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, ease: EASE_PREMIUM }}
         >
           <Image
             src="/svg/PALcares_logo_light.svg"
@@ -133,7 +133,7 @@ export default function Hero() {
           className="hidden lg:flex justify-center mb-12"
           initial={{ x: -6 }}
           animate={{ x: 0 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: EASE_PREMIUM }}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION_HERO, ease: EASE_PREMIUM }}
           style={prefersReducedMotion ? {} : {
             opacity: logoOpacity,
             y: logoY,
@@ -163,11 +163,11 @@ export default function Hero() {
             {/* Line 1 - enters first */}
             <motion.span
               className="inline-block"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.2,
-                duration: prefersReducedMotion ? 0 : 0.5,
+                duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
                 ease: EASE_PREMIUM,
               }}
             >
@@ -180,7 +180,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.35,
-                duration: prefersReducedMotion ? 0 : 0.6,
+                duration: prefersReducedMotion ? 0 : DURATION_SLOW,
                 ease: EASE_PREMIUM,
               }}
             >
@@ -191,7 +191,7 @@ export default function Hero() {
                   animate={{ fontWeight: 600 }}
                   transition={{
                     delay: prefersReducedMotion ? 0 : 1.1,
-                    duration: prefersReducedMotion ? 0 : 0.6,
+                    duration: prefersReducedMotion ? 0 : DURATION_SLOW,
                     ease: EASE_PREMIUM,
                   }}
                 >
@@ -202,11 +202,11 @@ export default function Hero() {
             {/* Line 3 - enters last */}
             <motion.span
               className="inline-block"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 delay: prefersReducedMotion ? 0 : 0.5,
-                duration: prefersReducedMotion ? 0 : 0.5,
+                duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
                 ease: EASE_PREMIUM,
               }}
             >
@@ -221,7 +221,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{
               delay: prefersReducedMotion ? 0 : 0.6,
-              duration: prefersReducedMotion ? 0 : 0.5,
+              duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
               ease: EASE_OUT_CUBIC,
             }}
           >
@@ -235,7 +235,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{
               delay: prefersReducedMotion ? 0 : 0.75,
-              duration: prefersReducedMotion ? 0 : 0.4,
+              duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
               ease: EASE_PREMIUM,
             }}
           >
@@ -291,7 +291,7 @@ export default function Hero() {
           style={{ opacity: scrollIndicatorOpacity }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.5, ease: EASE_OUT_CUBIC }}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION_HERO, delay: prefersReducedMotion ? 0 : 1.5, ease: EASE_OUT_CUBIC }}
         >
           <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors font-medium">
             Scroll

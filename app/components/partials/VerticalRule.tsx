@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { EASE_OUT_CUBIC } from "../../lib/animation-constants";
+import { EASE_OUT_CUBIC, DURATION_HERO } from "../../lib/animation-constants";
 
 interface VerticalRuleProps {
   color?: string;
@@ -32,7 +32,7 @@ export default function VerticalRule({
         className="relative left-1/2 top-0 -translate-x-1/2 rounded-full origin-top"
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
-        transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: EASE_OUT_CUBIC }}
+        transition={{ duration: prefersReducedMotion ? 0 : DURATION_HERO, ease: EASE_OUT_CUBIC }}
         style={dynamicStyles}
       />
     );

@@ -12,6 +12,7 @@ import {
   DURATION_NORMAL,
   DURATION_MEDIUM,
   DURATION_SLOW,
+  STAGGER_NORMAL,
   useSafeInView,
 } from "../lib/animation-constants";
 import { testimonials, testimonialsList } from "../lib/site-content";
@@ -45,11 +46,11 @@ function TestimonialCard({
     return (
       <motion.div
         ref={cardRef}
-        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
         animate={inView ? { opacity: 1, y: 0 } : undefined}
         transition={{
           duration: prefersReducedMotion ? 0 : DURATION_SLOW,
-          delay: prefersReducedMotion ? 0 : index * 0.15,
+          delay: prefersReducedMotion ? 0 : index * STAGGER_NORMAL,
           ease: EASE_SMOOTH,
         }}
       >
@@ -65,11 +66,11 @@ function TestimonialCard({
   return (
     <motion.div
       ref={cardRef}
-      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
       animate={inView ? { opacity: 1, y: 0 } : undefined}
       transition={{
         duration: prefersReducedMotion ? 0 : DURATION_SLOW,
-        delay: prefersReducedMotion ? 0 : index * 0.15,
+        delay: prefersReducedMotion ? 0 : index * STAGGER_NORMAL,
         ease: EASE_SMOOTH,
       }}
     >
@@ -189,7 +190,7 @@ export default function Testimonials() {
           </motion.span>
           <motion.h2
             className="text-3xl md:text-4xl font-light text-[#5C306C] tracking-tight"
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={headerInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
           >

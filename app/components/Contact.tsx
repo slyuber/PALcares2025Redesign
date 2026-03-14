@@ -151,7 +151,7 @@ export default function Contact() {
               </motion.span>
               <motion.h2
                 className="text-3xl md:text-4xl font-light text-[#5C306C] leading-tight tracking-tight"
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={leftInView ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
               >
@@ -161,7 +161,7 @@ export default function Contact() {
 
             <motion.p
               className="text-base text-[#5C306C]/70 leading-relaxed"
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={leftInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
             >
@@ -192,7 +192,7 @@ export default function Contact() {
             className="lg:col-span-3"
             initial={{ opacity: 0, x: prefersReducedMotion ? 0 : 20 }}
             animate={rightInView ? { opacity: 1, x: 0 } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, delay: 0.15, ease: EASE_SMOOTH }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, delay: prefersReducedMotion ? 0 : 0.15, ease: EASE_SMOOTH }}
           >
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-[#5C306C]/6 p-8 md:p-10 shadow-[0_8px_32px_rgba(92,48,108,0.04)] transform-gpu">
               <AnimatePresence mode="wait">

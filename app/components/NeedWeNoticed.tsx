@@ -25,7 +25,7 @@ export default function NeedWeNoticed() {
 
   // Label: quick, subtle fade
   const labelVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 8 },
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
     visible: {
       opacity: 1,
       y: 0,
@@ -38,7 +38,7 @@ export default function NeedWeNoticed() {
 
   // Headline: slightly overshoots then settles — the "snap" moment
   const headlineVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
     visible: {
       opacity: 1,
       y: 0,
@@ -51,7 +51,7 @@ export default function NeedWeNoticed() {
 
   // Body content: smooth slide-up
   const bodyVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 14 },
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
     visible: {
       opacity: 1,
       y: 0,

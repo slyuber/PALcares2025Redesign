@@ -88,7 +88,7 @@ export default function Values() {
           </motion.span>
           <motion.h2
             className="text-3xl md:text-4xl font-normal text-[#5C306C] tracking-tight"
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={headerInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
           >

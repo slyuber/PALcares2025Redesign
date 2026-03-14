@@ -18,6 +18,10 @@ import {
   EASE_SNAPPY,
   EASE_DRAMATIC,
   EASE_TEXT_REVEAL,
+  DURATION_FAST,
+  DURATION_NORMAL,
+  DURATION_NORMAL_MOBILE,
+  DURATION_MEDIUM,
 } from "../../lib/animation-constants";
 
 const words = ["teams", "labs", "research", "cares"];
@@ -247,7 +251,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: DURATION_NORMAL_MOBILE }}
                     className="flex items-center justify-center"
                   >
                     <PALcaresIcon size="clamp(4rem, 12vw, 8rem)" />
@@ -258,7 +262,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                     className="inline-flex items-baseline justify-center"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.4 }}
+                    transition={{ duration: DURATION_NORMAL }}
                   >
                     {/* ICON — always in DOM, opacity + scale gated (no width animation) */}
                     <motion.div
@@ -269,7 +273,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                         opacity: isMerged ? 1 : 0,
                         scale: isMerged ? 1 : 0,
                       }}
-                      transition={{ duration: 0.4, ease: EASE_SNAPPY }}
+                      transition={{ duration: DURATION_NORMAL, ease: EASE_SNAPPY }}
                     >
                       <PALcaresIcon size={iconSize} />
                     </motion.div>
@@ -285,8 +289,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                         color: isMerged ? COLORS.pal : COLORS.animating,
                       }}
                       transition={{
-                        duration: 0.5,
-                        color: { duration: 0.4 },
+                        duration: DURATION_MEDIUM,
+                        color: { duration: DURATION_NORMAL },
                       }}
                     >
                       PAL
@@ -303,7 +307,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                         marginRight: isMerged ? 0 : "0.2em",
                         width: isMerged ? 0 : "auto",
                       }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: DURATION_NORMAL_MOBILE }}
                     >
                       {!isMerged && "\u2013"}
                     </motion.span>
@@ -324,7 +328,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                           exit={{ opacity: 0, y: -12, filter: "blur(2px)" }}
                           transition={{
-                            duration: 0.25,
+                            duration: DURATION_FAST,
                             ease: EASE_TEXT_REVEAL,
                           }}
                         >
@@ -342,8 +346,8 @@ export default function Loader({ children }: { children: React.ReactNode }) {
                           initial={{ opacity: 0, x: 10 }}
                           animate={{ opacity: 1, x: 0, color: COLORS.cares }}
                           transition={{
-                            duration: 0.4,
-                            color: { duration: 0.5 },
+                            duration: DURATION_NORMAL,
+                            color: { duration: DURATION_MEDIUM },
                           }}
                         >
                           cares
