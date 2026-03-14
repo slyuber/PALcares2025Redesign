@@ -14,9 +14,9 @@ export default function ScrollBackground() {
   
   // PROVEN PATTERN: useTransform for scroll-linked values (no springs needed for subtle parallax)
   // This avoids continuous spring calculations - transforms are computed only when scrollYProgress changes
+  // 2 parallax layers (reduced from 3 — fewer compositor layers = less GPU work per frame)
   const layer1Y = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
   const layer2Y = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
-  const layer3Y = useTransform(scrollYProgress, [0, 1], ["0%", "-55%"]);
 
   useEffect(() => {
     setMounted(true);
@@ -56,21 +56,27 @@ export default function ScrollBackground() {
           }}
         />
         
-        {/* Paper texture */}
-        <div
-          className="absolute inset-0 opacity-[0.035] pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E")`,
-            backgroundSize: "512px 512px",
-          }}
-        />
-
-        {/* Fine grain */}
+        {/* Crosshatch texture (lightweight, no SVG filters) */}
         <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E")`,
-            backgroundSize: "256px 256px",
+            backgroundImage: `
+              repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(139,119,101,0.12) 2px,
+                rgba(139,119,101,0.12) 3px
+              ),
+              repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(139,119,101,0.12) 2px,
+                rgba(139,119,101,0.12) 3px
+              )
+            `,
+            backgroundSize: "8px 8px",
           }}
         />
       </div>
@@ -79,173 +85,140 @@ export default function ScrollBackground() {
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
-      
-      {/* ====== BASE LAYER - Static warm gradient ====== */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#FDFBF8] via-[#FAF7F3] to-[#F5F2EE]" />
-      
-      
-      {/* ====== PARALLAX LAYER 1 - Warm peach/coral (top-right) ====== */}
-      {/* MODIFICATION: 2024-12-16 - Softer edges, more feathering */}
-      {/* PERF: Removed blur-xl - radial gradient already has soft feathered edges */}
-      {/* Using pre-softened gradient instead of runtime blur saves ~50% paint time */}
-      <motion.div
-        className="absolute pointer-events-none will-change-transform"
-        style={{
-          y: layer1Y,
-          top: "-15%",
-          right: "-20%",
-          width: "70vw",
-          height: "70vw",
-          background: `
-            radial-gradient(circle at 40% 40%,
-              rgba(255,210,180,0.16) 0%,
-              rgba(255,195,165,0.10) 20%,
-              rgba(255,180,150,0.05) 40%,
-              rgba(255,170,140,0.02) 60%,
-              transparent 80%
-            )
-          `,
-          borderRadius: "50%",
-        }}
-      />
-      {/* END MODIFICATION */}
 
+      {/* ====== STATIC LAYERS — isolated stacking context, never recomposited by parallax ====== */}
+      <div className="absolute inset-0" style={{ isolation: "isolate" }}>
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FDFBF8] via-[#FAF7F3] to-[#F5F2EE]" />
 
-      {/* ====== PARALLAX LAYER 2 - Sage green (left-center) ====== */}
-      {/* MODIFICATION: 2024-12-16 - Softer edges, more feathering */}
-      {/* PERF: Removed blur-xl - using pre-softened radial gradient */}
-      <motion.div
-        className="absolute pointer-events-none will-change-transform"
-        style={{
-          y: layer2Y,
-          top: "30%",
-          left: "-25%",
-          width: "60vw",
-          height: "60vw",
-          background: `
-            radial-gradient(circle at 60% 50%,
-              rgba(143,174,139,0.10) 0%,
-              rgba(143,174,139,0.05) 25%,
-              rgba(143,174,139,0.02) 45%,
-              transparent 70%
-            )
-          `,
-          borderRadius: "50%",
-        }}
-      />
-      {/* END MODIFICATION */}
+        {/* Cream glow (top) */}
+        <div
+          className="absolute -top-[10%] left-[20%] w-[50vw] h-[40vh] pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(ellipse 80% 60% at 50% 30%,
+                rgba(255,253,250,0.5) 0%,
+                rgba(255,250,245,0.2) 40%,
+                transparent 70%
+              )
+            `,
+          }}
+        />
 
+        {/* Warm glow (bottom) */}
+        <div
+          className="absolute bottom-0 left-[30%] w-[60vw] h-[35vh] pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(ellipse 70% 50% at 50% 80%,
+                rgba(255,240,230,0.3) 0%,
+                rgba(250,245,240,0.1) 50%,
+                transparent 70%
+              )
+            `,
+          }}
+        />
 
-      {/* ====== PARALLAX LAYER 3 - Purple accent (bottom-right) ====== */}
-      {/* MODIFICATION: 2024-12-16 - Softer edges, more feathering */}
-      {/* PERF: Removed blur-xl - using pre-softened radial gradient */}
-      <motion.div
-        className="absolute pointer-events-none will-change-transform"
-        style={{
-          y: layer3Y,
-          bottom: "-10%",
-          right: "5%",
-          width: "50vw",
-          height: "50vw",
-          background: `
-            radial-gradient(circle at 50% 50%,
-              rgba(92,48,108,0.05) 0%,
-              rgba(92,48,108,0.025) 30%,
-              rgba(92,48,108,0.01) 50%,
-              transparent 70%
-            )
-          `,
-          borderRadius: "50%",
-        }}
-      />
-      {/* END MODIFICATION */}
+        {/* Purple accent (static — merged from former parallax layer 3) */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            bottom: "-10%",
+            right: "5%",
+            width: "50vw",
+            height: "50vw",
+            background: `
+              radial-gradient(circle at 50% 50%,
+                rgba(92,48,108,0.05) 0%,
+                rgba(92,48,108,0.025) 30%,
+                rgba(92,48,108,0.01) 50%,
+                transparent 70%
+              )
+            `,
+            borderRadius: "50%",
+          }}
+        />
 
+        {/* Crosshatch texture */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `
+              repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(139,119,101,0.12) 2px,
+                rgba(139,119,101,0.12) 3px
+              ),
+              repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(139,119,101,0.12) 2px,
+                rgba(139,119,101,0.12) 3px
+              )
+            `,
+            backgroundSize: "8px 8px",
+          }}
+        />
 
-      {/* ====== STATIC HIGHLIGHT - Cream glow (top) ====== */}
-      <div 
-        className="absolute -top-[10%] left-[20%] w-[50vw] h-[40vh] pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(ellipse 80% 60% at 50% 30%, 
-              rgba(255,253,250,0.5) 0%, 
-              rgba(255,250,245,0.2) 40%,
-              transparent 70%
-            )
-          `,
-        }}
-      />
+        {/* Vignette */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(ellipse 100% 100% at 50% 50%, transparent 50%, rgba(245,242,238,0.25) 100%)
+            `,
+          }}
+        />
+      </div>
 
+      {/* ====== PARALLAX LAYERS — own stacking context, only these recomposite on scroll ====== */}
+      <div className="absolute inset-0 pointer-events-none" style={{ isolation: "isolate" }}>
+        {/* Warm peach/coral (top-right) */}
+        <motion.div
+          className="absolute pointer-events-none will-change-transform"
+          style={{
+            y: layer1Y,
+            top: "-15%",
+            right: "-20%",
+            width: "70vw",
+            height: "70vw",
+            background: `
+              radial-gradient(circle at 40% 40%,
+                rgba(255,210,180,0.16) 0%,
+                rgba(255,195,165,0.10) 20%,
+                rgba(255,180,150,0.05) 40%,
+                rgba(255,170,140,0.02) 60%,
+                transparent 80%
+              )
+            `,
+            borderRadius: "50%",
+          }}
+        />
 
-      {/* ====== STATIC HIGHLIGHT - Warm glow (bottom) ====== */}
-      <div 
-        className="absolute bottom-0 left-[30%] w-[60vw] h-[35vh] pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(ellipse 70% 50% at 50% 80%, 
-              rgba(255,240,230,0.3) 0%, 
-              rgba(250,245,240,0.1) 50%,
-              transparent 70%
-            )
-          `,
-        }}
-      />
-
-
-      {/* ====== TEXTURE OVERLAYS ====== */}
-
-      {/* Paper/Canvas texture - painterly feel */}
-      {/* Removed mix-blend-multiply: forces recomposite every scroll frame on fixed layers */}
-      <div
-        className="absolute inset-0 opacity-[0.035] pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E")`,
-          backgroundSize: "512px 512px",
-        }}
-      />
-
-      {/* Fine grain noise - organic imperfection */}
-      {/* Removed mix-blend-overlay: forces recomposite every scroll frame on fixed layers */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E")`,
-          backgroundSize: "256px 256px",
-        }}
-      />
-
-      {/* Subtle linen crosshatch - canvas texture */}
-      <div 
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(
-              0deg,
-              transparent,
-              transparent 2px,
-              rgba(139,119,101,0.12) 2px,
-              rgba(139,119,101,0.12) 3px
-            ),
-            repeating-linear-gradient(
-              90deg,
-              transparent,
-              transparent 2px,
-              rgba(139,119,101,0.12) 2px,
-              rgba(139,119,101,0.12) 3px
-            )
-          `,
-          backgroundSize: "8px 8px",
-        }}
-      />
-
-      {/* Soft vignette - very subtle, draws focus inward */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(ellipse 100% 100% at 50% 50%, transparent 50%, rgba(245,242,238,0.25) 100%)
-          `,
-        }}
-      />
+        {/* Sage green (left-center) */}
+        <motion.div
+          className="absolute pointer-events-none will-change-transform"
+          style={{
+            y: layer2Y,
+            top: "30%",
+            left: "-25%",
+            width: "60vw",
+            height: "60vw",
+            background: `
+              radial-gradient(circle at 60% 50%,
+                rgba(143,174,139,0.10) 0%,
+                rgba(143,174,139,0.05) 25%,
+                rgba(143,174,139,0.02) 45%,
+                transparent 70%
+              )
+            `,
+            borderRadius: "50%",
+          }}
+        />
+      </div>
     </div>
   );
 }

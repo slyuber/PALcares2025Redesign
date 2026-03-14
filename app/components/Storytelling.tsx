@@ -49,30 +49,24 @@ export default function Storytelling() {
   const researchFillClamped = useTransform(researchFill, clamp01);
   const labsFillClamped = useTransform(labsFill, clamp01);
 
-  // Measure header height for dynamic spacing
+  // Measure header height for dynamic spacing — ResizeObserver avoids layout thrashing
+  const headerHeightRef = useRef(0);
   useEffect(() => {
-    const measureHeader = () => {
-      const header = document.querySelector('header');
-      if (header) {
-        const headerRect = header.getBoundingClientRect();
-        const newHeight = headerRect.height;
-        // Only update if height actually changed to prevent infinite loop
-        if (newHeight !== headerHeight) {
-          setHeaderHeight(newHeight);
-          document.documentElement.style.setProperty('--header-height', `${newHeight}px`);
-        }
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    const observer = new ResizeObserver((entries) => {
+      const newHeight = entries[0].borderBoxSize[0].blockSize;
+      if (newHeight !== headerHeightRef.current) {
+        headerHeightRef.current = newHeight;
+        setHeaderHeight(newHeight);
+        document.documentElement.style.setProperty('--header-height', `${newHeight}px`);
       }
-    };
-    
-    measureHeader();
-    const timeoutId = setTimeout(measureHeader, 100);
-    window.addEventListener('resize', measureHeader);
-    
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', measureHeader);
-    };
-  }, [headerHeight]); // headerHeight included - the check inside measureHeader prevents infinite loops
+    });
+
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // PERF: useMotionValueEvent is optimized internally vs manual .on() subscription
   useMotionValueEvent(scrollYProgress, "change", (latest) => {

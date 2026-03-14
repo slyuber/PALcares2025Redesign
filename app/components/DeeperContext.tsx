@@ -53,8 +53,8 @@ export default function DeeperContext() {
     offset: ["start center", "end 0.2"],
   });
 
-  // Line starts empty (0%) and fills to 100% as user scrolls through section
-  const lineHeight = useTransform(scrollYProgress, [0, 0.85], ["0%", "100%"]);
+  // Line fills top-to-bottom as user scrolls — scaleY is GPU-composited (no layout thrash)
+  const lineScale = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
 
   return (
     <section
@@ -90,8 +90,8 @@ export default function DeeperContext() {
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2">
             <div className="absolute inset-0 bg-[#5C306C]/5" />
             <motion.div
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#8FAE8B] via-[#FF9966] to-[#5C306C] origin-top"
-              style={{ height: lineHeight }}
+              className="absolute inset-0 bg-gradient-to-b from-[#8FAE8B] via-[#FF9966] to-[#5C306C] origin-top"
+              style={{ scaleY: lineScale }}
             />
           </div>
 

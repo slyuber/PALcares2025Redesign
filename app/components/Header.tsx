@@ -294,8 +294,8 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* MODIFICATION: 2024-12-16 - Issue 6: Header merges with background without bar effect, but blocks content */}
-      <nav className={`px-6 lg:px-8 py-4 flex items-center justify-between transition-[background-color,backdrop-filter] duration-500 ${
-        scrolled ? "bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5]/80 backdrop-blur-sm" : "bg-transparent"
+      <nav className={`px-6 lg:px-8 py-4 flex items-center justify-between transition-colors duration-500 ${
+        scrolled ? "bg-[#FAF8F5]" : "bg-transparent"
       }`}>
         {/* Logo - scroll-linked crossfade with hero logo */}
         <Link href="/" className="flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded">
