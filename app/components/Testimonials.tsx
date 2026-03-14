@@ -10,6 +10,8 @@ import {
   EASE_PREMIUM,
   EASE_SMOOTH,
   DURATION_NORMAL,
+  DURATION_MEDIUM,
+  DURATION_SLOW,
   useSafeInView,
 } from "../lib/animation-constants";
 import { testimonials, testimonialsList } from "../lib/site-content";
@@ -43,12 +45,12 @@ function TestimonialCard({
     return (
       <motion.div
         ref={cardRef}
-        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
         animate={inView ? { opacity: 1, y: 0 } : undefined}
         transition={{
-          duration: prefersReducedMotion ? 0 : 0.6,
+          duration: prefersReducedMotion ? 0 : DURATION_SLOW,
           delay: prefersReducedMotion ? 0 : index * 0.15,
-          ease: EASE_PREMIUM,
+          ease: EASE_SMOOTH,
         }}
       >
         <div className="border-l-2 border-[#5C306C]/15 pl-6 md:pl-10 py-4">
@@ -63,12 +65,12 @@ function TestimonialCard({
   return (
     <motion.div
       ref={cardRef}
-      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
       animate={inView ? { opacity: 1, y: 0 } : undefined}
       transition={{
-        duration: prefersReducedMotion ? 0 : 0.6,
+        duration: prefersReducedMotion ? 0 : DURATION_SLOW,
         delay: prefersReducedMotion ? 0 : index * 0.15,
-        ease: EASE_PREMIUM,
+        ease: EASE_SMOOTH,
       }}
     >
       {/* Pull Quote */}
@@ -175,13 +177,13 @@ export default function Testimonials() {
           className="text-center mb-16 md:mb-24 space-y-4"
           initial={{ opacity: 0 }}
           animate={headerInView ? { opacity: 1 } : undefined}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
         >
           <motion.span
             className="text-xs font-semibold uppercase tracking-[0.2em] block"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
             animate={headerInView ? { opacity: 1, y: 0, color: "#E07B4C" } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
           >
             {testimonials.label}
           </motion.span>
@@ -189,7 +191,7 @@ export default function Testimonials() {
             className="text-3xl md:text-4xl font-light text-[#5C306C] tracking-tight"
             initial={{ opacity: 0, y: 15 }}
             animate={headerInView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
           >
             {testimonials.title}
           </motion.h2>

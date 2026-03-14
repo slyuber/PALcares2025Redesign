@@ -3,10 +3,12 @@
 import Link from "next/link";
 import ParallaxBackground from "./components/partials/ParallaxBackground";
 import VerticalRule from "./components/partials/VerticalRule";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { EASE_OUT_CUBIC } from "./lib/animation-constants";
 
 
 export default function NotFound() {
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <main id="top" className="bg">
@@ -44,10 +46,10 @@ export default function NotFound() {
           <div className="relative z-10 grid grid-cols-12 mt-5 lg:mt-0 mb-30 lg:mb-0">
             <div className="col-start-0 lg:col-start-5 col-span-12 lg:col-span-6 accent-line px-6 lg:px-0 lg:pr-20 sm:pl-5 lg:pl-20 py-6 lg:mt-20 text-center lg:text-left">
               <motion.div
-                initial={{ opacity: 0, x: -80 }}
+                initial={{ opacity: 0, x: prefersReducedMotion ? 0 : -80 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1.2 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 1.2, ease: EASE_OUT_CUBIC }}
               >
                 <h1 className="font-bold">
                  Well, this is awkward.

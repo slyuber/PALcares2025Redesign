@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { EASE_OUT_CUBIC, useSafeInView } from "../lib/animation-constants";
+import { EASE_OUT_CUBIC, DURATION_SLOW, useSafeInView } from "../lib/animation-constants";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -59,9 +59,9 @@ export default function Footer() {
         <motion.div
           ref={gridRef}
           className="grid md:grid-cols-[1.2fr_1fr_1fr] gap-12 md:gap-10 mb-14"
-          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 16 }}
-          animate={gridInView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: EASE_OUT_CUBIC }}
+          initial={{ opacity: 0 }}
+          animate={gridInView ? { opacity: 1 } : undefined}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, ease: EASE_OUT_CUBIC }}
         >
 
           {/* Column 1: Brand */}
@@ -139,7 +139,7 @@ export default function Footer() {
         </motion.div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[#5C306C]/6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#5C306C]/60">
+        <div className="pt-8 border-t border-[#5C306C]/6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#5C306C]/75">
           <p>© {new Date().getFullYear()} PALcares (Perseverance Analytics Ltd.)</p>
           <div className="flex gap-5">
             <Link

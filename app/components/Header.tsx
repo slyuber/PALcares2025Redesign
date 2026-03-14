@@ -8,7 +8,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, 
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { useLenis } from "lenis/react";
-import { EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY, SCROLL_DURATION_NAV, SCROLL_HEADER_OFFSET } from "../lib/animation-constants";
+import { EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY, SCROLL_DURATION_NAV, SCROLL_HEADER_OFFSET, DURATION_FAST_MOBILE, DURATION_FAST, DURATION_INSTANT, DURATION_NORMAL_MOBILE } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
 
 interface NavItem {
@@ -337,7 +337,7 @@ export default function Header() {
                 className="relative px-4 py-2.5 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors duration-300 flex items-center gap-1.5 rounded-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C]"
                 whileHover={{ backgroundColor: "rgba(92, 48, 108, 0.04)" }}
                 whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.15, ease: EASE_SNAPPY }}
+                transition={{ duration: DURATION_FAST_MOBILE, ease: EASE_SNAPPY }}
                 aria-haspopup={item.hasSubmenu ? "true" : undefined}
                 aria-expanded={item.hasSubmenu ? openSubmenu === item.id : undefined}
               >
@@ -365,7 +365,7 @@ export default function Header() {
                       initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -4, scale: prefersReducedMotion ? 1 : 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4, scale: prefersReducedMotion ? 1 : 0.98 }}
-                      transition={{ duration: prefersReducedMotion ? 0.1 : 0.2, ease: EASE_SNAPPY }}
+                      transition={{ duration: prefersReducedMotion ? DURATION_INSTANT : DURATION_FAST, ease: EASE_SNAPPY }}
                       onMouseLeave={() => setOpenSubmenu(null)}
                       role="menu"
                     >
@@ -377,7 +377,7 @@ export default function Header() {
                           className="w-full text-left px-4 py-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.05] transition-colors duration-200 flex items-center gap-2.5 group/item focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.05, duration: 0.2, ease: EASE_SNAPPY }}
+                          transition={{ delay: i * 0.05, duration: DURATION_FAST, ease: EASE_SNAPPY }}
                           whileHover={{ x: 2 }}
                           role="menuitem"
                         >
@@ -578,7 +578,7 @@ export default function Header() {
                   className="mt-8 pt-6 border-t border-[#5C306C]/10"
                   initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: prefersReducedMotion ? 0 : drawerItems.length * 0.05 + 0.1, duration: prefersReducedMotion ? 0 : 0.3, ease: EASE_SNAPPY }}
+                  transition={{ delay: prefersReducedMotion ? 0 : drawerItems.length * 0.05 + 0.1, duration: prefersReducedMotion ? 0 : DURATION_NORMAL_MOBILE, ease: EASE_SNAPPY }}
                 >
                   <motion.button
                     type="button"

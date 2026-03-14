@@ -61,6 +61,7 @@ export const EASE_ORGANIC = [0.25, 0.46, 0.45, 0.94] as const;
 export const DURATION_INSTANT = 0.1; // Hover states, micro-interactions
 export const DURATION_FAST = 0.2; // Button presses, small reveals
 export const DURATION_NORMAL = 0.4; // Content transitions, expand/collapse
+export const DURATION_MEDIUM = 0.5; // Section entrances, element reveals
 export const DURATION_SLOW = 0.6; // Large layout changes, hero animations
 
 /**

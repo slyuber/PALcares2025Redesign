@@ -11,7 +11,7 @@ import {
   Database,
 } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { EASE_PREMIUM, EASE_ENERGETIC, useSafeInView } from "../lib/animation-constants";
+import { EASE_PREMIUM, EASE_ENERGETIC, DURATION_MEDIUM, DURATION_FAST, useSafeInView } from "../lib/animation-constants";
 
 const values = [
   {
@@ -76,13 +76,13 @@ export default function Values() {
           className="text-center mb-16 md:mb-24 space-y-4"
           initial={{ opacity: 0 }}
           animate={headerInView ? { opacity: 1 } : undefined}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
         >
           <motion.span
             className="text-xs font-semibold uppercase tracking-[0.2em] block"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10, color: "#5C306C" }}
             animate={headerInView ? { opacity: 1, y: 0, color: "#E07B4C" } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
           >
             What Guides Us
           </motion.span>
@@ -90,7 +90,7 @@ export default function Values() {
             className="text-3xl md:text-4xl font-normal text-[#4A2756] tracking-tight"
             initial={{ opacity: 0, y: 15 }}
             animate={headerInView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
           >
             What We Believe
           </motion.h2>
@@ -100,17 +100,17 @@ export default function Values() {
         <div ref={gridRef} className="grid md:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
           {/* Trust as Infrastructure */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
+            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0, ease: EASE_PREMIUM }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[0].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
-              transition={{ duration: 0.2, ease: EASE_ENERGETIC }}
+              transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
               <HeartHandshake
                 className="w-6 h-6"
@@ -128,17 +128,17 @@ export default function Values() {
 
           {/* Community Ownership */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
+            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.08, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.08, ease: EASE_PREMIUM }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[1].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
-              transition={{ duration: 0.2, ease: EASE_ENERGETIC }}
+              transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
               <ShieldCheck
                 className="w-6 h-6"
@@ -156,17 +156,17 @@ export default function Values() {
 
           {/* Data Sovereignty */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
+            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.16, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.16, ease: EASE_PREMIUM }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[2].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
-              transition={{ duration: 0.2, ease: EASE_ENERGETIC }}
+              transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
               <Database
                 className="w-6 h-6"
@@ -184,17 +184,17 @@ export default function Values() {
 
           {/* Building Capacity, Not Dependency */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-            animate={gridInView ? { opacity: 1, y: 0 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
+            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 0.24, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.24, ease: EASE_PREMIUM }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
               style={{ backgroundColor: `${values[3].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
-              transition={{ duration: 0.2, ease: EASE_ENERGETIC }}
+              transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
               <Sprout
                 className="w-6 h-6"

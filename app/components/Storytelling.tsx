@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, Mot
 import { useSafeInView } from "../lib/animation-constants";
 import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST, SCROLL_DURATION_SNAP, SCROLL_DURATION_NAV } from "../lib/animation-constants";
+import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST, DURATION_FAST_MOBILE, DURATION_NORMAL_MOBILE, SCROLL_DURATION_SNAP, SCROLL_DURATION_NAV } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
 import Image from "next/image";
 
@@ -789,7 +789,7 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: EASE_SNAPPY }}
+                transition={{ duration: DURATION_NORMAL_MOBILE, ease: EASE_SNAPPY }}
                 className="space-y-4 overflow-hidden"
               >
                 {secondaryDescription && (
@@ -881,8 +881,8 @@ const ContentPanel = React.memo(function ContentPanel({
             className="grid gap-10 lg:gap-12 items-start w-full lg:grid-cols-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.15 } }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
+            exit={{ opacity: 0, transition: { duration: DURATION_FAST_MOBILE } }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_FAST, ease: EASE_PREMIUM }}
           >
             {/* LEFT COLUMN - Visual anchor: Icon, Label, Title, Quote */}
             <div className="space-y-5 lg:col-span-4">
@@ -917,9 +917,9 @@ const ContentPanel = React.memo(function ContentPanel({
               <motion.div 
                 className="hidden lg:block absolute left-0 top-0 w-[2px] bg-[#FF9966] rounded-full origin-top"
                 style={{ height: '100%', scaleY: active ? fillProgress : 0 }}
-                transition={{ duration: 0.15, ease: EASE_OUT_EXPO }}
+                transition={{ duration: DURATION_FAST_MOBILE, ease: EASE_OUT_EXPO }}
               />
-              
+
               <div className="space-y-6">
                 {/* Main description */}
                 <p className="text-base md:text-lg lg:text-lg text-[#5C306C]/90 leading-relaxed">
@@ -980,8 +980,8 @@ const ContentPanel = React.memo(function ContentPanel({
             className="grid gap-8 lg:gap-10 items-start w-full lg:grid-cols-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.15 } }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
+            exit={{ opacity: 0, transition: { duration: DURATION_FAST_MOBILE } }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_FAST, ease: EASE_PREMIUM }}
           >
             {/* LEFT COLUMN - Title and navigation */}
             <div className="lg:col-span-4 space-y-4 lg:space-y-5 lg:pr-4">
