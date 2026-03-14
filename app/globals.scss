@@ -104,6 +104,7 @@
 
 
 html {
+  overflow-x: hidden; // on html, overflow applies to viewport directly — no scroll container created
   overscroll-behavior: none; // Prevent browser bounce/pull-to-refresh from fighting Lenis
 }
 
@@ -111,7 +112,8 @@ body {
   background: #F5F2EE;
   color: var(--color-dark-gray);
   font-family: var(--font-sans);
-  overflow-x: clip; // clip instead of hidden — hidden creates a scroll container that breaks position:fixed on iOS Safari
+  // overflow-x: hidden was here — moved to html. On body it forces overflow-y:auto (CSS spec),
+  // creating a scroll container that can break position:fixed on iOS Safari.
 }
 
 .bg-foreground{
