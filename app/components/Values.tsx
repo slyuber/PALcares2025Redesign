@@ -122,7 +122,7 @@ export default function Values() {
               {values[0].title}
             </h3>
             <p className="text-sm text-[#5C306C]/75 leading-relaxed">
-              Good technology can&apos;t be separated from the relationships that create it. We don&apos;t finish understanding your organization and then start building&mdash;<strong className="font-semibold text-[#5C306C]">the building is part of the understanding</strong>. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When <span className="font-medium">trust and technology develop together</span>, what emerges actually fits how your organization operates.
+              Good technology can&apos;t be separated from the relationships that create it. We don&apos;t finish understanding your organization and then start building&mdash;<strong className="font-semibold text-[#5C306C]">the building is part of the understanding</strong>. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When <span className="font-medium">trust and technology develop together</span>, what emerges fits how your organization operates.
             </p>
           </motion.div>
 
