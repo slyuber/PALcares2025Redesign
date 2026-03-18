@@ -281,9 +281,9 @@ const testimonials = defineSingleton({
   }),
 });
 
-// ---- Export all collections ----
+// ---- Export all content ----
 export default defineConfig({
-  collections: [
+  content: [
     global,
     meta,
     loader,

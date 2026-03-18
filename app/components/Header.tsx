@@ -10,7 +10,6 @@ import { ChevronDown } from "lucide-react";
 import { useLenis } from "lenis/react";
 import { EASE_SNAPPY, EASE_OUT_EXPO, SPRING_SNAPPY, SCROLL_DURATION_NAV, SCROLL_HEADER_OFFSET, DURATION_FAST_MOBILE, DURATION_FAST, DURATION_INSTANT, DURATION_NORMAL_MOBILE, STAGGER_NORMAL } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
-import { navigation } from "content-collections";
 
 interface NavItem {
   id: string;
@@ -245,9 +244,41 @@ export default function Header() {
     });
   };
 
-  const navItems: NavItem[] = navigation.navItems;
+  const navItems: NavItem[] = [
+    { id: "where-we-started", label: "Our Story" },
+    { 
+      id: "storytelling", 
+      label: "How We Work",
+      hasSubmenu: true,
+      submenu: [
+        { id: "storytelling", label: "Teams", scrollOffset: 0.2 },
+        { id: "storytelling", label: "Research", scrollOffset: 0.4 },
+        { id: "storytelling", label: "Labs", scrollOffset: 0.6 },
+      ]
+    },
+    { id: "context", label: "Our Approach" },
+    { id: "values", label: "Values" },
+    { id: "testimonials", label: "Partners" },
+  ];
 
-  const drawerItems: Array<NavItem | { id: string; label: string }> = navigation.drawerItems;
+  const drawerItems: Array<NavItem | { id: string; label: string }> = [
+    { id: "top", label: "Top" },
+    { id: "where-we-started", label: "Our Story" },
+    { 
+      id: "storytelling", 
+      label: "How We Work",
+      hasSubmenu: true,
+      submenu: [
+        { id: "storytelling", label: "Teams", scrollOffset: 0.2 },
+        { id: "storytelling", label: "Research", scrollOffset: 0.4 },
+        { id: "storytelling", label: "Labs", scrollOffset: 0.6 },
+      ]
+    },
+    { id: "context", label: "Our Approach" },
+    { id: "values", label: "Values" },
+    { id: "testimonials", label: "Partners" },
+    { id: "contact", label: "Contact Us" },
+  ];
 
   if (!mounted) {
     return (
@@ -370,7 +401,7 @@ export default function Header() {
             whileTap={{ scale: 0.97, y: 0 }}
             transition={SPRING_SNAPPY}
           >
-            {navigation.cta}
+            Get in Touch
           </motion.button>
         </div>
 
@@ -380,7 +411,7 @@ export default function Header() {
           className="lg:hidden p-2 -mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4A2756] rounded"
           onClick={handleMenuToggle}
           aria-expanded={menuOpen}
-          aria-label={navigation.hamburgerAriaLabel}
+          aria-label="Open menu"
         >
           <svg
             className={`menu-icon header__trigger js-header__trigger ${
@@ -416,7 +447,7 @@ export default function Header() {
             data-mobile-menu
             role="dialog"
             aria-modal="true"
-            aria-label={navigation.menuAriaLabel}
+            aria-label="Navigation menu"
             initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: "100%" }}
             animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: "100%" }}
@@ -462,7 +493,7 @@ export default function Header() {
                   type="button"
                   onClick={() => handleCloseMenu('x-button')}
                   className="p-2 -mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded"
-                  aria-label={navigation.closeAriaLabel}
+                  aria-label="Close menu"
                 >
                   {/* Clear X icon for unambiguous close affordance */}
                   <svg
@@ -555,7 +586,7 @@ export default function Header() {
                     className="w-full px-6 py-4 text-base font-medium text-white bg-[#5C306C] hover:bg-[#4A2756] active:bg-[#4A2756] rounded-lg transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
                     whileTap={{ scale: 0.98 }}
                   >
-                    {navigation.cta}
+                    Get in Touch
                   </motion.button>
                 </motion.div>
               </nav>

@@ -69,7 +69,7 @@ export default function Storytelling() {
 
     observer.observe(header);
     return () => observer.disconnect();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // PERF: useMotionValueEvent is optimized internally vs manual .on() subscription
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -646,19 +646,6 @@ interface ContentPanelProps {
   fillProgress?: MotionValue<number> | number;
 }
 
-// Style sub-brand names: "PAL Teams" → PAL + coral "Teams"
-function stylePalNames(text: React.ReactNode): React.ReactNode {
-  if (typeof text !== 'string') return text;
-  const parts = text.split(/(PAL Teams|PAL Research|PAL Labs)/g);
-  if (parts.length === 1) return text;
-  return parts.map((part, i) => {
-    if (part === 'PAL Teams') return <span key={i}>PAL <span className="font-semibold text-[#FF9966]">Teams</span></span>;
-    if (part === 'PAL Research') return <span key={i}>PAL <span className="font-semibold text-[#FF9966]">Research</span></span>;
-    if (part === 'PAL Labs') return <span key={i}>PAL <span className="font-semibold text-[#FF9966]">Labs</span></span>;
-    return part;
-  });
-}
-
 // Mobile version - shows all content inline
 function ContentPanelMobile({ id, icon, label, title, description, secondaryDescription, details, items, quote }: {
   id?: string;
@@ -708,7 +695,7 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
       {/* Main Content */}
       <div className="space-y-4">
         <p className="text-base sm:text-lg text-[#5C306C]/90 leading-relaxed">
-          {stylePalNames(description)}
+          {description}
         </p>
 
         {/* Expandable secondary content - Read More / Read Less */}
@@ -738,13 +725,13 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
               >
                 {secondaryDescription && (
                   <p className="text-base text-[#5C306C]/75 leading-relaxed">
-                    {stylePalNames(secondaryDescription)}
+                    {secondaryDescription}
                   </p>
                 )}
 
                 {details && (
                   <p className="text-base text-[#5C306C]/75 leading-relaxed">
-                    {stylePalNames(details)}
+                    {details}
                   </p>
                 )}
 
