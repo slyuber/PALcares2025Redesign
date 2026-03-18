@@ -91,14 +91,17 @@ export default function Storytelling() {
   // PERF: Removed no-op smoothProgress transform - use scrollYProgress directly
   const lineOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
 
-  // Scroll cue: brief appearance on section entry, gone before ecosystem color change completes
-  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.01, 0.04, 0.06], [0, 0.6, 0.6, 0]);
+  // Scroll cue: appears quickly to guide scrolling, fades before panel transitions
+  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.005, 0.03, 0.05], [0, 0.6, 0.6, 0]);
 
-  // Smooth entry: panels 1-4 fade in as user scrolls; Panel 0 heading is always visible
-  const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.025], [0, 1]);
+  // Smooth entry: panels 1-4 fade in gradually (wider band = less abrupt)
+  const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
 
-  // Two-state intro reveal - completes by 0.06 for early clarity
-  const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.06], [0, 1]);
+  // Subtitle appears immediately on entry — fills the blank space
+  const subtitleOpacity = useTransform(scrollYProgress, [0, 0.04], [0, 1]);
+
+  // Subtle heading drift: disguises scroll-lock engagement
+  const introHeadingY = useTransform(scrollYProgress, [0, 0.03], [8, 0]);
 
   // Scroll-linked color transition for "ecosystem" text
   // Starts purple (same as heading), transitions to coral as user scrolls
@@ -349,7 +352,10 @@ export default function Storytelling() {
             >
               {/* Panel 0: Intro — heading always visible, subtitle + cue fade in on scroll */}
               <Panel active={activeIndex === 0}>
-                <div className="text-center max-w-4xl mx-auto space-y-6 relative">
+                <motion.div
+                  className="text-center max-w-4xl mx-auto space-y-6 relative"
+                  style={prefersReducedMotion ? {} : { y: introHeadingY }}
+                >
                   <h2
                     className="font-light text-[#5C306C] tracking-tight leading-tight"
                     style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
@@ -393,7 +399,7 @@ export default function Storytelling() {
                       <div className="w-px h-5 bg-[#5C306C]/25" />
                     )}
                   </motion.div>
-                </div>
+                </motion.div>
               </Panel>
 
               {/* Panels 1-4: fade in on scroll (intro heading stays visible) */}
