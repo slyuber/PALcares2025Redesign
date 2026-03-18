@@ -1,42 +1,43 @@
 // app/components/DeeperContext.tsx
-// KISS: useInView for stable once-only animations, no re-triggers
+// Scroll-linked vertical progress line with traveling ball and deposit dots
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { EASE_SMOOTH, DURATION_MEDIUM, useSafeInView } from "../lib/animation-constants";
+import { useRef, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+  useMotionValueEvent,
+  type MotionValue,
+} from "framer-motion";
 import { deeperContext } from "content-collections";
 import { renderRichText } from "../lib/rich-text";
+import { cn } from "../lib/utils";
 
-// Reusable animated section - useInView triggers with refined premium animation
-function AnimatedBeat({
+// Scroll-linked reveal for each beat — useTransform can't be called inside .map()
+function ScrollRevealBeat({
   children,
   className,
-  delay = 0,
+  scrollYProgress,
+  revealStart,
+  revealEnd,
+  prefersReducedMotion,
 }: {
   children: React.ReactNode;
   className?: string;
-  delay?: number;
+  scrollYProgress: MotionValue<number>;
+  revealStart: number;
+  revealEnd: number;
+  prefersReducedMotion: boolean | null;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  // Trigger when element is 15% visible for smoother entry
-  const isInView = useSafeInView(ref, { once: true, amount: 0.15, margin: "100px 0px" });
-  const prefersReducedMotion = useReducedMotion();
+  const opacity = useTransform(scrollYProgress, [revealStart, revealEnd], [0, 1]);
+  const y = useTransform(scrollYProgress, [revealStart, revealEnd], [12, 0]);
 
   return (
     <motion.div
-      ref={ref}
       className={className}
-      initial={prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
-      animate={isInView
-        ? { opacity: 1, scale: 1 }
-        : undefined
-      }
-      transition={{
-        duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
-        delay: prefersReducedMotion ? 0 : delay,
-        ease: EASE_SMOOTH,
-      }}
+      style={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity, y }}
     >
       {children}
     </motion.div>
@@ -45,7 +46,7 @@ function AnimatedBeat({
 
 export default function DeeperContext() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -57,9 +58,27 @@ export default function DeeperContext() {
   // Line fills top-to-bottom as user scrolls — scaleY is GPU-composited (no layout thrash)
   const lineScale = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
 
-  // Dot colors per beat
-  const dotColors = ["#8FAE8B", "#FF9966", "#8FAE8B", "#5C306C"];
-  const dotRingColors = ["#8FAE8B", "#FF9966", "#8FAE8B", "#5C306C"];
+  // Traveling ball position — maps scroll progress to percentage along the line
+  const ballTop = useTransform(scrollYProgress, [0, 0.85], ["0%", "100%"]);
+
+  // Deposit dots: appear when the traveling ball passes each beat's position
+  const beatThresholds = [0.12, 0.37, 0.62, 0.87];
+  const [deposited, setDeposited] = useState([false, false, false, false]);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const norm = latest / 0.85;
+    setDeposited((prev) => {
+      let changed = false;
+      const next = prev.map((d, i) => {
+        if (!d && norm >= beatThresholds[i]) {
+          changed = true;
+          return true;
+        }
+        return d;
+      });
+      return changed ? next : prev;
+    });
+  });
 
   // Layout alternation: even beats LEFT, odd beats RIGHT
   const beatLayouts = [
@@ -83,15 +102,11 @@ export default function DeeperContext() {
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-12 md:mb-16">
-          <h2
-            className="text-2xl md:text-3xl lg:text-4xl font-light text-[#E07B4C] tracking-tight mb-4"
-          >
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-[#E07B4C] tracking-tight mb-4">
             {deeperContext.heading}
           </h2>
-          <p
-            className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-light max-w-2xl mx-auto lg:whitespace-nowrap"
-          >
+          <p className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-normal max-w-2xl mx-auto lg:whitespace-nowrap">
             {deeperContext.subheading}
           </p>
         </div>
@@ -102,21 +117,34 @@ export default function DeeperContext() {
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2">
             <div className="absolute inset-0 bg-[#5C306C]/5" />
             <motion.div
-              className="absolute inset-0 bg-gradient-to-b from-[#8FAE8B] via-[#FF9966] to-[#5C306C] origin-top"
+              className="absolute inset-0 bg-[#E07B4C] origin-top"
               style={{ scaleY: lineScale }}
             />
           </div>
 
+          {/* Traveling ball */}
+          {!prefersReducedMotion && (
+            <motion.div
+              className="hidden md:block absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#E07B4C] z-10"
+              style={{
+                top: ballTop,
+                boxShadow: "0 0 12px rgba(224, 123, 76, 0.4)",
+              }}
+            />
+          )}
+
           {deeperContext.beats.map((beat, beatIdx) => {
             const layout = beatLayouts[beatIdx];
             const isLeft = layout.side === "left";
-            const delay = beatIdx === 0 ? 0 : 0.1;
 
             return (
-              <AnimatedBeat
+              <ScrollRevealBeat
                 key={beatIdx}
                 className={`relative grid md:grid-cols-2 gap-8 md:gap-10 ${layout.mbClass} ${layout.mtClass}`}
-                delay={delay}
+                scrollYProgress={scrollYProgress}
+                revealStart={beatThresholds[beatIdx] * 0.85 - 0.1}
+                revealEnd={beatThresholds[beatIdx] * 0.85}
+                prefersReducedMotion={prefersReducedMotion}
               >
                 {/* Spacer for right-side beats */}
                 {!isLeft && <div className="hidden md:block" />}
@@ -138,15 +166,23 @@ export default function DeeperContext() {
                 {/* Spacer for left-side beats */}
                 {isLeft && <div className="hidden md:block" />}
 
-                {/* Progress dot */}
+                {/* Deposit dot — appears when traveling ball passes this beat */}
                 <div
-                  className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full"
+                  className={cn(
+                    "hidden md:block absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#E07B4C]",
+                    deposited[beatIdx] ? "opacity-100" : "opacity-0"
+                  )}
                   style={{
-                    backgroundColor: dotColors[beatIdx],
-                    boxShadow: `0 0 0 4px ${dotRingColors[beatIdx]}33`,
+                    top: "1rem",
+                    boxShadow: deposited[beatIdx]
+                      ? "0 0 0 4px rgba(224, 123, 76, 0.12)"
+                      : "none",
+                    animation: deposited[beatIdx]
+                      ? "dot-pulse 0.4s ease-out"
+                      : "none",
                   }}
                 />
-              </AnimatedBeat>
+              </ScrollRevealBeat>
             );
           })}
         </div>

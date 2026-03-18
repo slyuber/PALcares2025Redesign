@@ -9,7 +9,7 @@ import Image from "next/image";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { hero } from "content-collections";
 import { renderRichText } from "../lib/rich-text";
-import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY, SCROLL_DURATION_HERO, DURATION_SLOW, DURATION_MEDIUM, DURATION_NORMAL, DURATION_HERO } from "../lib/animation-constants";
+import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY, SCROLL_DURATION_HERO, DURATION_SLOW, DURATION_HERO } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
 
 export default function Hero() {
@@ -167,92 +167,54 @@ export default function Hero() {
         </motion.div>
         {/* END MODIFICATION */}
 
-        {/* Hero text content - staggered line reveal */}
-        <div className="space-y-8 md:space-y-10">
+        {/* Hero text content - single fade-in */}
+        <motion.div
+          className="space-y-8 md:space-y-10"
+          initial={{ opacity: 0 }}
+          animate={isReady ? { opacity: 1 } : undefined}
+          transition={{
+            duration: prefersReducedMotion ? 0 : DURATION_SLOW,
+            ease: EASE_PREMIUM,
+          }}
+        >
           <h1
             className="font-light leading-tight tracking-tight text-[#5C306C]"
             style={{ fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)" }}
           >
-            {/* Line 1 - enters first */}
-            <motion.span
-              className="inline-block"
-              initial={{ opacity: 0, y: 16 }}
-              animate={isReady ? { opacity: 1, y: 0 } : undefined}
-              transition={{
-                delay: prefersReducedMotion ? 0 : 0.2,
-                duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
-                ease: EASE_PREMIUM,
-              }}
-            >
+            <span className="inline-block">
               {hero.tagline.line1}
-            </motion.span>{" "}
-            {/* Line 2 - emphasis, enters second */}
-            <motion.span
-              className="font-medium inline-block"
-              initial={{ opacity: 0, y: 16 }}
-              animate={isReady ? { opacity: 1, y: 0 } : undefined}
-              transition={{
-                delay: prefersReducedMotion ? 0 : 0.35,
-                duration: prefersReducedMotion ? 0 : DURATION_SLOW,
-                ease: EASE_PREMIUM,
-              }}
-            >
+            </span>{" "}
+            <span className="font-medium inline-block">
               {hero.tagline.emphasisPrefix}{" "}
               <motion.span
                   className="font-semibold inline-block"
                   initial={{ color: "#5C306C" }}
                   animate={isReady ? { color: "#E07B4C" } : undefined}
                   transition={{
-                    delay: prefersReducedMotion ? 0 : 1.0,
+                    delay: prefersReducedMotion ? 0 : 0.8,
                     duration: prefersReducedMotion ? 0 : DURATION_HERO,
                     ease: EASE_PREMIUM,
                   }}
                 >
                   {hero.tagline.emphasisWord}
                 </motion.span>
-            </motion.span>{" "}
+            </span>{" "}
             <br className="hidden md:block" />
-            {/* Line 3 - enters last */}
-            <motion.span
-              className="inline-block"
-              initial={{ opacity: 0, y: 16 }}
-              animate={isReady ? { opacity: 1, y: 0 } : undefined}
-              transition={{
-                delay: prefersReducedMotion ? 0 : 0.5,
-                duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
-                ease: EASE_PREMIUM,
-              }}
-            >
+            <span className="inline-block">
               {hero.tagline.line2}
-            </motion.span>
+            </span>
           </h1>
 
-          <motion.p
+          <p
             className="font-normal leading-relaxed text-[#5C306C]/90 max-w-2xl mx-auto"
             style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)" }}
-            initial={{ opacity: 0, y: 16 }}
-            animate={isReady ? { opacity: 1, y: 0 } : undefined}
-            transition={{
-              delay: prefersReducedMotion ? 0 : 0.6,
-              duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
-              ease: EASE_OUT_CUBIC,
-            }}
           >
             {renderRichText(hero.description)}
-          </motion.p>
+          </p>
 
-          <motion.p
-            className="text-sm md:text-base text-[#5C306C]/80 font-medium"
-            initial={{ opacity: 0 }}
-            animate={isReady ? { opacity: 1 } : undefined}
-            transition={{
-              delay: prefersReducedMotion ? 0 : 0.75,
-              duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
-              ease: EASE_PREMIUM,
-            }}
-          >
+          <p className="text-sm md:text-base text-[#5C306C]/80 font-medium">
             {renderRichText(hero.location)}
-          </motion.p>
+          </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <motion.button
@@ -286,7 +248,7 @@ export default function Hero() {
               {hero.buttonSecondary}
             </motion.button>
           </div>
-        </div>
+        </motion.div>
         </div>
       </div>
 
