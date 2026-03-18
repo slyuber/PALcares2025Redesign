@@ -94,7 +94,7 @@ export default function Storytelling() {
   // Scroll cue: brief appearance on section entry, gone before ecosystem color change completes
   const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.01, 0.04, 0.06], [0, 0.6, 0.6, 0]);
 
-  // Smooth entry: content fades in as user enters the scroll-lock section
+  // Smooth entry: panels 1-4 fade in as user scrolls; Panel 0 heading is always visible
   const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.025], [0, 1]);
 
   // Two-state intro reveal - completes by 0.06 for early clarity
@@ -346,9 +346,8 @@ export default function Storytelling() {
             <motion.div
               ref={contentRef}
               className="w-full max-w-7xl mx-auto px-8 md:px-12 lg:px-16 py-8 md:py-12 flex flex-col justify-center min-h-full"
-              style={{ opacity: contentEntryOpacity }}
             >
-              {/* Panel 0: Intro */}
+              {/* Panel 0: Intro — heading always visible, subtitle + cue fade in on scroll */}
               <Panel active={activeIndex === 0}>
                 <div className="text-center max-w-4xl mx-auto space-y-6 relative">
                   <h2
@@ -397,37 +396,40 @@ export default function Storytelling() {
                 </div>
               </Panel>
 
-              {/* Panels 1-3: Content Panels - Desktop */}
-              {(() => {
-                const fillProgressValues = [teamsFillClamped, researchFillClamped, labsFillClamped];
-                return storytelling.panels.map((panel, idx) => {
-                  const PanelIcon = getIcon(panel.icon);
-                  return (
-                    <ContentPanel
-                      key={panel.id}
-                      active={activeIndex === idx + 1}
-                      icon={<PanelIcon className="w-6 h-6 text-[#FF9966]" />}
-                      label={panel.label}
-                      title={panel.title}
-                      description={renderRichText(panel.description)}
-                      secondaryDescription={renderRichText(panel.secondaryDescription)}
-                      details={renderRichText(panel.details)}
-                      items={panel.items.map((item, i) => <React.Fragment key={i}>{renderRichText(item)}</React.Fragment>)}
-                      quote={panel.quote}
-                      prefersReducedMotion={prefersReducedMotion}
-                      fillProgress={fillProgressValues[idx]}
-                    />
-                  );
-                });
-              })()}
+              {/* Panels 1-4: fade in on scroll (intro heading stays visible) */}
+              <motion.div style={{ opacity: contentEntryOpacity }}>
+                {/* Panels 1-3: Content Panels - Desktop */}
+                {(() => {
+                  const fillProgressValues = [teamsFillClamped, researchFillClamped, labsFillClamped];
+                  return storytelling.panels.map((panel, idx) => {
+                    const PanelIcon = getIcon(panel.icon);
+                    return (
+                      <ContentPanel
+                        key={panel.id}
+                        active={activeIndex === idx + 1}
+                        icon={<PanelIcon className="w-6 h-6 text-[#FF9966]" />}
+                        label={panel.label}
+                        title={panel.title}
+                        description={renderRichText(panel.description)}
+                        secondaryDescription={renderRichText(panel.secondaryDescription)}
+                        details={renderRichText(panel.details)}
+                        items={panel.items.map((item, i) => <React.Fragment key={i}>{renderRichText(item)}</React.Fragment>)}
+                        quote={panel.quote}
+                        prefersReducedMotion={prefersReducedMotion}
+                        fillProgress={fillProgressValues[idx]}
+                      />
+                    );
+                  });
+                })()}
 
-              {/* Panel 4: How It Connects */}
-              <EcosystemPanel
-                active={activeIndex === 4}
-                title={storytelling.ecosystem.heading}
-                description={renderRichText(storytelling.ecosystem.description)}
-                prefersReducedMotion={prefersReducedMotion}
-              />
+                {/* Panel 4: How It Connects */}
+                <EcosystemPanel
+                  active={activeIndex === 4}
+                  title={storytelling.ecosystem.heading}
+                  description={renderRichText(storytelling.ecosystem.description)}
+                  prefersReducedMotion={prefersReducedMotion}
+                />
+              </motion.div>
             </motion.div>
 
             {/* Progress Indicator */}
