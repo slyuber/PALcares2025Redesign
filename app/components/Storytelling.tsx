@@ -92,41 +92,38 @@ export default function Storytelling() {
   const lineOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
 
   // Scroll cue: appears quickly to guide scrolling, fades before panel transitions
-  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.005, 0.03, 0.05], [0, 0.6, 0.6, 0]);
+  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.008, 0.04, 0.08], [0, 0.6, 0.6, 0]);
 
-  // Smooth entry: panels 1-4 fade in gradually (wider band = less abrupt)
-  const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
+  // Smooth entry: panels 1-4 fade in over a wide band (8% of scroll = ~40vh runway)
+  const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.08], [0, 1]);
 
-  // Subtitle appears immediately on entry — fills the blank space
-  const subtitleOpacity = useTransform(scrollYProgress, [0, 0.04], [0, 1]);
+  // Subtitle fades in gradually — fills the blank space on entry
+  const subtitleOpacity = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
 
-  // Subtle heading drift: disguises scroll-lock engagement
-  const introHeadingY = useTransform(scrollYProgress, [0, 0.03], [8, 0]);
+  // Heading drift: 20px over 6% scroll (~30vh) disguises the scroll-lock engagement
+  const introHeadingY = useTransform(scrollYProgress, [0, 0.06], [20, 0]);
 
   // Scroll-linked color transition for "ecosystem" text
   // Starts purple (same as heading), transitions to coral as user scrolls
   // Completes by 0.07 to sync with settle
   const ecosystemColor = useTransform(
     scrollYProgress,
-    [0.02, 0.07],
+    [0.04, 0.10],
     ["#5C306C", "#FF9966"]
   );
 
   // Letter-spacing animation for "ecosystem" - letters converge together
   // Metaphor: the ecosystem "comes together" as user engages
-  // Completes by 0.07 to sync with settle
   const ecosystemLetterSpacing = useTransform(
     scrollYProgress,
-    [0.02, 0.07],
+    [0.04, 0.10],
     ["0.08em", "0em"]
   );
 
   // Scale animation for "ecosystem" - subtle overshoot then settle
-  // Creates a satisfying "landing" moment when the transition completes
-  // Extended range for more pronounced settle effect
   const ecosystemScale = useTransform(
     scrollYProgress,
-    [0.02, 0.05, 0.07, 0.10],
+    [0.04, 0.07, 0.10, 0.13],
     [1, 1.02, 1.005, 1]
   );
 
@@ -617,7 +614,7 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
     <div
       data-storytelling-active-panel={active ? "true" : "false"}
       className={cn(
-        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-500 ease-out",
+        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-700 ease-out",
         active
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 translate-y-4 pointer-events-none"
