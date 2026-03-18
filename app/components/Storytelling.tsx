@@ -91,39 +91,42 @@ export default function Storytelling() {
   // PERF: Removed no-op smoothProgress transform - use scrollYProgress directly
   const lineOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]);
 
-  // Scroll cue: appears quickly to guide scrolling, fades before panel transitions
-  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.008, 0.04, 0.08], [0, 0.6, 0.6, 0]);
+  // Scroll cue: appears after heading + subtitle have settled
+  const scrollCueOpacity = useTransform(scrollYProgress, [0.08, 0.10, 0.14, 0.18], [0, 0.6, 0.6, 0]);
 
-  // Smooth entry: panels 1-4 fade in over a wide band (8% of scroll = ~40vh runway)
-  const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.08], [0, 1]);
+  // Smooth entry: panels 1-4 fade in over a generous runway
+  const contentEntryOpacity = useTransform(scrollYProgress, [0, 0.10], [0, 1]);
 
-  // Subtitle fades in gradually — fills the blank space on entry
-  const subtitleOpacity = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
+  // Heading starts 70% visible — no blank panel at scroll-lock entry
+  // Settles to full opacity quickly so first scroll inputs produce visible response
+  const introHeadingOpacity = useTransform(scrollYProgress, [0, 0.04], [0.7, 1]);
 
-  // Heading drift: 20px over 6% scroll (~30vh) disguises the scroll-lock engagement
-  const introHeadingY = useTransform(scrollYProgress, [0, 0.06], [20, 0]);
+  // Subtitle staggers in after heading settles
+  const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
+
+  // Small drift (24px) that settles quickly — creates directional continuity without feeling floaty
+  const introHeadingY = useTransform(scrollYProgress, [0, 0.06], [24, 0]);
 
   // Scroll-linked color transition for "ecosystem" text
   // Starts purple (same as heading), transitions to coral as user scrolls
   // Completes by 0.07 to sync with settle
+  // Ecosystem word animations start after heading settles, complete by 12%
+  // Leaves 8% (40vh) of dwell time before panel transition at 20%
   const ecosystemColor = useTransform(
     scrollYProgress,
-    [0.04, 0.10],
+    [0.04, 0.12],
     ["#5C306C", "#FF9966"]
   );
 
-  // Letter-spacing animation for "ecosystem" - letters converge together
-  // Metaphor: the ecosystem "comes together" as user engages
   const ecosystemLetterSpacing = useTransform(
     scrollYProgress,
-    [0.04, 0.10],
+    [0.04, 0.12],
     ["0.08em", "0em"]
   );
 
-  // Scale animation for "ecosystem" - subtle overshoot then settle
   const ecosystemScale = useTransform(
     scrollYProgress,
-    [0.04, 0.07, 0.10, 0.13],
+    [0.04, 0.08, 0.12, 0.15],
     [1, 1.02, 1.005, 1]
   );
 
@@ -351,7 +354,7 @@ export default function Storytelling() {
               <Panel active={activeIndex === 0}>
                 <motion.div
                   className="text-center max-w-4xl mx-auto space-y-6 relative"
-                  style={prefersReducedMotion ? {} : { y: introHeadingY }}
+                  style={prefersReducedMotion ? {} : { y: introHeadingY, opacity: introHeadingOpacity }}
                 >
                   <h2
                     className="font-light text-[#5C306C] tracking-tight leading-tight"
@@ -614,10 +617,10 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
     <div
       data-storytelling-active-panel={active ? "true" : "false"}
       className={cn(
-        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-700 ease-out",
+        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-1000 ease-out",
         active
           ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 translate-y-4 pointer-events-none"
+          : "opacity-0 translate-y-6 pointer-events-none"
       )}
       style={{ transitionTimingFunction: `cubic-bezier(${EASE_PREMIUM.join(",")})` }}
     >
@@ -882,11 +885,11 @@ const ContentPanel = React.memo(function ContentPanel({
                     <li
                       key={i}
                       className={cn(
-                        "flex items-start gap-3 text-[#5C306C]/80 text-base group transition-[opacity,transform] duration-400",
-                        active ? "opacity-100 translate-x-0" : "opacity-0 translate-x-3"
+                        "flex items-start gap-3 text-[#5C306C]/80 text-base group transition-[opacity,transform] duration-700",
+                        active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
                       )}
                       style={{
-                        transitionDelay: active ? `${i * 60}ms` : '0ms',
+                        transitionDelay: active ? `${200 + i * 120}ms` : '0ms',
                         transitionTimingFunction: `cubic-bezier(${EASE_PREMIUM.join(",")})`,
                       }}
                     >
