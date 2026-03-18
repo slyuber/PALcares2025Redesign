@@ -11,15 +11,13 @@ import React from "react";
  *   word--word  -> word\u2014word  (em-dash)
  */
 export function renderRichText(text: string): React.ReactNode {
-  // First pass: convert em-dashes (before splitting on markup patterns)
-  const withDashes = text.replace(/(?<=\w)--(?=\w)/g, "\u2014");
-
   // Split on all markup patterns, keeping delimiters
   const pattern = /(\*\*[^*]+\*\*|\{\{[^}]+\}\}|__[^_]+__|\{_[^}]+_\})/g;
-  const parts = withDashes.split(pattern);
+  const parts = text.split(pattern);
 
   if (parts.length === 1) {
-    return withDashes;
+    // No markup — just convert em-dashes
+    return text.replace(/--/g, "\u2014");
   }
 
   return parts.map((part, i) => {
@@ -27,7 +25,7 @@ export function renderRichText(text: string): React.ReactNode {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
         <strong key={i} className="font-semibold text-[#5C306C]">
-          {part.slice(2, -2)}
+          {part.slice(2, -2).replace(/--/g, "\u2014")}
         </strong>
       );
     }
@@ -45,7 +43,7 @@ export function renderRichText(text: string): React.ReactNode {
     if (part.startsWith("__") && part.endsWith("__")) {
       return (
         <span key={i} className="font-medium text-[#5C306C]">
-          {part.slice(2, -2)}
+          {part.slice(2, -2).replace(/--/g, "\u2014")}
         </span>
       );
     }
@@ -54,12 +52,12 @@ export function renderRichText(text: string): React.ReactNode {
     if (part.startsWith("{_") && part.endsWith("_}")) {
       return (
         <span key={i} className="font-medium">
-          {part.slice(2, -2)}
+          {part.slice(2, -2).replace(/--/g, "\u2014")}
         </span>
       );
     }
 
-    // Plain text
-    return <React.Fragment key={i}>{part}</React.Fragment>;
+    // Plain text — convert em-dashes
+    return <React.Fragment key={i}>{part.replace(/--/g, "\u2014")}</React.Fragment>;
   });
 }
