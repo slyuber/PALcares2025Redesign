@@ -1,0 +1,30 @@
+{
+  "label": "What Guides Us",
+  "heading": "What We Believe",
+  "cards": [
+    {
+      "title": "Trust as Infrastructure",
+      "icon": "HeartHandshake",
+      "color": "#E07B4C",
+      "description": "Good technology can't be separated from the relationships that create it. We don't finish understanding your organization and then start building--**the building is part of the understanding**. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When {_trust and technology develop together_}, what emerges fits how your organization operates."
+    },
+    {
+      "title": "Community Ownership",
+      "icon": "ShieldCheck",
+      "color": "#8FAE8B",
+      "description": "What we build together comes from your organization's knowledge and the communities you serve. It shouldn't be locked in proprietary systems or sold back to you. **Tools shaped by community expertise belong to the people who shaped them**, to use, change, and share freely. That's not a philosophy we apply at the end of an engagement. It's built into how we license what we create."
+    },
+    {
+      "title": "Data Sovereignty",
+      "icon": "Database",
+      "color": "#5C306C",
+      "description": "Indigenous-led movements, including {_OCAP principles_} here in Alberta, have shown that data about communities should be governed by those communities. We're learning from that leadership. The data your organization holds isn't really organizational data--it's data about the people you serve. When organizations lose control of it through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms. Where we inherit systems that don't yet support data portability, moving toward it is part of the work. **Your data stays yours.** That's the goal, and when it isn't the current state, it's what we're building toward."
+    },
+    {
+      "title": "Building Capacity, Not Dependency",
+      "icon": "Sprout",
+      "color": "#FF9966",
+      "description": "We don't aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn't dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability--not a finder's fee, a handshake, or dependency dressed up as partnership."
+    }
+  ]
+}

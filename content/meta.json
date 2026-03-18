@@ -1,0 +1,31 @@
+{
+  "title": "PALcares | Technology That Strengthens Relationships",
+  "description": "PALcares embeds technical teams inside Alberta's social service organizations--building the infrastructure and processes that let technology change with the work.",
+  "metadataBase": "https://www.palcares.ca",
+  "openGraph": {
+    "title": "PALcares | Technology That Strengthens Relationships",
+    "description": "Embedded partnerships and open-source tools for Alberta's social sector.",
+    "url": "https://www.palcares.ca",
+    "siteName": "PALcares",
+    "images": [
+      {
+        "url": "/image/pal-hero-bg-enhanced.png",
+        "width": 1200,
+        "height": 630,
+        "alt": "PALcares - Sustainable Technology Partnerships"
+      }
+    ],
+    "locale": "en_CA",
+    "type": "website"
+  },
+  "twitter": {
+    "card": "summary_large_image",
+    "title": "PALcares | Technology That Strengthens Relationships",
+    "description": "Embedded partnerships and open-source tools for Alberta's social sector.",
+    "images": ["/image/pal-hero-bg-enhanced.png"]
+  },
+  "robots": {
+    "index": true,
+    "follow": true
+  }
+}

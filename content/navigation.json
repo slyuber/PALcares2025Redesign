@@ -1,0 +1,40 @@
+{
+  "navItems": [
+    { "id": "where-we-started", "label": "Our Story" },
+    {
+      "id": "storytelling",
+      "label": "How We Work",
+      "hasSubmenu": true,
+      "submenu": [
+        { "id": "storytelling", "label": "Teams", "scrollOffset": 0.2 },
+        { "id": "storytelling", "label": "Research", "scrollOffset": 0.4 },
+        { "id": "storytelling", "label": "Labs", "scrollOffset": 0.6 }
+      ]
+    },
+    { "id": "context", "label": "Our Approach" },
+    { "id": "values", "label": "Values" },
+    { "id": "testimonials", "label": "Partners" }
+  ],
+  "drawerItems": [
+    { "id": "top", "label": "Top" },
+    { "id": "where-we-started", "label": "Our Story" },
+    {
+      "id": "storytelling",
+      "label": "How We Work",
+      "hasSubmenu": true,
+      "submenu": [
+        { "id": "storytelling", "label": "Teams", "scrollOffset": 0.2 },
+        { "id": "storytelling", "label": "Research", "scrollOffset": 0.4 },
+        { "id": "storytelling", "label": "Labs", "scrollOffset": 0.6 }
+      ]
+    },
+    { "id": "context", "label": "Our Approach" },
+    { "id": "values", "label": "Values" },
+    { "id": "testimonials", "label": "Partners" },
+    { "id": "contact", "label": "Contact Us" }
+  ],
+  "cta": "Get in Touch",
+  "hamburgerAriaLabel": "Open menu",
+  "closeAriaLabel": "Close menu",
+  "menuAriaLabel": "Navigation menu"
+}

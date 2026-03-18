@@ -1,0 +1,66 @@
+{
+  "intro": {
+    "headingPrefix": "An",
+    "headingAnimatedWord": "ecosystem",
+    "headingSuffix": "in three parts",
+    "subtitle": "Not three separate services. **One approach** where each part **strengthens the others**.",
+    "scrollLabel": "Scroll"
+  },
+  "panels": [
+    {
+      "id": "teams",
+      "icon": "Users",
+      "label": "Embedded Partnerships",
+      "title": "PAL Teams",
+      "description": "PAL {{Teams}} embeds technical teams directly within partner organizations for **multi-year partnerships**--building the relationships, processes, and infrastructure that let frontline expertise guide technology development.",
+      "secondaryDescription": "The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires **someone inside the organization long enough to understand it**.",
+      "details": "The technical work ranges from urgent to strategic: the Excel formula that's mission-critical, the **automated reporting saving weekends**, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, **why that workaround works**, and we're reachable when something doesn't.",
+      "items": [
+        "**Multi-year partnerships** that give time to build relationships, processes, and real understanding",
+        "**Contracts structured for flexibility,** so roadblocks become problems to solve, not threats to the project",
+        "**Infrastructure built to make changes cheaper, faster,** and lower-risk over time"
+      ],
+      "quote": "Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them."
+    },
+    {
+      "id": "research",
+      "icon": "BookOpen",
+      "label": "Shared Solutions",
+      "title": "PAL Research",
+      "description": "PAL {{Research}} takes solutions built through PAL {{Teams}} partnerships and works to release them under **open license**. What one organization's work produced, others don't have to rebuild from scratch.",
+      "secondaryDescription": "This is **knowledge transfer through proven solutions**. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL {{Teams}} have already built--carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work.",
+      "details": "What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from **real use, not theoretical design**. The first tools built through this process are in testing now, with public releases coming.",
+      "items": [
+        "**Generalization starts with the user base,** not the solution: we find who needs it before deciding if it's worth building",
+        "**Individual investments become collective resources.** What larger organizations help build, smaller organizations and rural communities can access without starting from scratch",
+        "**Open licensing** ensures tools stay with the community, not locked behind vendor agreements"
+      ],
+      "quote": "What emerges from embedded work carries weight--it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
+    },
+    {
+      "id": "labs",
+      "icon": "Sprout",
+      "label": "Building Local Capacity",
+      "title": "PAL Labs",
+      "description": "PAL {{Labs}} extends technical capacity to organizations through **supervised placements**--connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use.",
+      "secondaryDescription": "{{Labs}} builds on what {{Teams}} creates. The organizational understanding, the established relationships, the documented systems--these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and **the support is real**.",
+      "details": "Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally--which means **organizations don't pay for it out of already-thin budgets**. Placements run through the infrastructure {{Teams}} has already built: established relationships, documented systems, a clear sense of what's sensitive and what isn't. The work is real--data engineering, cloud architecture, custom tooling--and the context is what makes it meaningful. That messy data isn't abstract; it represents real people receiving real services.",
+      "items": [
+        "**Local placements** that keep students and newcomers connected to Alberta communities and the sector's work",
+        "**Funded placements** mean little to no financial cost to the receiving organization",
+        "**Sustainable handoffs**--every project leaves something maintainable behind"
+      ],
+      "quote": "A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question--under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with real stakes."
+    }
+  ],
+  "ecosystem": {
+    "heading": "How It Connects",
+    "description": "**Each part sustains the others.** {{Teams}} does the foundational work--learning your organization, building __processes and tools__. {{Research}} generalizes what survives __daily use__ and releases it under open license. {{Labs}} builds on that foundation to __grow local expertise__.",
+    "nodes": [
+      { "label": "Research", "sublabel": "Generalizes & shares", "icon": "BookOpen", "color": "#7388e0" },
+      { "label": "Teams", "sublabel": "Foundational work", "icon": "Users", "color": "#ea5dff" },
+      { "label": "Labs", "sublabel": "Extends capacity", "icon": "FlaskConical", "color": "#FF9966" }
+    ]
+  },
+  "progressLabels": ["Intro", "Teams", "Research", "Labs", "How It Connects"]
+}
