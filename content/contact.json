@@ -1,0 +1,33 @@
+{
+  "sectionLabel": "Let's Connect",
+  "heading": "We engage with organizations in different ways",
+  "description": "Whatever brought you here--a specific challenge, a question about fit, or just curiosity about what we do--we're glad to talk.",
+  "location": "Calgary, Edmonton, and Rural Alberta",
+  "form": {
+    "fields": {
+      "firstName": { "label": "First Name" },
+      "lastName": { "label": "Last Name" },
+      "email": { "label": "Email" },
+      "org": { "label": "Organization", "optionalNote": "(optional)" },
+      "message": {
+        "label": "How can we help?",
+        "placeholder": "Tell us about your organization and what you're looking for..."
+      }
+    },
+    "submitLabel": "Send Message",
+    "submittingLabel": "Sending...",
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Valid email required",
+      "messageMinLength": "Message must be at least 10 characters",
+      "submitError": "Something went wrong. Please try again or email us directly.",
+      "networkError": "Network error. Please try again or email us directly."
+    }
+  },
+  "success": {
+    "heading": "Message Sent",
+    "body": "We'll be in touch soon.",
+    "resetLabel": "Send another message"
+  }
+}

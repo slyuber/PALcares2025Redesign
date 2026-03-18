@@ -7,7 +7,8 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { hero } from "../lib/site-content";
+import { hero } from "content-collections";
+import { renderRichText } from "../lib/rich-text";
 import { EASE_PREMIUM, EASE_OUT_CUBIC, SPRING_SNAPPY, SCROLL_DURATION_HERO, DURATION_SLOW, DURATION_MEDIUM, DURATION_NORMAL, DURATION_HERO } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
 
@@ -196,7 +197,7 @@ export default function Hero() {
                 ease: EASE_PREMIUM,
               }}
             >
-              strengthens the{" "}
+              {hero.tagline.emphasisPrefix}{" "}
               <motion.span
                   className="font-semibold inline-block"
                   initial={{ color: "#5C306C" }}
@@ -207,7 +208,7 @@ export default function Hero() {
                     ease: EASE_PREMIUM,
                   }}
                 >
-                  relationships
+                  {hero.tagline.emphasisWord}
                 </motion.span>
             </motion.span>{" "}
             <br className="hidden md:block" />
@@ -237,8 +238,7 @@ export default function Hero() {
               ease: EASE_OUT_CUBIC,
             }}
           >
-            We&apos;re not here to transform the sector&mdash;we&apos;re here to{" "}
-            <strong className="font-medium text-[#5C306C]">support the organizations already doing transformative work</strong>.
+            {renderRichText(hero.description)}
           </motion.p>
 
           <motion.p
@@ -251,10 +251,7 @@ export default function Hero() {
               ease: EASE_PREMIUM,
             }}
           >
-            Supporting social service providers in{" "}
-            <span className="font-medium text-[#5C306C]">Calgary</span>,{" "}
-            <span className="font-medium text-[#5C306C]">Edmonton</span>,{" "}
-            and <span className="font-medium text-[#5C306C]">Rural Alberta</span>.
+            {renderRichText(hero.location)}
           </motion.p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -306,7 +303,7 @@ export default function Hero() {
           transition={{ duration: prefersReducedMotion ? 0 : DURATION_HERO, delay: prefersReducedMotion ? 0 : 1.5, ease: EASE_OUT_CUBIC }}
         >
           <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors font-medium">
-            Scroll
+            {hero.scrollLabel}
           </span>
           <div className="w-px h-8 relative overflow-hidden">
             <div className="absolute inset-x-0 top-0 w-full bg-[#5C306C]/30 animate-scroll-line" />

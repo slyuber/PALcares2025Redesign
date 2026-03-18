@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withContentCollections } from "@content-collections/next";
 
 // Bundle analyzer for analyzing bundle sizes
 // Run with: ANALYZE=true npm run build (or set ANALYZE=true on Windows)
@@ -19,4 +20,4 @@ const nextConfig: NextConfig = {
   // basePath: "/palcares-app",
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default withContentCollections(withBundleAnalyzer(nextConfig));

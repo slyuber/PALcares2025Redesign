@@ -6,7 +6,8 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
 import { EASE_PREMIUM, EASE_SMOOTH, SPRING_SNAPPY, DURATION_MEDIUM, DURATION_SLOW, useSafeInView } from "../lib/animation-constants";
-import { global as siteGlobal } from "../lib/site-content";
+import { contact, global as siteGlobal } from "content-collections";
+import { renderRichText } from "../lib/rich-text";
 
 export default function Contact() {
   const prefersReducedMotion = useReducedMotion();
@@ -25,12 +26,13 @@ export default function Contact() {
   const validateField = (name: string, value: string) => {
     switch (name) {
       case 'firstName':
+        return value.trim() ? '' : contact.form.validation.firstNameRequired;
       case 'lastName':
-        return value.trim() ? '' : `${name === 'firstName' ? 'First' : 'Last'} name is required`;
+        return value.trim() ? '' : contact.form.validation.lastNameRequired;
       case 'email':
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'Valid email required';
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : contact.form.validation.emailRequired;
       case 'message':
-        return value.trim().length >= 10 ? '' : 'Message must be at least 10 characters';
+        return value.trim().length >= 10 ? '' : contact.form.validation.messageMinLength;
       default:
         return '';
     }
@@ -106,10 +108,10 @@ export default function Contact() {
         setErrors({});
         setTouched({});
       } else {
-        setErrors(prev => ({ ...prev, submit: data.message || 'Something went wrong. Please try again or email us directly.' }));
+        setErrors(prev => ({ ...prev, submit: data.message || contact.form.validation.submitError }));
       }
     } catch {
-      setErrors(prev => ({ ...prev, submit: 'Network error. Please try again or email us directly.' }));
+      setErrors(prev => ({ ...prev, submit: contact.form.validation.networkError }));
     } finally {
       setIsSubmitting(false);
     }
@@ -118,14 +120,12 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
+      className="py-12 md:py-16 lg:py-24 relative overflow-hidden"
       aria-label="Contact us"
     >
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-[#FFF9F5] via-transparent to-[#F5F0EB]/50" />
-        <div className="absolute -top-32 -right-32 w-[40vw] h-[40vw] bg-[radial-gradient(circle,_rgba(255,153,102,0.04)_0%,_rgba(255,153,102,0.015)_40%,_transparent_70%)] pointer-events-none" />
-        <div className="absolute -bottom-32 -left-32 w-[35vw] h-[35vw] bg-[radial-gradient(circle,_rgba(143,174,139,0.05)_0%,_rgba(143,174,139,0.02)_40%,_transparent_70%)] pointer-events-none" />
         <BackgroundPatterns variant="connection" opacity={0.5} />
       </div>
 
@@ -136,7 +136,7 @@ export default function Contact() {
           <motion.div
             ref={leftRef}
             className="lg:col-span-2 space-y-8"
-            initial={{ opacity: 0, x: prefersReducedMotion ? 0 : -20 }}
+            initial={{ opacity: 0, x: prefersReducedMotion ? 0 : -30 }}
             animate={leftInView ? { opacity: 1, x: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, ease: EASE_SMOOTH }}
           >
@@ -147,15 +147,15 @@ export default function Contact() {
                 animate={leftInView ? { opacity: 1, y: 0, color: "#FF9966" } : undefined}
                 transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
               >
-                Let&apos;s Connect
+                {contact.sectionLabel}
               </motion.span>
               <motion.h2
-                className="text-3xl md:text-4xl font-light text-[#5C306C] leading-tight tracking-tight"
+                className="text-2xl md:text-3xl lg:text-4xl font-light text-[#5C306C] leading-tight tracking-tight"
                 initial={{ opacity: 0, y: 16 }}
                 animate={leftInView ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
               >
-                We engage with organizations in different ways
+                {contact.heading}
               </motion.h2>
             </div>
 
@@ -165,7 +165,7 @@ export default function Contact() {
               animate={leftInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
             >
-              Whatever brought you here&mdash;a specific challenge, a question about fit, or just curiosity about what we do&mdash;we&apos;re glad to talk.
+              {renderRichText(contact.description)}
             </motion.p>
 
             <div className="w-16 h-px bg-gradient-to-r from-[#FF9966]/50 to-transparent" />
@@ -181,7 +181,7 @@ export default function Contact() {
               </a>
 
               <div className="text-sm text-[#5C306C]/60">
-                <p>Calgary, Edmonton, and Rural Alberta</p>
+                <p>{contact.location}</p>
               </div>
             </div>
           </motion.div>
@@ -190,7 +190,7 @@ export default function Contact() {
           <motion.div
             ref={rightRef}
             className="lg:col-span-3"
-            initial={{ opacity: 0, x: prefersReducedMotion ? 0 : 20 }}
+            initial={{ opacity: 0, x: prefersReducedMotion ? 0 : 30 }}
             animate={rightInView ? { opacity: 1, x: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_SLOW, delay: prefersReducedMotion ? 0 : 0.15, ease: EASE_SMOOTH }}
           >
@@ -212,7 +212,7 @@ export default function Contact() {
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-2">
                         <label htmlFor="firstName" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
-                          First Name
+                          {contact.form.fields.firstName.label}
                         </label>
                         <input
                           type="text"
@@ -232,7 +232,7 @@ export default function Contact() {
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="lastName" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
-                          Last Name
+                          {contact.form.fields.lastName.label}
                         </label>
                         <input
                           type="text"
@@ -256,7 +256,7 @@ export default function Contact() {
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-2">
                         <label htmlFor="email" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
-                          Email
+                          {contact.form.fields.email.label}
                         </label>
                         <input
                           type="email"
@@ -276,7 +276,7 @@ export default function Contact() {
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="org" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
-                          Organization <span className="font-normal normal-case tracking-normal text-[#5C306C]/60">(optional)</span>
+                          {contact.form.fields.org.label} <span className="font-normal normal-case tracking-normal text-[#5C306C]/60">{contact.form.fields.org.optionalNote}</span>
                         </label>
                         <input
                           type="text"
@@ -292,7 +292,7 @@ export default function Contact() {
                     {/* Message */}
                     <div className="space-y-2">
                       <label htmlFor="message" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
-                        How can we help?
+                        {contact.form.fields.message.label}
                       </label>
                       <textarea
                         id="message"
@@ -302,7 +302,7 @@ export default function Contact() {
                         onBlur={handleBlur}
                         required
                         rows={4}
-                        placeholder="Tell us about your organization and what you're looking for..."
+                        placeholder={contact.form.fields.message.placeholder}
                         className={`${getInputClasses('message')} resize-none`}
                       />
                       {touched.message && errors.message && (
@@ -314,28 +314,26 @@ export default function Contact() {
 
                     {/* Submit */}
                     <div className="pt-4">
-                      <button
+                      <motion.button
                         type="submit"
                         disabled={isSubmitting}
+                        whileHover={prefersReducedMotion || isSubmitting ? {} : { scale: 1.03, boxShadow: "0 8px 24px rgba(92, 48, 108, 0.2)" }}
+                        whileTap={prefersReducedMotion || isSubmitting ? {} : { scale: 0.97 }}
+                        transition={SPRING_SNAPPY}
                         className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#5C306C] text-white font-medium hover:bg-[#4A2756] transition-colors disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2"
                       >
                         {isSubmitting ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>Sending...</span>
+                            <span>{contact.form.submittingLabel}</span>
                           </>
                         ) : (
                           <>
-                            <span>Send Message</span>
-                            <motion.div
-                              whileHover={{ x: 2 }}
-                              transition={SPRING_SNAPPY}
-                            >
-                              <Send className="w-4 h-4" />
-                            </motion.div>
+                            <span>{contact.form.submitLabel}</span>
+                            <Send className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                           </>
                         )}
-                      </button>
+                      </motion.button>
                       {errors.submit && (
                         <p className="text-sm text-[#E07B4C] mt-3">{errors.submit}</p>
                       )}
@@ -359,14 +357,14 @@ export default function Contact() {
                       <CheckCircle className="relative z-10 w-8 h-8 text-[#8FAE8B]" />
                     </motion.div>
                     <div>
-                      <h3 className="text-2xl font-light text-[#5C306C] mb-2">Message Sent</h3>
-                      <p className="text-[#5C306C]/60">We&apos;ll be in touch soon.</p>
+                      <h3 className="text-2xl font-light text-[#5C306C] mb-2">{contact.success.heading}</h3>
+                      <p className="text-[#5C306C]/60">{contact.success.body}</p>
                     </div>
                     <button
                       onClick={() => setIsSuccess(false)}
                       className="text-sm text-[#FF9966] hover:underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
                     >
-                      Send another message
+                      {contact.success.resetLabel}
                     </button>
                   </motion.div>
                 )}

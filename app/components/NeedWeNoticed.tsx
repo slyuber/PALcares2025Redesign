@@ -4,8 +4,9 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { EASE_PREMIUM, EASE_ENERGETIC, DURATION_NORMAL, DURATION_SLOW, STAGGER_NORMAL, useSafeInView } from "../lib/animation-constants";
+import { needWeNoticed } from "content-collections";
+import { renderRichText } from "../lib/rich-text";
+import { EASE_PREMIUM, EASE_SMOOTH, EASE_ENERGETIC, DURATION_NORMAL, DURATION_SLOW, STAGGER_NORMAL, useSafeInView } from "../lib/animation-constants";
 
 export default function NeedWeNoticed() {
   const prefersReducedMotion = useReducedMotion();
@@ -25,7 +26,7 @@ export default function NeedWeNoticed() {
 
   // Label: quick, subtle fade
   const labelVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 10 },
     visible: {
       opacity: 1,
       y: 0,
@@ -38,7 +39,7 @@ export default function NeedWeNoticed() {
 
   // Headline: slightly overshoots then settles — the "snap" moment
   const headlineVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 10 },
     visible: {
       opacity: 1,
       y: 0,
@@ -49,15 +50,28 @@ export default function NeedWeNoticed() {
     },
   };
 
-  // Body content: smooth slide-up
-  const bodyVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
+  // Left column: slides from left — parting curtain
+  const leftColumnVariants = {
+    hidden: { opacity: 0, x: prefersReducedMotion ? 0 : -24 },
     visible: {
       opacity: 1,
-      y: 0,
+      x: 0,
       transition: {
-        duration: prefersReducedMotion ? 0 : DURATION_NORMAL,
-        ease: EASE_PREMIUM,
+        duration: prefersReducedMotion ? 0 : DURATION_SLOW,
+        ease: EASE_SMOOTH,
+      },
+    },
+  };
+
+  // Right column: slides from right — parting curtain
+  const rightColumnVariants = {
+    hidden: { opacity: 0, x: prefersReducedMotion ? 0 : 24 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : DURATION_SLOW,
+        ease: EASE_SMOOTH,
       },
     },
   };
@@ -66,14 +80,12 @@ export default function NeedWeNoticed() {
     <section
       ref={sectionRef}
       id="where-we-started"
-      className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
+      className="py-12 md:py-16 lg:py-24 relative overflow-hidden"
       aria-label="Where we started - the need we noticed"
     >
-      {/* Enhanced background: Subtle wash + award-winning patterns */}
+      {/* Background: clean wash, let content breathe */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFF9F5]/20 to-transparent" />
-        {/* Award-winning subtle patterns */}
-        <BackgroundPatterns variant="organic-grid" opacity={0.4} />
       </div>
 
       <motion.div
@@ -88,7 +100,7 @@ export default function NeedWeNoticed() {
           className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF9966] block mb-6"
           variants={labelVariants}
         >
-          Where We Started
+          {needWeNoticed.label}
         </motion.span>
 
         {/* Headline — the anchor moment, subtle overshoot */}
@@ -96,7 +108,7 @@ export default function NeedWeNoticed() {
           className="text-3xl md:text-4xl lg:text-5xl font-light text-[#5C306C] mb-12 tracking-tight leading-tight"
           variants={headlineVariants}
         >
-          We noticed a need in our communities.
+          {needWeNoticed.headline}
         </motion.h2>
 
         {/* Content Grid - asymmetric for visual interest */}
@@ -104,63 +116,39 @@ export default function NeedWeNoticed() {
           {/* Main Content Column */}
           <motion.div
             className="lg:col-span-7 space-y-6"
-            variants={bodyVariants}
+            variants={leftColumnVariants}
           >
             <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
-              Across North America, organizations are questioning why technology
-              that should serve communities often ends up extracting from them.
-              We&apos;re part of this broader conversation, but{" "}
-              <strong className="font-semibold text-[#5C306C]">our focus is specific</strong>.
+              {renderRichText(needWeNoticed.leftColumn[0])}
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
-              <strong className="text-[#5C306C] font-semibold">
-                Those closest to the work should shape the tools they use
-              </strong>
-              .{" "}
-              <strong className="text-[#5C306C] font-semibold">
-                What gets built should stay with the communities that helped create it
-              </strong>
-              .{" "}
-              <strong className="text-[#5C306C] font-semibold">
-                The people building the tools and the people using them should work side by side
-              </strong>
-              .
+              {renderRichText(needWeNoticed.leftColumn[1])}
             </p>
 
             <p className="text-base md:text-lg text-[#5C306C] leading-relaxed">
-              Working with community has taught us what matters.{" "}
-              <span className="text-[#5C306C] font-medium">
-                Nonprofit structure, multi-year agreements, open licensing,
-                relationship-centered contracts
-              </span>
-              . The kinds of decisions that keep the work accountable to the people it&apos;s for.
+              {renderRichText(needWeNoticed.leftColumn[2])}
             </p>
           </motion.div>
 
           {/* Supporting Column - Vision */}
           <motion.div
             className="lg:col-span-5 lg:pt-2"
-            variants={bodyVariants}
+            variants={rightColumnVariants}
           >
             <div className="lg:pl-8 lg:border-l border-[#5C306C]/10">
               <p className="text-base md:text-lg text-[#5C306C]/90 leading-relaxed mb-6">
-                Our technical teams{" "}
-                <strong className="font-semibold text-[#5C306C]">learn how your organization works before jointly deciding with you what to build</strong>.
-                {" "}Students and newcomers develop skills through supervised placements with real scope. Solutions that prove themselves get released openly&mdash;<strong className="font-semibold text-[#5C306C]">the patterns, not your data</strong>.
+                {renderRichText(needWeNoticed.rightColumn[0])}
               </p>
 
               <p className="text-[#5C306C] font-semibold text-base md:text-lg leading-relaxed">
-                Sustainable technology starts with trust.
+                {needWeNoticed.rightColumn[1]}
               </p>
             </div>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Subtle background decoration - more restrained */}
-      <div className="absolute top-1/2 left-0 w-[30vw] h-[30vw] bg-[radial-gradient(circle,_rgba(143,174,139,0.04)_0%,_rgba(143,174,139,0.015)_40%,_transparent_70%)] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-      <div className="absolute bottom-1/4 right-0 w-[25vw] h-[25vw] bg-[radial-gradient(circle,_rgba(92,48,108,0.04)_0%,_rgba(92,48,108,0.015)_40%,_transparent_70%)] translate-x-1/2 pointer-events-none" />
     </section>
   );
 }

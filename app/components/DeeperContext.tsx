@@ -4,8 +4,9 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { EASE_PREMIUM, DURATION_MEDIUM, useSafeInView } from "../lib/animation-constants";
+import { EASE_SMOOTH, DURATION_MEDIUM, useSafeInView } from "../lib/animation-constants";
+import { deeperContext } from "content-collections";
+import { renderRichText } from "../lib/rich-text";
 
 // Reusable animated section - useInView triggers with refined premium animation
 function AnimatedBeat({
@@ -26,15 +27,15 @@ function AnimatedBeat({
     <motion.div
       ref={ref}
       className={className}
-      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+      initial={prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
       animate={isInView
-        ? { opacity: 1, y: 0 }
+        ? { opacity: 1, scale: 1 }
         : undefined
       }
       transition={{
         duration: prefersReducedMotion ? 0 : DURATION_MEDIUM,
         delay: prefersReducedMotion ? 0 : delay,
-        ease: EASE_PREMIUM,
+        ease: EASE_SMOOTH,
       }}
     >
       {children}
@@ -56,6 +57,18 @@ export default function DeeperContext() {
   // Line fills top-to-bottom as user scrolls — scaleY is GPU-composited (no layout thrash)
   const lineScale = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
 
+  // Dot colors per beat
+  const dotColors = ["#8FAE8B", "#FF9966", "#8FAE8B", "#5C306C"];
+  const dotRingColors = ["#8FAE8B", "#FF9966", "#8FAE8B", "#5C306C"];
+
+  // Layout alternation: even beats LEFT, odd beats RIGHT
+  const beatLayouts = [
+    { side: "left", mtClass: "", mbClass: "mb-12 md:mb-0" },
+    { side: "right", mtClass: "md:-mt-24", mbClass: "mb-12 md:mb-0" },
+    { side: "left", mtClass: "md:-mt-20", mbClass: "mb-12 md:mb-0" },
+    { side: "right", mtClass: "md:-mt-24", mbClass: "" },
+  ];
+
   return (
     <section
       ref={containerRef}
@@ -63,24 +76,23 @@ export default function DeeperContext() {
       className="relative py-16 md:py-24 lg:py-32"
       aria-label="The deeper context - the work behind it"
     >
-      {/* Background */}
+      {/* Background: clean wash, progress line is the visual element */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFF9F5]/20 to-transparent" />
-        <BackgroundPatterns variant="organic-grid" opacity={0.6} />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-12 md:mb-16">
           <h2
-            className="text-3xl md:text-4xl lg:text-5xl font-light text-[#E07B4C] tracking-tight mb-4"
+            className="text-2xl md:text-3xl lg:text-4xl font-light text-[#E07B4C] tracking-tight mb-4"
           >
-            Our Approach
+            {deeperContext.heading}
           </h2>
           <p
             className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-light max-w-2xl mx-auto lg:whitespace-nowrap"
           >
-            What makes partnership like this possible, and why it matters.
+            {deeperContext.subheading}
           </p>
         </div>
 
@@ -95,82 +107,48 @@ export default function DeeperContext() {
             />
           </div>
 
-          {/* Beat 1: Meeting You Where You Are - LEFT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0">
-            <div className="md:pr-10">
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
-                Meeting You Where You Are
-              </span>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                We <strong className="font-semibold text-[#5C306C]">inherit whatever you have</strong>. That Excel sheet from 2008 holds years of <strong className="font-semibold text-[#5C306C]">institutional knowledge</strong>. Those workarounds everyone relies on reveal where systems fall short. We learn from what&apos;s already working and what isn&apos;t—not from assumptions about what you need. When five organizations independently build similar solutions, <span className="font-medium">that pattern tells us something the sector has been trying to say</span>.
-              </p>
-            </div>
-            <div className="hidden md:block" />
-            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8FAE8B] ring-4 ring-[#8FAE8B]/20" />
-          </AnimatedBeat>
+          {deeperContext.beats.map((beat, beatIdx) => {
+            const layout = beatLayouts[beatIdx];
+            const isLeft = layout.side === "left";
+            const delay = beatIdx === 0 ? 0 : 0.1;
 
-          {/* Beat 2: Building Infrastructure Before Changing Systems - RIGHT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-24" delay={0.1}>
-            <div className="hidden md:block" />
-            <div className="md:pl-10">
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
-                Building Infrastructure Before Changing Systems
-              </span>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Frontline staff know <strong className="font-semibold text-[#5C306C]">complexity that never makes it into a requirements document</strong>. That knowledge should shape technology development, but it only does if two things are true.
-              </p>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                First: <strong className="font-semibold text-[#5C306C]">a relationship where feedback travels</strong>. Staff tell you what isn&apos;t working when they trust it won&apos;t create problems and believe something will happen as a result.
-              </p>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Second, and harder: <strong className="font-semibold text-[#5C306C]">the infrastructure to act on that feedback safely</strong>. We start with smaller, lower-stakes work. Not to delay, but because that&apos;s where surprises surface, and catching them early gives us room to respond. By the time we&apos;re touching the systems that matter most, we&apos;ve already learned how this organization&apos;s environment behaves.
-              </p>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                That&apos;s the sequence. <strong className="font-semibold text-[#5C306C]">Relationship first, infrastructure second</strong>. Both have to exist before feedback does anything useful.
-              </p>
-            </div>
-            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#FF9966] ring-4 ring-[#FF9966]/20" />
-          </AnimatedBeat>
+            return (
+              <AnimatedBeat
+                key={beatIdx}
+                className={`relative grid md:grid-cols-2 gap-8 md:gap-10 ${layout.mbClass} ${layout.mtClass}`}
+                delay={delay}
+              >
+                {/* Spacer for right-side beats */}
+                {!isLeft && <div className="hidden md:block" />}
 
-          {/* Beat 3: What Time Makes Possible - LEFT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 mb-12 md:mb-0 md:-mt-20" delay={0.1}>
-            <div className="md:pr-10">
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
-                What Time Makes Possible
-              </span>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Short project timelines reward deliverables over understanding, handoffs over relationships. Our structure buys us something most consultancies can&apos;t offer: <strong className="font-semibold text-[#5C306C]">time</strong>. Time to understand before prescribing. Time for relationships that outlast individual projects.
-              </p>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                That means iteration becomes affordable once the foundation exists. <strong className="font-semibold text-[#5C306C]">A report adjustment isn&apos;t a new project, it&apos;s a conversation</strong>. A database change doesn&apos;t require a new contract&mdash;it requires a Tuesday morning call.
-              </p>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                Technology projects fail at a predictable point: when the relationship ends and the system has to survive without the people who understood it. <strong className="font-semibold text-[#5C306C]">We stay. We adapt.</strong> When our team changes&mdash;and it will&mdash;knowledge lives in the systems, processes, and documentation we&apos;ve built together, not only in whoever&apos;s currently on your file. Knowledge transfers through the work itself, not just documentation handed over at the end.
-              </p>
-            </div>
-            <div className="hidden md:block" />
-            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8FAE8B] ring-4 ring-[#8FAE8B]/20" />
-          </AnimatedBeat>
+                <div className={isLeft ? "md:pr-10" : "md:pl-10"}>
+                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
+                    {beat.label}
+                  </span>
+                  {beat.paragraphs.map((paragraph, pIdx) => (
+                    <p
+                      key={pIdx}
+                      className={`text-base text-[#5C306C]/85 leading-relaxed${pIdx < beat.paragraphs.length - 1 ? " mb-2" : ""}`}
+                    >
+                      {renderRichText(paragraph)}
+                    </p>
+                  ))}
+                </div>
 
-          {/* Beat 4: When Plans Change - RIGHT */}
-          <AnimatedBeat className="relative grid md:grid-cols-2 gap-8 md:gap-10 md:-mt-24" delay={0.1}>
-            <div className="hidden md:block" />
-            <div className="md:pl-10">
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
-                When Plans Change
-              </span>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                In typical consulting, unexpected roadblocks threaten the whole engagement. Different personnel needed, data to gather first, requirements that shifted. Suddenly you&apos;re over budget or restarting the RFP process.
-              </p>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed mb-2">
-                Our structure makes room for that differently. When something doesn&apos;t go as planned, we reorient. We rescope. We <strong className="font-semibold text-[#5C306C]">meet the new context rather than defending the old one</strong>. That&apos;s sometimes uncomfortable&mdash;it doesn&apos;t always look like what either party expected. But the room to work through it together is what makes the difference.
-              </p>
-              <p className="text-base text-[#5C306C]/85 leading-relaxed">
-                This isn&apos;t looseness&mdash;it&apos;s <strong className="font-semibold text-[#5C306C]">contracts structured for how work unfolds</strong>.
-              </p>
-            </div>
-            <div className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full bg-[#5C306C] ring-4 ring-[#5C306C]/20" />
-          </AnimatedBeat>
+                {/* Spacer for left-side beats */}
+                {isLeft && <div className="hidden md:block" />}
+
+                {/* Progress dot */}
+                <div
+                  className="hidden md:block absolute left-1/2 top-4 -translate-x-1/2 w-3 h-3 rounded-full"
+                  style={{
+                    backgroundColor: dotColors[beatIdx],
+                    boxShadow: `0 0 0 4px ${dotRingColors[beatIdx]}33`,
+                  }}
+                />
+              </AnimatedBeat>
+            );
+          })}
         </div>
       </div>
     </section>

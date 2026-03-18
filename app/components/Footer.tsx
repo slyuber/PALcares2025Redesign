@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { EASE_OUT_CUBIC, DURATION_SLOW, useSafeInView } from "../lib/animation-constants";
+import { footer } from "content-collections";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -42,13 +43,6 @@ export default function Footer() {
     }
   };
 
-  const links = [
-    { name: "What We Do", href: "#storytelling" },
-    { name: "Our Values", href: "#values" },
-    { name: "Partner Stories", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
-  ];
-
 
   return (
     <footer className="bg-[#FAF8F5] pt-16 pb-8 relative">
@@ -69,31 +63,31 @@ export default function Footer() {
             <Link href="/" className="inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded">
               <Image
                 src="/svg/PALcares_logo_light.svg"
-                alt="PALcares"
+                alt={footer.brand.logoAlt}
                 width={130}
                 height={36}
                 className="w-[120px] h-auto"
               />
             </Link>
             <p className="text-[#5C306C]/85 text-sm leading-relaxed max-w-[280px]">
-              Embedded technology partnerships for Alberta&apos;s social services.
+              {footer.brand.tagline}
             </p>
             <div className="space-y-1.5 text-xs text-[#5C306C]/60">
-              <p>Serving Calgary, Edmonton &amp; Rural Alberta</p>
-              <p>Open tools · Shared resources · Local expertise</p>
+              <p>{footer.brand.serviceArea}</p>
+              <p>{footer.brand.offerings}</p>
             </div>
             <p className="text-sm text-[#5C306C] font-medium pt-1">
-              Genuine partnerships, not transactions.
+              {footer.brand.motto}
             </p>
           </div>
 
           {/* Column 2: Quick Links */}
           <div className="space-y-5">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5C306C]/80">
-              Quick Links
+              {footer.quickLinks.heading}
             </span>
             <nav aria-label="Footer navigation" className="flex flex-col gap-2.5">
-              {links.map((link) => (
+              {footer.quickLinks.links.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
@@ -108,12 +102,12 @@ export default function Footer() {
           {/* Column 3: Newsletter & Social */}
           <div className="space-y-5">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5C306C]/80">
-              Stay Updated
+              {footer.newsletter.heading}
             </span>
 
             {isSubscribed ? (
               <p className="text-sm font-medium text-[#8FAE8B]">
-                Thanks for subscribing!
+                {footer.newsletter.successMessage}
               </p>
             ) : (
               <form onSubmit={handleSubscribe} className="flex gap-2">
@@ -122,7 +116,7 @@ export default function Footer() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email"
+                  placeholder={footer.newsletter.placeholder}
                   required
                   className="flex-1 min-w-0 bg-white border border-[#5C306C]/10 rounded-full px-4 py-2.5 text-sm text-[#5C306C] focus-visible:border-[#5C306C]/30 focus-visible:ring-1 focus-visible:ring-[#5C306C]/20 outline-none transition-colors placeholder:text-[#5C306C]/50"
                 />
@@ -130,7 +124,7 @@ export default function Footer() {
                   type="submit"
                   className="px-4 py-2.5 rounded-full bg-[#5C306C] text-white text-sm font-medium hover:bg-[#4A2756] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5C306C]"
                 >
-                  Subscribe
+                  {footer.newsletter.submitLabel}
                 </button>
               </form>
             )}
@@ -140,20 +134,17 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#5C306C]/6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#5C306C]/75">
-          <p>© {new Date().getFullYear()} PALcares (Perseverance Analytics Ltd.)</p>
+          <p>&copy; {new Date().getFullYear()} {footer.bottomBar.copyright}</p>
           <div className="flex gap-5">
-            <Link
-              href="/privacy-policy"
-              className="hover:text-[#5C306C]/70 transition-colors focus:outline-none focus-visible:underline"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="/terms-of-use"
-              className="hover:text-[#5C306C]/70 transition-colors focus:outline-none focus-visible:underline"
-            >
-              Terms
-            </Link>
+            {footer.bottomBar.links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="hover:text-[#5C306C]/70 transition-colors focus:outline-none focus-visible:underline"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

@@ -1,0 +1,31 @@
+{
+  "brand": {
+    "logoAlt": "PALcares",
+    "tagline": "Embedded technology partnerships for Alberta's social services.",
+    "serviceArea": "Serving Calgary, Edmonton & Rural Alberta",
+    "offerings": "Open tools · Shared resources · Local expertise",
+    "motto": "Genuine partnerships, not transactions."
+  },
+  "quickLinks": {
+    "heading": "Quick Links",
+    "links": [
+      { "name": "What We Do", "href": "#storytelling" },
+      { "name": "Our Values", "href": "#values" },
+      { "name": "Partner Stories", "href": "#testimonials" },
+      { "name": "Contact", "href": "#contact" }
+    ]
+  },
+  "newsletter": {
+    "heading": "Stay Updated",
+    "placeholder": "Your email",
+    "submitLabel": "Subscribe",
+    "successMessage": "Thanks for subscribing!"
+  },
+  "bottomBar": {
+    "copyright": "PALcares (Perseverance Analytics Ltd.)",
+    "links": [
+      { "label": "Privacy", "href": "/privacy-policy" },
+      { "label": "Terms", "href": "/terms-of-use" }
+    ]
+  }
+}
