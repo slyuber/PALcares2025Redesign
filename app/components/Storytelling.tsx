@@ -4,11 +4,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence, MotionValue, useInView, useMotionValueEvent } from "framer-motion";
 import { useSafeInView } from "../lib/animation-constants";
-import { Users, Sprout, BookOpen, ArrowRight, FlaskConical, ArrowDown, ChevronLeft } from "lucide-react";
+import { ArrowRight, ArrowDown, ChevronLeft } from "lucide-react";
 import { cn } from "../lib/utils";
-import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST, DURATION_FAST_MOBILE, DURATION_NORMAL_MOBILE, DURATION_MEDIUM, DURATION_SLOW, DURATION_HERO, SCROLL_DURATION_SNAP, SCROLL_DURATION_NAV } from "../lib/animation-constants";
+import { EASE_OUT_EXPO, EASE_PREMIUM, EASE_SNAPPY, EASE_IN_OUT, SPRING_SNAPPY, SPRING_GENTLE, DURATION_FAST, DURATION_FAST_MOBILE, DURATION_NORMAL_MOBILE, DURATION_MEDIUM, DURATION_SLOW, DURATION_HERO, DURATION_PULSE, SCROLL_DURATION_SNAP, SCROLL_DURATION_NAV } from "../lib/animation-constants";
 import { useScrollTo } from "../lib/use-scroll-to";
 import Image from "next/image";
+import { storytelling } from "content-collections";
+import { renderRichText } from "../lib/rich-text";
+import { getIcon } from "../lib/icon-map";
 
 export default function Storytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -146,65 +149,33 @@ export default function Storytelling() {
             {/* Panel 0: Intro */}
             <MobileIntroHeader />
 
-            {/* Panel 1: Teams - MOBILE */}
-            <ContentPanelMobile
-              id="mobile-panel-teams"
-              icon={<Users className="w-6 h-6 text-[#FF9966]" />}
-              label="Embedded Partnerships"
-              title="PAL Teams"
-              description={<>PAL <span className="font-semibold text-[#FF9966]">Teams</span> embeds technical teams directly within partner organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>&mdash;building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
-              secondaryDescription={<>The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires <strong className="font-semibold text-[#5C306C]">someone inside the organization long enough to understand it</strong>.</>}
-              details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround works</strong>, and we&apos;re reachable when something doesn&apos;t.</>}
-              items={[
-                <><strong className="font-semibold text-[#5C306C]">Multi-year partnerships</strong> that give time to build relationships, processes, and real understanding</>,
-                <><strong className="font-semibold text-[#5C306C]">Contracts structured for flexibility,</strong> so roadblocks become problems to solve, not threats to the project</>,
-                <><strong className="font-semibold text-[#5C306C]">Infrastructure built to make changes cheaper, faster,</strong> and lower-risk over time</>
-              ]}
-              quote="Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them."
-            />
-
-            {/* Panel 2: Research - MOBILE */}
-            <ContentPanelMobile
-              id="mobile-panel-research"
-              icon={<BookOpen className="w-6 h-6 text-[#FF9966]" />}
-              label="Shared Solutions"
-              title="PAL Research"
-              description={<>PAL <span className="font-semibold text-[#FF9966]">Research</span> takes solutions built through PAL <span className="font-semibold text-[#FF9966]">Teams</span> partnerships and works to release them under <strong className="font-semibold text-[#5C306C]">open license</strong>. What one organization&apos;s work produced, others don&apos;t have to rebuild from scratch.</>}
-              secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">knowledge transfer through proven solutions</strong>. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already built&mdash;carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work.</>}
-              details={<>What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from <strong className="font-semibold text-[#5C306C]">real use, not theoretical design</strong>. The first tools built through this process are in testing now, with public releases coming.</>}
-              items={[
-                <><strong className="font-semibold text-[#5C306C]">Generalization starts with the user base,</strong> not the solution: we find who needs it before deciding if it&apos;s worth building</>,
-                <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources.</strong> What larger organizations help build, smaller organizations and rural communities can access without starting from scratch</>,
-                <><strong className="font-semibold text-[#5C306C]">Open licensing</strong> ensures tools stay with the community, not locked behind vendor agreements</>
-              ]}
-              quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
-            />
-
-            {/* Panel 3: Labs - MOBILE */}
-            <ContentPanelMobile
-              id="mobile-panel-labs"
-              icon={<Sprout className="w-6 h-6 text-[#FF9966]" />}
-              label="Building Local Capacity"
-              title="PAL Labs"
-              description={<>PAL <span className="font-semibold text-[#FF9966]">Labs</span> extends technical capacity to organizations through <strong className="font-semibold text-[#5C306C]">supervised placements</strong>&mdash;connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use.</>}
-              secondaryDescription={<><span className="font-semibold text-[#FF9966]">Labs</span> builds on what <span className="font-semibold text-[#FF9966]">Teams</span> creates. The organizational understanding, the established relationships, the documented systems&mdash;these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and <strong className="font-semibold text-[#5C306C]">the support is real</strong>.</>}
-              details={<>Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally&mdash;which means <strong className="font-semibold text-[#5C306C]">organizations don&apos;t pay for it out of already-thin budgets</strong>. Placements run through the infrastructure <span className="font-semibold text-[#FF9966]">Teams</span> has already built: established relationships, documented systems, a clear sense of what&apos;s sensitive and what isn&apos;t. The work is real&mdash;data engineering, cloud architecture, custom tooling&mdash;and the context is what makes it meaningful. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
-              items={[
-                <><strong className="font-semibold text-[#5C306C]">Local placements</strong> that keep students and newcomers connected to Alberta communities and the sector&apos;s work</>,
-                <><strong className="font-semibold text-[#5C306C]">Funded placements</strong> mean little to no financial cost to the receiving organization</>,
-                <><strong className="font-semibold text-[#5C306C]">Sustainable handoffs</strong>&mdash;every project leaves something maintainable behind</>
-              ]}
-              quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with real stakes."
-            />
+            {/* Panels 1-3: Content Panels - MOBILE */}
+            {storytelling.panels.map((panel) => {
+              const PanelIcon = getIcon(panel.icon);
+              return (
+                <ContentPanelMobile
+                  key={panel.id}
+                  id={`mobile-panel-${panel.id}`}
+                  icon={<PanelIcon className="w-6 h-6 text-[#FF9966]" />}
+                  label={panel.label}
+                  title={panel.title}
+                  description={renderRichText(panel.description)}
+                  secondaryDescription={renderRichText(panel.secondaryDescription)}
+                  details={renderRichText(panel.details)}
+                  items={panel.items.map((item, i) => <React.Fragment key={i}>{renderRichText(item)}</React.Fragment>)}
+                  quote={panel.quote}
+                />
+              );
+            })}
 
             {/* Panel 4: Ecosystem Summary - MOBILE with triangle + particles */}
             <footer className="w-full max-w-3xl mx-auto pt-8 border-t border-[#5C306C]/10">
               <div className="text-center space-y-4 sm:space-y-6 mb-6">
                 <h2 className="text-2xl sm:text-3xl font-light text-[#6b4d7e] leading-tight tracking-tight">
-                  How It Connects
+                  {storytelling.ecosystem.heading}
                 </h2>
                 <p className="text-sm sm:text-base text-[#9b8a9e] leading-relaxed px-2">
-                  <strong className="font-semibold text-[#5C306C]">Each part sustains the others.</strong> <span className="font-semibold text-[#FF9966]">Teams</span> does the foundational work&mdash;learning your organization, building <strong className="font-medium text-[#5C306C]">processes and tools</strong>. <span className="font-semibold text-[#FF9966]">Research</span> generalizes what survives <strong className="font-medium text-[#5C306C]">daily use</strong> and releases it under open license. <span className="font-semibold text-[#FF9966]">Labs</span> builds on that foundation to <strong className="font-medium text-[#5C306C]">grow local expertise</strong>.
+                  {renderRichText(storytelling.ecosystem.description)}
                 </p>
               </div>
 
@@ -290,31 +261,37 @@ export default function Storytelling() {
                 {/* Triangle nodes positioned absolutely */}
                 <div className="relative h-full w-full">
                   {/* Research - Top Center */}
+                  {(() => { const node = storytelling.ecosystem.nodes[0]; const NodeIcon = getIcon(node.icon); return (
                   <div className="absolute left-1/2 top-0 -translate-x-1/2 flex flex-col items-center text-center z-10">
-                    <BookOpen className="w-9 h-9 sm:w-10 sm:h-10 text-[#7388e0] mb-1.5" strokeWidth={1.3} />
-                    <h3 className="text-[#7388e0] text-sm sm:text-base font-medium">Research</h3>
+                    <NodeIcon className="w-9 h-9 sm:w-10 sm:h-10 mb-1.5" style={{ color: node.color }} strokeWidth={1.3} />
+                    <h3 className="text-sm sm:text-base font-medium" style={{ color: node.color }}>{node.label}</h3>
                     <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
-                      Generalizes & shares
+                      {node.sublabel}
                     </p>
                   </div>
+                  ); })()}
 
                   {/* Teams - Bottom Left */}
+                  {(() => { const node = storytelling.ecosystem.nodes[1]; const NodeIcon = getIcon(node.icon); return (
                   <div className="absolute left-[8%] bottom-0 flex flex-col items-center text-center z-10">
-                    <Users className="w-9 h-9 sm:w-10 sm:h-10 text-[#ea5dff] mb-1.5" strokeWidth={1.3} />
-                    <h3 className="text-[#ea5dff] text-sm sm:text-base font-medium">Teams</h3>
+                    <NodeIcon className="w-9 h-9 sm:w-10 sm:h-10 mb-1.5" style={{ color: node.color }} strokeWidth={1.3} />
+                    <h3 className="text-sm sm:text-base font-medium" style={{ color: node.color }}>{node.label}</h3>
                     <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
-                      Foundational work
+                      {node.sublabel}
                     </p>
                   </div>
+                  ); })()}
 
                   {/* Labs - Bottom Right */}
+                  {(() => { const node = storytelling.ecosystem.nodes[2]; const NodeIcon = getIcon(node.icon); return (
                   <div className="absolute right-[8%] bottom-0 flex flex-col items-center text-center z-10">
-                    <FlaskConical className="w-9 h-9 sm:w-10 sm:h-10 text-[#FF9966] mb-1.5" strokeWidth={1.3} />
-                    <h3 className="text-[#FF9966] text-sm sm:text-base font-medium">Labs</h3>
+                    <NodeIcon className="w-9 h-9 sm:w-10 sm:h-10 mb-1.5" style={{ color: node.color }} strokeWidth={1.3} />
+                    <h3 className="text-sm sm:text-base font-medium" style={{ color: node.color }}>{node.label}</h3>
                     <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
-                      Extends capacity
+                      {node.sublabel}
                     </p>
                   </div>
+                  ); })()}
                 </div>
               </div>
             </footer>
@@ -378,7 +355,7 @@ export default function Storytelling() {
                     className="font-light text-[#5C306C] tracking-tight leading-tight"
                     style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
                   >
-                    An{" "}
+                    {storytelling.intro.headingPrefix}{" "}
                     <motion.span
                       className="inline-block"
                       style={{
@@ -387,15 +364,15 @@ export default function Storytelling() {
                         scale: ecosystemScale,
                       }}
                     >
-                      ecosystem
+                      {storytelling.intro.headingAnimatedWord}
                     </motion.span>{" "}
-                    in three parts
+                    {storytelling.intro.headingSuffix}
                   </h2>
                   <motion.p
                     className="text-[#5C306C]/70 leading-relaxed max-w-3xl mx-auto text-base md:text-lg font-medium"
                     style={{ opacity: subtitleOpacity }}
                   >
-                    Not three separate services. <span className="font-semibold">One approach</span> where each part <span className="font-semibold">strengthens&nbsp;the&nbsp;others</span>.
+                    {renderRichText(storytelling.intro.subtitle)}
                   </motion.p>
 
                   {/* Scroll cue - brief appearance, scroll-linked fade */}
@@ -404,13 +381,13 @@ export default function Storytelling() {
                     style={{ opacity: prefersReducedMotion ? (activeIndex === 0 ? 0.6 : 0) : scrollCueOpacity }}
                   >
                     <span className="text-xs text-[#5C306C]/60 tracking-[0.2em] uppercase mb-2">
-                      Scroll
+                      {storytelling.intro.scrollLabel}
                     </span>
                     {!prefersReducedMotion && (
                       <motion.div
                         className="w-px h-5 bg-[#5C306C]/25"
                         animate={{ scaleY: [1, 0.5, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: EASE_IN_OUT }}
+                        transition={{ duration: DURATION_PULSE, repeat: Infinity, ease: EASE_IN_OUT }}
                       />
                     )}
                     {prefersReducedMotion && (
@@ -420,68 +397,35 @@ export default function Storytelling() {
                 </div>
               </Panel>
 
-              {/* Panel 1: Teams */}
-              <ContentPanel
-                active={activeIndex === 1}
-                icon={<Users className="w-6 h-6 text-[#FF9966]" />}
-                label="Embedded Partnerships"
-                title="PAL Teams"
-                description={<>PAL <span className="font-semibold text-[#FF9966]">Teams</span> embeds technical teams directly within partner organizations for <strong className="font-semibold text-[#5C306C]">multi-year partnerships</strong>&mdash;building the relationships, processes, and infrastructure that let frontline expertise guide technology development.</>}
-                secondaryDescription={<>The organizations we work with vary. Some have dedicated technical staff. Some have consultants. Some have systems built years ago that have outlived the context they were designed for. What they share is a gap between what their technology does and what they need it to do, and the recognition that closing that gap requires more than a project. It requires <strong className="font-semibold text-[#5C306C]">someone inside the organization long enough to understand it</strong>.</>}
-                details={<>The technical work ranges from urgent to strategic: the Excel formula that&apos;s mission-critical, the <strong className="font-semibold text-[#5C306C]">automated reporting saving weekends</strong>, the cloud infrastructure supporting growth, the cleaned data allowing you to tell your story more effectively. Some of the systems we maintain run around the clock. Multi-year commitment means we understand why that seemingly simple change is complex, <strong className="font-semibold text-[#5C306C]">why that workaround works</strong>, and we&apos;re reachable when something doesn&apos;t.</>}
-                items={[
-                  <><strong className="font-semibold text-[#5C306C]">Multi-year partnerships</strong> that give time to build relationships, processes, and real understanding</>,
-                  <><strong className="font-semibold text-[#5C306C]">Contracts structured for flexibility,</strong> so roadblocks become problems to solve, not threats to the project</>,
-                  <><strong className="font-semibold text-[#5C306C]">Infrastructure built to make changes cheaper, faster,</strong> and lower-risk over time</>
-                ]}
-                quote="Once shared understanding and working processes are in place, iteration becomes affordable and quick. That tweak to a report? A five-minute conversation, not a new statement of work. The database evolves with your programs rather than constraining them."
-                prefersReducedMotion={prefersReducedMotion}
-                fillProgress={teamsFillClamped}
-              />
-
-              {/* Panel 2: Research */}
-              <ContentPanel
-                active={activeIndex === 2}
-                icon={<BookOpen className="w-6 h-6 text-[#FF9966]" />}
-                label="Shared Solutions"
-                title="PAL Research"
-                description={<>PAL <span className="font-semibold text-[#FF9966]">Research</span> takes solutions built through PAL <span className="font-semibold text-[#FF9966]">Teams</span> partnerships and works to release them under <strong className="font-semibold text-[#5C306C]">open license</strong>. What one organization&apos;s work produced, others don&apos;t have to rebuild from scratch.</>}
-                secondaryDescription={<>This is <strong className="font-semibold text-[#5C306C]">knowledge transfer through proven solutions</strong>. Every tool we generalize has survived daily use, been shaped by frontline feedback, and solved real operational problems. We work through the relationships and channels PAL <span className="font-semibold text-[#FF9966]">Teams</span> have already built&mdash;carefully extracting the patterns, stripping out anything specific to one organization while keeping what makes the solution work.</>}
-                details={<>What makes this possible is the trust and working relationships built through embedded partnerships. Organizations know their investment strengthens the sector while their specific context stays protected. Solutions spread because they emerged from <strong className="font-semibold text-[#5C306C]">real use, not theoretical design</strong>. The first tools built through this process are in testing now, with public releases coming.</>}
-                items={[
-                  <><strong className="font-semibold text-[#5C306C]">Generalization starts with the user base,</strong> not the solution: we find who needs it before deciding if it&apos;s worth building</>,
-                  <><strong className="font-semibold text-[#5C306C]">Individual investments become collective resources.</strong> What larger organizations help build, smaller organizations and rural communities can access without starting from scratch</>,
-                  <><strong className="font-semibold text-[#5C306C]">Open licensing</strong> ensures tools stay with the community, not locked behind vendor agreements</>
-                ]}
-                quote="What emerges from embedded work carries weight—it's been tested, refined, shaped by the people doing the work. Open licensing means it stays with the community."
-                prefersReducedMotion={prefersReducedMotion}
-                fillProgress={researchFillClamped}
-              />
-
-              {/* Panel 3: Labs */}
-              <ContentPanel
-                active={activeIndex === 3}
-                icon={<Sprout className="w-6 h-6 text-[#FF9966]" />}
-                label="Building Local Capacity"
-                title="PAL Labs"
-                description={<>PAL <span className="font-semibold text-[#FF9966]">Labs</span> extends technical capacity to organizations through <strong className="font-semibold text-[#5C306C]">supervised placements</strong>&mdash;connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use.</>}
-                secondaryDescription={<><span className="font-semibold text-[#FF9966]">Labs</span> builds on what <span className="font-semibold text-[#FF9966]">Teams</span> creates. The organizational understanding, the established relationships, the documented systems&mdash;these are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and <strong className="font-semibold text-[#5C306C]">the support is real</strong>.</>}
-                details={<>Funding comes from foundations, government, and larger organizations who see the value of growing technical capacity locally&mdash;which means <strong className="font-semibold text-[#5C306C]">organizations don&apos;t pay for it out of already-thin budgets</strong>. Placements run through the infrastructure <span className="font-semibold text-[#FF9966]">Teams</span> has already built: established relationships, documented systems, a clear sense of what&apos;s sensitive and what isn&apos;t. The work is real&mdash;data engineering, cloud architecture, custom tooling&mdash;and the context is what makes it meaningful. That messy data isn&apos;t abstract; it represents real people receiving real services.</>}
-                items={[
-                  <><strong className="font-semibold text-[#5C306C]">Local placements</strong> that keep students and newcomers connected to Alberta communities and the sector&apos;s work</>,
-                  <><strong className="font-semibold text-[#5C306C]">Funded placements</strong> mean little to no financial cost to the receiving organization</>,
-                  <><strong className="font-semibold text-[#5C306C]">Sustainable handoffs</strong>&mdash;every project leaves something maintainable behind</>
-                ]}
-                quote="A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question—under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with real stakes."
-                prefersReducedMotion={prefersReducedMotion}
-                fillProgress={labsFillClamped}
-              />
+              {/* Panels 1-3: Content Panels - Desktop */}
+              {(() => {
+                const fillProgressValues = [teamsFillClamped, researchFillClamped, labsFillClamped];
+                return storytelling.panels.map((panel, idx) => {
+                  const PanelIcon = getIcon(panel.icon);
+                  return (
+                    <ContentPanel
+                      key={panel.id}
+                      active={activeIndex === idx + 1}
+                      icon={<PanelIcon className="w-6 h-6 text-[#FF9966]" />}
+                      label={panel.label}
+                      title={panel.title}
+                      description={renderRichText(panel.description)}
+                      secondaryDescription={renderRichText(panel.secondaryDescription)}
+                      details={renderRichText(panel.details)}
+                      items={panel.items.map((item, i) => <React.Fragment key={i}>{renderRichText(item)}</React.Fragment>)}
+                      quote={panel.quote}
+                      prefersReducedMotion={prefersReducedMotion}
+                      fillProgress={fillProgressValues[idx]}
+                    />
+                  );
+                });
+              })()}
 
               {/* Panel 4: How It Connects */}
               <EcosystemPanel
                 active={activeIndex === 4}
-                title="How It Connects"
-                description={<><strong className="text-[#5C306C] font-semibold">Each part sustains the others.</strong> <span className="font-semibold text-[#FF9966]">Teams</span> does the foundational work—learning your organization, building <strong className="text-[#5C306C] font-medium">processes and tools</strong>. <span className="font-semibold text-[#FF9966]">Research</span> generalizes what survives <strong className="text-[#5C306C] font-medium">daily use</strong> and releases it under open license. <span className="font-semibold text-[#FF9966]">Labs</span> builds on that foundation to <strong className="text-[#5C306C] font-medium">grow local expertise</strong>.</>}
+                title={storytelling.ecosystem.heading}
+                description={renderRichText(storytelling.ecosystem.description)}
                 prefersReducedMotion={prefersReducedMotion}
               />
             </motion.div>
@@ -489,7 +433,7 @@ export default function Storytelling() {
             {/* Progress Indicator */}
             <div className="hidden lg:flex flex-col items-center justify-center gap-5 pr-6 w-40" data-storytelling-rail="true">
               {(() => {
-                const labels = ["Intro", "Teams", "Research", "Labs", "How It Connects"] as const;
+                const labels = storytelling.progressLabels;
                 const scrollToStep = (i: number) => {
                   const el = containerRef.current;
                   if (!el) return;
@@ -545,7 +489,7 @@ export default function Storytelling() {
                             opacity: [0.5, 0.3, 0.5],
                           }}
                           transition={{
-                            duration: 2,
+                            duration: DURATION_PULSE,
                             repeat: Infinity,
                             ease: EASE_IN_OUT,
                           }}
@@ -616,7 +560,7 @@ function MobileIntroHeader() {
         className="font-light text-[#5C306C] tracking-tight leading-tight"
         style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
       >
-        An{" "}
+        {storytelling.intro.headingPrefix}{" "}
         <motion.span
           className="inline-block"
           initial={{
@@ -638,9 +582,9 @@ function MobileIntroHeader() {
             }
           }}
         >
-          ecosystem
+          {storytelling.intro.headingAnimatedWord}
         </motion.span>{" "}
-        in three parts
+        {storytelling.intro.headingSuffix}
       </h2>
       <motion.p
         className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-medium px-2"
@@ -652,7 +596,7 @@ function MobileIntroHeader() {
           ease: EASE_PREMIUM
         }}
       >
-        Not three separate services. <span className="font-semibold">One approach</span> where each part <span className="font-semibold">strengthens the others</span>.
+        {renderRichText(storytelling.intro.subtitle)}
       </motion.p>
     </header>
   );
@@ -670,7 +614,7 @@ const Panel = React.memo(({ active, children, expanded = false }: { active: bool
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 translate-y-4 pointer-events-none"
       )}
-      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+      style={{ transitionTimingFunction: `cubic-bezier(${EASE_PREMIUM.join(",")})` }}
     >
       <div
         className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24 transition-[max-width] duration-150"
@@ -951,7 +895,7 @@ const ContentPanel = React.memo(function ContentPanel({
                       )}
                       style={{
                         transitionDelay: active ? `${i * 60}ms` : '0ms',
-                        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                        transitionTimingFunction: `cubic-bezier(${EASE_PREMIUM.join(",")})`,
                       }}
                     >
                       <div className="w-5 h-5 rounded-full bg-[#FF9966]/10 flex items-center justify-center shrink-0 mt-1">
@@ -1110,18 +1054,20 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
         <div className="block md:hidden w-full">
           <div className="flex flex-col items-center space-y-6">
             {/* Research - PERF: CSS transition */}
+            {(() => { const node = storytelling.ecosystem.nodes[0]; const NodeIcon = getIcon(node.icon); return (
             <div
               className={cn(
                 "flex flex-col items-center text-center transition-[opacity,transform] duration-400",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
-              <BookOpen className="w-14 h-14 text-[#7388e0] mb-3" strokeWidth={1.3} />
-              <h3 className="text-[#7388e0] mb-2 text-lg font-medium">Research</h3>
+              <NodeIcon className="w-14 h-14 mb-3" style={{ color: node.color }} strokeWidth={1.3} />
+              <h3 className="mb-2 text-lg font-medium" style={{ color: node.color }}>{node.label}</h3>
               <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
                 Generalizes & shares under open license
               </p>
             </div>
+            ); })()}
 
             {/* PERF: CSS animation instead of Framer Motion infinite */}
             <div className={prefersReducedMotion ? "" : "animate-bounce-slow"}>
@@ -1129,18 +1075,20 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             </div>
 
             {/* Teams - PERF: CSS transition */}
+            {(() => { const node = storytelling.ecosystem.nodes[1]; const NodeIcon = getIcon(node.icon); return (
             <div
               className={cn(
                 "flex flex-col items-center text-center transition-[opacity,transform] duration-400",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
-              <Users className="w-14 h-14 text-[#ea5dff] mb-3" strokeWidth={1.3} />
-              <h3 className="text-[#ea5dff] mb-2 text-lg font-medium">Teams</h3>
+              <NodeIcon className="w-14 h-14 mb-3" style={{ color: node.color }} strokeWidth={1.3} />
+              <h3 className="mb-2 text-lg font-medium" style={{ color: node.color }}>{node.label}</h3>
               <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
                 Foundational work, relationships & infrastructure
               </p>
             </div>
+            ); })()}
 
             {/* PERF: CSS animation instead of Framer Motion infinite */}
             <div className={prefersReducedMotion ? "" : "animate-bounce-slow"} style={{ animationDelay: "0.5s" }}>
@@ -1148,18 +1096,20 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             </div>
 
             {/* Labs - PERF: CSS transition */}
+            {(() => { const node = storytelling.ecosystem.nodes[2]; const NodeIcon = getIcon(node.icon); return (
             <div
               className={cn(
                 "flex flex-col items-center text-center transition-[opacity,transform] duration-400",
                 active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
-              <FlaskConical className="w-14 h-14 text-[#FF9966] mb-3" strokeWidth={1.3} />
-              <h3 className="text-[#FF9966] mb-2 text-lg font-medium">Labs</h3>
+              <NodeIcon className="w-14 h-14 mb-3" style={{ color: node.color }} strokeWidth={1.3} />
+              <h3 className="mb-2 text-lg font-medium" style={{ color: node.color }}>{node.label}</h3>
               <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
                 Extends capacity, builds on foundation
               </p>
             </div>
+            ); })()}
           </div>
         </div>
 
@@ -1238,6 +1188,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             </div>
 
             {/* Research - Top - timed pulse when particles arrive */}
+            {(() => { const node = storytelling.ecosystem.nodes[0]; const NodeIcon = getIcon(node.icon); return (
             <div
               className={cn(
                 "absolute left-1/2 top-0 -translate-x-1/2 z-10 transition-[opacity,transform] duration-500 ease-out",
@@ -1250,16 +1201,18 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
                   "relative p-3",
                   active && !prefersReducedMotion && "animate-node-pulse-research"
                 )}>
-                  <BookOpen className="w-10 h-10 text-[#7388e0]" strokeWidth={1.4} />
+                  <NodeIcon className="w-10 h-10" style={{ color: node.color }} strokeWidth={1.4} />
                 </div>
-                <h3 className="text-[#7388e0] mt-3 mb-1 text-base font-bold tracking-tight">Research</h3>
+                <h3 className="mt-3 mb-1 text-base font-bold tracking-tight" style={{ color: node.color }}>{node.label}</h3>
                 <p className="text-[#5C306C]/80 text-center text-sm max-w-[160px] leading-relaxed">
-                  Generalizes & shares under <span className="text-[#7388e0] font-medium">open license</span>
+                  Generalizes & shares under <span style={{ color: node.color }} className="font-medium">open license</span>
                 </p>
               </div>
             </div>
+            ); })()}
 
             {/* Teams - Bottom Left - timed pulse when particles arrive */}
+            {(() => { const node = storytelling.ecosystem.nodes[1]; const NodeIcon = getIcon(node.icon); return (
             <div
               className={cn(
                 "absolute left-[8%] bottom-[22%] z-10 transition-[opacity,transform] duration-500 ease-out",
@@ -1272,16 +1225,18 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
                   "relative p-3",
                   active && !prefersReducedMotion && "animate-node-pulse-teams"
                 )}>
-                  <Users className="w-10 h-10 text-[#ea5dff]" strokeWidth={1.4} />
+                  <NodeIcon className="w-10 h-10" style={{ color: node.color }} strokeWidth={1.4} />
                 </div>
-                <h3 className="text-[#ea5dff] mt-3 mb-1 text-base font-bold tracking-tight">Teams</h3>
+                <h3 className="mt-3 mb-1 text-base font-bold tracking-tight" style={{ color: node.color }}>{node.label}</h3>
                 <p className="text-[#5C306C]/80 text-center text-sm max-w-[160px] leading-relaxed">
-                  <span className="text-[#ea5dff] font-medium">Foundational</span> work & infrastructure
+                  <span style={{ color: node.color }} className="font-medium">Foundational</span> work & infrastructure
                 </p>
               </div>
             </div>
+            ); })()}
 
             {/* Labs - Bottom Right - timed pulse when particles arrive */}
+            {(() => { const node = storytelling.ecosystem.nodes[2]; const NodeIcon = getIcon(node.icon); return (
             <div
               className={cn(
                 "absolute right-[8%] bottom-[22%] z-10 transition-[opacity,transform] duration-500 ease-out",
@@ -1294,14 +1249,15 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
                   "relative p-3",
                   active && !prefersReducedMotion && "animate-node-pulse-labs"
                 )}>
-                  <FlaskConical className="w-10 h-10 text-[#FF9966]" strokeWidth={1.4} />
+                  <NodeIcon className="w-10 h-10" style={{ color: node.color }} strokeWidth={1.4} />
                 </div>
-                <h3 className="text-[#FF9966] mt-3 mb-1 text-base font-bold tracking-tight">Labs</h3>
+                <h3 className="mt-3 mb-1 text-base font-bold tracking-tight" style={{ color: node.color }}>{node.label}</h3>
                 <p className="text-[#5C306C]/80 text-center text-sm max-w-[160px] leading-relaxed">
-                  <span className="text-[#FF9966] font-medium">Extends capacity</span> locally
+                  <span style={{ color: node.color }} className="font-medium">Extends capacity</span> locally
                 </p>
               </div>
             </div>
+            ); })()}
           </div>
         </div>
       </div>

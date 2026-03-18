@@ -4,37 +4,16 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import {
-  HeartHandshake,
-  ShieldCheck,
-  Sprout,
-  Database,
-} from "lucide-react";
 import BackgroundPatterns from "./partials/BackgroundPatterns";
-import { EASE_PREMIUM, EASE_ENERGETIC, DURATION_MEDIUM, DURATION_FAST, useSafeInView } from "../lib/animation-constants";
+import { value } from "content-collections";
+import { renderRichText } from "../lib/rich-text";
+import { getIcon } from "../lib/icon-map";
+import { EASE_PREMIUM, EASE_OUT_CUBIC, EASE_ENERGETIC, DURATION_MEDIUM, DURATION_FAST, STAGGER_SLOW, useSafeInView } from "../lib/animation-constants";
 
-const values = [
-  {
-    title: "Trust as Infrastructure",
-    icon: HeartHandshake,
-    color: "#E07B4C",
-  },
-  {
-    title: "Community Ownership",
-    icon: ShieldCheck,
-    color: "#8FAE8B",
-  },
-  {
-    title: "Data Sovereignty",
-    icon: Database,
-    color: "#5C306C",
-  },
-  {
-    title: "Building Capacity, Not Dependency",
-    icon: Sprout,
-    color: "#FF9966",
-  },
-];
+const CardIcon0 = getIcon(value.cards[0].icon);
+const CardIcon1 = getIcon(value.cards[1].icon);
+const CardIcon2 = getIcon(value.cards[2].icon);
+const CardIcon3 = getIcon(value.cards[3].icon);
 
 export default function Values() {
   const prefersReducedMotion = useReducedMotion();
@@ -64,9 +43,7 @@ export default function Values() {
           className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8FAE8B]/[0.02] to-transparent"
           style={prefersReducedMotion ? {} : { y: backgroundY }}
         />
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(ellipse_at_top_right,_rgba(143,174,139,0.03)_0%,_transparent_60%)]" />
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(255,153,102,0.02)_0%,_transparent_60%)]" />
-        <BackgroundPatterns variant="watercolor" opacity={0.8} />
+        <BackgroundPatterns variant="watercolor" opacity={0.4} />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
@@ -84,15 +61,15 @@ export default function Values() {
             animate={headerInView ? { opacity: 1, y: 0, color: "#E07B4C" } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
           >
-            What Guides Us
+            {value.label}
           </motion.span>
           <motion.h2
-            className="text-3xl md:text-4xl font-normal text-[#5C306C] tracking-tight"
+            className="text-2xl md:text-3xl lg:text-4xl font-normal text-[#5C306C] tracking-tight"
             initial={{ opacity: 0, y: 16 }}
             animate={headerInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
           >
-            What We Believe
+            {value.heading}
           </motion.h2>
         </motion.div>
 
@@ -100,113 +77,113 @@ export default function Values() {
         <div ref={gridRef} className="grid md:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
           {/* Trust as Infrastructure */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
-            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.95 }}
+            animate={gridInView ? { opacity: 1, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0, ease: EASE_OUT_CUBIC }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
-              style={{ backgroundColor: `${values[0].color}12` }}
+              style={{ backgroundColor: `${value.cards[0].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
               transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
-              <HeartHandshake
+              <CardIcon0
                 className="w-6 h-6"
-                style={{ color: values[0].color }}
+                style={{ color: value.cards[0].color }}
                 strokeWidth={1.5}
               />
             </motion.div>
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
-              {values[0].title}
+              {value.cards[0].title}
             </h3>
             <p className="text-sm text-[#5C306C]/75 leading-relaxed">
-              Good technology can&apos;t be separated from the relationships that create it. We don&apos;t finish understanding your organization and then start building&mdash;<strong className="font-semibold text-[#5C306C]">the building is part of the understanding</strong>. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When <span className="font-medium">trust and technology develop together</span>, what emerges fits how your organization operates.
+              {renderRichText(value.cards[0].description)}
             </p>
           </motion.div>
 
           {/* Community Ownership */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
-            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.95 }}
+            animate={gridInView ? { opacity: 1, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.08, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : STAGGER_SLOW, ease: EASE_OUT_CUBIC }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
-              style={{ backgroundColor: `${values[1].color}12` }}
+              style={{ backgroundColor: `${value.cards[1].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
               transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
-              <ShieldCheck
+              <CardIcon1
                 className="w-6 h-6"
-                style={{ color: values[1].color }}
+                style={{ color: value.cards[1].color }}
                 strokeWidth={1.5}
               />
             </motion.div>
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
-              {values[1].title}
+              {value.cards[1].title}
             </h3>
             <p className="text-sm text-[#5C306C]/75 leading-relaxed">
-              What we build together comes from your organization&apos;s knowledge and the communities you serve. It shouldn&apos;t be locked in proprietary systems or sold back to you. <strong className="font-semibold text-[#5C306C]">Tools shaped by community expertise belong to the people who shaped them</strong>, to use, change, and share freely. That&apos;s not a philosophy we apply at the end of an engagement. It&apos;s built into how we license what we create.
+              {renderRichText(value.cards[1].description)}
             </p>
           </motion.div>
 
           {/* Data Sovereignty */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
-            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.95 }}
+            animate={gridInView ? { opacity: 1, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.16, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : STAGGER_SLOW * 2, ease: EASE_OUT_CUBIC }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
-              style={{ backgroundColor: `${values[2].color}12` }}
+              style={{ backgroundColor: `${value.cards[2].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
               transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
-              <Database
+              <CardIcon2
                 className="w-6 h-6"
-                style={{ color: values[2].color }}
+                style={{ color: value.cards[2].color }}
                 strokeWidth={1.5}
               />
             </motion.div>
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
-              {values[2].title}
+              {value.cards[2].title}
             </h3>
             <p className="text-sm text-[#5C306C]/75 leading-relaxed">
-              Indigenous-led movements, including <span className="font-medium">OCAP principles</span> here in Alberta, have shown that data about communities should be governed by those communities. We&apos;re learning from that leadership. The data your organization holds isn&apos;t really organizational data&mdash;it&apos;s data about the people you serve. When organizations lose control of it through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms. Where we inherit systems that don&apos;t yet support data portability, moving toward it is part of the work. <strong className="font-semibold text-[#5C306C]">Your data stays yours.</strong> That&apos;s the goal, and when it isn&apos;t the current state, it&apos;s what we&apos;re building toward.
+              {renderRichText(value.cards[2].description)}
             </p>
           </motion.div>
 
           {/* Building Capacity, Not Dependency */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.97 }}
-            animate={gridInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.95 }}
+            animate={gridInView ? { opacity: 1, scale: 1 } : undefined}
             whileHover={prefersReducedMotion ? {} : { y: -4 }}
-            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.24, ease: EASE_PREMIUM }}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : STAGGER_SLOW * 3, ease: EASE_OUT_CUBIC }}
             className="cursor-default"
           >
             <motion.div
               className="w-14 h-14 rounded-xl mb-5 flex items-center justify-center"
-              style={{ backgroundColor: `${values[3].color}12` }}
+              style={{ backgroundColor: `${value.cards[3].color}12` }}
               whileHover={prefersReducedMotion ? {} : { scale: 1.08, rotate: 5 }}
               transition={{ duration: DURATION_FAST, ease: EASE_ENERGETIC }}
             >
-              <Sprout
+              <CardIcon3
                 className="w-6 h-6"
-                style={{ color: values[3].color }}
+                style={{ color: value.cards[3].color }}
                 strokeWidth={1.5}
               />
             </motion.div>
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
-              {values[3].title}
+              {value.cards[3].title}
             </h3>
             <p className="text-sm text-[#5C306C]/75 leading-relaxed">
-              We don&apos;t aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn&apos;t dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability&mdash;not a finder&apos;s fee, a handshake, or dependency dressed up as partnership.
+              {renderRichText(value.cards[3].description)}
             </p>
           </motion.div>
         </div>

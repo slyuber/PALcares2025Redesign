@@ -23,8 +23,9 @@ import {
   DURATION_NORMAL_MOBILE,
   DURATION_MEDIUM,
 } from "../../lib/animation-constants";
+import { loader } from "content-collections";
 
-const words = ["teams", "labs", "research", "cares"];
+const words = loader.words;
 
 const COLORS = {
   pal: "#4a5890",
