@@ -64,6 +64,7 @@ export const DURATION_NORMAL = 0.4; // Content transitions, expand/collapse
 export const DURATION_MEDIUM = 0.5; // Section entrances, element reveals
 export const DURATION_SLOW = 0.6; // Large layout changes, hero animations
 export const DURATION_HERO = 0.8; // Hero/entrance reveals, prominent animations
+export const DURATION_PULSE = 2; // Infinite breathing loops (scroll cue, progress glow)
 
 /**
  * Programmatic Scroll Durations (seconds)

@@ -2,26 +2,12 @@
 @use "./_styles/typography" as typography;
 @use "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   --background: #ffffff;
   --foreground: #5C306C;
-    --foreground-dark: #4A2756;
-
-  /* Brand colors */
-  --color-primary: #4D588C;
-  --color-primary-darker: #1A234B;
-  --color-secondary: #7787D9;
-  --color-accent: #FFF480;
-  --color-purple: #D966FF;
-  --color-magenta: #B439BF;
+  --foreground-dark: #4A2756;
   --color-orange: #FF9966;
-  --color-white: #ffffff;
-  --color-black: #000000;
-    --color-gray: #cbcbcb;
+  --color-gray: #cbcbcb;
   --color-light-gray: #F8F8F8;
   --color-dark-gray: #5F6368;
 
@@ -88,11 +74,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-foreground-dark: var(--foreground-dark);
-  --color-primary: var(--color-primary);
-  --color-secondary: var(--color-secondary);
-  --color-accent: var(--color-accent);
-  --color-purple: var(--color-purple);
-  --color-magenta: var(--color-magenta);
   --color-orange: var(--color-orange);
   --color-light-gray: var(--color-light-gray);
   --color-dark-gray: var(--color-dark-gray);
@@ -116,15 +97,11 @@ body {
   // creating a scroll container that can break position:fixed on iOS Safari.
 }
 
-.bg-foreground{
-  background: var(--foreground);
-}
-
+/* Legacy utility classes — used by not-found.tsx */
 .color-foreground {
   color: var(--foreground);
 }
 
-/* Legacy utility classes — used by not-found.tsx */
 .bg{
     background: var(--color-light-gray);
 }
@@ -161,37 +138,6 @@ body {
     &:hover {
       box-shadow: 0 4px 16px rgba(92, 48, 108, 0.3);
     }
-  }
-}
-
-/* Icon sizing utilities */
-.icon-sm {
-  width: 48px;
-  height: 48px;
-  
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.icon-md {
-  width: 64px;
-  height: 64px;
-  
-  svg {
-    width: 28px;
-    height: 28px;
-  }
-}
-
-.icon-lg {
-  width: 80px;
-  height: 80px;
-  
-  svg {
-    width: 36px;
-    height: 36px;
   }
 }
 
