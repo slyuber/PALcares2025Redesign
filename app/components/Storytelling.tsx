@@ -610,19 +610,23 @@ function MobileIntroHeader() {
   );
 }
 
-// PERF: Use CSS transitions for inactive panels instead of Framer Motion animate
-// This eliminates RAF subscriptions for panels that aren't visible
+// Sequential fade: outgoing panel exits quickly, incoming panel enters with a delay
+// This prevents the ghosting/blur of two panels being simultaneously half-visible
 const Panel = React.memo(({ active, children, expanded = false }: { active: boolean, children: React.ReactNode, expanded?: boolean }) => {
   return (
     <div
       data-storytelling-active-panel={active ? "true" : "false"}
       className={cn(
-        "absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-1000 ease-out",
-        active
-          ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 translate-y-6 pointer-events-none"
+        "absolute inset-0 flex items-center justify-center pointer-events-none",
+        active && "pointer-events-auto"
       )}
-      style={{ transitionTimingFunction: `cubic-bezier(${EASE_PREMIUM.join(",")})` }}
+      style={{
+        opacity: active ? 1 : 0,
+        transform: active ? 'translateY(0)' : 'translateY(12px)',
+        transition: active
+          ? `opacity 600ms cubic-bezier(${EASE_PREMIUM.join(",")}) 200ms, transform 600ms cubic-bezier(${EASE_PREMIUM.join(",")}) 200ms`
+          : `opacity 300ms cubic-bezier(${EASE_PREMIUM.join(",")}), transform 300ms cubic-bezier(${EASE_PREMIUM.join(",")})`,
+      }}
     >
       <div
         className="w-full px-6 md:px-10 lg:px-12 lg:pr-20 xl:pr-24 transition-[max-width] duration-150"
