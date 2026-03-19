@@ -2,7 +2,7 @@
 // Scroll-linked vertical progress line with traveling ball and deposit dots
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import {
   motion,
   useScroll,
@@ -46,31 +46,63 @@ function ScrollRevealBeat({
 
 export default function DeeperContext() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    // Offset: start measuring when section top hits viewport center
-    // Complete when section end approaches viewport top
     offset: ["start center", "end 0.2"],
   });
 
-  // Line fills top-to-bottom as user scrolls — scaleY is GPU-composited (no layout thrash)
+  // Line fills top-to-bottom as user scrolls
   const lineScale = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
+
+  // Measure actual dot positions relative to the line container
+  // Returns fractions (0-1) of where each dot sits within the line
+  const [dotFractions, setDotFractions] = useState([0.12, 0.37, 0.62, 0.87]);
+
+  const measureDots = useCallback(() => {
+    const line = lineRef.current;
+    if (!line) return;
+    const lineRect = line.getBoundingClientRect();
+    const lineHeight = lineRect.height;
+    if (lineHeight === 0) return;
+
+    const fractions = dotRefs.current.map((dot) => {
+      if (!dot) return 0;
+      const dotRect = dot.getBoundingClientRect();
+      // Center of dot relative to top of line
+      return (dotRect.top + dotRect.height / 2 - lineRect.top) / lineHeight;
+    });
+
+    setDotFractions(fractions);
+  }, []);
+
+  useEffect(() => {
+    measureDots();
+    window.addEventListener("resize", measureDots);
+    // Re-measure after fonts/layout settle
+    const timer = setTimeout(measureDots, 500);
+    return () => {
+      window.removeEventListener("resize", measureDots);
+      clearTimeout(timer);
+    };
+  }, [measureDots]);
 
   // Traveling ball position — maps scroll progress to percentage along the line
   const ballTop = useTransform(scrollYProgress, [0, 0.85], ["0%", "100%"]);
 
-  // Deposit dots: appear when the traveling ball passes each beat's position
-  const beatThresholds = [0.12, 0.37, 0.62, 0.87];
+  // Deposit dots: appear INSTANTLY when ball's visual position passes the dot
   const [deposited, setDeposited] = useState([false, false, false, false]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const norm = latest / 0.85;
+    // The ball is at (latest / 0.85) fraction of the line height
+    const ballFraction = latest / 0.85;
     setDeposited((prev) => {
       let changed = false;
       const next = prev.map((d, i) => {
-        if (!d && norm >= beatThresholds[i]) {
+        if (!d && ballFraction >= dotFractions[i]) {
           changed = true;
           return true;
         }
@@ -87,6 +119,15 @@ export default function DeeperContext() {
     { side: "left", mtClass: "md:-mt-20", mbClass: "mb-12 md:mb-0" },
     { side: "right", mtClass: "md:-mt-24", mbClass: "" },
   ];
+
+  // Content reveal ranges based on actual dot positions
+  const getRevealRange = (beatIdx: number) => {
+    const dotPos = dotFractions[beatIdx] * 0.85;
+    return {
+      revealStart: Math.max(0, dotPos - 0.10),
+      revealEnd: dotPos,
+    };
+  };
 
   return (
     <section
@@ -114,7 +155,7 @@ export default function DeeperContext() {
         {/* Overlapping Staggered Layout */}
         <div className="relative">
           {/* Vertical connecting line */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2">
+          <div ref={lineRef} className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2">
             <div className="absolute inset-0 bg-[#5C306C]/5" />
             <motion.div
               className="absolute inset-0 bg-[#E07B4C] origin-top"
@@ -136,14 +177,15 @@ export default function DeeperContext() {
           {deeperContext.beats.map((beat, beatIdx) => {
             const layout = beatLayouts[beatIdx];
             const isLeft = layout.side === "left";
+            const { revealStart, revealEnd } = getRevealRange(beatIdx);
 
             return (
               <ScrollRevealBeat
                 key={beatIdx}
                 className={`relative grid md:grid-cols-2 gap-8 md:gap-10 ${layout.mbClass} ${layout.mtClass}`}
                 scrollYProgress={scrollYProgress}
-                revealStart={beatThresholds[beatIdx] * 0.85 - 0.1}
-                revealEnd={beatThresholds[beatIdx] * 0.85}
+                revealStart={revealStart}
+                revealEnd={revealEnd}
                 prefersReducedMotion={prefersReducedMotion}
               >
                 {/* Spacer for right-side beats */}
@@ -166,8 +208,9 @@ export default function DeeperContext() {
                 {/* Spacer for left-side beats */}
                 {isLeft && <div className="hidden md:block" />}
 
-                {/* Deposit dot — appears cleanly when traveling ball passes */}
+                {/* Deposit dot — appears instantly when traveling ball passes this position */}
                 <div
+                  ref={(el) => { dotRefs.current[beatIdx] = el; }}
                   className="hidden md:block absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#E07B4C]"
                   style={{
                     top: "1rem",
