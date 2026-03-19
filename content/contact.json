@@ -1,7 +1,7 @@
 {
   "sectionLabel": "Let's Connect",
-  "heading": "We engage with organizations in different ways",
-  "description": "Whatever brought you here--a specific challenge, a question about fit, or just curiosity about what we do--we're glad to talk.",
+  "heading": "There are a few ways we can work together",
+  "description": "Whatever brought you here, we're glad to talk. Whether it's a specific challenge, a question about fit, or just curiosity about what we do.",
   "location": "Calgary, Edmonton, and Rural Alberta",
   "form": {
     "fields": {
@@ -11,7 +11,7 @@
       "org": { "label": "Organization", "optionalNote": "(optional)" },
       "message": {
         "label": "How can we help?",
-        "placeholder": "Tell us about your organization and what you're looking for..."
+        "placeholder": "Tell us what you're working on and how we can help..."
       }
     },
     "submitLabel": "Send Message",
