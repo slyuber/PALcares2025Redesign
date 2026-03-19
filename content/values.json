@@ -6,25 +6,25 @@
       "title": "Trust as Infrastructure",
       "icon": "HeartHandshake",
       "color": "#E07B4C",
-      "description": "Good technology can't be separated from the relationships that create it. We don't finish understanding your organization and then start building--**the building is part of the understanding**. The small fixes, the documentation, the patient learning alongside your team. That IS the technical work. When {_trust and technology develop together_}, what emerges fits how your organization operates."
+      "description": "Good technology can't be separated from the relationships that create it. We don't finish understanding how you work and then start building. **The building is part of the understanding**. The small fixes, the documentation, the slow learning alongside your team. We've found that when {_trust and technology develop together_}, what emerges tends to fit how you actually operate."
     },
     {
       "title": "Community Ownership",
       "icon": "ShieldCheck",
       "color": "#8FAE8B",
-      "description": "What we build together comes from your organization's knowledge and the communities you serve. It shouldn't be locked in proprietary systems or sold back to you. **Tools shaped by community expertise belong to the people who shaped them**, to use, change, and share freely. That's not a philosophy we apply at the end of an engagement. It's built into how we license what we create."
+      "description": "What we build together draws on your team's knowledge and the communities you serve. We don't think that should be locked behind proprietary systems or sold back to you. **Tools shaped by community expertise should stay with the people who shaped them**. To use, change, and share. That's not something we tack on at the end of an engagement. It's how we license what we create."
     },
     {
       "title": "Data Sovereignty",
       "icon": "Database",
       "color": "#5C306C",
-      "description": "Indigenous-led movements, including {_OCAP principles_} here in Alberta, have shown that data about communities should be governed by those communities. We're learning from that leadership. The data your organization holds isn't really organizational data--it's data about the people you serve. When organizations lose control of it through vendor lock-in or proprietary systems, they lose the ability to tell their own stories and advocate on their own terms. Where we inherit systems that don't yet support data portability, moving toward it is part of the work. **Your data stays yours.** That's the goal, and when it isn't the current state, it's what we're building toward."
+      "description": "The data your organization holds isn't really organizational data. It's **data about the people you serve**. When that gets locked into vendor agreements or closed platforms, organizations lose something more than access. They lose the ability to **tell their own story, on their own terms**. __Indigenous-led data governance__, including {_OCAP principles_} here in Alberta, has shaped how we think about this. We're learning from that leadership and **aspiring to meet the standard it sets**. Where we encounter systems that don't support data portability, **working toward it is part of what we do together**. Not as an abstract principle, but practically. In how we structure databases, choose tools, and write contracts."
     },
     {
       "title": "Building Capacity, Not Dependency",
       "icon": "Sprout",
       "color": "#FF9966",
-      "description": "We don't aim to stay forever. The goal is an organization that understands its own systems, has staff who can maintain and adapt them, and isn't dependent on us to keep the lights on. Part of how we get there is helping staff develop a working sense of what kinds of changes are quick and cheap versus what touches something structural. That calibration is what makes feedback useful and makes the organization more capable over time. Some organizations get there faster; some choose to keep us deeply involved. Either way, what we leave behind is real capability--not a finder's fee, a handshake, or dependency dressed up as partnership."
+      "description": "Technology should get **easier to manage over time**, not harder. We build with that in mind. Systems scoped to what your team can realistically maintain. Tools chosen for longevity, not novelty. Staff who develop a working understanding of what's under the hood, not just how to use it. The goal isn't an organization that needs us. It's one where **your people feel confident making changes**, asking the right questions, and knowing when something needs more care. We stay involved as long as it's useful. But what we build should work without us."
     }
   ]
 }
