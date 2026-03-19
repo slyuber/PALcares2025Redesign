@@ -120,11 +120,11 @@ export default function DeeperContext() {
     { side: "right", mtClass: "md:-mt-24", mbClass: "" },
   ];
 
-  // Content reveal ranges based on actual dot positions
+  // Content reveal: very tight range — appears almost instantly as ball approaches
   const getRevealRange = (beatIdx: number) => {
     const dotPos = dotFractions[beatIdx] * 0.85;
     return {
-      revealStart: Math.max(0, dotPos - 0.10),
+      revealStart: Math.max(0, dotPos - 0.02),
       revealEnd: dotPos,
     };
   };
