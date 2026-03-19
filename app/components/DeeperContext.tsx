@@ -13,7 +13,7 @@ import {
 } from "framer-motion";
 import { deeperContext } from "content-collections";
 import { renderRichText } from "../lib/rich-text";
-import { cn } from "../lib/utils";
+
 
 // Scroll-linked reveal for each beat — useTransform can't be called inside .map()
 function ScrollRevealBeat({
@@ -166,20 +166,13 @@ export default function DeeperContext() {
                 {/* Spacer for left-side beats */}
                 {isLeft && <div className="hidden md:block" />}
 
-                {/* Deposit dot — appears when traveling ball passes this beat */}
+                {/* Deposit dot — appears cleanly when traveling ball passes */}
                 <div
-                  className={cn(
-                    "hidden md:block absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#E07B4C]",
-                    deposited[beatIdx] ? "opacity-100" : "opacity-0"
-                  )}
+                  className="hidden md:block absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#E07B4C] transition-opacity duration-300"
                   style={{
                     top: "1rem",
-                    boxShadow: deposited[beatIdx]
-                      ? "0 0 0 4px rgba(224, 123, 76, 0.12)"
-                      : "none",
-                    animation: deposited[beatIdx]
-                      ? "dot-pulse 0.4s ease-out"
-                      : "none",
+                    opacity: deposited[beatIdx] ? 1 : 0,
+                    boxShadow: "0 0 0 4px rgba(224, 123, 76, 0.12)",
                   }}
                 />
               </ScrollRevealBeat>

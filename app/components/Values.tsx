@@ -98,7 +98,7 @@ export default function Values() {
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {value.cards[0].title}
             </h3>
-            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
+            <p className="text-base text-[#5C306C]/85 leading-relaxed">
               {renderRichText(value.cards[0].description)}
             </p>
           </motion.div>
@@ -126,7 +126,7 @@ export default function Values() {
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {value.cards[1].title}
             </h3>
-            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
+            <p className="text-base text-[#5C306C]/85 leading-relaxed">
               {renderRichText(value.cards[1].description)}
             </p>
           </motion.div>
@@ -154,7 +154,7 @@ export default function Values() {
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {value.cards[2].title}
             </h3>
-            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
+            <p className="text-base text-[#5C306C]/85 leading-relaxed">
               {renderRichText(value.cards[2].description)}
             </p>
           </motion.div>
@@ -182,7 +182,7 @@ export default function Values() {
             <h3 className="text-lg font-semibold text-[#5C306C] mb-3">
               {value.cards[3].title}
             </h3>
-            <p className="text-sm text-[#5C306C]/75 leading-relaxed">
+            <p className="text-base text-[#5C306C]/85 leading-relaxed">
               {renderRichText(value.cards[3].description)}
             </p>
           </motion.div>

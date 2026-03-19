@@ -253,9 +253,3 @@ body {
     animation: none !important;
   }
 }
-
-@keyframes dot-pulse {
-  0% { transform: translate(-50%, 0) scale(1); box-shadow: 0 0 12px rgba(224, 123, 76, 0.4); }
-  50% { transform: translate(-50%, 0) scale(1.3); box-shadow: 0 0 20px rgba(224, 123, 76, 0.6); }
-  100% { transform: translate(-50%, 0) scale(1); box-shadow: 0 0 12px rgba(224, 123, 76, 0.4); }
-}
