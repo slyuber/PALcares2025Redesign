@@ -3,10 +3,7 @@ backend:
   repo: slyuber/PALcares2025Redesign
   branch: main
   auth_type: pkce
-
-# NOTE: After creating your GitHub OAuth App, uncomment and set your client ID:
-# base_url: https://your-site.com
-# auth_endpoint: /admin/
+  app_id: Ov23li8pFyiSysUv9dxw
 
 media_folder: public/image
 public_folder: /image
