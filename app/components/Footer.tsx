@@ -72,7 +72,7 @@ export default function Footer() {
             <p className="text-[#5C306C]/85 text-sm leading-relaxed max-w-[280px]">
               {footer.brand.tagline}
             </p>
-            <div className="space-y-1.5 text-xs text-[#5C306C]/60">
+            <div className="space-y-1.5 text-xs text-[#5C306C]/80">
               <p>{footer.brand.serviceArea}</p>
               <p>{footer.brand.offerings}</p>
             </div>
@@ -91,7 +91,7 @@ export default function Footer() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-sm text-[#5C306C]/60 hover:text-[#5C306C] transition-colors duration-200 w-fit focus:outline-none focus-visible:underline focus-visible:text-[#5C306C]"
+                  className="text-sm text-[#5C306C]/75 hover:text-[#5C306C] transition-colors duration-200 w-fit focus:outline-none focus-visible:underline focus-visible:text-[#5C306C]"
                 >
                   {link.name}
                 </a>
@@ -118,7 +118,7 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={footer.newsletter.placeholder}
                   required
-                  className="flex-1 min-w-0 bg-white border border-[#5C306C]/10 rounded-full px-4 py-2.5 text-sm text-[#5C306C] focus-visible:border-[#5C306C]/30 focus-visible:ring-1 focus-visible:ring-[#5C306C]/20 outline-none transition-colors placeholder:text-[#5C306C]/50"
+                  className="flex-1 min-w-0 bg-white border border-[#5C306C]/10 rounded-full px-4 py-2.5 text-sm text-[#5C306C] focus-visible:border-[#5C306C]/30 focus-visible:ring-1 focus-visible:ring-[#5C306C]/20 outline-none transition-colors placeholder:text-[#5C306C]/60"
                 />
                 <button
                   type="submit"
@@ -140,7 +140,7 @@ export default function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-[#5C306C]/70 transition-colors focus:outline-none focus-visible:underline"
+                className="hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:underline"
               >
                 {link.label}
               </Link>

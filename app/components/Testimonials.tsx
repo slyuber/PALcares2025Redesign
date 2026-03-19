@@ -50,7 +50,7 @@ function TestimonialCard({
         ref={cardRef}
       >
         <div className="border-l-2 border-[#5C306C]/15 pl-6 md:pl-10 py-4">
-          <p className="text-lg text-[#5C306C]/60 italic">
+          <p className="text-lg text-[#5C306C]/75 italic">
             {item.org}
           </p>
         </div>
@@ -75,7 +75,7 @@ function TestimonialCard({
             <span className="text-sm font-semibold text-[#5C306C]">
               {item.author}
             </span>
-            <span className="text-sm text-[#5C306C]/70">
+            <span className="text-sm text-[#5C306C]/75">
               {" "}&mdash; {item.role}, {item.org}
             </span>
           </cite>
@@ -126,7 +126,7 @@ function TestimonialCard({
                   onClick={handleCollapse}
                   aria-expanded={true}
                   aria-controls={contentId}
-                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#5C306C]/60 hover:text-[#5C306C] transition-colors mt-2 min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded"
+                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#5C306C]/75 hover:text-[#5C306C] transition-colors mt-2 min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded"
                 >
                   <span>{collapseLabel}</span>
                   <ChevronUp className="w-4 h-4" />

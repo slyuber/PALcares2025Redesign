@@ -303,7 +303,7 @@ export default function Header() {
                 type="button"
                 onClick={() => item.hasSubmenu ? toggleSubmenu(item.id) : handleNavClick(item.id)}
                 onMouseEnter={() => item.hasSubmenu && setOpenSubmenu(item.id)}
-                className="relative px-4 py-2.5 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors duration-300 flex items-center gap-1.5 rounded-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C]"
+                className="relative px-4 py-2.5 text-sm font-medium text-[#5C306C]/75 hover:text-[#5C306C] transition-colors duration-300 flex items-center gap-1.5 rounded-full group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C]"
                 whileHover={{ backgroundColor: "rgba(92, 48, 108, 0.04)" }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: DURATION_FAST_MOBILE, ease: EASE_SNAPPY }}
@@ -343,7 +343,7 @@ export default function Header() {
                           key={subItem.label}
                           type="button"
                           onClick={() => handleNavClick(subItem.id, subItem.scrollOffset)}
-                          className="w-full text-left px-4 py-2 text-sm font-medium text-[#5C306C]/70 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.05] transition-colors duration-200 flex items-center gap-2.5 group/item focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
+                          className="w-full text-left px-4 py-2 text-sm font-medium text-[#5C306C]/75 hover:text-[#5C306C] hover:bg-[#5C306C]/[0.05] transition-colors duration-200 flex items-center gap-2.5 group/item focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-inset"
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * STAGGER_NORMAL, duration: DURATION_FAST, ease: EASE_SNAPPY }}

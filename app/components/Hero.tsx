@@ -264,7 +264,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: prefersReducedMotion ? 0 : DURATION_HERO, delay: prefersReducedMotion ? 0 : 1.5, ease: EASE_OUT_CUBIC }}
         >
-          <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/60 group-hover:text-[#5C306C]/80 transition-colors font-medium">
+          <span className="text-xs uppercase tracking-[0.2em] text-[#5C306C]/80 group-hover:text-[#5C306C]/90 transition-colors font-medium">
             {hero.scrollLabel}
           </span>
           <div className="w-px h-8 relative overflow-hidden">

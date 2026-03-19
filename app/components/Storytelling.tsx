@@ -174,10 +174,10 @@ export default function Storytelling() {
             {/* Panel 4: Ecosystem Summary - MOBILE with triangle + particles */}
             <footer className="w-full max-w-3xl mx-auto pt-8 border-t border-[#5C306C]/10">
               <div className="text-center space-y-4 sm:space-y-6 mb-6">
-                <h2 className="text-2xl sm:text-3xl font-light text-[#6b4d7e] leading-tight tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-light text-[#5C306C] leading-tight tracking-tight">
                   {storytelling.ecosystem.heading}
                 </h2>
-                <p className="text-sm sm:text-base text-[#9b8a9e] leading-relaxed px-2">
+                <p className="text-sm sm:text-base text-[#5C306C]/80 leading-relaxed px-2">
                   {renderRichText(storytelling.ecosystem.description)}
                 </p>
               </div>
@@ -268,7 +268,7 @@ export default function Storytelling() {
                   <div className="absolute left-1/2 top-0 -translate-x-1/2 flex flex-col items-center text-center z-10">
                     <NodeIcon className="w-9 h-9 sm:w-10 sm:h-10 mb-1.5" style={{ color: node.color }} strokeWidth={1.3} />
                     <h3 className="text-sm sm:text-base font-medium" style={{ color: node.color }}>{node.label}</h3>
-                    <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
+                    <p className="text-[#5C306C]/80 text-xs max-w-[100px] leading-snug">
                       {node.sublabel}
                     </p>
                   </div>
@@ -279,7 +279,7 @@ export default function Storytelling() {
                   <div className="absolute left-[8%] bottom-0 flex flex-col items-center text-center z-10">
                     <NodeIcon className="w-9 h-9 sm:w-10 sm:h-10 mb-1.5" style={{ color: node.color }} strokeWidth={1.3} />
                     <h3 className="text-sm sm:text-base font-medium" style={{ color: node.color }}>{node.label}</h3>
-                    <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
+                    <p className="text-[#5C306C]/80 text-xs max-w-[100px] leading-snug">
                       {node.sublabel}
                     </p>
                   </div>
@@ -290,7 +290,7 @@ export default function Storytelling() {
                   <div className="absolute right-[8%] bottom-0 flex flex-col items-center text-center z-10">
                     <NodeIcon className="w-9 h-9 sm:w-10 sm:h-10 mb-1.5" style={{ color: node.color }} strokeWidth={1.3} />
                     <h3 className="text-sm sm:text-base font-medium" style={{ color: node.color }}>{node.label}</h3>
-                    <p className="text-[#9b8a9e] text-xs max-w-[100px] leading-snug">
+                    <p className="text-[#5C306C]/80 text-xs max-w-[100px] leading-snug">
                       {node.sublabel}
                     </p>
                   </div>
@@ -374,7 +374,7 @@ export default function Storytelling() {
                     {storytelling.intro.headingSuffix}
                   </h2>
                   <motion.p
-                    className="text-[#5C306C]/70 leading-relaxed max-w-3xl mx-auto text-base md:text-lg font-medium"
+                    className="text-[#5C306C]/80 leading-relaxed max-w-3xl mx-auto text-base md:text-lg font-medium"
                     style={{ opacity: subtitleOpacity }}
                   >
                     {renderRichText(storytelling.intro.subtitle)}
@@ -385,7 +385,7 @@ export default function Storytelling() {
                     className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center"
                     style={{ opacity: prefersReducedMotion ? (activeIndex === 0 ? 0.6 : 0) : scrollCueOpacity }}
                   >
-                    <span className="text-xs text-[#5C306C]/60 tracking-[0.2em] uppercase mb-2">
+                    <span className="text-xs text-[#5C306C]/75 tracking-[0.2em] uppercase mb-2">
                       {storytelling.intro.scrollLabel}
                     </span>
                     {!prefersReducedMotion && (
@@ -469,7 +469,7 @@ export default function Storytelling() {
                         "text-xs font-semibold uppercase tracking-wider mr-4 whitespace-nowrap transition-[opacity,color,transform] duration-200",
                         i === activeIndex
                           ? "text-[#5C306C] opacity-100 translate-x-0"
-                          : "text-[#5C306C]/60 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
+                          : "text-[#5C306C]/75 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
                       )}
                     >
                       {labels[i]}
@@ -524,7 +524,7 @@ export default function Storytelling() {
               <motion.button
                 key="skip-btn"
                 type="button"
-                className="fixed bottom-8 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/60 hover:text-[#5C306C]/80 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/90 backdrop-blur-sm shadow-sm z-[60] pointer-events-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966]"
+                className="fixed bottom-8 left-1/2 -translate-x-1/2 text-xs font-medium text-[#5C306C]/75 hover:text-[#5C306C]/80 transition-colors flex items-center gap-1.5 py-2 px-4 rounded-full hover:bg-[#5C306C]/5 bg-white/90 backdrop-blur-sm shadow-sm z-[60] pointer-events-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966]"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 8 }}
@@ -595,7 +595,7 @@ function MobileIntroHeader() {
         {storytelling.intro.headingSuffix}
       </h2>
       <motion.p
-        className="text-[#5C306C]/70 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-medium px-2"
+        className="text-[#5C306C]/80 leading-relaxed max-w-2xl mx-auto text-base sm:text-lg font-medium px-2"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : undefined}
         transition={{
@@ -756,7 +756,7 @@ function ContentPanelMobile({ id, icon, label, title, description, secondaryDesc
                 <button
                   type="button"
                   onClick={() => setExpanded(false)}
-                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#5C306C]/60 hover:text-[#5C306C] transition-colors mt-2 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded"
+                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#5C306C]/75 hover:text-[#5C306C] transition-colors mt-2 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] focus-visible:ring-offset-2 rounded"
                 >
                   <ArrowRight className="w-4 h-4 rotate-[-90deg]" />
                   <span className="underline underline-offset-4 decoration-[#5C306C]/30">Read less</span>
@@ -935,7 +935,7 @@ const ContentPanel = React.memo(function ContentPanel({
                 <button
                   type="button"
                   onClick={() => setExpanded(false)}
-                  className="group inline-flex items-center gap-1.5 font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
+                  className="group inline-flex items-center gap-1.5 font-medium text-[#5C306C]/75 hover:text-[#5C306C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 rounded"
                 >
                   <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
                   <span>Back</span>
@@ -1008,7 +1008,7 @@ const ContentPanel = React.memo(function ContentPanel({
               <button
                 type="button"
                 onClick={() => setExpanded(false)}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/60 hover:text-[#5C306C] transition-colors py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#5C306C]/75 hover:text-[#5C306C] transition-colors py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C306C] rounded"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Back to overview</span>
@@ -1062,7 +1062,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             >
               <NodeIcon className="w-14 h-14 mb-3" style={{ color: node.color }} strokeWidth={1.3} />
               <h3 className="mb-2 text-lg font-medium" style={{ color: node.color }}>{node.label}</h3>
-              <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
+              <p className="text-[#5C306C]/80 text-sm max-w-[200px] leading-relaxed">
                 Generalizes & shares under open license
               </p>
             </div>
@@ -1083,7 +1083,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             >
               <NodeIcon className="w-14 h-14 mb-3" style={{ color: node.color }} strokeWidth={1.3} />
               <h3 className="mb-2 text-lg font-medium" style={{ color: node.color }}>{node.label}</h3>
-              <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
+              <p className="text-[#5C306C]/80 text-sm max-w-[200px] leading-relaxed">
                 Foundational work, relationships & infrastructure
               </p>
             </div>
@@ -1104,7 +1104,7 @@ const EcosystemPanel = React.memo(function EcosystemPanel({ active, title, descr
             >
               <NodeIcon className="w-14 h-14 mb-3" style={{ color: node.color }} strokeWidth={1.3} />
               <h3 className="mb-2 text-lg font-medium" style={{ color: node.color }}>{node.label}</h3>
-              <p className="text-[#9b8a9e] text-sm max-w-[200px] leading-relaxed">
+              <p className="text-[#5C306C]/80 text-sm max-w-[200px] leading-relaxed">
                 Extends capacity, builds on foundation
               </p>
             </div>

@@ -55,7 +55,7 @@ export default function Contact() {
   };
 
   const getInputClasses = (field: string) => {
-    const base = "w-full bg-[#FAF8F5]/50 border-0 border-b-2 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:ring-2 focus-visible:ring-offset-2 outline-none transition-colors placeholder:text-[#5C306C]/50";
+    const base = "w-full bg-[#FAF8F5]/50 border-0 border-b-2 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:ring-2 focus-visible:ring-offset-2 outline-none transition-colors placeholder:text-[#5C306C]/60";
     if (touched[field] && errors[field]) {
       return `${base} border-[#E07B4C] focus-visible:border-[#E07B4C] focus-visible:ring-[#E07B4C]`;
     }
@@ -160,7 +160,7 @@ export default function Contact() {
             </div>
 
             <motion.p
-              className="text-base text-[#5C306C]/70 leading-relaxed"
+              className="text-base text-[#5C306C]/80 leading-relaxed"
               initial={{ opacity: 0, y: 16 }}
               animate={leftInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
@@ -180,7 +180,7 @@ export default function Contact() {
                 </span>
               </a>
 
-              <div className="text-sm text-[#5C306C]/60">
+              <div className="text-sm text-[#5C306C]/75">
                 <p>{contact.location}</p>
               </div>
             </div>
@@ -211,7 +211,7 @@ export default function Contact() {
                     {/* Name row */}
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-2">
-                        <label htmlFor="firstName" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
+                        <label htmlFor="firstName" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/80 block">
                           {contact.form.fields.firstName.label}
                         </label>
                         <input
@@ -231,7 +231,7 @@ export default function Contact() {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="lastName" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
+                        <label htmlFor="lastName" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/80 block">
                           {contact.form.fields.lastName.label}
                         </label>
                         <input
@@ -255,7 +255,7 @@ export default function Contact() {
                     {/* Email & Org row */}
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-2">
-                        <label htmlFor="email" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
+                        <label htmlFor="email" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/80 block">
                           {contact.form.fields.email.label}
                         </label>
                         <input
@@ -275,8 +275,8 @@ export default function Contact() {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="org" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
-                          {contact.form.fields.org.label} <span className="font-normal normal-case tracking-normal text-[#5C306C]/60">{contact.form.fields.org.optionalNote}</span>
+                        <label htmlFor="org" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/80 block">
+                          {contact.form.fields.org.label} <span className="font-normal normal-case tracking-normal text-[#5C306C]/80">{contact.form.fields.org.optionalNote}</span>
                         </label>
                         <input
                           type="text"
@@ -284,14 +284,14 @@ export default function Contact() {
                           name="org"
                           value={formData.org}
                           onChange={handleChange}
-                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:border-[#FF9966] focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 outline-none transition-colors placeholder:text-[#5C306C]/50"
+                          className="w-full bg-[#FAF8F5]/50 border-0 border-b-2 border-[#5C306C]/10 rounded-none px-0 py-3 text-base text-[#5C306C] hover:border-[#5C306C]/20 focus-visible:border-[#FF9966] focus-visible:ring-2 focus-visible:ring-[#FF9966] focus-visible:ring-offset-2 outline-none transition-colors placeholder:text-[#5C306C]/60"
                         />
                       </div>
                     </div>
 
                     {/* Message */}
                     <div className="space-y-2">
-                      <label htmlFor="message" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/60 block">
+                      <label htmlFor="message" className="text-xs font-medium uppercase tracking-wider text-[#5C306C]/80 block">
                         {contact.form.fields.message.label}
                       </label>
                       <textarea
@@ -358,7 +358,7 @@ export default function Contact() {
                     </motion.div>
                     <div>
                       <h3 className="text-2xl font-light text-[#5C306C] mb-2">{contact.success.heading}</h3>
-                      <p className="text-[#5C306C]/60">{contact.success.body}</p>
+                      <p className="text-[#5C306C]/75">{contact.success.body}</p>
                     </div>
                     <button
                       onClick={() => setIsSuccess(false)}
