@@ -168,7 +168,7 @@ export default function DeeperContext() {
 
                 {/* Deposit dot — appears cleanly when traveling ball passes */}
                 <div
-                  className="hidden md:block absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#E07B4C] transition-opacity duration-300"
+                  className="hidden md:block absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#E07B4C]"
                   style={{
                     top: "1rem",
                     opacity: deposited[beatIdx] ? 1 : 0,
