@@ -50,6 +50,17 @@ export default function DeeperContext() {
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion();
 
+  // On mobile (<md), the progress line/ball/dots are hidden — scroll-linked
+  // reveal makes no sense without them. Show beats statically instead.
+  const [isDesktop, setIsDesktop] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end 0.2"],
@@ -186,7 +197,7 @@ export default function DeeperContext() {
                 scrollYProgress={scrollYProgress}
                 revealStart={revealStart}
                 revealEnd={revealEnd}
-                prefersReducedMotion={prefersReducedMotion}
+                prefersReducedMotion={prefersReducedMotion || !isDesktop}
               >
                 {/* Spacer for right-side beats */}
                 {!isLeft && <div className="hidden md:block" />}
