@@ -16,6 +16,7 @@ import { renderRichText } from "../lib/rich-text";
 import {
   EASE_PREMIUM,
   DURATION_MEDIUM,
+  DURATION_NORMAL,
   getDeviceOptimizedY,
   useSafeInView,
 } from "../lib/animation-constants";
@@ -61,8 +62,8 @@ function ScrollRevealBeat({
       {...(isMobileMotion ? {
         initial: { opacity: 0, y: getDeviceOptimizedY(true) },
         whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: DURATION_MEDIUM, ease: EASE_PREMIUM },
+        viewport: { once: true, amount: 0.15 },
+        transition: { duration: DURATION_NORMAL, ease: EASE_PREMIUM },
       } : {})}
     >
       {children}
@@ -157,7 +158,7 @@ export default function DeeperContext() {
   const beatLayouts = [
     { side: "left", mtClass: "", mbClass: "mb-12 md:mb-0" },
     { side: "right", mtClass: "md:-mt-24", mbClass: "mb-12 md:mb-0" },
-    { side: "left", mtClass: "md:-mt-24", mbClass: "mb-12 md:mb-0" },
+    { side: "left", mtClass: "md:-mt-20", mbClass: "mb-12 md:mb-0" },
     { side: "right", mtClass: "md:-mt-24", mbClass: "" },
   ];
 
