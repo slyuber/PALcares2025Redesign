@@ -39,10 +39,9 @@ function BeatLabel({
   prefersReducedMotion: boolean | null;
   isDesktop: boolean;
 }) {
-  const earlyStart = Math.max(0, revealStart - 0.03);
-  const earlyEnd = Math.max(earlyStart + 0.02, revealEnd - 0.015);
-  const opacity = useTransform(scrollYProgress, [earlyStart, earlyEnd], [0, 1]);
-  const y = useTransform(scrollYProgress, [earlyStart, earlyEnd], [8, 0]);
+  const labelEnd = revealStart + (revealEnd - revealStart) * 0.4;
+  const opacity = useTransform(scrollYProgress, [revealStart, labelEnd], [0, 1]);
+  const y = useTransform(scrollYProgress, [revealStart, labelEnd], [8, 0]);
 
   const isMobile = !prefersReducedMotion && !isDesktop;
   const isDesktopMotion = !prefersReducedMotion && isDesktop;
@@ -87,11 +86,10 @@ function BeatParagraph({
   isDesktop: boolean;
   index: number;
 }) {
-  const staggerOffset = index * 0.012;
-  const paraStart = revealStart + staggerOffset;
-  const paraEnd = revealEnd + staggerOffset;
-  const opacity = useTransform(scrollYProgress, [paraStart, paraEnd], [0, 1]);
-  const y = useTransform(scrollYProgress, [paraStart, paraEnd], [12, 0]);
+  const range = revealEnd - revealStart;
+  const paraStart = revealStart + range * (0.3 + index * 0.1);
+  const opacity = useTransform(scrollYProgress, [paraStart, revealEnd], [0, 1]);
+  const y = useTransform(scrollYProgress, [paraStart, revealEnd], [12, 0]);
 
   const isMobile = !prefersReducedMotion && !isDesktop;
   const isDesktopMotion = !prefersReducedMotion && isDesktop;
@@ -203,9 +201,9 @@ export default function DeeperContext() {
   // Layout alternation: even beats LEFT, odd beats RIGHT
   const beatLayouts = [
     { side: "left", mtClass: "", mbClass: "mb-12 md:mb-0" },
-    { side: "right", mtClass: "md:-mt-24", mbClass: "mb-12 md:mb-0" },
-    { side: "left", mtClass: "md:-mt-28", mbClass: "mb-12 md:mb-0" },  // beat 2 — more overlap (tall)
-    { side: "right", mtClass: "md:-mt-40", mbClass: "" },              // beat 3 — heavy overlap (beat 2 is tall)
+    { side: "right", mtClass: "md:-mt-16", mbClass: "mb-12 md:mb-0" },
+    { side: "left", mtClass: "md:-mt-8", mbClass: "mb-12 md:mb-0" },   // beat 2 — minimal overlap (push down from beat 0)
+    { side: "right", mtClass: "md:-mt-48", mbClass: "" },              // beat 3 — heavy overlap (pull up toward beat 1)
   ];
 
   // Content reveal: generous range so beats are fully opaque by the time they're readable
