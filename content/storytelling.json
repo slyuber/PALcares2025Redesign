@@ -44,18 +44,18 @@
       "title": "PAL Labs",
       "description": "PAL {{Labs}} extends technical capacity to organizations through **supervised placements**. Connecting students and newcomers to organizations that have genuine needs and the infrastructure to support them. Every placement is scoped, mentored, and built to leave something the organization can use.",
       "secondaryDescription": "{{Labs}} builds on what {{Teams}} creates. The organizational understanding, the established relationships, the documented systems. These are what make supervised placements safe and productive. Placement work is scoped within that foundation: bounded tasks, active mentorship, outputs that fit into systems people already understand. Students and newcomers work in an environment where the stakes are known, the context is documented, and **the support is real**.",
-      "details": "Funding comes from foundations, government, and larger partners who see the value of growing technical capacity locally. **For you, the cost is little to nothing.** Placements run through the infrastructure {{Teams}} has already built: established relationships, documented systems, a clear sense of what's sensitive and what isn't. The work is real--data engineering, cloud architecture, custom tooling--and the context is what makes it meaningful. That messy data isn't abstract; it represents real people receiving real services.",
+      "details": "Funding comes from foundations, government, and larger partners who see the value of growing technical capacity locally. **For you, the cost is little to nothing.** Placements run through the infrastructure {{Teams}} has already built: established relationships, documented systems, a clear sense of what's sensitive and what isn't. The work is real: data engineering, cloud architecture, custom tooling. The context is what makes it meaningful. That messy data isn't abstract; it represents real people receiving real services.",
       "items": [
         "**Local placements** that keep students and newcomers connected to Alberta communities and the sector's work",
         "**Funded placements** mean little to no financial cost to the receiving organization",
-        "**Sustainable handoffs**--every project leaves something maintainable behind"
+        "**Sustainable handoffs** that leave something maintainable behind"
       ],
       "quote": "A Waterloo engineering student completed his co-op term locally through PALcares. An organization needed years of inconsistent records cleaned to answer one operational question--under a real deadline. He worked in our environment first, under mentorship, then with their data. The organization got focused capacity exactly when they needed it. The student got a placement with real stakes."
     }
   ],
   "ecosystem": {
     "heading": "How It Connects",
-    "description": "**Each part sustains the others.** {{Teams}} does the foundational work--learning your organization, building __processes and tools__. {{Research}} generalizes what survives __daily use__ and releases it under open license. {{Labs}} builds on that foundation to __grow local expertise__.",
+    "description": "**Each part sustains the others.** {{Teams}} does the foundational work: learning your organization, building __processes and tools__. {{Research}} generalizes what survives __daily use__ and releases it under open license. {{Labs}} builds on that foundation to __grow local expertise__.",
     "nodes": [
       { "label": "Research", "sublabel": "Generalizes & shares", "icon": "BookOpen", "color": "#7388e0" },
       { "label": "Teams", "sublabel": "Foundational work", "icon": "Users", "color": "#ea5dff" },

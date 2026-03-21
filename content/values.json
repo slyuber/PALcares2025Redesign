@@ -12,7 +12,7 @@
       "title": "Community Ownership",
       "icon": "ShieldCheck",
       "color": "#8FAE8B",
-      "description": "What we build together draws on your team's knowledge and the communities you serve. We don't think that should be locked behind proprietary systems or sold back to you. **Tools shaped by community expertise should stay with the people who shaped them**. To use, change, and share. That's not something we tack on at the end of an engagement. It's how we license what we create."
+      "description": "What we build together draws on your team's knowledge and the communities you serve. **Tools shaped by community expertise should stay with the people who shaped them.** To use, change, and share. Open licensing is a structural choice we make from the start. It shapes our contracts, our tooling decisions, and what gets released."
     },
     {
       "title": "Data Sovereignty",
@@ -24,7 +24,7 @@
       "title": "Building Capacity, Not Dependency",
       "icon": "Sprout",
       "color": "#FF9966",
-      "description": "Technology should get **easier to manage over time**, not harder. We build with that in mind. Systems scoped to what your team can realistically maintain. Tools chosen for longevity, not novelty. Staff who develop a working understanding of what's under the hood, not just how to use it. The goal isn't an organization that needs us. It's one where **your people feel confident making changes**, asking the right questions, and knowing when something needs more care. We stay involved as long as it's useful. But what we build should work without us."
+      "description": "Technology should get **easier to manage over time**, not harder. We build with that in mind. We scope systems to what your team can realistically maintain and choose tools for longevity, not novelty. Over time, **your staff develop a working understanding of what's under the hood**, not just how to use it. The goal isn't an organization that needs us. It's one where **your people feel confident making changes**, asking the right questions, and knowing when something needs more care. We stay involved as long as it's useful. But what we build should work without us."
     }
   ]
 }
