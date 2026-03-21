@@ -131,11 +131,11 @@ export default function DeeperContext() {
     { side: "right", mtClass: "md:-mt-24", mbClass: "" },
   ];
 
-  // Content reveal: very tight range — appears almost instantly as ball approaches
+  // Content reveal: generous range so beats are fully opaque by the time they're readable
   const getRevealRange = (beatIdx: number) => {
     const dotPos = dotFractions[beatIdx] * 0.85;
     return {
-      revealStart: Math.max(0, dotPos - 0.02),
+      revealStart: Math.max(0, dotPos - 0.08),
       revealEnd: dotPos,
     };
   };
