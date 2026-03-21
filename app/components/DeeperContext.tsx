@@ -15,6 +15,7 @@ import { deeperContext } from "content-collections";
 import { renderRichText } from "../lib/rich-text";
 import {
   EASE_PREMIUM,
+  DURATION_FAST,
   DURATION_MEDIUM,
   DURATION_NORMAL,
   getDeviceOptimizedY,
@@ -22,8 +23,52 @@ import {
 } from "../lib/animation-constants";
 
 
-// Scroll-linked reveal for each beat — useTransform can't be called inside .map()
-function ScrollRevealBeat({
+// Label "pops in" first — earlier scroll range, quick entrance
+function BeatLabel({
+  children,
+  scrollYProgress,
+  revealStart,
+  revealEnd,
+  prefersReducedMotion,
+  isDesktop,
+}: {
+  children: React.ReactNode;
+  scrollYProgress: MotionValue<number>;
+  revealStart: number;
+  revealEnd: number;
+  prefersReducedMotion: boolean | null;
+  isDesktop: boolean;
+}) {
+  const earlyStart = Math.max(0, revealStart - 0.03);
+  const earlyEnd = Math.max(earlyStart + 0.02, revealEnd - 0.015);
+  const opacity = useTransform(scrollYProgress, [earlyStart, earlyEnd], [0, 1]);
+  const y = useTransform(scrollYProgress, [earlyStart, earlyEnd], [8, 0]);
+
+  const isMobile = !prefersReducedMotion && !isDesktop;
+  const isDesktopMotion = !prefersReducedMotion && isDesktop;
+
+  return (
+    <motion.span
+      className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3"
+      style={
+        prefersReducedMotion ? { opacity: 1, y: 0 }
+        : isDesktopMotion ? { opacity, y }
+        : undefined
+      }
+      {...(isMobile ? {
+        initial: { opacity: 0, y: 8 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.5 },
+        transition: { duration: DURATION_FAST, ease: EASE_PREMIUM },
+      } : {})}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+// Paragraphs cascade in after the label with stagger
+function BeatParagraph({
   children,
   className,
   scrollYProgress,
@@ -31,6 +76,7 @@ function ScrollRevealBeat({
   revealEnd,
   prefersReducedMotion,
   isDesktop,
+  index,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -39,35 +85,35 @@ function ScrollRevealBeat({
   revealEnd: number;
   prefersReducedMotion: boolean | null;
   isDesktop: boolean;
+  index: number;
 }) {
-  // Hooks must run unconditionally (React rules)
-  const opacity = useTransform(scrollYProgress, [revealStart, revealEnd], [0, 1]);
-  const y = useTransform(scrollYProgress, [revealStart, revealEnd], [16, 0]);
+  const staggerOffset = index * 0.012;
+  const paraStart = revealStart + staggerOffset;
+  const paraEnd = revealEnd + staggerOffset;
+  const opacity = useTransform(scrollYProgress, [paraStart, paraEnd], [0, 1]);
+  const y = useTransform(scrollYProgress, [paraStart, paraEnd], [12, 0]);
 
-  // Three modes via conditional props on a single motion.div:
-  // 1. Reduced motion: static, fully visible
-  // 2. Mobile (motion OK): whileInView entrance
-  // 3. Desktop (motion OK): scroll-linked useTransform
-  const isMobileMotion = !prefersReducedMotion && !isDesktop;
+  const isMobile = !prefersReducedMotion && !isDesktop;
   const isDesktopMotion = !prefersReducedMotion && isDesktop;
+  const mobileDelay = 0.1 + index * 0.08;
 
   return (
-    <motion.div
+    <motion.p
       className={className}
       style={
         prefersReducedMotion ? { opacity: 1, y: 0 }
         : isDesktopMotion ? { opacity, y }
         : undefined
       }
-      {...(isMobileMotion ? {
+      {...(isMobile ? {
         initial: { opacity: 0, y: getDeviceOptimizedY(true) },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true, amount: 0.15 },
-        transition: { duration: DURATION_NORMAL, ease: EASE_PREMIUM },
+        transition: { duration: DURATION_NORMAL, delay: mobileDelay, ease: EASE_PREMIUM },
       } : {})}
     >
       {children}
-    </motion.div>
+    </motion.p>
   );
 }
 
@@ -158,8 +204,8 @@ export default function DeeperContext() {
   const beatLayouts = [
     { side: "left", mtClass: "", mbClass: "mb-12 md:mb-0" },
     { side: "right", mtClass: "md:-mt-24", mbClass: "mb-12 md:mb-0" },
-    { side: "left", mtClass: "md:-mt-20", mbClass: "mb-12 md:mb-0" },
-    { side: "right", mtClass: "md:-mt-24", mbClass: "" },
+    { side: "left", mtClass: "md:-mt-28", mbClass: "mb-12 md:mb-0" },  // beat 2 — more overlap (tall)
+    { side: "right", mtClass: "md:-mt-40", mbClass: "" },              // beat 3 — heavy overlap (beat 2 is tall)
   ];
 
   // Content reveal: generous range so beats are fully opaque by the time they're readable
@@ -238,29 +284,36 @@ export default function DeeperContext() {
             const { revealStart, revealEnd } = getRevealRange(beatIdx);
 
             return (
-              <ScrollRevealBeat
+              <div
                 key={beatIdx}
                 className={`relative grid md:grid-cols-2 gap-8 md:gap-10 ${layout.mbClass} ${layout.mtClass}`}
-                scrollYProgress={scrollYProgress}
-                revealStart={revealStart}
-                revealEnd={revealEnd}
-                prefersReducedMotion={prefersReducedMotion}
-                isDesktop={isDesktop}
               >
                 {/* Spacer for right-side beats */}
                 {!isLeft && <div className="hidden md:block" />}
 
                 <div className={isLeft ? "md:pr-10" : "md:pl-10"}>
-                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E07B4C] block mb-3">
+                  <BeatLabel
+                    scrollYProgress={scrollYProgress}
+                    revealStart={revealStart}
+                    revealEnd={revealEnd}
+                    prefersReducedMotion={prefersReducedMotion}
+                    isDesktop={isDesktop}
+                  >
                     {beat.label}
-                  </span>
+                  </BeatLabel>
                   {beat.paragraphs.map((paragraph, pIdx) => (
-                    <p
+                    <BeatParagraph
                       key={pIdx}
                       className={`text-base text-[#5C306C]/85 leading-relaxed${pIdx < beat.paragraphs.length - 1 ? " mb-3" : ""}`}
+                      scrollYProgress={scrollYProgress}
+                      revealStart={revealStart}
+                      revealEnd={revealEnd}
+                      prefersReducedMotion={prefersReducedMotion}
+                      isDesktop={isDesktop}
+                      index={pIdx}
                     >
                       {renderRichText(paragraph)}
-                    </p>
+                    </BeatParagraph>
                   ))}
                 </div>
 
@@ -278,7 +331,7 @@ export default function DeeperContext() {
                     boxShadow: "0 0 0 4px rgba(224, 123, 76, 0.12)",
                   }}
                 />
-              </ScrollRevealBeat>
+              </div>
             );
           })}
         </div>
