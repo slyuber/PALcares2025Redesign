@@ -13,6 +13,12 @@ import {
 } from "framer-motion";
 import { deeperContext } from "content-collections";
 import { renderRichText } from "../lib/rich-text";
+import {
+  EASE_PREMIUM,
+  DURATION_MEDIUM,
+  getDeviceOptimizedY,
+  useSafeInView,
+} from "../lib/animation-constants";
 
 
 // Scroll-linked reveal for each beat — useTransform can't be called inside .map()
@@ -23,6 +29,7 @@ function ScrollRevealBeat({
   revealStart,
   revealEnd,
   prefersReducedMotion,
+  isDesktop,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -30,14 +37,33 @@ function ScrollRevealBeat({
   revealStart: number;
   revealEnd: number;
   prefersReducedMotion: boolean | null;
+  isDesktop: boolean;
 }) {
+  // Hooks must run unconditionally (React rules)
   const opacity = useTransform(scrollYProgress, [revealStart, revealEnd], [0, 1]);
-  const y = useTransform(scrollYProgress, [revealStart, revealEnd], [12, 0]);
+  const y = useTransform(scrollYProgress, [revealStart, revealEnd], [16, 0]);
+
+  // Three modes via conditional props on a single motion.div:
+  // 1. Reduced motion: static, fully visible
+  // 2. Mobile (motion OK): whileInView entrance
+  // 3. Desktop (motion OK): scroll-linked useTransform
+  const isMobileMotion = !prefersReducedMotion && !isDesktop;
+  const isDesktopMotion = !prefersReducedMotion && isDesktop;
 
   return (
     <motion.div
       className={className}
-      style={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity, y }}
+      style={
+        prefersReducedMotion ? { opacity: 1, y: 0 }
+        : isDesktopMotion ? { opacity, y }
+        : undefined
+      }
+      {...(isMobileMotion ? {
+        initial: { opacity: 0, y: getDeviceOptimizedY(true) },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.2 },
+        transition: { duration: DURATION_MEDIUM, ease: EASE_PREMIUM },
+      } : {})}
     >
       {children}
     </motion.div>
@@ -123,11 +149,15 @@ export default function DeeperContext() {
     });
   });
 
+  // Header entrance animation
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useSafeInView(headerRef, { once: true, amount: 0.15, margin: "100px 0px" });
+
   // Layout alternation: even beats LEFT, odd beats RIGHT
   const beatLayouts = [
     { side: "left", mtClass: "", mbClass: "mb-12 md:mb-0" },
     { side: "right", mtClass: "md:-mt-24", mbClass: "mb-12 md:mb-0" },
-    { side: "left", mtClass: "md:-mt-20", mbClass: "mb-12 md:mb-0" },
+    { side: "left", mtClass: "md:-mt-24", mbClass: "mb-12 md:mb-0" },
     { side: "right", mtClass: "md:-mt-24", mbClass: "" },
   ];
 
@@ -154,14 +184,30 @@ export default function DeeperContext() {
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-[#E07B4C] tracking-tight mb-4">
+        <motion.div
+          ref={headerRef}
+          className="text-center mb-12 md:mb-16"
+          initial={{ opacity: 0 }}
+          animate={headerInView ? { opacity: 1 } : undefined}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
+        >
+          <motion.h2
+            className="text-2xl md:text-3xl lg:text-4xl font-light text-[#E07B4C] tracking-tight mb-4"
+            initial={{ opacity: 0, y: 16 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, ease: EASE_PREMIUM }}
+          >
             {deeperContext.heading}
-          </h2>
-          <p className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-normal max-w-2xl mx-auto lg:whitespace-nowrap">
+          </motion.h2>
+          <motion.p
+            className="text-base md:text-lg lg:text-xl text-[#5C306C]/80 font-normal max-w-2xl mx-auto lg:whitespace-nowrap"
+            initial={{ opacity: 0, y: 16 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: prefersReducedMotion ? 0 : DURATION_MEDIUM, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
+          >
             {deeperContext.subheading}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Overlapping Staggered Layout */}
         <div className="relative">
@@ -197,7 +243,8 @@ export default function DeeperContext() {
                 scrollYProgress={scrollYProgress}
                 revealStart={revealStart}
                 revealEnd={revealEnd}
-                prefersReducedMotion={prefersReducedMotion || !isDesktop}
+                prefersReducedMotion={prefersReducedMotion}
+                isDesktop={isDesktop}
               >
                 {/* Spacer for right-side beats */}
                 {!isLeft && <div className="hidden md:block" />}
@@ -209,7 +256,7 @@ export default function DeeperContext() {
                   {beat.paragraphs.map((paragraph, pIdx) => (
                     <p
                       key={pIdx}
-                      className={`text-base text-[#5C306C]/85 leading-relaxed${pIdx < beat.paragraphs.length - 1 ? " mb-2" : ""}`}
+                      className={`text-base text-[#5C306C]/85 leading-relaxed${pIdx < beat.paragraphs.length - 1 ? " mb-3" : ""}`}
                     >
                       {renderRichText(paragraph)}
                     </p>
@@ -226,6 +273,7 @@ export default function DeeperContext() {
                   style={{
                     top: "1rem",
                     opacity: deposited[beatIdx] ? 1 : 0,
+                    transition: "opacity 300ms ease-out",
                     boxShadow: "0 0 0 4px rgba(224, 123, 76, 0.12)",
                   }}
                 />
